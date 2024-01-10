@@ -20,5 +20,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "anchor": "^1.4.1"
+  }
 }
