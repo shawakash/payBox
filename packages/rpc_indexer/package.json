@@ -1,0 +1,11 @@
+{
+  "name": "@paybox/rpc_indexer",
+  "version": "1.0.0",
+  "main": "src/main.rs",
+  "types": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "cargo build",
+    "dev": "cargo run"
+  }
+}

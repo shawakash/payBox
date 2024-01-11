@@ -1,5 +1,5 @@
 {
-    "name": "@payBox/indexer",
+    "name": "@paybox/indexer",
     "version": "0.0.1",
     "scripts": {
         "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
