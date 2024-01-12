@@ -1,0 +1,22 @@
+{
+  "name": "@paybox/api",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "type": "commonjs",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js",
+    "dev": "node dist/index.js"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.89.0",
+    "@types/express": "^4.17.21",
+    "@types/ws": "^8.5.10",
+    "body-parser": "^1.20.2",
+    "common": "*",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "ws": "^8.16.0"
+  }
+}

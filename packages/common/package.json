@@ -1,0 +1,13 @@
+{
+    "name": "@paybox/common",
+    "version": "1.0.0",
+    "main": "./src/index.ts",
+    "types": "./src/index.ts",
+    "scripts": {
+      "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js"
+    },
+    "license": "MIT",
+    "dependencies": {
+      "zod": "^3.22.4"
+    }
+  }
