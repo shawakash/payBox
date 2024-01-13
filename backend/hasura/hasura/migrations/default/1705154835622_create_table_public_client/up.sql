@@ -1,0 +1,2 @@
+CREATE TABLE "public"."client" ("firstname" text NOT NULL, "lastname" text NOT NULL, "id" uuid NOT NULL DEFAULT gen_random_uuid(), "username" text NOT NULL, "mobile_number" integer, "email" text NOT NULL, "chain" jsonb NOT NULL, "address" oidvector NOT NULL, PRIMARY KEY ("id") , UNIQUE ("id"), UNIQUE ("mobile_number"), UNIQUE ("email"));COMMENT ON TABLE "public"."client" IS E'subscriber for paybox';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
