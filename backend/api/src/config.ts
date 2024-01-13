@@ -5,6 +5,12 @@ dotenv.config();
 export const SOLANA_ADDRESS =
   process.env.SOLANA_ADDRESS || "";
 
+export const ETH_ADDRESS =
+  process.env.ETH_ADDRESS || "";
+
+export const SEPOLIA_URL = 
+  process.env.SEPOLIA_URL || "";
+
 export const HASURA_URL =
   process.env.HASURA_URL || "http://localhost:8112/v1/graphql";
 

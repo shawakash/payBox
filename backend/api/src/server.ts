@@ -1,17 +1,17 @@
 import express from "express";
-import { PORT, SolanaRpcUrl } from "@paybox/common";
 import bodyParser from "body-parser";
 import http from "http";
 import { WebSocketServer } from "ws";
-import { Connection, PublicKey, Transaction, clusterApiUrl } from '@solana/web3.js';
-import { SOLANA_ADDRESS } from "./config";
+import { ETH_ADDRESS, SEPOLIA_URL, SOLANA_ADDRESS } from "./config";
 import SolTxnLogs from "./sockets/connection";
+import EthTxnLogs from "./sockets/eth-connection";
 
 export const app = express();
 export const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
 const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
+const ethTxn = new EthTxnLogs(SEPOLIA_URL, ETH_ADDRESS);
 
 app.use(bodyParser.json());
 
@@ -34,6 +34,7 @@ app.get("/_health", (_req, res) => {
 
 wss.on('connection', async (ws) => {
     solTxn.connectWebSocket(ws);
+    // ethTxn.connectWebSocket(ws);
 });
 
 // server.listen(PORT, () => {
