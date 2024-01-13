@@ -27,6 +27,7 @@ services:
       test: pg_isready --username=user --dbname=reef_dev --quiet
       interval: 15s
       timeout: 5s
+      
   hasura:
     image: hasura/graphql-engine:v2.18.0.cli-migrations-v3
     ports:
