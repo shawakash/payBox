@@ -5,6 +5,7 @@ import http from "http";
 import { WebSocketServer } from "ws";
 import { Connection, PublicKey, Transaction, clusterApiUrl } from '@solana/web3.js';
 import { SOLANA_ADDRESS } from "./config";
+import SolTxnLogs from "./sockets/connection";
 
 const app = express();
 export const server = http.createServer(app);
@@ -13,6 +14,7 @@ const wss = new WebSocketServer({ server });
 
 const connection = new Connection(SolanaRpcUrl, 'confirmed');
 const publicKey = new PublicKey(SOLANA_ADDRESS);
+const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 
 app.use(bodyParser.json());
 
@@ -34,25 +36,7 @@ app.get("/_health", (_req, res) => {
 
 
 wss.on('connection', async (ws) => {
-    connection.onLogs(publicKey, async (logInfo, ctx) => {
-        console.log(logInfo);
-        console.log(ctx);
-        const transaction = await connection.getTransaction(logInfo.signature);
-        const transactionData = {
-          type: 'transaction',
-          data: transaction,
-        };
-        console.log(transaction);
-        ws.send(JSON.stringify(transaction));
-    }, 'confirmed');
-    ws.on("message", (message: string) => {
-
-        const data = message.toString();
-        console.log(data);
-    });
-    ws.on('close', () => {
-        connection.removeOnLogsListener(0);
-    });
+    solTxn.connectWebSocket(ws);
 });
 
 server.listen(PORT, () => {
