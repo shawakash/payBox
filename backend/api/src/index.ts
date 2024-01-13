@@ -1,44 +1,17 @@
-import express from "express";
-import { PORT, SolanaRpcUrl } from "@paybox/common";
-import bodyParser from "body-parser";
-import http from "http";
-import { WebSocketServer } from "ws";
-import { Connection, PublicKey, Transaction, clusterApiUrl } from '@solana/web3.js';
-import { SOLANA_ADDRESS } from "./config";
-import SolTxnLogs from "./sockets/connection";
+import { PORT } from "@paybox/common";
+import cluster from "cluster";
+import os from "os";
+import { server } from "./server";
 
-const app = express();
-export const server = http.createServer(app);
-const wss = new WebSocketServer({ server });
+const cpuCount = os.cpus().length;
 
-
-const connection = new Connection(SolanaRpcUrl, 'confirmed');
-const publicKey = new PublicKey(SOLANA_ADDRESS);
-const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
-
-app.use(bodyParser.json());
-
-app.get("/", (_req, res) => {
-    return res.status(200).json({
-        uptime: process.uptime(),
-        message: "OK",
-        timestamp: Date.now(),
-    });
-});
-
-app.get("/_health", (_req, res) => {
-    return res.status(200).json({
-        uptime: process.uptime(),
-        message: "OK",
-        timestamp: Date.now(),
-    });
-});
-
-
-wss.on('connection', async (ws) => {
-    solTxn.connectWebSocket(ws);
-});
-
-server.listen(PORT, () => {
+if (cluster.isMaster) {   // isPrimary
+  // Create a worker for each CPU
+  for (let i = 0; i < cpuCount; i++) {
+    cluster.fork();
+  }
+} else {
+  server.listen(PORT, () => {
     console.log(`Server listening on port: ${PORT}`);
-});
+  });
+}
