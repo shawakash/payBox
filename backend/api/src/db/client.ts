@@ -18,6 +18,7 @@ export const createClient = async (
     mobile: number
   ): Promise<{
     id?: unknown,
+    chain?: unknown,
     status: dbResStatus,
   }> => {
     const response = await chain("mutation")({
@@ -30,7 +31,14 @@ export const createClient = async (
           mobile
         },
       }, {
-        id: true
+        id: true,
+        chain: {
+            bitcoin: true,
+            eth: true,
+            sol: true,
+            usdc: true,
+            id: true
+        }
       }]
     }, { operationName: "createUser" }
     );
