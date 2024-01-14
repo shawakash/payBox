@@ -1,0 +1,1 @@
+CREATE TABLE "public"."chain" ("eth" text NOT NULL, "sol" text NOT NULL, "bitcoin" text NOT NULL, "usdc" text NOT NULL, "id" uuid NOT NULL, PRIMARY KEY ("id") , UNIQUE ("id"));COMMENT ON TABLE "public"."chain" IS E'different chain and there address';

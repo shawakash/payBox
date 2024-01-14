@@ -20,7 +20,7 @@ export class Redis {
         return this.instance;
     }
 
-    async cacheUser(key: string, items: Client) {
+    async cacheClient(key: string, items: Client) {
         const serializedItem = JSON.stringify(items);
         const data = await this.client.hSet(key,
             {
@@ -30,14 +30,13 @@ export class Redis {
                 email: items.email,
                 mobile: items.mobile,
                 username: items.username,
-                address: items.address,
-                chain: items.chain
+                chain: JSON.stringify(items.chain)
             });
         console.log(`User Cached ${data}`);
         return;
     }
 
-    async getUserCache(key: string): Promise<Client | null> {
+    async getClientCache(key: string): Promise<Client | null> {
         const client = await this.client.hGetAll(key);
 
         if (!client) {
@@ -51,9 +50,8 @@ export class Redis {
             username: client.username,
             firstname: client.firstname,
             lastname: client.lastname,
-            address: client.address,
             //@ts-ignore  Redis does not allow to cache with types
-            chain: client.chain
+            chain: JSON.parse(client.chain)
         }
     }
 
