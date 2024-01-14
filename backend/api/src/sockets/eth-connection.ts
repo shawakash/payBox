@@ -1,39 +1,42 @@
+import { TransactionReceipt } from 'ethers';
 import Web3 from 'web3';
 import { LogsSubscription } from 'web3-eth';
 import { WebSocket } from 'ws';
 
-// interface EthereumTransactionData {
-//   type: 'transaction';
-//   data: TransactionReceipt | null;
-// }
+interface EthereumTransactionData {
+  type: 'transaction';
+  data: TransactionReceipt | null;
+}
 
 export class EthTxnLogs {
   private web3: Web3;
   private address: string;
 
   private logsListeners: any[];
-    subscription: any;
+    // subscription: any;
 
   constructor(rpcUrl: string, address: string) {
     this.web3 = new Web3(new Web3.providers.WebsocketProvider(rpcUrl));
     this.address = address;
-    this.subscription = this.web3.eth.subscribe('logs', { address: this.address });
+    // this.subscription = this.web3.eth.subscribe('logs', { address: this.address });
     this.logsListeners = [];
   }
 
   async connectWebSocket(ws: WebSocket) {
+    const subscription = await this.web3.eth.subscribe('logs', { address: this.address });
 
-    this.subscription.on('data', async (log: LogsSubscription) => {
+    subscription.on('data', async (log) => {
       console.log(log);
-    //   const transactionReceipt = await this.web3.eth.getTransactionReceipt(log);
-    //   const transactionData: EthereumTransactionData = {
-    //     type: 'transaction',
-    //     data: transactionReceipt,
-    //   };
-    //   console.log(transactionReceipt);
-    //   this.logsListeners.push(transactionData);
-    //   ws.send(JSON.stringify(transactionData));
+      // const transactionReceipt = await this.web3.eth.getTransactionReceipt(log);
+      // const transactionData: EthereumTransactionData = {
+      //   type: 'transaction',
+      //   // data: transactionReceipt,
+      // };
+      // console.log(transactionReceipt);
+      // this.logsListeners.push(transactionData);
+      ws.send(JSON.stringify(""));
     });
+
 
     ws.on('message', (message) => {
       const data = message.toString();
@@ -41,7 +44,7 @@ export class EthTxnLogs {
     });
 
     ws.on('close', () => {
-      this.disconnectWebSocket(this.subscription, ws);
+      this.disconnectWebSocket(subscription, ws);
     });
   }
 

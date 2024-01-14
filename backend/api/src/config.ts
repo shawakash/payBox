@@ -11,6 +11,12 @@ export const ETH_ADDRESS =
 export const SEPOLIA_URL = 
   process.env.SEPOLIA_URL || "";
 
+export const SEPOLIA_URL_HTTP = 
+  process.env.SEPOLIA_URL_HTTP || "";
+
+export const INFURA_PROJECT_ID = 
+  process.env.INFURA_PROJECT_ID || "";
+
 export const HASURA_URL =
   process.env.HASURA_URL || "http://localhost:8112/v1/graphql";
 
