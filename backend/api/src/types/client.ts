@@ -12,3 +12,7 @@ export enum responseStatus {
     Error = "error",
     Ok = "ok",
 }
+
+export type getClientId = {
+    id?: unknown
+}
