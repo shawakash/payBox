@@ -1,24 +1,25 @@
 import { Router } from "express";
-import { BaseCreateClient, UpdateClientParser, ValidateUsername } from "../validations/client";
-import { Chain, Client, dbResStatus, responseStatus } from "../types/client";
+import { UpdateClientParser, ValidateUsername } from "../validations/client";
+import { Chain, dbResStatus, responseStatus } from "../types/client";
 import { conflictClient, createClient, deleteClient, getClientById, getClientMetaData, updateMetadata } from "../db/client";
 import { cache } from "..";
 import { setJWTCookie } from "../auth/utils";
 import { extractClientId } from "../auth/middleware";
+import { Client, ClientSignupFormValidate } from "@paybox/common";
 
 export const clientRouter = Router();
 
 clientRouter.post("/", async (req, res) => {
     try {
         const { username, email, firstname, lastname, mobile } =
-            BaseCreateClient.parse(req.body);
+            ClientSignupFormValidate.parse(req.body);
 
-        const getClient = await conflictClient(username, email, mobile);
+        const getClient = await conflictClient(username, email, Number(mobile));
         if (getClient.client?.length) {
             return res.status(409).json({ msg: "client already exist", status: responseStatus.Error })
         }
 
-        const client = await createClient(username, email, firstname, lastname, mobile);
+        const client = await createClient(username, email, firstname, lastname, Number(mobile));
         console.log(client);
         if (client.status == dbResStatus.Error) {
             return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });

@@ -4,7 +4,7 @@ import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { UserAuthForm } from "@/components/ui/user-auth-form"
+import { ClientSignupForm } from "@/components/ui/user-auth-form"
 
 export const metadata: Metadata = {
   title: "Signup | PayBox",
@@ -16,14 +16,14 @@ export default function AuthenticationPage() {
     <div className="flex justify-center items-center mx-56 my-0 overflow-hidden rounded-[0.5rem] border bg-background shadow-md md:shadow-xl">
       <div className="md:hidden">
         <Image
-          src="/public/authentication-light.png"
+          src="/authentication-light.png"
           width={1280}
           height={843}
           alt="Authentication"
           className="block dark:hidden"
         />
         <Image
-          src="/public/authentication-dark.png"
+          src="/authentication-dark.png"
           width={1280}
           height={843}
           alt="Authentication"
@@ -76,7 +76,7 @@ export default function AuthenticationPage() {
                 Enter your email below to create your account
               </p>
             </div>
-            <UserAuthForm />
+            <ClientSignupForm />
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link

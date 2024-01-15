@@ -16,7 +16,7 @@ export default function APITestPage() {
       .then((res) => res.json())
       .then((data) => setName(data.name));
   }, [session]);
-
+  console.log(session)
   return (
     <div>
       <div>

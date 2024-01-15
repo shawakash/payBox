@@ -15,7 +15,7 @@ export const createClient = async (
     email: string,
     firstname: string | undefined,
     lastname: string | undefined,
-    mobile: number
+    mobile?: number
   ): Promise<{
     id?: unknown,
     chain?: unknown,
@@ -54,7 +54,7 @@ export const createClient = async (
 export const conflictClient = async (
     username: string,
     email: string,
-    mobile: number
+    mobile?: number
 ): Promise<{
     status: dbResStatus,
     client?: getClientId[]
