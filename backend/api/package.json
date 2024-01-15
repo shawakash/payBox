@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@solana/web3.js": "^1.89.0",
-    "@types/bitcore-lib": "^0.15.6",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
     "@types/ws": "^8.5.10",
