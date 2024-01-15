@@ -10,6 +10,7 @@ import { PORT } from "@paybox/common";
 import morgan from "morgan";
 import { Redis } from "./Redis";
 import { clientRouter } from "./routes/client";
+import cors from "cors";
 
 export const app = express();
 export const server = http.createServer(app);
@@ -22,6 +23,16 @@ export const cache = Redis.getInstance();
 
 app.use(bodyParser.json());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+
+const corsOptions = {
+    origin: 'http://localhost:3000', // specify the allowed origin
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // specify the allowed HTTP methods
+    credentials: true, // enable credentials (cookies, authorization headers, etc.)
+    optionsSuccessStatus: 204, // handle preflight requests (OPTIONS) with a 204 status code
+    allowedHeaders: 'Content-Type, Authorization', // specify allowed headers
+};
+
+app.use(cors(corsOptions));
 
 
 app.get("/", (_req, res) => {
