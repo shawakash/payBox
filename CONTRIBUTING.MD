@@ -1,4 +1,4 @@
-# Contributing to [Your Project Name]
+# Contributing to PayBox
 
 Welcome to PayBox! We're thrilled that you're interested in contributing. By participating in this project, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
 
