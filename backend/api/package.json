@@ -15,8 +15,6 @@
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
     "@types/ws": "^8.5.10",
-    "bitcoin-core": "^4.1.0",
-    "bitcore-lib": "^10.0.23",
     "body-parser": "^1.20.2",
     "common": "*",
     "dotenv": "^16.3.1",
