@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function AuthenticationPage() {
   return (
-    <div className="flex justify-center items-center mx-56 my-10 overflow-hidden rounded-[0.5rem] border bg-background shadow-md md:shadow-xl">
+    <div className="flex justify-center items-center mx-56 my-0 overflow-hidden rounded-[0.5rem] border bg-background shadow-md md:shadow-xl">
       <div className="md:hidden">
         <Image
           src="/public/authentication-light.png"
