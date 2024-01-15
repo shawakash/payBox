@@ -1,58 +1,45 @@
-# Solana Paytm Box with Anchor Smart Contract
+# Pay Box and BlockChain Indexer
 
-This project integrates a Paytm payment system with the Solana blockchain using the Anchor smart contract framework.
+This project indexes cryto address for their transactions and lets a device to speak up like "Received 1 sol"
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) (for Anchor smart contract development)
-- [Anchor CLI](https://project-serum.github.io/anchor/getting-started/installation.html)
-- [Solana Wallet](https://docs.solana.com/wallet-guide/getting-started)
+- [MonoRepo](https://turbo.build/repo/docs)
+- [Solana.Js](https://docs.solana.com/)
 
 ## Getting Started
 
 ```bash
-git clone https://github.com/yourusername/solana-paytm-box.git
-cd solana-paytm-box
-npm install
+git clone https://github.com/shawakash/payBox.git
+cd payBox
+yarn install
 ```
 
-## Smart Contract Development
+## Build the project
 
 ```bash
-cd smart-contract
-anchor test
+yarn build
 ```
-
-## Payment Integration
-
-1. Set up a Paytm Merchant account and obtain API keys.
-2. Integrate Paytm SDK into your application for traditional payments.
-3. Connect your application with the Solana blockchain, interacting with the Anchor smart contract for SOL payments.
 
 ## Testing
 
 ```bash
-npm test
+yarn test
 ```
 
 ## Deployment
 
-1. Deploy the smart contract to the Solana blockchain:
-
-   ```bash
-   anchor deploy
-   ```
-
-2. Deploy your application to a production environment.
+1. Working on it
 
 ## Security Considerations
 
-- Implement secure key storage and encryption for Solana wallet private keys.
+- Beware not to put mainnet public key in /backend/api/.env.
 - Ensure compliance with relevant regulations and security standards.
 
 ## Documentation
 
-- Provide user guides on how to make payments using both traditional and Solana blockchain methods.
+- Provide user guides .
 
 ## Maintenance and Updates
 

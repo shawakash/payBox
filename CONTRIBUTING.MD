@@ -17,9 +17,15 @@ Provide step-by-step instructions on how to set up the development environment.
 ```bash
 # Example installation steps
 git clone https://github.com/shawakash/payBox.git
-cd your-project
+cd payBox
 yarn install
+yarn build
+cd backend/hasura
+docker-compose up
+cd ../api
+yarn dev
 ```
+Backend on http://localhost:8080.
 
 ## How to Contribute
 
