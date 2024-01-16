@@ -1,7 +1,6 @@
-import bcrypt from 'bcrypt';
 import type { Request, Response } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
-
+import bcryptjs from "bcryptjs";
 import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
 import { JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
 
@@ -64,10 +63,7 @@ export const setCookieOnResponse = (
  */
 export const setHashPassword = async (password: string): Promise<string> => {
   try {
-    const salt = await bcrypt.genSalt(SALT_ROUNDS);
-
-    const hashedPassword = await bcrypt.hash(password, salt);
-
+    const hashedPassword = await bcryptjs.hash(password, SALT_ROUNDS);
     return hashedPassword;
   } catch (error) {
     throw new Error('Error hashing password');
@@ -85,7 +81,7 @@ export const validatePassword = async (
   hashPassword: string
 ): Promise<boolean> => {
   try {
-    const isMatch = await bcrypt.compare(password, hashPassword);
+    const isMatch = await bcryptjs.compare(password, hashPassword);
     return isMatch;
   } catch (error) {
     throw new Error('Error hashing password');

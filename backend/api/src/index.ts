@@ -28,7 +28,6 @@ const corsOptions = {
     origin: CORS_ORIGIN, // specify the allowed origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // specify the allowed HTTP methods
     credentials: true, // enable credentials (cookies, authorization headers, etc.)
-    optionsSuccessStatus: 204, // handle preflight requests (OPTIONS) with a 204 status code
     allowedHeaders: 'Content-Type, Authorization', // specify allowed headers
 };
 

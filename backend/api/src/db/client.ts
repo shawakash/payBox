@@ -15,41 +15,92 @@ export const createClient = async (
     email: string,
     firstname: string | undefined,
     lastname: string | undefined,
+    hashPassword: string,
     mobile?: number
-  ): Promise<{
+): Promise<{
     id?: unknown,
     chain?: unknown,
     status: dbResStatus,
-  }> => {
+}> => {
     const response = await chain("mutation")({
-      insert_client_one: [{
-        object: {
-          firstname,
-          email,
-          username,
-          lastname,
-          mobile
-        },
-      }, {
-        id: true,
-        chain: {
-            bitcoin: true,
-            eth: true,
-            sol: true,
-            usdc: true,
-            id: true
-        }
-      }]
+        insert_client_one: [{
+            object: {
+                firstname,
+                email,
+                username,
+                lastname,
+                mobile,
+                password: hashPassword
+            },
+        }, {
+            id: true,
+            chain: {
+                bitcoin: true,
+                eth: true,
+                sol: true,
+                usdc: true,
+                id: true
+            }
+        }]
     }, { operationName: "createUser" }
     );
-  
+
     if (response.insert_client_one?.id) {
-      return { ...response.insert_client_one, status: dbResStatus.Ok }
+        return { ...response.insert_client_one, status: dbResStatus.Ok }
     }
     return {
-      status: dbResStatus.Error
+        status: dbResStatus.Error
     }
-  };
+};
+
+export const getClientByEmail = async (
+    email: string,
+): Promise<{
+    status: dbResStatus,
+    client?: {
+        username?: unknown,
+        email?: unknown,
+        firstname?: unknown,
+        lastname?: unknown,
+        mobile?: unknown,
+        id?: unknown,
+        chain?: unknown,
+    }[],
+}> => {
+    const response = await chain("query")({
+        client: [{
+            where: {
+                email: { _eq: email },
+            },
+            limit: 1
+        }, {
+            email: true,
+            username: true,
+            firstname: true,
+            lastname: true,
+            mobile: true,
+            password: true,
+            id: true,
+            chain: {
+                bitcoin: true,
+                eth: true,
+                sol: true,
+                usdc: true,
+                id: true
+            },
+        }]
+    }, { operationName: "getClientByEmail" }
+    );
+    if (response) {
+        return {
+            ...response,
+            status: dbResStatus.Ok
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
 
 export const conflictClient = async (
     username: string,

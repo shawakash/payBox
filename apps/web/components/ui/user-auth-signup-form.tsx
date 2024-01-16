@@ -57,6 +57,7 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
             cache: "no-store"
         });
         const res = await response.json();
+        console.log(res);
         setIsLoading(false);
     }
 
@@ -152,6 +153,30 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
                                             id="email"
                                             placeholder="name@example.com"
                                             type="email"
+                                            autoCapitalize="none"
+                                            autoComplete="email"
+                                            autoCorrect="off"
+                                            disabled={isLoading}
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem className="grid gap-1">
+                                    <FormLabel className="sr-only" htmlFor="password">
+                                        Password
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            id="password"
+                                            placeholder="@password"
+                                            type="password"
                                             autoCapitalize="none"
                                             autoComplete="email"
                                             autoCorrect="off"

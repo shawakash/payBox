@@ -3,7 +3,7 @@ import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { Chain, dbResStatus, responseStatus } from "../types/client";
 import { conflictClient, createClient, deleteClient, getClientById, getClientMetaData, updateMetadata } from "../db/client";
 import { cache } from "..";
-import { setJWTCookie } from "../auth/utils";
+import { setHashPassword, setJWTCookie } from "../auth/util";
 import { extractClientId } from "../auth/middleware";
 import { Client, ClientSigninFormValidate, ClientSignupFormValidate } from "@paybox/common";
 
@@ -11,7 +11,7 @@ export const clientRouter = Router();
 
 clientRouter.post("/", async (req, res) => {
     try {
-        const { username, email, firstname, lastname, mobile } =
+        const { username, email, firstname, lastname, mobile, password } =
             ClientSignupFormValidate.parse(req.body);
 
         const getClient = await conflictClient(username, email, Number(mobile));
@@ -19,7 +19,9 @@ clientRouter.post("/", async (req, res) => {
             return res.status(409).json({ msg: "client already exist", status: responseStatus.Error })
         }
 
-        const client = await createClient(username, email, firstname, lastname, Number(mobile));
+        const hashPassword = await setHashPassword(password);
+        console.log(hashPassword)
+        const client = await createClient(username, email, firstname, lastname, hashPassword, Number(mobile));
         console.log(client);
         if (client.status == dbResStatus.Error) {
             return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
@@ -36,7 +38,8 @@ clientRouter.post("/", async (req, res) => {
                 lastname,
                 mobile,
                 id: client.id as string,
-                chain: client.chain as Chain
+                chain: client.chain as Chain,
+                password: hashPassword
             });
 
         /**

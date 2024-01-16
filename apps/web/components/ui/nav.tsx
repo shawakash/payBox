@@ -136,7 +136,7 @@ const SignButton: React.FC = () => {
                     if(session?.user?.email) {
                         return signOut();
                     } else {
-                        router.push(`/${pathname.includes("/signup") ? SignType.Signup.toLowerCase() : SignType.Signin.toLowerCase()}`)
+                        router.push(`/${pathname.includes("/signup") ? SignType.Signin.toLowerCase() : SignType.Signup.toLowerCase()}`)
                     }
                 }}
             >

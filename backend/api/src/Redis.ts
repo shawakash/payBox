@@ -1,6 +1,6 @@
 import { RedisClientType, createClient } from "redis";
 import { REDIS_URL } from "./config";
-import { Client } from "./types/client";
+import { Client } from "@paybox/common";
 
 export class Redis {
     private client: RedisClientType;
@@ -28,8 +28,9 @@ export class Redis {
                 firstname: items.firstname || "",
                 lastname: items.lastname || "",
                 email: items.email,
-                mobile: items.mobile,
+                mobile: items.mobile || "",
                 username: items.username,
+                password: items.password,
                 chain: JSON.stringify(items.chain)
             });
         console.log(`User Cached ${data}`);
@@ -46,7 +47,8 @@ export class Redis {
         return {
             id: client.id,
             email: client.email,
-            mobile: Number(client.mobile),
+            mobile: client.mobile,
+            password: client.password,
             username: client.username,
             firstname: client.firstname,
             lastname: client.lastname,
