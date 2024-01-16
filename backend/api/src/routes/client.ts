@@ -58,6 +58,13 @@ clientRouter.post("/", async (req, res) => {
 });
 
 /**
+ * Login route
+ */
+clientRouter.post("/login", async () => {
+
+});
+
+/**
  * To validate jwt and get user
  */
 clientRouter.get("/me", extractClientId, async (req, res) => {

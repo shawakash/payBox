@@ -40,3 +40,13 @@ export const ClientSignupFormValidate = z.object({
         id: z.string().optional()
     }).optional()
 });
+
+export const ClientSigninFormValidate = z.object({
+    email: z.
+        string()
+        .regex(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            "should be a valid email"
+        ),
+    password: z.string()
+});

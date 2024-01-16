@@ -39,7 +39,7 @@ export default async function RootLayout({
         >
           <SessionProvider session={session} refetchInterval={5 * 60}>
             <Nav />
-            <main className="flex min-h-screen  flex-col items-center ">
+            <main className="flex min-h-screen py-5 flex-col items-center ">
               {children}
             </main>
           </SessionProvider>

@@ -57,8 +57,6 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
             cache: "no-store"
         });
         const res = await response.json();
-        console.log(res);
-        console.log(values);
         setIsLoading(false);
     }
 
