@@ -5,7 +5,7 @@ import { conflictClient, createClient, deleteClient, getClientById, getClientMet
 import { cache } from "..";
 import { setJWTCookie } from "../auth/utils";
 import { extractClientId } from "../auth/middleware";
-import { Client, ClientSignupFormValidate } from "@paybox/common";
+import { Client, ClientSigninFormValidate, ClientSignupFormValidate } from "@paybox/common";
 
 export const clientRouter = Router();
 
@@ -60,8 +60,18 @@ clientRouter.post("/", async (req, res) => {
 /**
  * Login route
  */
-clientRouter.post("/login", async () => {
+clientRouter.post("/login", async (req, res) => {
+    try {
 
+        const { email, password } =
+            ClientSigninFormValidate.parse(req.body);
+
+        // const client = await 
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error, status: responseStatus.Error });
+    }
 });
 
 /**

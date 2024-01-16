@@ -75,7 +75,7 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
                                     <FormControl>
                                         <Input
                                             id="email"
-                                            placeholder="name@email.com"
+                                            placeholder="name@example.com"
                                             type="email"
                                             autoCapitalize="none"
                                             autoComplete="email"

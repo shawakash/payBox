@@ -80,6 +80,7 @@ export const AllTypesProps: Record<string, any> = {
     id: "uuid_comparison_exp",
     lastname: "String_comparison_exp",
     mobile: "Int_comparison_exp",
+    password: "String_comparison_exp",
     username: "String_comparison_exp",
   },
   client_constraint: "enum" as const,
@@ -104,6 +105,7 @@ export const AllTypesProps: Record<string, any> = {
     id: "order_by",
     lastname: "order_by",
     mobile: "order_by",
+    password: "order_by",
     username: "order_by",
   },
   client_pk_columns_input: {
@@ -309,6 +311,7 @@ export const ReturnTypes: Record<string, any> = {
     id: "uuid",
     lastname: "String",
     mobile: "Int",
+    password: "String",
     username: "String",
   },
   client_aggregate: {
@@ -337,6 +340,7 @@ export const ReturnTypes: Record<string, any> = {
     id: "uuid",
     lastname: "String",
     mobile: "Int",
+    password: "String",
     username: "String",
   },
   client_min_fields: {
@@ -345,6 +349,7 @@ export const ReturnTypes: Record<string, any> = {
     id: "uuid",
     lastname: "String",
     mobile: "Int",
+    password: "String",
     username: "String",
   },
   client_mutation_response: {
