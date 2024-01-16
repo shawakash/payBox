@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { SignType } from "@paybox/common"
 
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/ui/icons"
@@ -16,7 +17,8 @@ import {
 } from "@/components/ui/navigation-menu"
 import { ModeToggle } from "@/app/components/Client/ModeToggle"
 import { Button } from "./button"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -56,7 +58,7 @@ const components: { title: string; href: string; description: string }[] = [
     },
 ]
 
-export function Nav() {
+export const Nav: React.FC<{}> = ({ }) => {
     return (
         <NavigationMenu>
             <NavigationMenuList>
@@ -115,17 +117,31 @@ export function Nav() {
                             Documentation
                         </NavigationMenuLink>
                     </Link>
-                    <Link href={"/signup"} legacyBehavior passHref>
-                        <NavigationMenuLink className={navigationMenuTriggerStyle()}
-                            onClick={() => signOut()}
-                        >
-                            Signout
-                        </NavigationMenuLink>
-                    </Link>
+                    <SignButton />
                     <ModeToggle />
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
+    )
+}
+
+const SignButton: React.FC = () => {
+    const {data: session} = useSession();
+    const router = useRouter();
+    return (
+        <>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}
+                onClick={() => {
+                    if(session?.user?.email) {
+                        return signOut();
+                    } else {
+                        router.push(`/${SignType.Signup.toLowerCase()}`)
+                    }
+                }}
+            >
+                {session?.user?.email ? SignType.Signout : SignType.Signup}
+            </NavigationMenuLink>
+        </>
     )
 }
 

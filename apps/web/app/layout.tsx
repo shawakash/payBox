@@ -37,12 +37,12 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-              <Nav />
-          <main className="flex min-h-screen  flex-col items-center ">
-            <SessionProvider session={session} refetchInterval={5 * 60}>
+          <SessionProvider session={session} refetchInterval={5 * 60}>
+            <Nav />
+            <main className="flex min-h-screen  flex-col items-center ">
               {children}
-            </SessionProvider>
-          </main>
+            </main>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

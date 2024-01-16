@@ -214,7 +214,8 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
                     type="button"
                     disabled={isLoading}
                     onClick={() => {
-                        signIn("github");
+                        setIsLoading(true);
+                        signIn("github").then(() => setIsLoading(false));
                     }}
                 >
                     {isLoading ? (
