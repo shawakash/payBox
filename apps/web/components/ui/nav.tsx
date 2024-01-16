@@ -18,7 +18,7 @@ import {
 import { ModeToggle } from "@/app/components/Client/ModeToggle"
 import { Button } from "./button"
 import { signOut, useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -128,6 +128,7 @@ export const Nav: React.FC<{}> = ({ }) => {
 const SignButton: React.FC = () => {
     const {data: session} = useSession();
     const router = useRouter();
+    const pathname = usePathname();
     return (
         <>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}
@@ -135,11 +136,11 @@ const SignButton: React.FC = () => {
                     if(session?.user?.email) {
                         return signOut();
                     } else {
-                        router.push(`/${SignType.Signup.toLowerCase()}`)
+                        router.push(`/${pathname.includes("/signup") ? SignType.Signin.toLowerCase() : SignType.Signup.toLowerCase()}`)
                     }
                 }}
             >
-                {session?.user?.email ? SignType.Signout : SignType.Signup}
+                {session?.user?.email ? SignType.Signout : pathname.includes("/signup") ? SignType.Signin : SignType.Signup}
             </NavigationMenuLink>
         </>
     )

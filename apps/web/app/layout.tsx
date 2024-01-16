@@ -8,6 +8,7 @@ import { getServerSession } from 'next-auth';
 import SessionProvider from "@/components/ui/session-provider";
 import Link from 'next/link'
 import { Nav } from '@/components/ui/nav'
+import { Toaster } from '@/components/ui/toaster'
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -39,9 +40,10 @@ export default async function RootLayout({
         >
           <SessionProvider session={session} refetchInterval={5 * 60}>
             <Nav />
-            <main className="flex min-h-screen  flex-col items-center ">
+            <main className="flex min-h-screen py-5 flex-col items-center ">
               {children}
             </main>
+            <Toaster />
           </SessionProvider>
         </ThemeProvider>
       </body>

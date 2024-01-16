@@ -1,17 +1,17 @@
 import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { Chain, dbResStatus, responseStatus } from "../types/client";
-import { conflictClient, createClient, deleteClient, getClientById, getClientMetaData, updateMetadata } from "../db/client";
+import { conflictClient, createClient, deleteClient, getClientByEmail, getClientById, getClientMetaData, updateMetadata } from "../db/client";
 import { cache } from "..";
-import { setJWTCookie } from "../auth/utils";
+import { setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
 import { extractClientId } from "../auth/middleware";
-import { Client, ClientSignupFormValidate } from "@paybox/common";
+import { Client, ClientSigninFormValidate, ClientSignupFormValidate } from "@paybox/common";
 
 export const clientRouter = Router();
 
 clientRouter.post("/", async (req, res) => {
     try {
-        const { username, email, firstname, lastname, mobile } =
+        const { username, email, firstname, lastname, mobile, password } =
             ClientSignupFormValidate.parse(req.body);
 
         const getClient = await conflictClient(username, email, Number(mobile));
@@ -19,7 +19,9 @@ clientRouter.post("/", async (req, res) => {
             return res.status(409).json({ msg: "client already exist", status: responseStatus.Error })
         }
 
-        const client = await createClient(username, email, firstname, lastname, Number(mobile));
+        const hashPassword = await setHashPassword(password);
+        console.log(hashPassword)
+        const client = await createClient(username, email, firstname, lastname, hashPassword, Number(mobile));
         console.log(client);
         if (client.status == dbResStatus.Error) {
             return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
@@ -36,7 +38,8 @@ clientRouter.post("/", async (req, res) => {
                 lastname,
                 mobile,
                 id: client.id as string,
-                chain: client.chain as Chain
+                chain: client.chain as Chain,
+                password: hashPassword
             });
 
         /**
@@ -50,6 +53,61 @@ clientRouter.post("/", async (req, res) => {
         }
 
         return res.status(200).json({ ...client, jwt, status: responseStatus.Ok });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error, status: responseStatus.Error });
+    }
+});
+
+/**
+ * Login route
+ */
+clientRouter.post("/login", async (req, res) => {
+    try {
+
+        const { email, password } =
+            ClientSigninFormValidate.parse(req.body);
+
+        /**
+         * Query the db
+         */
+        const query = await getClientByEmail(email);
+        if (query.status == dbResStatus.Error) {
+            return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
+        }
+        if (!(query.client?.length)) {
+            return res.status(404).json({ msg: "Not found", status: responseStatus.Error });
+        }
+
+        /**
+         * Password check
+         */
+        const isCorrectPass = await validatePassword(password, query.client[0].password as string);
+        if (!isCorrectPass) {
+            return res.status(401).json({ msg: "Wrong Password", status: responseStatus.Error });
+        }
+
+        /**
+         * Cache
+         */
+        await cache.cacheClient(
+            query.client[0].id as string,
+            query.client[0] as Client
+        );
+
+        /**
+         * Create a Jwt
+         */
+        let jwt: string;
+        if (query.client[0].id) {
+            jwt = await setJWTCookie(req, res, query.client[0].id as string);
+        } else {
+            return res.status(500).json({ msg: "Error creating user account", status: responseStatus.Error });
+        }
+
+        return res.status(200).json({ ...query.client[0], jwt, status: responseStatus.Ok });
+
 
     } catch (error) {
         console.error(error);

@@ -7,6 +7,12 @@ export const ClientSignupFormValidate = z.object({
             /^[a-z0-9_]{3,15}$/,
             "should be between 3-15 characters and can only contain numbers, letters, and underscores."
         ),
+    password: z
+        .string()
+        .regex(
+            /^[a-z0-9_]{3,15}$/,
+            "should be between 3-15 characters and can only contain numbers, letters, and underscores."
+        ),
     firstname: z
         .string()
         .regex(
@@ -39,4 +45,14 @@ export const ClientSignupFormValidate = z.object({
         usdc: z.string(),
         id: z.string().optional()
     }).optional()
+});
+
+export const ClientSigninFormValidate = z.object({
+    email: z.
+        string()
+        .regex(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            "should be a valid email"
+        ),
+    password: z.string()
 });

@@ -1294,6 +1294,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
+    password?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1380,6 +1381,11 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    password?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
     username?:
       | ValueTypes["String_comparison_exp"]
       | undefined
@@ -1404,6 +1410,7 @@ export type ValueTypes = {
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     lastname?: string | undefined | null | Variable<any, string>;
     mobile?: number | undefined | null | Variable<any, string>;
+    password?: string | undefined | null | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate max on columns */
@@ -1413,6 +1420,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
+    password?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1423,6 +1431,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
+    password?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1476,6 +1485,11 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     mobile?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    password?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
     username?:
       | ValueTypes["order_by"]
       | undefined
@@ -1495,6 +1509,7 @@ export type ValueTypes = {
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     lastname?: string | undefined | null | Variable<any, string>;
     mobile?: number | undefined | null | Variable<any, string>;
+    password?: string | undefined | null | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate stddev on columns */
@@ -1532,6 +1547,7 @@ export type ValueTypes = {
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     lastname?: string | undefined | null | Variable<any, string>;
     mobile?: number | undefined | null | Variable<any, string>;
+    password?: string | undefined | null | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate sum on columns */
@@ -2306,6 +2322,7 @@ export type ResolverInputTypes = {
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
+    password?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2355,6 +2372,7 @@ export type ResolverInputTypes = {
     id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     lastname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     mobile?: ResolverInputTypes["Int_comparison_exp"] | undefined | null;
+    password?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     username?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
   };
   /** unique or primary key constraints on table "client" */
@@ -2371,6 +2389,7 @@ export type ResolverInputTypes = {
     id?: ResolverInputTypes["uuid"] | undefined | null;
     lastname?: string | undefined | null;
     mobile?: number | undefined | null;
+    password?: string | undefined | null;
     username?: string | undefined | null;
   };
   /** aggregate max on columns */
@@ -2380,6 +2399,7 @@ export type ResolverInputTypes = {
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
+    password?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2390,6 +2410,7 @@ export type ResolverInputTypes = {
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
+    password?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2421,6 +2442,7 @@ export type ResolverInputTypes = {
     id?: ResolverInputTypes["order_by"] | undefined | null;
     lastname?: ResolverInputTypes["order_by"] | undefined | null;
     mobile?: ResolverInputTypes["order_by"] | undefined | null;
+    password?: ResolverInputTypes["order_by"] | undefined | null;
     username?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** primary key columns input for table: client */
@@ -2436,6 +2458,7 @@ export type ResolverInputTypes = {
     id?: ResolverInputTypes["uuid"] | undefined | null;
     lastname?: string | undefined | null;
     mobile?: number | undefined | null;
+    password?: string | undefined | null;
     username?: string | undefined | null;
   };
   /** aggregate stddev on columns */
@@ -2467,6 +2490,7 @@ export type ResolverInputTypes = {
     id?: ResolverInputTypes["uuid"] | undefined | null;
     lastname?: string | undefined | null;
     mobile?: number | undefined | null;
+    password?: string | undefined | null;
     username?: string | undefined | null;
   };
   /** aggregate sum on columns */
@@ -3069,6 +3093,7 @@ export type ModelTypes = {
     id: ModelTypes["uuid"];
     lastname: string;
     mobile: number;
+    password: string;
     username: string;
   };
   /** aggregated selection of "client" */
@@ -3105,6 +3130,7 @@ export type ModelTypes = {
     id?: ModelTypes["uuid_comparison_exp"] | undefined;
     lastname?: ModelTypes["String_comparison_exp"] | undefined;
     mobile?: ModelTypes["Int_comparison_exp"] | undefined;
+    password?: ModelTypes["String_comparison_exp"] | undefined;
     username?: ModelTypes["String_comparison_exp"] | undefined;
   };
   ["client_constraint"]: client_constraint;
@@ -3120,6 +3146,7 @@ export type ModelTypes = {
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate max on columns */
@@ -3129,6 +3156,7 @@ export type ModelTypes = {
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate min on columns */
@@ -3138,6 +3166,7 @@ export type ModelTypes = {
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** response of any mutation on the table "client" */
@@ -3167,6 +3196,7 @@ export type ModelTypes = {
     id?: ModelTypes["order_by"] | undefined;
     lastname?: ModelTypes["order_by"] | undefined;
     mobile?: ModelTypes["order_by"] | undefined;
+    password?: ModelTypes["order_by"] | undefined;
     username?: ModelTypes["order_by"] | undefined;
   };
   /** primary key columns input for table: client */
@@ -3181,6 +3211,7 @@ export type ModelTypes = {
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate stddev on columns */
@@ -3209,6 +3240,7 @@ export type ModelTypes = {
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate sum on columns */
@@ -3514,6 +3546,7 @@ export type GraphQLTypes = {
     id: GraphQLTypes["uuid"];
     lastname: string;
     mobile: number;
+    password: string;
     username: string;
   };
   /** aggregated selection of "client" */
@@ -3553,6 +3586,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     lastname?: GraphQLTypes["String_comparison_exp"] | undefined;
     mobile?: GraphQLTypes["Int_comparison_exp"] | undefined;
+    password?: GraphQLTypes["String_comparison_exp"] | undefined;
     username?: GraphQLTypes["String_comparison_exp"] | undefined;
   };
   /** unique or primary key constraints on table "client" */
@@ -3569,6 +3603,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate max on columns */
@@ -3579,6 +3614,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate min on columns */
@@ -3589,6 +3625,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** response of any mutation on the table "client" */
@@ -3619,6 +3656,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["order_by"] | undefined;
     lastname?: GraphQLTypes["order_by"] | undefined;
     mobile?: GraphQLTypes["order_by"] | undefined;
+    password?: GraphQLTypes["order_by"] | undefined;
     username?: GraphQLTypes["order_by"] | undefined;
   };
   /** primary key columns input for table: client */
@@ -3634,6 +3672,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate stddev on columns */
@@ -3665,6 +3704,7 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: number | undefined;
+    password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate sum on columns */
@@ -3821,6 +3861,7 @@ export const enum client_select_column {
   id = "id",
   lastname = "lastname",
   mobile = "mobile",
+  password = "password",
   username = "username",
 }
 /** update columns of table "client" */
@@ -3830,6 +3871,7 @@ export const enum client_update_column {
   id = "id",
   lastname = "lastname",
   mobile = "mobile",
+  password = "password",
   username = "username",
 }
 /** ordering argument of a cursor */

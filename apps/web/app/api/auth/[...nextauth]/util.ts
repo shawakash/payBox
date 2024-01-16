@@ -37,14 +37,14 @@ export const authOptions: NextAuthOptions = {
     signIn: '/signin'
   },
   callbacks: {
-    // async session({session, user}) {
-    //     return session;
-    // },
-    async redirect({url, baseUrl, }) {
-      // Perform any custom logic before redirection
 
-      // Redirect to the "/signup" page after sign-out
-      return baseUrl + '/signup';
-    },
+    jwt({ token, trigger, session }) {
+      if (trigger === "update" && session?.name) {
+        // Note, that `session` can be any arbitrary object, remember to validate it!
+        token.name = session.name;
+        token.email = session.email;
+      }
+      return token
+    }
   }
-};
+  };

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { clearCookie, setJWTCookie, validateJwt } from "./utils";
+import { clearCookie, setJWTCookie, validateJwt } from "./util";
 import { responseStatus } from "../types/client";
 
 export const extractClientId = async (
