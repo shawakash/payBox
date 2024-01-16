@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { Chain, dbResStatus, responseStatus } from "../types/client";
-import { conflictClient, createClient, deleteClient, getClientById, getClientMetaData, updateMetadata } from "../db/client";
+import { conflictClient, createClient, deleteClient, getClientByEmail, getClientById, getClientMetaData, updateMetadata } from "../db/client";
 import { cache } from "..";
-import { setHashPassword, setJWTCookie } from "../auth/util";
+import { setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
 import { extractClientId } from "../auth/middleware";
 import { Client, ClientSigninFormValidate, ClientSignupFormValidate } from "@paybox/common";
 
@@ -69,7 +69,45 @@ clientRouter.post("/login", async (req, res) => {
         const { email, password } =
             ClientSigninFormValidate.parse(req.body);
 
-        // const client = await 
+        /**
+         * Query the db
+         */
+        const query = await getClientByEmail(email);
+        if (query.status == dbResStatus.Error) {
+            return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
+        }
+        if (!(query.client?.length)) {
+            return res.status(404).json({ msg: "Not found", status: responseStatus.Error });
+        }
+
+        /**
+         * Password check
+         */
+        const isCorrectPass = await validatePassword(password, query.client[0].password as string);
+        if (!isCorrectPass) {
+            return res.status(401).json({ msg: "Wrong Password", status: responseStatus.Error });
+        }
+
+        /**
+         * Cache
+         */
+        await cache.cacheClient(
+            query.client[0].id as string,
+            query.client[0] as Client
+        );
+
+        /**
+         * Create a Jwt
+         */
+        let jwt: string;
+        if (query.client[0].id) {
+            jwt = await setJWTCookie(req, res, query.client[0].id as string);
+        } else {
+            return res.status(500).json({ msg: "Error creating user account", status: responseStatus.Error });
+        }
+
+        return res.status(200).json({ ...query.client[0], jwt, status: responseStatus.Ok });
+
 
     } catch (error) {
         console.error(error);

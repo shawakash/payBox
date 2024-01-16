@@ -53,6 +53,11 @@ export const createClient = async (
     }
 };
 
+/**
+ * 
+ * @param email 
+ * @returns Client using mail
+ */
 export const getClientByEmail = async (
     email: string,
 ): Promise<{
@@ -65,6 +70,7 @@ export const getClientByEmail = async (
         mobile?: unknown,
         id?: unknown,
         chain?: unknown,
+        password?: unknown
     }[],
 }> => {
     const response = await chain("query")({

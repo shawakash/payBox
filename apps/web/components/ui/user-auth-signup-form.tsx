@@ -23,14 +23,16 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { BACKEND_URL, ClientSignupFormValidate } from "@paybox/common"
 import { headers } from "next/headers"
+import { useToast } from "./use-toast"
 
 
 interface ClientSignupFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function ClientSignupForm({ className, ...props }: ClientSignupFormProps) {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const { data: session } = useSession(); // Use the useSession hook to get the session state
+    const { data: session, update } = useSession(); // Use the useSession hook to get the session state
     const router = useRouter();
+    const { toast } = useToast()
 
     React.useEffect(() => {
         // Check if the session is defined and navigate to the protected page
@@ -58,6 +60,10 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
         });
         const res = await response.json();
         console.log(res);
+        toast({
+            title: `Signed as ${values.username}`,
+            description: `Your Client id: ${res.id}`,
+          })
         setIsLoading(false);
     }
 
