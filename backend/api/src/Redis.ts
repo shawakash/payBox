@@ -34,12 +34,52 @@ export class Redis {
                 chain: JSON.stringify(items.chain)
             });
         console.log(`User Cached ${data}`);
+        await this.cacheUsername(items.username, items.id);
+        await this.cacheEmail(items.email, items.id);
         return;
     }
 
     async getClientCache(key: string): Promise<Client | null> {
         const client = await this.client.hGetAll(key);
 
+        if (!client) {
+            return null;
+        }
+
+        return {
+            id: client.id,
+            email: client.email,
+            mobile: client.mobile,
+            password: client.password,
+            username: client.username,
+            firstname: client.firstname,
+            lastname: client.lastname,
+            //@ts-ignore  Redis does not allow to cache with types
+            chain: JSON.parse(client.chain)
+        }
+    }
+
+    async cacheUsername(key: string, items: string) {
+        const data = await this.client.set(key, items);
+        console.log(`Client username Cached ${data}`);
+        return;
+    }
+
+    async cacheEmail(key: string, items: string) {
+        const data = await this.client.set(key, items);
+        console.log(`Client email Cached ${data}`);
+        return;
+    }
+
+    async getClientFromKey(key: string): Promise<Client | null> {
+        const clientId = await this.client.get(key);
+        console.log("clientId cache", clientId)
+        if (!clientId) {
+            return null;
+        }
+        const client = await this.getClientCache(clientId);
+        console.log("client cache", client)
+        
         if (!client) {
             return null;
         }

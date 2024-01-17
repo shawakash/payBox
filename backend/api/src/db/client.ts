@@ -16,7 +16,7 @@ export const createClient = async (
     firstname: string | undefined,
     lastname: string | undefined,
     hashPassword: string,
-    mobile?: number
+    mobile: number | null
 ): Promise<{
     id?: unknown,
     chain?: unknown,
@@ -29,7 +29,7 @@ export const createClient = async (
                 email,
                 username,
                 lastname,
-                mobile,
+                mobile: mobile || null,
                 password: hashPassword
             },
         }, {
@@ -42,9 +42,8 @@ export const createClient = async (
                 id: true
             }
         }]
-    }, { operationName: "createUser" }
+    }, { operationName: "createClient" }
     );
-
     if (response.insert_client_one?.id) {
         return { ...response.insert_client_one, status: dbResStatus.Ok }
     }
@@ -111,7 +110,6 @@ export const getClientByEmail = async (
 export const conflictClient = async (
     username: string,
     email: string,
-    mobile?: number
 ): Promise<{
     status: dbResStatus,
     client?: getClientId[]
@@ -119,18 +117,70 @@ export const conflictClient = async (
     const response = await chain("query")({
         client: [{
             where: {
-                username: { _eq: username },
-                email: { _eq: email },
-                mobile: { _eq: mobile }
+                _or: [
+                    { username: { _eq: username } },
+                    { email: { _eq: email } },
+                ],
             },
             limit: 1,
         }, {
-            id: true
+            id: true,
         }]
     },
         { operationName: "conflictClient" }
     );
     if (response) {
+        return {
+            ...response,
+            status: dbResStatus.Ok
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
+
+export const checkClient = async (
+    username: string,
+    email: string
+): Promise<{
+    client?: {
+        username?: unknown,
+        email?: unknown,
+        firstname?: unknown,
+        lastname?: unknown,
+        mobile?: unknown,
+        id?: unknown,
+        chain?: unknown,
+        password?: unknown
+    }[],
+    status: dbResStatus
+}> => {
+    const response = await chain("query")({
+        client: [{
+            where: {
+                username: { _eq: username },
+                email: { _eq: email }
+            },
+            limit: 1
+        }, {
+            email: true,
+            username: true,
+            firstname: true,
+            lastname: true,
+            id: true,
+            chain: {
+                bitcoin: true,
+                eth: true,
+                sol: true,
+                usdc: true,
+                id: true
+            },
+            mobile: true,
+            password: true
+        }]
+    }, {operationName: "checkClient"});
+    if (response.client.length) {
         return {
             ...response,
             status: dbResStatus.Ok

@@ -24,6 +24,7 @@ import { z } from "zod"
 import { BACKEND_URL, ClientSignupFormValidate } from "@paybox/common"
 import { headers } from "next/headers"
 import { useToast } from "./use-toast"
+import { ToastAction } from "@radix-ui/react-toast"
 
 
 interface ClientSignupFormProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -50,21 +51,39 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
     })
 
     async function onSubmit(values: z.infer<typeof ClientSignupFormValidate>) {
-        const response = await fetch(`${BACKEND_URL}/client/`, {
-            method: "post",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(values),
-            cache: "no-store"
-        });
-        const res = await response.json();
-        console.log(res);
-        toast({
-            title: `Signed as ${values.username}`,
-            description: `Your Client id: ${res.id}`,
-          })
-        setIsLoading(false);
+        try {
+            
+            const response = await fetch(`${BACKEND_URL}/client/`, {
+                method: "post",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(values),
+                cache: "no-store"
+            });
+            const res = await response.json();
+            console.log(res);
+            signIn("credentials", {
+                name: values.username,
+                email: values.email,
+                id: res.id,
+                jwt: res.jwt
+            });
+            toast({
+                title: `Signed as ${values.username}`,
+                description: `Your Client id: ${res.id}`,
+              });
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+            toast({
+                variant: "destructive",
+                title: "Uh oh! Something went wrong.",
+                //@ts-ignore
+                description: `There was a problem with your signin. ${error.msg}`,
+                action: <ToastAction altText="Try again">Try again</ToastAction>,
+              });
+        }
     }
 
     return (
