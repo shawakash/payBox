@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials"
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -31,13 +32,34 @@ export const authOptions: NextAuthOptions = {
         }
       }
     }),
-
+    CredentialsProvider({
+      credentials: {
+      },
+      async authorize(_credentials, req) {
+        const user = {
+          name: req.body?.name,
+          email: req.body?.email,
+          id: req.body?.id,
+          jwt: req.body?.jwt
+        }
+  
+        // If no error and we have user data, return it
+        if (user) {
+          return user
+        }
+        // Return null if user data could not be retrieved
+        return null
+      }
+    })
   ],
   pages: {
     signIn: '/signin'
   },
   callbacks: {
-
+    async signIn({user, account, profile}) {
+      
+      return true; 
+    },
     jwt({ token, trigger, session }) {
       if (trigger === "update" && session?.name) {
         // Note, that `session` can be any arbitrary object, remember to validate it!
