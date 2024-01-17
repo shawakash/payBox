@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { Chain, dbResStatus, responseStatus } from "../types/client";
-import { conflictClient, createClient, deleteClient, getClientByEmail, getClientById, getClientMetaData, updateMetadata } from "../db/client";
+import { checkClient, conflictClient, createClient, deleteClient, getClientByEmail, getClientById, getClientMetaData, updateMetadata } from "../db/client";
 import { cache } from "..";
 import { setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
 import { extractClientId } from "../auth/middleware";
@@ -59,6 +59,66 @@ clientRouter.post("/", async (req, res) => {
         return res.status(500).json({ error, status: responseStatus.Error });
     }
 });
+
+/**
+ * Login/signup incase of providers 
+ */
+clientRouter.post("/providerAuth", async (req, res) => {
+    try {
+        const { username, email, firstname, lastname, mobile, password } =
+            ClientSignupFormValidate.parse(req.body);
+
+        /**
+         * Cache
+         */
+        const cachedClient = await cache.getClientFromUsername(username);
+        if (cachedClient) {
+            let jwt;
+            if (cachedClient.id) {
+                jwt = await setJWTCookie(req, res, cachedClient.id as string);
+            }
+            return res.status(302).json({ ...cachedClient, status: responseStatus.Ok, jwt });
+        }
+
+        const hashPassword = await setHashPassword(password);
+        const client = await createClient(username, email, firstname, lastname, hashPassword, Number(mobile));
+        console.log(client);
+        if (client.status == dbResStatus.Error) {
+            return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
+        }
+
+
+        /**
+         * Cache
+         */
+        await cache.cacheClient(client?.id as string,
+            {
+                firstname,
+                email,
+                username,
+                lastname,
+                mobile,
+                id: client?.id as string,
+                chain: client?.chain as Chain,
+                //@ts-ignore
+                password: hashPassword || ""
+            });
+
+        /**
+       * Create a Jwt
+       */
+        let jwt: string;
+        if (client?.id) {
+            jwt = await setJWTCookie(req, res, client.id as string);
+        } else {
+            return res.status(500).json({ msg: "Error creating user account", status: responseStatus.Error });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error, status: responseStatus.Error });
+    }
+});
+
 
 /**
  * Login route

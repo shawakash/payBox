@@ -125,12 +125,63 @@ export const conflictClient = async (
             },
             limit: 1,
         }, {
-            id: true
+            id: true,
         }]
     },
         { operationName: "conflictClient" }
     );
     if (response) {
+        return {
+            ...response,
+            status: dbResStatus.Ok
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
+
+export const checkClient = async (
+    username: string,
+    email: string
+): Promise<{
+    client?: {
+        username?: unknown,
+        email?: unknown,
+        firstname?: unknown,
+        lastname?: unknown,
+        mobile?: unknown,
+        id?: unknown,
+        chain?: unknown,
+        password?: unknown
+    }[],
+    status: dbResStatus
+}> => {
+    const response = await chain("query")({
+        client: [{
+            where: {
+                username: { _eq: username },
+                email: { _eq: email }
+            },
+            limit: 1
+        }, {
+            email: true,
+            username: true,
+            firstname: true,
+            lastname: true,
+            id: true,
+            chain: {
+                bitcoin: true,
+                eth: true,
+                sol: true,
+                usdc: true,
+                id: true
+            },
+            mobile: true,
+            password: true
+        }]
+    }, {operationName: "checkClient"});
+    if (response.client.length) {
         return {
             ...response,
             status: dbResStatus.Ok
