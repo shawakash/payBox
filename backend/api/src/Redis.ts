@@ -73,12 +73,10 @@ export class Redis {
 
     async getClientFromKey(key: string): Promise<Client | null> {
         const clientId = await this.client.get(key);
-        console.log("clientId cache", clientId)
         if (!clientId) {
             return null;
         }
         const client = await this.getClientCache(clientId);
-        console.log("client cache", client)
         
         if (!client) {
             return null;
