@@ -34,6 +34,8 @@ export class Redis {
                 chain: JSON.stringify(items.chain)
             });
         console.log(`User Cached ${data}`);
+        await this.cacheUsername(items.username, items.id);
+        await this.cacheEmail(items.email, items.id);
         return;
     }
 
@@ -63,17 +65,25 @@ export class Redis {
         return;
     }
 
-    async getClientFromUsername(key: string): Promise<Client | null> {
+    async cacheEmail(key: string, items: string) {
+        const data = await this.client.set(key, items);
+        console.log(`Client email Cached ${data}`);
+        return;
+    }
+
+    async getClientFromKey(key: string): Promise<Client | null> {
         const clientId = await this.client.get(key);
+        console.log("clientId cache", clientId)
         if (!clientId) {
             return null;
         }
         const client = await this.getClientCache(clientId);
+        console.log("client cache", client)
         
         if (!client) {
             return null;
         }
-        
+
         return {
             id: client.id,
             email: client.email,

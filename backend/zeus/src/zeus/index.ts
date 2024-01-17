@@ -3089,10 +3089,10 @@ export type ModelTypes = {
     /** An object relationship */
     chain?: ModelTypes["chain"] | undefined;
     email: string;
-    firstname: string;
+    firstname?: string | undefined;
     id: ModelTypes["uuid"];
-    lastname: string;
-    mobile: number;
+    lastname?: string | undefined;
+    mobile?: number | undefined;
     password: string;
     username: string;
   };
@@ -3542,10 +3542,10 @@ export type GraphQLTypes = {
     /** An object relationship */
     chain?: GraphQLTypes["chain"] | undefined;
     email: string;
-    firstname: string;
+    firstname?: string | undefined;
     id: GraphQLTypes["uuid"];
-    lastname: string;
-    mobile: number;
+    lastname?: string | undefined;
+    mobile?: number | undefined;
     password: string;
     username: string;
   };

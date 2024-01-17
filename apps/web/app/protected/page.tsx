@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 
 export default async function ProtectedRoute() {
   const session = await getServerSession();
+  console.log(session);
   if (!session || !session.user) {
     redirect("/signup");
   }

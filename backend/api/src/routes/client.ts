@@ -14,7 +14,7 @@ clientRouter.post("/", async (req, res) => {
         const { username, email, firstname, lastname, mobile, password } =
             ClientSignupFormValidate.parse(req.body);
 
-        const getClient = await conflictClient(username, email, Number(mobile));
+        const getClient = await conflictClient(username, email);
         if (getClient.client?.length) {
             return res.status(409).json({ msg: "client already exist", status: responseStatus.Error })
         }
@@ -71,7 +71,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
         /**
          * Cache
          */
-        const cachedClient = await cache.getClientFromUsername(username);
+        const cachedClient = await cache.getClientFromKey(username) ||
+            await cache.getClientFromKey(email);
         if (cachedClient) {
             let jwt;
             if (cachedClient.id) {
@@ -80,9 +81,13 @@ clientRouter.post("/providerAuth", async (req, res) => {
             return res.status(302).json({ ...cachedClient, status: responseStatus.Ok, jwt });
         }
 
+        const getClient = await conflictClient(username, email);
+        if (getClient.client?.length) {
+            return res.status(409).json({ msg: "client already exist", status: responseStatus.Error })
+        }
+
         const hashPassword = await setHashPassword(password);
         const client = await createClient(username, email, firstname, lastname, hashPassword, Number(mobile));
-        console.log(client);
         if (client.status == dbResStatus.Error) {
             return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
         }
@@ -113,6 +118,9 @@ clientRouter.post("/providerAuth", async (req, res) => {
         } else {
             return res.status(500).json({ msg: "Error creating user account", status: responseStatus.Error });
         }
+
+        return res.status(200).json({ ...client, jwt, status: responseStatus.Ok });
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error, status: responseStatus.Error });
