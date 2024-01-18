@@ -36,36 +36,61 @@ export const authOptions: NextAuthOptions = {
       }
     }),
     CredentialsProvider({
-      credentials: {
-      },
+      credentials: {},
       async authorize(_credentials, req) {
-        const user = {
-          name: req.body?.name,
-          email: req.body?.email,
-          id: req.body?.id,
-          jwt: req.body?.jwt
+        console.log(req.body);
+        const response = await fetch(`${BACKEND_URL}/client/`, {
+          method: "post",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify({
+            ...req.body
+          }),
+          cache: "no-store"
+        });
+        const res = await response.json();
+        console.log(res)
+        if (response.ok) {
+          return {
+            ...res
+          }
         }
-
-        // If no error and we have user data, return it
-        if (user) {
-          return user
-        }
-        // Return null if user data could not be retrieved
         return null
-      }
+      },
     })
   ],
   pages: {
-    signIn: '/signin'
+    // signIn: '/signin'
   },
   callbacks: {
+    // async signIn({ user, account, profile }) {
+    //   console.log(user, account, profile);
+    //   return true
+    // },
     async jwt({ token, trigger, user, session }) {
+      if (trigger == "update") {
+        if (session.jwt || session.id) {
+          token.id = session.id,
+            token.jwt = session.jwt,
+            token.firstname = session.firstname,
+            token.lastname = session.lastname,
+            token.username = session.username,
+            token.email = session.email,
+            token.chain = session.chain,
+            token.mobile = session.mobile
+        }
+      }
+
       if (user) {
         console.log("jwt", user);
         //@ts-ignore
-        if (user.jwt) {
+        if (token.jwt) {
           return token
         }
+
+
+
         /**
          * create client for provider
          */
@@ -106,10 +131,23 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    async session({ user, session, token }) {
+    async session({ user, session, token, trigger, newSession }) {
       /**
        * \Add the jwt from token to user
        */
+      console.log(token, "from session")
+      if (trigger == "update" || trigger == "signIn") {
+        if (newSession?.jwt || newSession?.id) {
+          token.id = newSession.id,
+            token.jwt = newSession.jwt,
+            token.firstname = newSession.firstname,
+            token.lastname = newSession.lastname,
+            token.username = newSession.username,
+            token.email = newSession.email,
+            token.chain = newSession.chain,
+            token.mobile = newSession.mobile
+        }
+      }
       return {
         ...session,
         user: {
