@@ -3,7 +3,6 @@
 import * as React from "react"
 import Link from "next/link"
 import { SignType } from "@paybox/common"
-
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/ui/icons"
 import {
@@ -117,7 +116,14 @@ export const Nav: React.FC<{}> = ({ }) => {
                             Documentation
                         </NavigationMenuLink>
                     </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    
+                </NavigationMenuItem>
+                <NavigationMenuItem>
                     <SignButton />
+                </NavigationMenuItem>
+                <NavigationMenuItem>
                     <ModeToggle />
                 </NavigationMenuItem>
             </NavigationMenuList>
@@ -126,14 +132,14 @@ export const Nav: React.FC<{}> = ({ }) => {
 }
 
 const SignButton: React.FC = () => {
-    const {data: session} = useSession();
+    const { data: session } = useSession();
     const router = useRouter();
     const pathname = usePathname();
     return (
         <>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}
                 onClick={() => {
-                    if(session?.user?.email) {
+                    if (session?.user?.email) {
                         return signOut();
                     } else {
                         router.push(`/${pathname.includes("/signup") ? SignType.Signin.toLowerCase() : SignType.Signup.toLowerCase()}`)

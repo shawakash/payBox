@@ -9,6 +9,7 @@ import SessionProvider from "@/components/ui/session-provider";
 import Link from 'next/link'
 import { Nav } from '@/components/ui/nav'
 import { Toaster } from '@/components/ui/toaster'
+import RecoilRootWrapper from '@paybox/recoil/src/hooks/recoilRootWraper'
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -38,12 +39,17 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+
           <SessionProvider session={session} refetchInterval={5 * 60}>
-            <Nav />
-            <main className="flex min-h-screen py-5 flex-col items-center ">
-              {children}
-            </main>
-            <Toaster />
+            <RecoilRootWrapper>
+
+              <Nav />
+              <main className="flex min-h-screen py-5 flex-col items-center ">
+              
+                {children}
+              </main>
+              <Toaster />
+            </RecoilRootWrapper>
           </SessionProvider>
         </ThemeProvider>
       </body>

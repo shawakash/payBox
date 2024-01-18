@@ -21,10 +21,10 @@ import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { BACKEND_URL, ClientSignupFormValidate } from "@paybox/common"
-import { headers } from "next/headers"
+import { BACKEND_URL, ClientSignupFormValidate, hookStatus } from "@paybox/common"
 import { useToast } from "./use-toast"
 import { ToastAction } from "@radix-ui/react-toast"
+import { useSignUp } from "@paybox/recoil";
 
 
 interface ClientSignupFormProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -51,36 +51,24 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
     })
 
     async function onSubmit(values: z.infer<typeof ClientSignupFormValidate>) {
-        try {
-
-            const response = await fetch(`${BACKEND_URL}/client/`, {
-                method: "post",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(values),
-                cache: "no-store"
-            });
-            const res = await response.json();
-            const r = await update({...res});
-
-            toast({
-                title: `Signed as ${res.username}`,
-                //@ts-ignore
-                description: `Your Client id: ${res.id}`,
-            });
-            setIsLoading(false);
-            router.push("/protected")
-        } catch (error) {
-            console.log(error);
+        const payload = await useSignUp({ ...values });
+        if (payload.status == hookStatus.Error) {
             toast({
                 variant: "destructive",
                 title: "Uh oh! Something went wrong.",
                 //@ts-ignore
-                description: `There was a problem with your signin. ${error.msg}`,
+                description: `${payload.msg}`,
                 action: <ToastAction altText="Try again">Try again</ToastAction>,
             });
         }
+
+        toast({
+            title: `Signed as ${values.username}`,
+            //@ts-ignore
+            description: `Your Client id: ${id}`,
+        });
+        setIsLoading(false);
+        router.push("/protected");
     }
 
     return (
