@@ -1,13 +1,14 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 
 export default async function ProtectedRoute() {
   const session = await getServerSession();
-  console.log(session);
+  console.log("from protecrted", session);
   if (!session || !session.user) {
     redirect("/signup");
   }
-
+  
   return (
     <div>
       This is a protected route.
