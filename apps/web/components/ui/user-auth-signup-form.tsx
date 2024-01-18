@@ -53,27 +53,18 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
     async function onSubmit(values: z.infer<typeof ClientSignupFormValidate>) {
         try {
             
-            const response = await fetch(`${BACKEND_URL}/client/`, {
-                method: "post",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(values),
-                cache: "no-store"
-            });
-            const res = await response.json();
-            console.log(res);
-            signIn("credentials", {
-                name: values.username,
-                email: values.email,
-                id: res.id,
-                jwt: res.jwt
+        
+            await signIn("credentials", {
+                ...values,
+                callbackUrl: 'http://localhost:3000/protected' 
             });
             toast({
                 title: `Signed as ${values.username}`,
-                description: `Your Client id: ${res.id}`,
+                //@ts-ignore
+                description: `Your Client id: ${session?.user?.id}`,
               });
             setIsLoading(false);
+            router.push("/protected")
         } catch (error) {
             console.log(error);
             toast({

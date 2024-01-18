@@ -36,84 +36,133 @@ export const authOptions: NextAuthOptions = {
       }
     }),
     CredentialsProvider({
-      credentials: {
-      },
+      credentials: {},
       async authorize(_credentials, req) {
-        const user = {
-          name: req.body?.name,
-          email: req.body?.email,
-          id: req.body?.id,
-          jwt: req.body?.jwt
+        console.log(req.body);
+        const response = await fetch(`${BACKEND_URL}/client/`, {
+          method: "post",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify({
+            ...req.body
+          }),
+          cache: "no-store"
+        });
+        const res = await response.json();
+        console.log(res)
+        if (response.ok) {
+          return {
+            ...res
+          }
         }
-  
-        // If no error and we have user data, return it
-        if (user) {
-          return user
-        }
-        // Return null if user data could not be retrieved
         return null
-      }
+      },
     })
   ],
   pages: {
-    signIn: '/signin'
+    // signIn: '/signin'
   },
   callbacks: {
-    async signIn({user, account, profile}) {
-      try {
-        //@ts-ignore
-        if(user.jwt) {
-          return true
+    // async signIn({ user, account, profile }) {
+    //   console.log(user, account, profile);
+    //   return true
+    // },
+    async jwt({ token, trigger, user, session }) {
+      if (trigger == "update") {
+        if (session.jwt || session.id) {
+          token.id = session.id,
+            token.jwt = session.jwt,
+            token.firstname = session.firstname,
+            token.lastname = session.lastname,
+            token.username = session.username,
+            token.email = session.email,
+            token.chain = session.chain,
+            token.mobile = session.mobile
         }
-        if(user.email) {
-          const body = {
-            //@ts-ignore
-            username: user.username || "",
-            firstname: user.name?.split(" ")[0] || "",
-            lastname: user.name?.split(" ")[1] || "",
-            email: user.email || "",
-            password: user.id.toString() || ""
-          };
-          const response = await fetch(`${BACKEND_URL}/client/providerAuth`, {
-            method: "post",
-            headers: {
-              "Content-type": "application/json"
-            },
-            body: JSON.stringify(body)
-          }).then(res => res.json());
-          //@ts-ignore
-          user.username = response.username;
-          //@ts-ignore
-          user.firstname = response.firstname;
-          //@ts-ignore
-          user.jwt = response.jwt;
-          user.id = response.id;
-          return true;
-        }
-        return true; 
-        
-      } catch (error) {
-        console.log(error);
-        return true;
       }
-    },
-    // jwt({ token, trigger, session }) {
-    //   if (trigger === "update" && session?.name) {
-    //     // Note, that `session` can be any arbitrary object, remember to validate it!
-    //     token.name = session.name;
-    //     token.email = session.email;
-    //   }
-    //   return token
-    // }
-    // async session({user, session}) {
-    //   //@ts-ignore
-    //   if(user.jwt) {
-    //     return session;
-    //   }
-    //   const response = await fetch(`${BACKEND_URL}/client?email=${user.email}`, {
 
-    //   })
-    //   return session;
-    // }
+      if (user) {
+        console.log("jwt", user);
+        //@ts-ignore
+        if (token.jwt) {
+          return token
+        }
+
+
+
+        /**
+         * create client for provider
+         */
+        //@ts-ignore
+        const body = {
+          //@ts-ignore
+          username: user.username || "",
+          firstname: user.name?.split(" ")[0] || "",
+          lastname: user.name?.split(" ")[1] || "",
+          email: user.email || "",
+          password: user.id.toString() || ""
+        };
+        const response = await fetch(`${BACKEND_URL}/client/providerAuth`, {
+          method: "post",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(body)
+        }).then(res => res.json());
+
+
+
+        /**
+         * Fetch the jwt
+         */
+        return {
+          ...token,
+          id: response.id,
+          jwt: response.jwt,
+          firstname: response.firstname,
+          lastname: response.lastname,
+          username: response.username,
+          email: response.email,
+          chain: response.chain,
+          mobile: response.mobile
+        }
+
+      }
+      return token;
+    },
+    async session({ user, session, token, trigger, newSession }) {
+      /**
+       * \Add the jwt from token to user
+       */
+      console.log(token, "from session")
+      if (trigger == "update" || trigger == "signIn") {
+        if (newSession?.jwt || newSession?.id) {
+          token.id = newSession.id,
+            token.jwt = newSession.jwt,
+            token.firstname = newSession.firstname,
+            token.lastname = newSession.lastname,
+            token.username = newSession.username,
+            token.email = newSession.email,
+            token.chain = newSession.chain,
+            token.mobile = newSession.mobile
+        }
+      }
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          jwt: token.jwt,
+          firstname: token.firstname,
+          lastname: token.lastname,
+          username: token.username,
+          email: token.email,
+          chain: token.chain,
+          mobile: token.mobile
+        }
+      }
+      return session;
+    }
   }
-  };
+};

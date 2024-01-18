@@ -1,8 +1,18 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string, any> = {
-  Int_comparison_exp: {},
   String_comparison_exp: {},
+  bigint: `scalar.bigint` as const,
+  bigint_comparison_exp: {
+    _eq: "bigint",
+    _gt: "bigint",
+    _gte: "bigint",
+    _in: "bigint",
+    _lt: "bigint",
+    _lte: "bigint",
+    _neq: "bigint",
+    _nin: "bigint",
+  },
   chain_aggregate_fields: {
     count: {
       columns: "chain_select_column",
@@ -79,15 +89,18 @@ export const AllTypesProps: Record<string, any> = {
     firstname: "String_comparison_exp",
     id: "uuid_comparison_exp",
     lastname: "String_comparison_exp",
-    mobile: "Int_comparison_exp",
+    mobile: "bigint_comparison_exp",
     password: "String_comparison_exp",
     username: "String_comparison_exp",
   },
   client_constraint: "enum" as const,
-  client_inc_input: {},
+  client_inc_input: {
+    mobile: "bigint",
+  },
   client_insert_input: {
     chain: "chain_obj_rel_insert_input",
     id: "uuid",
+    mobile: "bigint",
   },
   client_obj_rel_insert_input: {
     data: "client_insert_input",
@@ -114,6 +127,7 @@ export const AllTypesProps: Record<string, any> = {
   client_select_column: "enum" as const,
   client_set_input: {
     id: "uuid",
+    mobile: "bigint",
   },
   client_stream_cursor_input: {
     initial_value: "client_stream_cursor_value_input",
@@ -121,6 +135,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   client_stream_cursor_value_input: {
     id: "uuid",
+    mobile: "bigint",
   },
   client_update_column: "enum" as const,
   client_updates: {
@@ -266,6 +281,7 @@ export const ReturnTypes: Record<string, any> = {
     ttl: "Int",
     refresh: "Boolean",
   },
+  bigint: `scalar.bigint` as const,
   chain: {
     bitcoin: "String",
     client: "client",
@@ -310,7 +326,7 @@ export const ReturnTypes: Record<string, any> = {
     firstname: "String",
     id: "uuid",
     lastname: "String",
-    mobile: "Int",
+    mobile: "bigint",
     password: "String",
     username: "String",
   },
@@ -339,7 +355,7 @@ export const ReturnTypes: Record<string, any> = {
     firstname: "String",
     id: "uuid",
     lastname: "String",
-    mobile: "Int",
+    mobile: "bigint",
     password: "String",
     username: "String",
   },
@@ -348,7 +364,7 @@ export const ReturnTypes: Record<string, any> = {
     firstname: "String",
     id: "uuid",
     lastname: "String",
-    mobile: "Int",
+    mobile: "bigint",
     password: "String",
     username: "String",
   },
@@ -366,7 +382,7 @@ export const ReturnTypes: Record<string, any> = {
     mobile: "Float",
   },
   client_sum_fields: {
-    mobile: "Int",
+    mobile: "bigint",
   },
   client_var_pop_fields: {
     mobile: "Float",
