@@ -1015,23 +1015,12 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(
 };
 type ZEUS_INTERFACES = never;
 export type ScalarCoders = {
+  bigint?: ScalarResolver;
   uuid?: ScalarResolver;
 };
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
-  /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
-  ["Int_comparison_exp"]: {
-    _eq?: number | undefined | null | Variable<any, string>;
-    _gt?: number | undefined | null | Variable<any, string>;
-    _gte?: number | undefined | null | Variable<any, string>;
-    _in?: Array<number> | undefined | null | Variable<any, string>;
-    _is_null?: boolean | undefined | null | Variable<any, string>;
-    _lt?: number | undefined | null | Variable<any, string>;
-    _lte?: number | undefined | null | Variable<any, string>;
-    _neq?: number | undefined | null | Variable<any, string>;
-    _nin?: Array<number> | undefined | null | Variable<any, string>;
-  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ["String_comparison_exp"]: {
     _eq?: string | undefined | null | Variable<any, string>;
@@ -1063,6 +1052,27 @@ export type ValueTypes = {
     _regex?: string | undefined | null | Variable<any, string>;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null | Variable<any, string>;
+  };
+  ["bigint"]: unknown;
+  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+  ["bigint_comparison_exp"]: {
+    _eq?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _gt?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _gte?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _in?:
+      | Array<ValueTypes["bigint"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _lte?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _neq?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _nin?:
+      | Array<ValueTypes["bigint"]>
+      | undefined
+      | null
+      | Variable<any, string>;
   };
   /** different chain and there address */
   ["chain"]: AliasType<{
@@ -1377,7 +1387,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     mobile?:
-      | ValueTypes["Int_comparison_exp"]
+      | ValueTypes["bigint_comparison_exp"]
       | undefined
       | null
       | Variable<any, string>;
@@ -1396,7 +1406,7 @@ export type ValueTypes = {
   ["client_constraint"]: client_constraint;
   /** input type for incrementing numeric columns in table "client" */
   ["client_inc_input"]: {
-    mobile?: number | undefined | null | Variable<any, string>;
+    mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
@@ -1409,7 +1419,7 @@ export type ValueTypes = {
     firstname?: string | undefined | null | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     lastname?: string | undefined | null | Variable<any, string>;
-    mobile?: number | undefined | null | Variable<any, string>;
+    mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     password?: string | undefined | null | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
   };
@@ -1508,7 +1518,7 @@ export type ValueTypes = {
     firstname?: string | undefined | null | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     lastname?: string | undefined | null | Variable<any, string>;
-    mobile?: number | undefined | null | Variable<any, string>;
+    mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     password?: string | undefined | null | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
   };
@@ -1546,7 +1556,7 @@ export type ValueTypes = {
     firstname?: string | undefined | null | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     lastname?: string | undefined | null | Variable<any, string>;
-    mobile?: number | undefined | null | Variable<any, string>;
+    mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     password?: string | undefined | null | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
   };
@@ -2118,18 +2128,6 @@ export type ResolverInputTypes = {
     subscription?: ResolverInputTypes["subscription_root"];
     __typename?: boolean | `@${string}`;
   }>;
-  /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
-  ["Int_comparison_exp"]: {
-    _eq?: number | undefined | null;
-    _gt?: number | undefined | null;
-    _gte?: number | undefined | null;
-    _in?: Array<number> | undefined | null;
-    _is_null?: boolean | undefined | null;
-    _lt?: number | undefined | null;
-    _lte?: number | undefined | null;
-    _neq?: number | undefined | null;
-    _nin?: Array<number> | undefined | null;
-  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ["String_comparison_exp"]: {
     _eq?: string | undefined | null;
@@ -2161,6 +2159,19 @@ export type ResolverInputTypes = {
     _regex?: string | undefined | null;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null;
+  };
+  ["bigint"]: unknown;
+  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+  ["bigint_comparison_exp"]: {
+    _eq?: ResolverInputTypes["bigint"] | undefined | null;
+    _gt?: ResolverInputTypes["bigint"] | undefined | null;
+    _gte?: ResolverInputTypes["bigint"] | undefined | null;
+    _in?: Array<ResolverInputTypes["bigint"]> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ResolverInputTypes["bigint"] | undefined | null;
+    _lte?: ResolverInputTypes["bigint"] | undefined | null;
+    _neq?: ResolverInputTypes["bigint"] | undefined | null;
+    _nin?: Array<ResolverInputTypes["bigint"]> | undefined | null;
   };
   /** different chain and there address */
   ["chain"]: AliasType<{
@@ -2371,7 +2382,7 @@ export type ResolverInputTypes = {
     firstname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     lastname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-    mobile?: ResolverInputTypes["Int_comparison_exp"] | undefined | null;
+    mobile?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null;
     password?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     username?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
   };
@@ -2379,7 +2390,7 @@ export type ResolverInputTypes = {
   ["client_constraint"]: client_constraint;
   /** input type for incrementing numeric columns in table "client" */
   ["client_inc_input"]: {
-    mobile?: number | undefined | null;
+    mobile?: ResolverInputTypes["bigint"] | undefined | null;
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
@@ -2388,7 +2399,7 @@ export type ResolverInputTypes = {
     firstname?: string | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
     lastname?: string | undefined | null;
-    mobile?: number | undefined | null;
+    mobile?: ResolverInputTypes["bigint"] | undefined | null;
     password?: string | undefined | null;
     username?: string | undefined | null;
   };
@@ -2457,7 +2468,7 @@ export type ResolverInputTypes = {
     firstname?: string | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
     lastname?: string | undefined | null;
-    mobile?: number | undefined | null;
+    mobile?: ResolverInputTypes["bigint"] | undefined | null;
     password?: string | undefined | null;
     username?: string | undefined | null;
   };
@@ -2489,7 +2500,7 @@ export type ResolverInputTypes = {
     firstname?: string | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
     lastname?: string | undefined | null;
-    mobile?: number | undefined | null;
+    mobile?: ResolverInputTypes["bigint"] | undefined | null;
     password?: string | undefined | null;
     username?: string | undefined | null;
   };
@@ -2910,18 +2921,6 @@ export type ModelTypes = {
     mutation?: ModelTypes["mutation_root"] | undefined;
     subscription?: ModelTypes["subscription_root"] | undefined;
   };
-  /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
-  ["Int_comparison_exp"]: {
-    _eq?: number | undefined;
-    _gt?: number | undefined;
-    _gte?: number | undefined;
-    _in?: Array<number> | undefined;
-    _is_null?: boolean | undefined;
-    _lt?: number | undefined;
-    _lte?: number | undefined;
-    _neq?: number | undefined;
-    _nin?: Array<number> | undefined;
-  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ["String_comparison_exp"]: {
     _eq?: string | undefined;
@@ -2953,6 +2952,19 @@ export type ModelTypes = {
     _regex?: string | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
+  };
+  ["bigint"]: any;
+  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+  ["bigint_comparison_exp"]: {
+    _eq?: ModelTypes["bigint"] | undefined;
+    _gt?: ModelTypes["bigint"] | undefined;
+    _gte?: ModelTypes["bigint"] | undefined;
+    _in?: Array<ModelTypes["bigint"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: ModelTypes["bigint"] | undefined;
+    _lte?: ModelTypes["bigint"] | undefined;
+    _neq?: ModelTypes["bigint"] | undefined;
+    _nin?: Array<ModelTypes["bigint"]> | undefined;
   };
   /** different chain and there address */
   ["chain"]: {
@@ -3092,7 +3104,7 @@ export type ModelTypes = {
     firstname?: string | undefined;
     id: ModelTypes["uuid"];
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: ModelTypes["bigint"] | undefined;
     password: string;
     username: string;
   };
@@ -3129,14 +3141,14 @@ export type ModelTypes = {
     firstname?: ModelTypes["String_comparison_exp"] | undefined;
     id?: ModelTypes["uuid_comparison_exp"] | undefined;
     lastname?: ModelTypes["String_comparison_exp"] | undefined;
-    mobile?: ModelTypes["Int_comparison_exp"] | undefined;
+    mobile?: ModelTypes["bigint_comparison_exp"] | undefined;
     password?: ModelTypes["String_comparison_exp"] | undefined;
     username?: ModelTypes["String_comparison_exp"] | undefined;
   };
   ["client_constraint"]: client_constraint;
   /** input type for incrementing numeric columns in table "client" */
   ["client_inc_input"]: {
-    mobile?: number | undefined;
+    mobile?: ModelTypes["bigint"] | undefined;
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
@@ -3145,7 +3157,7 @@ export type ModelTypes = {
     firstname?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: ModelTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
@@ -3155,7 +3167,7 @@ export type ModelTypes = {
     firstname?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: ModelTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
@@ -3165,7 +3177,7 @@ export type ModelTypes = {
     firstname?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: ModelTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
@@ -3210,7 +3222,7 @@ export type ModelTypes = {
     firstname?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: ModelTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
@@ -3239,13 +3251,13 @@ export type ModelTypes = {
     firstname?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: ModelTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate sum on columns */
   ["client_sum_fields"]: {
-    mobile?: number | undefined;
+    mobile?: ModelTypes["bigint"] | undefined;
   };
   ["client_update_column"]: client_update_column;
   ["client_updates"]: {
@@ -3353,18 +3365,6 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
-  /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
-  ["Int_comparison_exp"]: {
-    _eq?: number | undefined;
-    _gt?: number | undefined;
-    _gte?: number | undefined;
-    _in?: Array<number> | undefined;
-    _is_null?: boolean | undefined;
-    _lt?: number | undefined;
-    _lte?: number | undefined;
-    _neq?: number | undefined;
-    _nin?: Array<number> | undefined;
-  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ["String_comparison_exp"]: {
     _eq?: string | undefined;
@@ -3396,6 +3396,19 @@ export type GraphQLTypes = {
     _regex?: string | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
+  };
+  ["bigint"]: "scalar" & { name: "bigint" };
+  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+  ["bigint_comparison_exp"]: {
+    _eq?: GraphQLTypes["bigint"] | undefined;
+    _gt?: GraphQLTypes["bigint"] | undefined;
+    _gte?: GraphQLTypes["bigint"] | undefined;
+    _in?: Array<GraphQLTypes["bigint"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes["bigint"] | undefined;
+    _lte?: GraphQLTypes["bigint"] | undefined;
+    _neq?: GraphQLTypes["bigint"] | undefined;
+    _nin?: Array<GraphQLTypes["bigint"]> | undefined;
   };
   /** different chain and there address */
   ["chain"]: {
@@ -3545,7 +3558,7 @@ export type GraphQLTypes = {
     firstname?: string | undefined;
     id: GraphQLTypes["uuid"];
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: GraphQLTypes["bigint"] | undefined;
     password: string;
     username: string;
   };
@@ -3585,7 +3598,7 @@ export type GraphQLTypes = {
     firstname?: GraphQLTypes["String_comparison_exp"] | undefined;
     id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     lastname?: GraphQLTypes["String_comparison_exp"] | undefined;
-    mobile?: GraphQLTypes["Int_comparison_exp"] | undefined;
+    mobile?: GraphQLTypes["bigint_comparison_exp"] | undefined;
     password?: GraphQLTypes["String_comparison_exp"] | undefined;
     username?: GraphQLTypes["String_comparison_exp"] | undefined;
   };
@@ -3593,7 +3606,7 @@ export type GraphQLTypes = {
   ["client_constraint"]: client_constraint;
   /** input type for incrementing numeric columns in table "client" */
   ["client_inc_input"]: {
-    mobile?: number | undefined;
+    mobile?: GraphQLTypes["bigint"] | undefined;
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
@@ -3602,7 +3615,7 @@ export type GraphQLTypes = {
     firstname?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: GraphQLTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
@@ -3613,7 +3626,7 @@ export type GraphQLTypes = {
     firstname?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: GraphQLTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
@@ -3624,7 +3637,7 @@ export type GraphQLTypes = {
     firstname?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: GraphQLTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
@@ -3671,7 +3684,7 @@ export type GraphQLTypes = {
     firstname?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: GraphQLTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
@@ -3703,14 +3716,14 @@ export type GraphQLTypes = {
     firstname?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
-    mobile?: number | undefined;
+    mobile?: GraphQLTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
   };
   /** aggregate sum on columns */
   ["client_sum_fields"]: {
     __typename: "client_sum_fields";
-    mobile?: number | undefined;
+    mobile?: GraphQLTypes["bigint"] | undefined;
   };
   /** update columns of table "client" */
   ["client_update_column"]: client_update_column;
@@ -3890,8 +3903,9 @@ export const enum order_by {
 }
 
 type ZEUS_VARIABLES = {
-  ["Int_comparison_exp"]: ValueTypes["Int_comparison_exp"];
   ["String_comparison_exp"]: ValueTypes["String_comparison_exp"];
+  ["bigint"]: ValueTypes["bigint"];
+  ["bigint_comparison_exp"]: ValueTypes["bigint_comparison_exp"];
   ["chain_bool_exp"]: ValueTypes["chain_bool_exp"];
   ["chain_constraint"]: ValueTypes["chain_constraint"];
   ["chain_insert_input"]: ValueTypes["chain_insert_input"];
