@@ -34,40 +34,11 @@ export const authOptions: NextAuthOptions = {
           username: username
         }
       }
-    }),
-    CredentialsProvider({
-      credentials: {},
-      async authorize(_credentials, req) {
-        console.log(req.body);
-        const response = await fetch(`${BACKEND_URL}/client/`, {
-          method: "post",
-          headers: {
-            "Content-type": "application/json"
-          },
-          body: JSON.stringify({
-            ...req.body
-          }),
-          cache: "no-store"
-        });
-        const res = await response.json();
-        console.log(res)
-        if (response.ok) {
-          return {
-            ...res
-          }
-        }
-        return null
-      },
     })
   ],
-  pages: {
-    // signIn: '/signin'
-  },
+
   callbacks: {
-    // async signIn({ user, account, profile }) {
-    //   console.log(user, account, profile);
-    //   return true
-    // },
+
     async jwt({ token, trigger, user, session }) {
       if (trigger == "update") {
         if (session.jwt || session.id) {
@@ -135,17 +106,27 @@ export const authOptions: NextAuthOptions = {
       /**
        * \Add the jwt from token to user
        */
-      console.log(token, "from session")
-      if (trigger == "update" || trigger == "signIn") {
+      console.log(token, "from session token")
+      console.log(newSession, "from session")
+      console.log(session, "from session")
+      if (trigger == "update") {
         if (newSession?.jwt || newSession?.id) {
-          token.id = newSession.id,
-            token.jwt = newSession.jwt,
-            token.firstname = newSession.firstname,
-            token.lastname = newSession.lastname,
-            token.username = newSession.username,
-            token.email = newSession.email,
-            token.chain = newSession.chain,
-            token.mobile = newSession.mobile
+          //@ts-ignore
+          session.id = newSession.id;
+          //@ts-ignore
+          session.jwt = newSession.jwt;
+          //@ts-ignore
+          session.firstname = newSession.firstname;
+          //@ts-ignore
+          session.lastname = newSession.lastname;
+          //@ts-ignore
+          session.username = newSession.username;
+          //@ts-ignore
+          session.email = newSession.email;
+          //@ts-ignore
+          session.chain = newSession.chain;
+          //@ts-ignore
+          session.mobile = newSession.mobile;
         }
       }
       return {

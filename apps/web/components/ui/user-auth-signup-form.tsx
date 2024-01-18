@@ -52,17 +52,23 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
 
     async function onSubmit(values: z.infer<typeof ClientSignupFormValidate>) {
         try {
-            
-        
-            await signIn("credentials", {
-                ...values,
-                callbackUrl: 'http://localhost:3000/protected' 
+
+            const response = await fetch(`${BACKEND_URL}/client/`, {
+                method: "post",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(values),
+                cache: "no-store"
             });
+            const res = await response.json();
+            const r = await update({...res});
+
             toast({
-                title: `Signed as ${values.username}`,
+                title: `Signed as ${res.username}`,
                 //@ts-ignore
-                description: `Your Client id: ${session?.user?.id}`,
-              });
+                description: `Your Client id: ${res.id}`,
+            });
             setIsLoading(false);
             router.push("/protected")
         } catch (error) {
@@ -73,7 +79,7 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
                 //@ts-ignore
                 description: `There was a problem with your signin. ${error.msg}`,
                 action: <ToastAction altText="Try again">Try again</ToastAction>,
-              });
+            });
         }
     }
 
