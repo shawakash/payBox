@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { Nav } from '@/components/ui/nav'
 import { Toaster } from '@/components/ui/toaster'
 import RecoilRootWrapper from '@paybox/recoil/src/hooks/recoilRootWraper'
+import { authOptions } from './api/auth/[...nextauth]/util'
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,7 +27,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await getServerSession();
+  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body className={cn(
