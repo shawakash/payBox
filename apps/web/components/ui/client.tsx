@@ -11,13 +11,13 @@ const Client = () => {
         <>
             <Card>
                 <CardHeader>
-                    {!client?.email && <Skeleton className="w-[100px] h-[20px] rounded-full" />}
-                    <CardTitle>{client?.firstname}</CardTitle>
-                    {!client?.email && <Skeleton className="w-[100px] h-[20px] rounded-full" />}
+                {client == null ?
+                    <Skeleton className="min-w-[8rem]" /> :
+                    <CardTitle>{client?.firstname} {client?.lastname}</CardTitle>
+                }
                     <CardDescription>{client?.username}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {!client?.email && <Skeleton className="w-[100px] h-[20px] rounded-full" />}
                     <p>{client?.email}</p>
                 </CardContent>
                 <CardFooter>

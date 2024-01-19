@@ -21,10 +21,12 @@ import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { BACKEND_URL, ClientSigninFormValidate } from "@paybox/common"
+import { BACKEND_URL, ClientSigninFormValidate, responseStatus } from "@paybox/common"
 import { headers } from "next/headers"
 import { useToast } from "./use-toast"
 import { ToastAction } from "@radix-ui/react-toast"
+import { useRecoilState } from "recoil"
+import { clientAtom } from "@paybox/recoil"
 
 
 interface ClientSigninFormProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -33,7 +35,8 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const { data: session } = useSession(); // Use the useSession hook to get the session state
     const router = useRouter();
-    const {toast} = useToast();
+    const { toast } = useToast();
+    const [_client, setClient] = useRecoilState(clientAtom);
 
     React.useEffect(() => {
         // Check if the session is defined and navigate to the protected page
@@ -51,7 +54,7 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
 
     async function onSubmit(values: z.infer<typeof ClientSigninFormValidate>) {
         try {
-            
+
             const response = await fetch(`${BACKEND_URL}/client/login`, {
                 method: "post",
                 headers: {
@@ -59,18 +62,36 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
                 },
                 body: JSON.stringify(values),
                 cache: "no-store"
-            });
-            const res = await response.json();
-            toast({
-                title: `Signed as ${values.email}`,
-                description: `Your Client id: ${res.id}`,
-            })
-            signIn("credentials", {
-                email: values.email,
-                id: res.id,
-                jwt: res.jwt
-            });
-            setIsLoading(false);
+            }).then(res => res.json());
+            if (response.status == responseStatus.Error) {
+                setClient(null);
+                toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    //@ts-ignore
+                    description: `${payload.msg}`,
+                    action: <ToastAction altText="Try again">Try again</ToastAction>,
+                });
+            }
+            if (response.jwt) {
+                toast({
+                    title: `Signed as ${response.username}`,
+                    //@ts-ignore
+                    description: `Your Client id: ${response.id}`,
+                });
+                setClient({
+                    id: response.id,
+                    email: response.email,
+                    username: response.username,
+                    firstname: response.firstname,
+                    lastname: response.lastname,
+                    mobile: response.mobile,
+                    chain: response.chain,
+                    jwt: response.jwt
+                });
+                setIsLoading(false);
+                router.push("/protected");
+            }
         } catch (error) {
             console.log(error);
             toast({
@@ -79,9 +100,10 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
                 //@ts-ignore
                 description: `There was a problem with your signin. ${error.msg}`,
                 action: <ToastAction altText="Try again">Try again</ToastAction>,
-              });
+            });
         }
     }
+
 
     return (
         <div className={cn("grid gap-6", className)} {...props}>

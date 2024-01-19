@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
-import { Chain, dbResStatus, responseStatus } from "../types/client";
+import { Chain, dbResStatus } from "../types/client";
+import { responseStatus } from "@paybox/common";
 import { checkClient, conflictClient, createClient, deleteClient, getClientByEmail, getClientById, getClientMetaData, updateMetadata } from "../db/client";
 import { cache } from "..";
 import { setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
