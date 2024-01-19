@@ -5,7 +5,6 @@ export default async function FromServer() {
     method: "GET",
     headers: headers(),
   }).then(res => res.json());
-  console.log(res)
   return (
     <div>
       <div>

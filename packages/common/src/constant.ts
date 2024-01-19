@@ -20,3 +20,4 @@ export const AUTH_JWT_PRIVATE_KEY =
 export const CORS_ORIGIN = "http://localhost:3000";
 
 export const SALT_ROUNDS = 10;
+export const WEB_URL = "http://localhost:3000";

@@ -11,7 +11,6 @@ export default function APITestPage() {
    */
   const session = useSession();
   const router = useRouter();
-  console.log(session, "client");
   // useEffect(() => {
   //   fetch("/api/whoami", 
   //   {     cache: "no-store", 
@@ -19,7 +18,6 @@ export default function APITestPage() {
   //     .then((res) => res.json())
   //     .then((data) => {console.log(data); setName(data.name)});
   // }, [session]);
-  console.log(session, "friom client")
   return (
     <div>
       <div>

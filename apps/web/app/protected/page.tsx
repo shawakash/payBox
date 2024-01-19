@@ -6,7 +6,6 @@ import { authOptions } from "../api/auth/[...nextauth]/util";
 
 export default async function ProtectedRoute() {
   const session = await getServerSession(authOptions);
-  console.log("from protecrted", session);
   // if (!session || !session.user) {
   //   redirect("/signup");
   // }
@@ -17,7 +16,7 @@ export default async function ProtectedRoute() {
       <br />
       You will only see this if you are authenticated.
       {session?.user?.email}
-      {session?.user?.jwt}
+      {/* {session?.user?.jwt} */}
       <Client />
     </div>
   );

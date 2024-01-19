@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { BACKEND_URL, ClientSignupFormValidate, hookStatus, responseStatus } from "@paybox/common"
+import { BACKEND_URL, ClientSignupFormValidate, WEB_URL, hookStatus, responseStatus } from "@paybox/common"
 import { useToast } from "./use-toast"
 import { ToastAction } from "@radix-ui/react-toast"
 import { useRecoilState } from "recoil"
@@ -96,7 +96,7 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
         //     console.log(error);
         //     setClient(null);
         // }
-        signIn("credentials", {...values});
+        signIn("credentials", {...values, callbackUrl: `${WEB_URL}/profile`, redirect: true});
     }
     return (
         <div className={cn("grid gap-6", className)} {...props}>
