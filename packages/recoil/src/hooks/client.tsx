@@ -1,11 +1,11 @@
 "use client";
 import { BACKEND_URL, ClientForm, hookStatus, responseStatus, useSignUpHookProps } from "@paybox/common";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { clientAtom } from "../atoms";
 
 export const useSignUp =
     async (payload: ClientForm): Promise<useSignUpHookProps> => {
-        const setClient = useSetRecoilState(clientAtom);
+        const [client, setClient] = useRecoilState(clientAtom);
         try {
             const response = await fetch(`${BACKEND_URL}/client/`, {
                 method: "post",

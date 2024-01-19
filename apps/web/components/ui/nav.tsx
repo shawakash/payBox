@@ -18,6 +18,7 @@ import { ModeToggle } from "@/app/components/Client/ModeToggle"
 import { Button } from "./button"
 import { signOut, useSession } from "next-auth/react"
 import { usePathname, useRouter } from "next/navigation"
+import { ProfileDropdown } from "./profileNav"
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -118,7 +119,7 @@ export const Nav: React.FC<{}> = ({ }) => {
                     </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    
+                    <ProfileDropdown />
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <SignButton />
