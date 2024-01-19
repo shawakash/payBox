@@ -17,7 +17,7 @@ export default function APITestPage() {
   //   {     cache: "no-store", 
   //       next: { revalidate: 10 }})
   //     .then((res) => res.json())
-  //     .then((data) => setName(data.name));
+  //     .then((data) => {console.log(data); setName(data.name)});
   // }, [session]);
   console.log(session, "friom client")
   return (

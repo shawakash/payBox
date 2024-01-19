@@ -53,49 +53,50 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
     })
 
     async function onSubmit(values: z.infer<typeof ClientSignupFormValidate>) {
-        try {
-            setIsLoading(true);
-            const response = await fetch(`${BACKEND_URL}/client/`, {
-                method: "post",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(values),
-                cache: "no-store"
-            }).then(res => res.json());
-            if (response.status == responseStatus.Error) {
-                setClient(null);
-                toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    //@ts-ignore
-                    description: `${payload.msg}`,
-                    action: <ToastAction altText="Try again">Try again</ToastAction>,
-                });
-            }
-            if(response.jwt) {
-                toast({
-                    title: `Signed as ${values.username}`,
-                    //@ts-ignore
-                    description: `Your Client id: ${response.id}`,
-                });
-                setClient({
-                    id: response.id,
-                    email: values.email,
-                    username: values.username,
-                    firstname: values.firstname,
-                    lastname: values.lastname,
-                    mobile: values.mobile,
-                    chain: values.chain,
-                    jwt: response.jwt
-                });
-                setIsLoading(false);
-                router.push("/protected");
-            }
-        } catch (error) {
-            console.log(error);
-            setClient(null);
-        }
+        // try {
+        //     setIsLoading(true);
+        //     const response = await fetch(`${BACKEND_URL}/client/`, {
+        //         method: "post",
+        //         headers: {
+        //             "Content-type": "application/json"
+        //         },
+        //         body: JSON.stringify(values),
+        //         cache: "no-store"
+        //     }).then(res => res.json());
+        //     if (response.status == responseStatus.Error) {
+        //         setClient(null);
+        //         toast({
+        //             variant: "destructive",
+        //             title: "Uh oh! Something went wrong.",
+        //             //@ts-ignore
+        //             description: `${response.msg}`,
+        //             action: <ToastAction altText="Try again">Try again</ToastAction>,
+        //         });
+        //     }
+        //     if(response.jwt) {
+        //         toast({
+        //             title: `Signed as ${values.username}`,
+        //             //@ts-ignore
+        //             description: `Your Client id: ${response.id}`,
+        //         });
+        //         setClient({
+        //             id: response.id,
+        //             email: values.email,
+        //             username: values.username,
+        //             firstname: values.firstname,
+        //             lastname: values.lastname,
+        //             mobile: values.mobile,
+        //             chain: values.chain,
+        //             jwt: response.jwt
+        //         });
+        //         setIsLoading(false);
+        //         router.push("/protected");
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        //     setClient(null);
+        // }
+        signIn("credentials", {...values});
     }
     return (
         <div className={cn("grid gap-6", className)} {...props}>

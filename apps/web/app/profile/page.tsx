@@ -1,7 +1,14 @@
 import { Separator } from "@/components/ui/separator"
 import { ProfileForm } from "./profile-form"
+import { useSession } from "next-auth/react"
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-export default function SettingsProfilePage() {
+export default async function SettingsProfilePage() {
+    const session = await getServerSession();
+    if (!session || !session.user) {
+    redirect("/signup");
+  }
   return (
     <div className="space-y-6">
       <div>
