@@ -16,6 +16,7 @@ import {
 import { clientAtom } from "@paybox/recoil"
 import { useRecoilValue } from "recoil"
 import { Skeleton } from "./skeleton";
+import Link from "next/link";
 
 export function ProfileDropdown() {
     const client = useRecoilValue(clientAtom);
@@ -31,10 +32,12 @@ export function ProfileDropdown() {
                 }
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        Profile
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                    </DropdownMenuItem>
+                    <Link href={"/profile"} legacyBehavior>
+                        <DropdownMenuItem>
+                            Profile
+                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        </DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem>
                         Billing
                         <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>

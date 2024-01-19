@@ -5,6 +5,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { ClientSignupForm } from "@/components/ui/user-auth-signup-form"
+import { Checkbox } from "@/components/ui/checkbox"
 
 export const metadata: Metadata = {
   title: "Signup | PayBox",
@@ -77,6 +78,15 @@ export default function AuthenticationPage() {
               </p>
             </div>
             <ClientSignupForm />
+            <div className="flex items-center justify-center space-x-2">
+              <Checkbox id="terms" />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Accept terms and conditions
+              </label>
+            </div>
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link
