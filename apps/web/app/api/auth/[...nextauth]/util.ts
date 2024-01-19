@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials"
 import { use } from "react";
-import { BACKEND_URL, Client } from "@paybox/common";
+import { BACKEND_URL, Client, responseStatus } from "@paybox/common";
 import { headers } from "next/headers";
 
 export const authOptions: NextAuthOptions = {
@@ -44,46 +44,58 @@ export const authOptions: NextAuthOptions = {
           headers: {
             "Content-type": "application/json"
           },
-          body: JSON.stringify({
-            ...req.body
-          }),
+          body: JSON.stringify(req.body),
           cache: "no-store"
-        });
-        const res = await response.json();
-        console.log(res)
-        if (response.ok) {
-          return {
-            ...res
-          }
+        }).then(res => res.json());
+        if (response.status == responseStatus.Error) {
+          return null;
         }
-        return null
-      },
+        const user = {
+          id: response.id,
+          jwt: response.jwt,
+          firstname: req.body?.firstname,
+          lastname: req.body?.lastname,
+          username: req.body?.username,
+          email: req.body?.email,
+          chain: response.chain,
+          mobile: req.body?.mobile
+        }
+        
+        if (user.jwt) {
+          return user;
+        }
+        return null;
+      }
     })
   ],
-  pages: {
-    // signIn: '/signin'
-  },
+
   callbacks: {
-    // async signIn({ user, account, profile }) {
-    //   console.log(user, account, profile);
-    //   return true
-    // },
+
     async jwt({ token, trigger, user, session }) {
-      if (trigger == "update") {
-        if (session.jwt || session.id) {
-          token.id = session.id,
-            token.jwt = session.jwt,
-            token.firstname = session.firstname,
-            token.lastname = session.lastname,
-            token.username = session.username,
-            token.email = session.email,
-            token.chain = session.chain,
-            token.mobile = session.mobile
-        }
-      }
 
       if (user) {
         console.log("jwt", user);
+
+        //@ts-ignore
+        if (user.jwt) {
+          //@ts-ignore
+          token.id = user.id;
+          //@ts-ignore
+          token.jwt = user.jwt;
+          //@ts-ignore
+          token.firstname = user.firstname;
+          //@ts-ignore
+          token.lastname = user.lastname;
+          //@ts-ignore
+          token.username = user.username;
+          //@ts-ignore
+          token.email = user.email;
+          //@ts-ignore
+          token.chain = user.chain;
+          //@ts-ignore
+          token.mobile = user.mobile;
+        }
+        console.log(token, "cjec")
         //@ts-ignore
         if (token.jwt) {
           return token
@@ -135,33 +147,26 @@ export const authOptions: NextAuthOptions = {
       /**
        * \Add the jwt from token to user
        */
-      console.log(token, "from session")
-      if (trigger == "update" || trigger == "signIn") {
-        if (newSession?.jwt || newSession?.id) {
-          token.id = newSession.id,
-            token.jwt = newSession.jwt,
-            token.firstname = newSession.firstname,
-            token.lastname = newSession.lastname,
-            token.username = newSession.username,
-            token.email = newSession.email,
-            token.chain = newSession.chain,
-            token.mobile = newSession.mobile
-        }
-      }
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id,
-          jwt: token.jwt,
-          firstname: token.firstname,
-          lastname: token.lastname,
-          username: token.username,
-          email: token.email,
-          chain: token.chain,
-          mobile: token.mobile
-        }
-      }
+      console.log(token, "from session token")
+      console.log(user, "from session")
+      console.log(session, "from session before");
+      //@ts-ignore
+      session.user.id = token.id;
+      //@ts-ignore
+      session.user.jwt = token.jwt;
+      //@ts-ignore
+      session.user.firstname = token.firstname;
+      //@ts-ignore
+      session.user.lastname = token.lastname;
+      //@ts-ignore
+      session.user.email = token.email;
+      //@ts-ignore
+      session.user.username = token.username;
+      //@ts-ignore
+      session.user.mobile = token.mobile;
+      //@ts-ignore
+      session.user.chain = token.chain;
+      console.log("after chainge ", session);
       return session;
     }
   }

@@ -7,3 +7,21 @@ export enum SignType {
     Signout = "Signout",
     Signup = "Signup"
 }
+
+export type ClientForm = z.infer<typeof ClientSignupFormValidate>;
+
+export enum responseStatus {
+    Error = "error",
+    Ok = "ok",
+}
+
+export enum hookStatus {
+    Error = "error",
+    Ok = "ok",
+}
+
+export type useSignUpHookProps = {
+    status: hookStatus,
+    msg: string,
+    load?: string
+};

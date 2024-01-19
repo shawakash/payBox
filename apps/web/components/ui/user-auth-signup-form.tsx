@@ -21,10 +21,11 @@ import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { BACKEND_URL, ClientSignupFormValidate } from "@paybox/common"
-import { headers } from "next/headers"
+import { BACKEND_URL, ClientSignupFormValidate, hookStatus, responseStatus } from "@paybox/common"
 import { useToast } from "./use-toast"
 import { ToastAction } from "@radix-ui/react-toast"
+import { useRecoilState } from "recoil"
+import { clientAtom } from "@paybox/recoil"
 
 
 interface ClientSignupFormProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -32,6 +33,7 @@ interface ClientSignupFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 export function ClientSignupForm({ className, ...props }: ClientSignupFormProps) {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const { data: session, update } = useSession(); // Use the useSession hook to get the session state
+    const [_, setClient] = useRecoilState(clientAtom);
     const router = useRouter();
     const { toast } = useToast()
 
@@ -51,32 +53,51 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
     })
 
     async function onSubmit(values: z.infer<typeof ClientSignupFormValidate>) {
-        try {
-            
-        
-            await signIn("credentials", {
-                ...values,
-                callbackUrl: 'http://localhost:3000/protected' 
-            });
-            toast({
-                title: `Signed as ${values.username}`,
-                //@ts-ignore
-                description: `Your Client id: ${session?.user?.id}`,
-              });
-            setIsLoading(false);
-            router.push("/protected")
-        } catch (error) {
-            console.log(error);
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                //@ts-ignore
-                description: `There was a problem with your signin. ${error.msg}`,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-              });
-        }
+        // try {
+        //     setIsLoading(true);
+        //     const response = await fetch(`${BACKEND_URL}/client/`, {
+        //         method: "post",
+        //         headers: {
+        //             "Content-type": "application/json"
+        //         },
+        //         body: JSON.stringify(values),
+        //         cache: "no-store"
+        //     }).then(res => res.json());
+        //     if (response.status == responseStatus.Error) {
+        //         setClient(null);
+        //         toast({
+        //             variant: "destructive",
+        //             title: "Uh oh! Something went wrong.",
+        //             //@ts-ignore
+        //             description: `${response.msg}`,
+        //             action: <ToastAction altText="Try again">Try again</ToastAction>,
+        //         });
+        //     }
+        //     if(response.jwt) {
+        //         toast({
+        //             title: `Signed as ${values.username}`,
+        //             //@ts-ignore
+        //             description: `Your Client id: ${response.id}`,
+        //         });
+        //         setClient({
+        //             id: response.id,
+        //             email: values.email,
+        //             username: values.username,
+        //             firstname: values.firstname,
+        //             lastname: values.lastname,
+        //             mobile: values.mobile,
+        //             chain: values.chain,
+        //             jwt: response.jwt
+        //         });
+        //         setIsLoading(false);
+        //         router.push("/protected");
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        //     setClient(null);
+        // }
+        signIn("credentials", {...values});
     }
-
     return (
         <div className={cn("grid gap-6", className)} {...props}>
             <Form {...form}>
