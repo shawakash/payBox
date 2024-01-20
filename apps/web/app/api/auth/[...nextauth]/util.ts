@@ -96,6 +96,11 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+  pages: {
+    signIn: "/signin",
+    newUser: "signup",
+    error: "/_404"
+  },
 
   callbacks: {
 

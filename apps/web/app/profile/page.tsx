@@ -6,11 +6,11 @@ import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/util";
 
 export default async function SettingsProfilePage() {
-    const session = await getServerSession(authOptions);
-    if (!session || !session.user) {
-    redirect("/signup");
-  }
-  console.log(session);
+  //   const session = await getServerSession(authOptions);
+  //   if (!session || !session.user) {
+  //   redirect("/signup");
+  // }
+  // console.log(session);
   return (
     <div className="space-y-6">
       <div>
