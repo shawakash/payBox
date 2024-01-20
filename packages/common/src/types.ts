@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ClientSignupFormValidate } from "./validations";
+import { ClientSignupFormValidate, MetadataUpdateForm } from "./validations";
 
 export type Client = z.infer<typeof ClientSignupFormValidate> & { id: string }
 export enum SignType {
@@ -25,3 +25,7 @@ export type useSignUpHookProps = {
     msg: string,
     load?: string
 };
+
+export type ClientWithJwt = Partial<Client> & {jwt: string};
+
+export type MetadataUpdateFormType = z.infer<typeof MetadataUpdateForm>

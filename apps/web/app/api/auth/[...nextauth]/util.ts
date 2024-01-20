@@ -38,7 +38,35 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       credentials: {},
       async authorize(_credentials, req) {
-        (req.body);
+        let user;
+        if(req.body?.type == "signin") {
+          const response = await fetch(`${BACKEND_URL}/client/login`, {
+            method: "post",
+            headers: {
+              "Content-type": "application/json"
+            },
+            body: JSON.stringify(req.body),
+            cache: "no-store"
+          }).then(res => res.json());
+          if (response.status == responseStatus.Error) {
+            return null;
+          }
+          user = {
+            id: response.id,
+            jwt: response.jwt,
+            firstname: response.firstname,
+            lastname: response.lastname,
+            username: response.username,
+            email: response.email,
+            chain: response.chain,
+            mobile: response.mobile
+          }
+  
+          if (user.jwt) {
+            return user;
+          }
+        }
+
         const response = await fetch(`${BACKEND_URL}/client/`, {
           method: "post",
           headers: {
@@ -50,7 +78,7 @@ export const authOptions: NextAuthOptions = {
         if (response.status == responseStatus.Error) {
           return null;
         }
-        const user = {
+        user = {
           id: response.id,
           jwt: response.jwt,
           firstname: req.body?.firstname,
@@ -68,6 +96,11 @@ export const authOptions: NextAuthOptions = {
       }
     })
   ],
+  pages: {
+    signIn: "/signin",
+    newUser: "signup",
+    error: "/_404"
+  },
 
   callbacks: {
 
@@ -150,6 +183,9 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ user, session, token, trigger, newSession }) {
+      if(trigger == "update") {
+        console.log(user, token, "session")
+      }
       /**
        * \Add the jwt from token to user
        */
