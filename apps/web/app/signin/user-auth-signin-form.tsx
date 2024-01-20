@@ -23,7 +23,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { BACKEND_URL, ClientSigninFormValidate, responseStatus } from "@paybox/common"
 import { headers } from "next/headers"
-import { useToast } from "./use-toast"
+import { useToast } from "../../components/ui/use-toast"
 import { ToastAction } from "@radix-ui/react-toast"
 import { useRecoilState } from "recoil"
 import { clientAtom } from "@paybox/recoil"
@@ -33,7 +33,7 @@ interface ClientSigninFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function ClientSigninForm({ className, ...props }: ClientSigninFormProps) {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const { data: session } = useSession(); // Use the useSession hook to get the session state
+    const { data: session, update } = useSession(); // Use the useSession hook to get the session state
     const router = useRouter();
     const { toast } = useToast();
     const [_client, setClient] = useRecoilState(clientAtom);
@@ -53,55 +53,57 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
     })
 
     async function onSubmit(values: z.infer<typeof ClientSigninFormValidate>) {
-        try {
+        // try {
 
-            const response = await fetch(`${BACKEND_URL}/client/login`, {
-                method: "post",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(values),
-                cache: "no-store"
-            }).then(res => res.json());
-            if (response.status == responseStatus.Error) {
-                setClient(null);
-                toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    //@ts-ignore
-                    description: `${response.msg}`,
-                    action: <ToastAction altText="Try again">Try again</ToastAction>,
-                });
-            }
-            if (response.jwt) {
-                toast({
-                    title: `Signed as ${response.username}`,
-                    //@ts-ignore
-                    description: `Your Client id: ${response.id}`,
-                });
-                setClient({
-                    id: response.id,
-                    email: response.email,
-                    username: response.username,
-                    firstname: response.firstname,
-                    lastname: response.lastname,
-                    mobile: response.mobile,
-                    chain: response.chain,
-                    jwt: response.jwt
-                });
-                setIsLoading(false);
-                router.push("/protected");
-            }
-        } catch (error) {
-            console.log(error);
-            toast({
-                variant: "destructive",
-                title: "Uh oh! Something went wrong.",
-                //@ts-ignore
-                description: `There was a problem with your signin. ${error.msg}`,
-                action: <ToastAction altText="Try again">Try again</ToastAction>,
-            });
-        }
+        //     const response = await fetch(`${BACKEND_URL}/client/login`, {
+        //         method: "post",
+        //         headers: {
+        //             "Content-type": "application/json"
+        //         },
+        //         body: JSON.stringify(values),
+        //         cache: "no-store"
+        //     }).then(res => res.json());
+        //     if (response.status == responseStatus.Error) {
+        //         setClient(null);
+        //         toast({
+        //             variant: "destructive",
+        //             title: "Uh oh! Something went wrong.",
+        //             //@ts-ignore
+        //             description: `${response.msg}`,
+        //             action: <ToastAction altText="Try again">Try again</ToastAction>,
+        //         });
+        //     }
+        //     if (response.jwt) {
+        //         toast({
+        //             title: `Signed as ${response.username}`,
+        //             //@ts-ignore
+        //             description: `Your Client id: ${response.id}`,
+        //         });
+        //         setClient({
+        //             id: response.id,
+        //             email: response.email,
+        //             username: response.username,
+        //             firstname: response.firstname,
+        //             lastname: response.lastname,
+        //             mobile: response.mobile,
+        //             chain: response.chain,
+        //             jwt: response.jwt
+        //         });
+        //         setIsLoading(false);
+        //         router.push("/protected");
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        //     toast({
+        //         variant: "destructive",
+        //         title: "Uh oh! Something went wrong.",
+        //         //@ts-ignore
+        //         description: `There was a problem with your signin. ${error.msg}`,
+        //         action: <ToastAction altText="Try again">Try again</ToastAction>,
+        //     });
+        // }
+        signIn("credentials", {...values, type: "signin"}).then(res => console.log(res));
+
     }
 
 

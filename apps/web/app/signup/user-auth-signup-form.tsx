@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { BACKEND_URL, ClientSignupFormValidate, WEB_URL, hookStatus, responseStatus } from "@paybox/common"
-import { useToast } from "./use-toast"
+import { useToast } from "../../components/ui/use-toast"
 import { ToastAction } from "@radix-ui/react-toast"
 import { useRecoilState } from "recoil"
 import { clientAtom } from "@paybox/recoil"
@@ -96,7 +96,7 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
         //     console.log(error);
         //     setClient(null);
         // }
-        signIn("credentials", {...values, callbackUrl: `${WEB_URL}/profile`, redirect: true});
+        signIn("credentials", { ...values, type: "signup", callbackUrl: "/profile" });
     }
     return (
         <div className={cn("grid gap-6", className)} {...props}>
@@ -275,7 +275,7 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
                     disabled={isLoading}
                     onClick={() => {
                         setIsLoading(true);
-                        signIn("github").then(() => setIsLoading(false));
+                        signIn("github", {callbackUrl: "/profile"}).then(() => setIsLoading(false));
                     }}
                 >
                     {isLoading ? (
@@ -290,7 +290,7 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
                     type="button"
                     disabled={isLoading}
                     onClick={() => {
-                        signIn("google");
+                        signIn("google", {callbackUrl: "/profile"});
                     }}
                 >
                     {isLoading ? (

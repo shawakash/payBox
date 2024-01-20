@@ -139,6 +139,18 @@ clientRouter.post("/login", async (req, res) => {
             ClientSigninFormValidate.parse(req.body);
 
         /**
+                 * Cache
+                 */
+        const cachedClient = await cache.getClientFromKey(email);
+        if (cachedClient) {
+            let jwt;
+            if (cachedClient.id) {
+                jwt = await setJWTCookie(req, res, cachedClient.id as string);
+            }
+            return res.status(302).json({ ...cachedClient, status: responseStatus.Ok, jwt });
+        }
+
+        /**
          * Query the db
          */
         const query = await getClientByEmail(email);

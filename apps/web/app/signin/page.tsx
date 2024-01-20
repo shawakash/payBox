@@ -4,8 +4,8 @@ import Link from "next/link"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { ClientSignupForm } from "@/components/ui/user-auth-signup-form"
-import { ClientSigninForm } from "@/components/ui/user-auth-signin-form"
+import { ClientSignupForm } from "@/app/signup/user-auth-signup-form"
+import { ClientSigninForm } from "@/app/signin/user-auth-signin-form"
 
 export const metadata: Metadata = {
   title: "Signin | PayBox",
