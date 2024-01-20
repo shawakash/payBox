@@ -4,13 +4,23 @@ import { useSession } from "next-auth/react"
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/util";
+import { BACKEND_URL, ClientWithJwt } from "@paybox/common";
+import { headers } from "next/headers";
 
 export default async function SettingsProfilePage() {
-  //   const session = await getServerSession(authOptions);
-  //   if (!session || !session.user) {
-  //   redirect("/signup");
-  // }
-  // console.log(session);
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user || !session.user?.email) {
+      redirect("/signup");
+    }
+    const me = await fetch(`${BACKEND_URL}/client/me`, {
+      method: "get",
+      headers: {
+        //@ts-ignore
+        "authorization": `Bearer ${session.user.jwt}`
+      },
+      next: { revalidate: 3600 }
+    }).then(res => res.json());
+  console.log(session);
   return (
     <div className="space-y-6">
       <div>
@@ -20,7 +30,7 @@ export default async function SettingsProfilePage() {
         </p>
       </div>
       <Separator />
-      <ProfileForm />
+      <ProfileForm me={me as unknown as ClientWithJwt} />
     </div>
   )
 }

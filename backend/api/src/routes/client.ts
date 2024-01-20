@@ -204,21 +204,21 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
         //@ts-ignore for first-time
         const id = req.id;
         if (id) {
-            const cachedUser = await cache.getClientCache(id);
-            if (cachedUser) {
+            const cachedClient = await cache.getClientCache(id);
+            if (cachedClient) {
                 //@ts-ignore
-                return res.status(302).json({ ...cachedUser, status: responseStatus.Ok, jwt: req.jwt });
+                return res.status(302).json({ ...cachedClient, status: responseStatus.Ok, jwt: req.jwt });
             }
             const query = await getClientById(id);
             if (query.status == dbResStatus.Error) {
                 return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
             }
-            if (!(query.user?.length)) {
+            if (!(query.client?.length)) {
                 return res.status(404).json({ msg: "Not found", status: responseStatus.Error });
             }
-            await cache.cacheClient(id, query.user[0] as Client);
+            await cache.cacheClient(id, query.client[0] as Client);
             //@ts-ignore
-            return res.status(302).json({ ...query.user[0], status: responseStatus.Ok, jwt: req.jwt });
+            return res.status(302).json({ ...query.client[0], status: responseStatus.Ok, jwt: req.jwt });
         }
         return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
     } catch (error) {

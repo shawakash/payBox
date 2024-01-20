@@ -25,13 +25,13 @@ import { BACKEND_URL, ClientSignupFormValidate, WEB_URL, hookStatus, responseSta
 import { useToast } from "../../components/ui/use-toast"
 import { ToastAction } from "@radix-ui/react-toast"
 import { useRecoilState } from "recoil"
-import { clientAtom } from "@paybox/recoil"
+import { clientAtom, loadingAtom } from "@paybox/recoil"
 
 
 interface ClientSignupFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function ClientSignupForm({ className, ...props }: ClientSignupFormProps) {
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
     const { data: session, update } = useSession(); // Use the useSession hook to get the session state
     const [_, setClient] = useRecoilState(clientAtom);
     const router = useRouter();
@@ -40,7 +40,7 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
     React.useEffect(() => {
         // Check if the session is defined and navigate to the protected page
         if (session) {
-            router.push('/protected');
+            router.push('/profile');
         }
     }, [session, router]);
 
@@ -53,50 +53,12 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
     })
 
     async function onSubmit(values: z.infer<typeof ClientSignupFormValidate>) {
-        // try {
-        //     setIsLoading(true);
-        //     const response = await fetch(`${BACKEND_URL}/client/`, {
-        //         method: "post",
-        //         headers: {
-        //             "Content-type": "application/json"
-        //         },
-        //         body: JSON.stringify(values),
-        //         cache: "no-store"
-        //     }).then(res => res.json());
-        //     if (response.status == responseStatus.Error) {
-        //         setClient(null);
-        //         toast({
-        //             variant: "destructive",
-        //             title: "Uh oh! Something went wrong.",
-        //             //@ts-ignore
-        //             description: `${response.msg}`,
-        //             action: <ToastAction altText="Try again">Try again</ToastAction>,
-        //         });
-        //     }
-        //     if(response.jwt) {
-        //         toast({
-        //             title: `Signed as ${values.username}`,
-        //             //@ts-ignore
-        //             description: `Your Client id: ${response.id}`,
-        //         });
-        //         setClient({
-        //             id: response.id,
-        //             email: values.email,
-        //             username: values.username,
-        //             firstname: values.firstname,
-        //             lastname: values.lastname,
-        //             mobile: values.mobile,
-        //             chain: values.chain,
-        //             jwt: response.jwt
-        //         });
-        //         setIsLoading(false);
-        //         router.push("/protected");
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        //     setClient(null);
-        // }
-        signIn("credentials", { ...values, type: "signup", callbackUrl: "/profile" });
+        signIn("credentials",
+            { ...values, type: "signup", callbackUrl: "/profile" })
+            .then(_ => {
+                setIsLoading(false);
+
+            });
     }
     return (
         <div className={cn("grid gap-6", className)} {...props}>
@@ -275,7 +237,8 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
                     disabled={isLoading}
                     onClick={() => {
                         setIsLoading(true);
-                        signIn("github", {callbackUrl: "/profile"}).then(() => setIsLoading(false));
+                        signIn("github", { callbackUrl: "/profile" })
+                        .then(() => setIsLoading(false));
                     }}
                 >
                     {isLoading ? (
@@ -290,7 +253,9 @@ export function ClientSignupForm({ className, ...props }: ClientSignupFormProps)
                     type="button"
                     disabled={isLoading}
                     onClick={() => {
-                        signIn("google", {callbackUrl: "/profile"});
+                        setIsLoading(true);
+                        signIn("google", { callbackUrl: "/profile" })
+                        .then(_ => setIsLoading(false));
                     }}
                 >
                     {isLoading ? (

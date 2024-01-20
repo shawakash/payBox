@@ -56,3 +56,32 @@ export const ClientSigninFormValidate = z.object({
         ),
     password: z.string()
 });
+
+export const MetadataUpdateForm = z.object({
+    firstname: z
+        .string()
+        .regex(
+            /^[A-Za-z]+([- ]?[A-Za-z]+)*$/,
+            "should be between 3-15 characters and can only contain numbers, letters, and underscores."
+        ).optional(),
+
+    lastname: z
+        .string()
+        .regex(
+            /^[A-Za-z]+([- ]?[A-Za-z]+)*$/,
+            "should be between 3-15 characters and can only contain numbers, letters, and underscores."
+        ).optional(),
+    mobile: z.
+        string()
+        .refine(value => /^\d{10}$/.test(value.toString()), {
+            message: "Invalid mobile number. It should be a 10-digit number.",
+        }).optional(),
+    bio: z.string().max(160).min(4),
+    chain: z.object({
+        eth: z.string(),
+        bitcoin: z.string(),
+        sol: z.string(),
+        usdc: z.string(),
+        id: z.string().optional()
+    }).optional()
+})

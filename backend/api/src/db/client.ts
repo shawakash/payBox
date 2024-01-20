@@ -276,7 +276,7 @@ export const updateMetadata = async (
 export const getClientById = async (
     id: string
 ): Promise<{
-    user?: {
+    client?: {
         username?: unknown,
         email?: unknown,
         firstname?: unknown,

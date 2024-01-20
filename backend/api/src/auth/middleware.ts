@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { clearCookie, setJWTCookie, validateJwt } from "./util";
-import { responseStatus } from "../types/client";
+import { responseStatus } from "@paybox/common";
 
 export const extractClientId = async (
     req: Request, res: Response, next: NextFunction

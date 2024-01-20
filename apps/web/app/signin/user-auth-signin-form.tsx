@@ -26,13 +26,13 @@ import { headers } from "next/headers"
 import { useToast } from "../../components/ui/use-toast"
 import { ToastAction } from "@radix-ui/react-toast"
 import { useRecoilState } from "recoil"
-import { clientAtom } from "@paybox/recoil"
+import { clientAtom, loadingAtom } from "@paybox/recoil"
 
 
 interface ClientSigninFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export function ClientSigninForm({ className, ...props }: ClientSigninFormProps) {
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
     const { data: session, update } = useSession(); // Use the useSession hook to get the session state
     const router = useRouter();
     const { toast } = useToast();
@@ -41,7 +41,7 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
     React.useEffect(() => {
         // Check if the session is defined and navigate to the protected page
         if (session) {
-            router.push('/protected');
+            router.push('/profile');
         }
     }, [session, router]);
 
@@ -53,57 +53,11 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
     })
 
     async function onSubmit(values: z.infer<typeof ClientSigninFormValidate>) {
-        // try {
-
-        //     const response = await fetch(`${BACKEND_URL}/client/login`, {
-        //         method: "post",
-        //         headers: {
-        //             "Content-type": "application/json"
-        //         },
-        //         body: JSON.stringify(values),
-        //         cache: "no-store"
-        //     }).then(res => res.json());
-        //     if (response.status == responseStatus.Error) {
-        //         setClient(null);
-        //         toast({
-        //             variant: "destructive",
-        //             title: "Uh oh! Something went wrong.",
-        //             //@ts-ignore
-        //             description: `${response.msg}`,
-        //             action: <ToastAction altText="Try again">Try again</ToastAction>,
-        //         });
-        //     }
-        //     if (response.jwt) {
-        //         toast({
-        //             title: `Signed as ${response.username}`,
-        //             //@ts-ignore
-        //             description: `Your Client id: ${response.id}`,
-        //         });
-        //         setClient({
-        //             id: response.id,
-        //             email: response.email,
-        //             username: response.username,
-        //             firstname: response.firstname,
-        //             lastname: response.lastname,
-        //             mobile: response.mobile,
-        //             chain: response.chain,
-        //             jwt: response.jwt
-        //         });
-        //         setIsLoading(false);
-        //         router.push("/protected");
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        //     toast({
-        //         variant: "destructive",
-        //         title: "Uh oh! Something went wrong.",
-        //         //@ts-ignore
-        //         description: `There was a problem with your signin. ${error.msg}`,
-        //         action: <ToastAction altText="Try again">Try again</ToastAction>,
-        //     });
-        // }
-        signIn("credentials", {...values, type: "signin"}).then(res => console.log(res));
-
+        signIn("credentials",
+            { ...values, type: "signin", callbackUrl: "/profile" })
+            .then(_ => {
+                setIsLoading(false);
+            });
     }
 
 
@@ -186,7 +140,8 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
                     disabled={isLoading}
                     onClick={() => {
                         setIsLoading(true);
-                        signIn("github").then(() => setIsLoading(false));
+                        signIn("github", { callbackUrl: "/profile" })
+                            .then(() => setIsLoading(false));
                     }}
                 >
                     {isLoading ? (
@@ -201,7 +156,9 @@ export function ClientSigninForm({ className, ...props }: ClientSigninFormProps)
                     type="button"
                     disabled={isLoading}
                     onClick={() => {
-                        signIn("google");
+                        setIsLoading(true);
+                        signIn("google", { callbackUrl: "/profile" })
+                            .then(_ => setIsLoading(false));
                     }}
                 >
                     {isLoading ? (
