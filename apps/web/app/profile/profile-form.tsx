@@ -28,13 +28,15 @@ import { toast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { useEffect } from "react"
 import { useRecoilState } from "recoil"
-import { clientAtom } from "@paybox/recoil"
+import { clientAtom, loadingAtom } from "@paybox/recoil"
 import { ClientWithJwt, MetadataUpdateForm, MetadataUpdateFormType } from "@paybox/common"
+import { Badge } from "@/components/ui/badge"
 
 
 
 export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
   const [client, setClient] = useRecoilState(clientAtom);
+  const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
 
   useEffect(() => {
     if (me) {
@@ -80,13 +82,21 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
             name="firstname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>Firstname</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input
+                    id="firstname"
+                    placeholder={me?.firstname}
+                    type="text"
+                    autoCapitalize="words"
+                    autoComplete="name"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name. It can be your real name or a
-                  pseudonym. You can only change this once every 30 days.
+                  Keep it real.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -97,7 +107,86 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
             name="lastname"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Lastname</FormLabel>
+                <FormControl>
+                  <Input
+                    id="lastname"
+                    placeholder={me?.lastname}
+                    type="text"
+                    autoCapitalize="words"
+                    autoComplete="name"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Also this one.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="mobile"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mobile</FormLabel>
+                <FormControl>
+                  <Input
+                    id="mobile"
+                    placeholder={me?.mobile}
+                    type="text"
+                    autoCapitalize="words"
+                    autoComplete="name"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Provide a valid mobile number for otp validation.
+                  Should be similar to the wallet account.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="bio"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bio</FormLabel>
+                <FormControl>
+                  <Textarea
+                    id="bio"
+                    placeholder={"Tell us a little bit about yourself"}
+                    autoCapitalize="none"
+                    autoComplete="bio"
+                    autoCorrect="off"
+                    disabled={isLoading}
+                    spellCheck="false"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  You can <Badge variant="outline">@mention</Badge>
+                  other users and organizations to
+                  link to them.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* <FormField
+            control={form.control}
+            name="chain"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Chain</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
@@ -117,60 +206,8 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
                 <FormMessage />
               </FormItem>
             )}
-          />
-          <FormField
-            control={form.control}
-            name="bio"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bio</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Tell us a little bit about yourself"
-                    className="resize-none"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  You can <span>@mention</span> other users and organizations to
-                  link to them.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div>
-            {/* {fields.map((field, index) => (
-              <FormField
-                control={form.control}
-                key={field.id}
-                name={`urls.${index}.value`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className={cn(index !== 0 && "sr-only")}>
-                      URLs
-                    </FormLabel>
-                    <FormDescription className={cn(index !== 0 && "sr-only")}>
-                      Add links to your website, blog, or social media profiles.
-                    </FormDescription>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))} */}
-            {/* <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="mt-2"
-              onClick={() => append({ value: "" })}
-            >
-              Add URL
-            </Button> */}
-          </div>
+          /> */}
+
           <Button type="submit">Update profile</Button>
         </form>
       </Form>
