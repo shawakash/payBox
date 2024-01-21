@@ -38,7 +38,7 @@ export const ClientSignupFormValidate = z.object({
         .refine(value => /^\d{10}$/.test(value.toString()), {
             message: "Invalid mobile number. It should be a 10-digit number.",
         }).optional(),
-    chain: z.object({
+    address: z.object({
         eth: z.string(),
         bitcoin: z.string(),
         sol: z.string(),
@@ -77,7 +77,7 @@ export const MetadataUpdateForm = z.object({
             message: "Invalid mobile number. It should be a 10-digit number.",
         }).optional(),
     bio: z.string().max(160).min(4),
-    chain: z.object({
+    address: z.object({
         eth: z.string(),
         bitcoin: z.string(),
         sol: z.string(),

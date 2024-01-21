@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
-import { Chain, dbResStatus } from "../types/client";
-import { responseStatus } from "@paybox/common";
+import { dbResStatus } from "../types/client";
+import { Address, responseStatus } from "@paybox/common";
 import { checkClient, conflictClient, createClient, deleteClient, getClientByEmail, getClientById, getClientMetaData, updateMetadata } from "../db/client";
 import { cache } from "..";
 import { setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
@@ -39,7 +39,8 @@ clientRouter.post("/", async (req, res) => {
                 lastname,
                 mobile,
                 id: client.id as string,
-                chain: client.chain as Chain,
+                //@ts-ignore
+                address: client.address ,
                 password: hashPassword
             });
 
@@ -105,7 +106,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
                 lastname,
                 mobile,
                 id: client?.id as string,
-                chain: client?.chain as Chain,
+                address: client?.address as Address,
                 //@ts-ignore
                 password: hashPassword || ""
             });

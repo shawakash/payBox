@@ -1,6 +1,6 @@
 import { InfuraProvider, InfuraWebSocketProvider, ProviderEvent, TransactionReceipt, ethers } from 'ethers';
 import { WebSocket } from 'ws';
-import { EthNetwok } from '../types/chain';
+import { EthNetwok } from '../types/address';
 
 interface EthereumTransactionData {
   type: 'transaction';
@@ -106,6 +106,22 @@ export class EthTxnLogs {
       console.error('Error checking transaction confirmation:', error);
       return false;
     }
+  }
+
+  async checkAddress(): Promise<boolean> {
+    try {
+      const account = await this.httpProvider.lookupAddress(this.address);
+      if(account) {
+        console.log(account);
+        return true;
+      }
+      return false;
+      
+    } catch (error) {
+      console.error('Error checking account confirmation:', error);
+      return false;
+    }
+
   }
 
 }
