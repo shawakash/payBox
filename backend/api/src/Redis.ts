@@ -34,8 +34,8 @@ export class Redis {
                 address: JSON.stringify(items.address)
             });
         console.log(`User Cached ${data}`);
-        await this.cacheUsername(items.username, items.id);
-        await this.cacheEmail(items.email, items.id);
+        await this.cacheIdUsingKey(items.username, items.id);
+        await this.cacheIdUsingKey(items.email, items.id);
         return;
     }
 
@@ -57,18 +57,6 @@ export class Redis {
             //@ts-ignore  Redis does not allow to cache with types
             address: JSON.parse(client.address)
         }
-    }
-
-    async cacheUsername(key: string, items: string) {
-        const data = await this.client.set(key, items);
-        console.log(`Client username Cached ${data}`);
-        return;
-    }
-
-    async cacheEmail(key: string, items: string) {
-        const data = await this.client.set(key, items);
-        console.log(`Client email Cached ${data}`);
-        return;
     }
 
     async getClientFromKey(key: string): Promise<Client | null> {
@@ -130,20 +118,26 @@ export class Redis {
         }
     }
 
+    async patchAddress(key: string, items: Partial<Address>) {
+        for (const [field, value] of Object.entries(items)) {
+            await this.client.hSet(key, field, value.toString());
+        }
+        return;
+    }
+    
     async updateClientAddress(key: string, items: Partial<Address>) {
         const existingClient = await this.client.hGetAll(key);
-
+        
         if (!existingClient) {
             throw new Error(`Address not found for client ID: ${key}`);
         }
-    
+        
         await this.client.hSet(key, "address", JSON.stringify(items));
         console.log(`Client address updated for client ID: ${key}`);
-    
+        
         return;
     }
-
-
+    
     async getAddressFromKey(key: string): Promise<Partial<Address & {id: string, clientId: string}> | null> {
         const addressId = await this.client.get(key);
         if (!addressId) {

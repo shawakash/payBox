@@ -19,7 +19,7 @@ const chain = Chain(HASURA_URL, {
  * @param usdc 
  * @returns The created address table row
  */
-export const createAddress = async(
+export const createAddress = async (
     eth: string,
     sol: string,
     clientId: string,
@@ -73,15 +73,15 @@ export const conflictAddress = async (
         address: [{
             where: {
                 _or: [
-                    {eth: {_eq: eth}},
-                    {sol: {_eq: sol}}
+                    { eth: { _eq: eth } },
+                    { sol: { _eq: sol } }
                 ]
             },
         }, {
             id: true
         }]
-    }, {operationName: "conflictAddress"});
-    if(response) {
+    }, { operationName: "conflictAddress" });
+    if (response) {
         return {
             ...response,
             status: dbResStatus.Ok
@@ -90,7 +90,7 @@ export const conflictAddress = async (
     return {
         status: dbResStatus.Error
     }
-}
+};
 
 /**
  * 
@@ -107,12 +107,12 @@ export const getAddressByClientId = async (
         sol?: unknown,
         usdc?: unknown,
         id?: unknown
-    }[] 
+    }[]
 }> => {
     const response = await chain("query")({
         address: [{
             where: {
-                client_id: {_eq: client_id}
+                client_id: { _eq: client_id }
             },
             limit: 1
         }, {
@@ -122,11 +122,54 @@ export const getAddressByClientId = async (
             sol: true,
             id: true,
         }]
-    }, {operationName: "getAddressByClientId"});
-    if(response.address[0].id) {
+    }, { operationName: "getAddressByClientId" });
+    if (response.address[0].id) {
         return {
             ...response,
             status: dbResStatus.Ok,
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+};
+
+/**
+ * 
+ * @param id 
+ * @returns updates the address
+ */
+export const updateAddress = async (
+    eth: string,
+    sol: string,
+    clientId: string,
+    bitcoin?: string,
+    usdc?: string
+): Promise<{
+    status: dbResStatus,
+    id?: unknown
+}> => {
+    const response = await chain("mutation")({
+        update_address: [{
+            where: {
+                client_id: { _eq: clientId }
+            },
+            _set: {
+                bitcoin,
+                eth,
+                sol,
+                usdc
+            }
+        }, {
+            returning: {
+                id: true
+            }
+        }]
+    });
+    if (response.update_address?.returning) {
+        return {
+            status: dbResStatus.Ok,
+            ...response.update_address?.returning
         }
     }
     return {
