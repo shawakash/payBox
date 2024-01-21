@@ -1,2 +1,2 @@
-- "!include public_chain.yaml"
+- "!include public_address.yaml"
 - "!include public_client.yaml"

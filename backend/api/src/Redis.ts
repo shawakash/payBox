@@ -1,6 +1,6 @@
 import { RedisClientType, createClient } from "redis";
 import { REDIS_URL } from "./config";
-import { Client } from "@paybox/common";
+import { Address, AddressPartial, Client } from "@paybox/common";
 
 export class Redis {
     private client: RedisClientType;
@@ -31,11 +31,11 @@ export class Redis {
                 mobile: items.mobile || "",
                 username: items.username,
                 password: items.password,
-                chain: JSON.stringify(items.chain)
+                address: JSON.stringify(items.address)
             });
         console.log(`User Cached ${data}`);
-        await this.cacheUsername(items.username, items.id);
-        await this.cacheEmail(items.email, items.id);
+        await this.cacheIdUsingKey(items.username, items.id);
+        await this.cacheIdUsingKey(items.email, items.id);
         return;
     }
 
@@ -55,20 +55,8 @@ export class Redis {
             firstname: client.firstname,
             lastname: client.lastname,
             //@ts-ignore  Redis does not allow to cache with types
-            chain: JSON.parse(client.chain)
+            address: JSON.parse(client.address)
         }
-    }
-
-    async cacheUsername(key: string, items: string) {
-        const data = await this.client.set(key, items);
-        console.log(`Client username Cached ${data}`);
-        return;
-    }
-
-    async cacheEmail(key: string, items: string) {
-        const data = await this.client.set(key, items);
-        console.log(`Client email Cached ${data}`);
-        return;
     }
 
     async getClientFromKey(key: string): Promise<Client | null> {
@@ -82,17 +70,7 @@ export class Redis {
             return null;
         }
 
-        return {
-            id: client.id,
-            email: client.email,
-            mobile: client.mobile,
-            password: client.password,
-            username: client.username,
-            firstname: client.firstname,
-            lastname: client.lastname,
-            //@ts-ignore  Redis does not allow to cache with types
-            chain: JSON.parse(client.chain)
-        }
+        return {...client}
     }
 
     async updateUserFields(key: string, updatedFields: Partial<Client>) {
@@ -105,6 +83,79 @@ export class Redis {
     async deleteHash(key: string) {
         const deletedKeys = await this.client.del(key);
         return deletedKeys;
+    }
+
+    async cacheAddress(key: string, items: Address & {id: string, clientId: string}) {
+        const data = await this.client.hSet(key,
+            {
+                id: items.id,
+                sol: items.sol,
+                eth: items.eth,
+                bitcoin: items.bitcoin,
+                usdc: items.usdc,
+                client_id: items.clientId
+            });
+        console.log(`Address Cached ${data}`);
+        await this.cacheIdUsingKey(items.clientId, items.id);
+        return;
+    }
+
+
+    async getAddress(key: string): Promise<Partial<Address & {id: string, clientId: string}> | null> {
+        const address = await this.client.hGetAll(key);
+
+        if (!address) {
+            return null;
+        }
+
+        return {
+            id: address.id,
+            clientId: address.client_id,
+            eth: address.eth,
+            sol: address.sol,
+            bitcoin: address.bitcoin,
+            usdc: address.usdc
+        }
+    }
+
+    async patchAddress(key: string, items: Partial<Address>) {
+        for (const [field, value] of Object.entries(items)) {
+            await this.client.hSet(key, field, value.toString());
+        }
+        return;
+    }
+    
+    async updateClientAddress(key: string, items: Partial<Address>) {
+        const existingClient = await this.client.hGetAll(key);
+        
+        if (!existingClient) {
+            throw new Error(`Address not found for client ID: ${key}`);
+        }
+        
+        await this.client.hSet(key, "address", JSON.stringify(items));
+        console.log(`Client address updated for client ID: ${key}`);
+        
+        return;
+    }
+    
+    async getAddressFromKey(key: string): Promise<Partial<Address & {id: string, clientId: string}> | null> {
+        const addressId = await this.client.get(key);
+        if (!addressId) {
+            return null;
+        }
+        const address = await this.getAddress(addressId);
+        
+        if (!address) {
+            return null;
+        }
+
+        return {...address};
+    }
+
+    async cacheIdUsingKey(key: string, item: string) {
+        const data = await this.client.set(key, item);
+        console.log(`${data} is cached with ${key}`);
+        return;
     }
 
     // TODO: debounce here

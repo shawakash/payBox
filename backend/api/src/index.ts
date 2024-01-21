@@ -5,12 +5,14 @@ import { WebSocketServer } from "ws";
 import { ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS } from "./config";
 import SolTxnLogs from "./sockets/sol";
 import EthTxnLogs from "./sockets/eth";
-import { EthNetwok } from "./types/chain";
+import { EthNetwok } from "./types/address";
 import { CORS_ORIGIN, PORT } from "@paybox/common";
 import morgan from "morgan";
 import { Redis } from "./Redis";
 import { clientRouter } from "./routes/client";
 import cors from "cors";
+import { addressRouter } from "./routes/address";
+import { extractClientId } from "./auth/middleware";
 
 export const app = express();
 export const server = http.createServer(app);
@@ -52,6 +54,7 @@ app.get("/_health", (_req, res) => {
 });
 
 app.use("/client", clientRouter);
+app.use("/address", extractClientId, addressRouter);
 
 
 wss.on('connection', async (ws) => {

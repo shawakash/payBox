@@ -51,7 +51,7 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
       lastname: client?.lastname,
       mobile: client?.mobile,
       bio: "Paybox changed my life.",
-      chain: client?.chain
+      address: client?.address
     },
     mode: "onChange",
   })
@@ -183,10 +183,10 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
           />
           {/* <FormField
             control={form.control}
-            name="chain"
+            name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Chain</FormLabel>
+                <FormLabel>Address</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>

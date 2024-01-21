@@ -20,15 +20,6 @@ export const useSignUp =
                 // setClient(null);
                 return {status: hookStatus.Error, msg: response.msg};
             }
-            // setClient({
-            //     id: response.id,
-            //     email: response.email,
-            //     username: response.username,
-            //     firstname: response.firstname,
-            //     lastname: response.lastname,
-            //     mobile: response.mobile,
-            //     chain: response.chain
-            // });
             return response.id;
         } catch (error) {
             console.log(error);

@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
             lastname: response.lastname,
             username: response.username,
             email: response.email,
-            chain: response.chain,
+            address: response.address,
             mobile: response.mobile
           }
   
@@ -85,7 +85,7 @@ export const authOptions: NextAuthOptions = {
           lastname: req.body?.lastname,
           username: req.body?.username,
           email: req.body?.email,
-          chain: response.chain,
+          address: response.address,
           mobile: req.body?.mobile
         }
 
@@ -126,7 +126,7 @@ export const authOptions: NextAuthOptions = {
           //@ts-ignore
           token.email = user.email;
           //@ts-ignore
-          token.chain = user.chain;
+          token.address = user.address;
           //@ts-ignore
           token.mobile = user.mobile;
         }
@@ -162,7 +162,7 @@ export const authOptions: NextAuthOptions = {
         token.lastname = user.name?.split(" ")[1];
         token.email = response.email;
         token.mobile = response.mobile;
-        token.chain = response.chain;
+        token.address = response.address;
 
         /**
          * Fetch the jwt
@@ -175,7 +175,7 @@ export const authOptions: NextAuthOptions = {
           lastname: response.lastname,
           username: response.username,
           email: response.email,
-          chain: response.chain,
+          address: response.address,
           mobile: response.mobile
         }
 
@@ -199,7 +199,7 @@ export const authOptions: NextAuthOptions = {
           lastname: token.lastname,
           username: token.username,
           email: token.email,
-          chain: token.chain,
+          address: token.address,
           mobile: token.mobile
         }
       }

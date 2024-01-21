@@ -1053,29 +1053,8 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null | Variable<any, string>;
   };
-  ["bigint"]: unknown;
-  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
-  ["bigint_comparison_exp"]: {
-    _eq?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
-    _gt?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
-    _gte?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
-    _in?:
-      | Array<ValueTypes["bigint"]>
-      | undefined
-      | null
-      | Variable<any, string>;
-    _is_null?: boolean | undefined | null | Variable<any, string>;
-    _lt?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
-    _lte?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
-    _neq?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
-    _nin?:
-      | Array<ValueTypes["bigint"]>
-      | undefined
-      | null
-      | Variable<any, string>;
-  };
   /** different chain and there address */
-  ["chain"]: AliasType<{
+  ["address"]: AliasType<{
     bitcoin?: boolean | `@${string}`;
     /** An object relationship */
     client?: ValueTypes["client"];
@@ -1086,18 +1065,18 @@ export type ValueTypes = {
     usdc?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** aggregated selection of "chain" */
-  ["chain_aggregate"]: AliasType<{
-    aggregate?: ValueTypes["chain_aggregate_fields"];
-    nodes?: ValueTypes["chain"];
+  /** aggregated selection of "address" */
+  ["address_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["address_aggregate_fields"];
+    nodes?: ValueTypes["address"];
     __typename?: boolean | `@${string}`;
   }>;
-  /** aggregate fields of "chain" */
-  ["chain_aggregate_fields"]: AliasType<{
+  /** aggregate fields of "address" */
+  ["address_aggregate_fields"]: AliasType<{
     count?: [
       {
         columns?:
-          | Array<ValueTypes["chain_select_column"]>
+          | Array<ValueTypes["address_select_column"]>
           | undefined
           | null
           | Variable<any, string>;
@@ -1105,24 +1084,24 @@ export type ValueTypes = {
       },
       boolean | `@${string}`,
     ];
-    max?: ValueTypes["chain_max_fields"];
-    min?: ValueTypes["chain_min_fields"];
+    max?: ValueTypes["address_max_fields"];
+    min?: ValueTypes["address_min_fields"];
     __typename?: boolean | `@${string}`;
   }>;
-  /** Boolean expression to filter rows from the table "chain". All fields are combined with a logical 'AND'. */
-  ["chain_bool_exp"]: {
+  /** Boolean expression to filter rows from the table "address". All fields are combined with a logical 'AND'. */
+  ["address_bool_exp"]: {
     _and?:
-      | Array<ValueTypes["chain_bool_exp"]>
+      | Array<ValueTypes["address_bool_exp"]>
       | undefined
       | null
       | Variable<any, string>;
     _not?:
-      | ValueTypes["chain_bool_exp"]
+      | ValueTypes["address_bool_exp"]
       | undefined
       | null
       | Variable<any, string>;
     _or?:
-      | Array<ValueTypes["chain_bool_exp"]>
+      | Array<ValueTypes["address_bool_exp"]>
       | undefined
       | null
       | Variable<any, string>;
@@ -1162,10 +1141,10 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
   };
-  /** unique or primary key constraints on table "chain" */
-  ["chain_constraint"]: chain_constraint;
-  /** input type for inserting data into table "chain" */
-  ["chain_insert_input"]: {
+  /** unique or primary key constraints on table "address" */
+  ["address_constraint"]: address_constraint;
+  /** input type for inserting data into table "address" */
+  ["address_insert_input"]: {
     bitcoin?: string | undefined | null | Variable<any, string>;
     client?:
       | ValueTypes["client_obj_rel_insert_input"]
@@ -1179,7 +1158,7 @@ export type ValueTypes = {
     usdc?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate max on columns */
-  ["chain_max_fields"]: AliasType<{
+  ["address_max_fields"]: AliasType<{
     bitcoin?: boolean | `@${string}`;
     client_id?: boolean | `@${string}`;
     eth?: boolean | `@${string}`;
@@ -1189,7 +1168,7 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
-  ["chain_min_fields"]: AliasType<{
+  ["address_min_fields"]: AliasType<{
     bitcoin?: boolean | `@${string}`;
     client_id?: boolean | `@${string}`;
     eth?: boolean | `@${string}`;
@@ -1198,38 +1177,38 @@ export type ValueTypes = {
     usdc?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  /** response of any mutation on the table "chain" */
-  ["chain_mutation_response"]: AliasType<{
+  /** response of any mutation on the table "address" */
+  ["address_mutation_response"]: AliasType<{
     /** number of rows affected by the mutation */
     affected_rows?: boolean | `@${string}`;
     /** data from the rows affected by the mutation */
-    returning?: ValueTypes["chain"];
+    returning?: ValueTypes["address"];
     __typename?: boolean | `@${string}`;
   }>;
-  /** input type for inserting object relation for remote table "chain" */
-  ["chain_obj_rel_insert_input"]: {
-    data: ValueTypes["chain_insert_input"] | Variable<any, string>;
+  /** input type for inserting object relation for remote table "address" */
+  ["address_obj_rel_insert_input"]: {
+    data: ValueTypes["address_insert_input"] | Variable<any, string>;
     /** upsert condition */
     on_conflict?:
-      | ValueTypes["chain_on_conflict"]
+      | ValueTypes["address_on_conflict"]
       | undefined
       | null
       | Variable<any, string>;
   };
-  /** on_conflict condition type for table "chain" */
-  ["chain_on_conflict"]: {
-    constraint: ValueTypes["chain_constraint"] | Variable<any, string>;
+  /** on_conflict condition type for table "address" */
+  ["address_on_conflict"]: {
+    constraint: ValueTypes["address_constraint"] | Variable<any, string>;
     update_columns:
-      | Array<ValueTypes["chain_update_column"]>
+      | Array<ValueTypes["address_update_column"]>
       | Variable<any, string>;
     where?:
-      | ValueTypes["chain_bool_exp"]
+      | ValueTypes["address_bool_exp"]
       | undefined
       | null
       | Variable<any, string>;
   };
-  /** Ordering options when selecting data from "chain". */
-  ["chain_order_by"]: {
+  /** Ordering options when selecting data from "address". */
+  ["address_order_by"]: {
     bitcoin?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     client?:
       | ValueTypes["client_order_by"]
@@ -1246,14 +1225,14 @@ export type ValueTypes = {
     sol?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     usdc?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
-  /** primary key columns input for table: chain */
-  ["chain_pk_columns_input"]: {
+  /** primary key columns input for table: address */
+  ["address_pk_columns_input"]: {
     id: ValueTypes["uuid"] | Variable<any, string>;
   };
-  /** select columns of table "chain" */
-  ["chain_select_column"]: chain_select_column;
-  /** input type for updating data in table "chain" */
-  ["chain_set_input"]: {
+  /** select columns of table "address" */
+  ["address_select_column"]: address_select_column;
+  /** input type for updating data in table "address" */
+  ["address_set_input"]: {
     bitcoin?: string | undefined | null | Variable<any, string>;
     client_id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     eth?: string | undefined | null | Variable<any, string>;
@@ -1261,11 +1240,11 @@ export type ValueTypes = {
     sol?: string | undefined | null | Variable<any, string>;
     usdc?: string | undefined | null | Variable<any, string>;
   };
-  /** Streaming cursor of the table "chain" */
-  ["chain_stream_cursor_input"]: {
+  /** Streaming cursor of the table "address" */
+  ["address_stream_cursor_input"]: {
     /** Stream column input with initial value */
     initial_value:
-      | ValueTypes["chain_stream_cursor_value_input"]
+      | ValueTypes["address_stream_cursor_value_input"]
       | Variable<any, string>;
     /** cursor ordering */
     ordering?:
@@ -1275,7 +1254,7 @@ export type ValueTypes = {
       | Variable<any, string>;
   };
   /** Initial value of the column from where the streaming should start */
-  ["chain_stream_cursor_value_input"]: {
+  ["address_stream_cursor_value_input"]: {
     bitcoin?: string | undefined | null | Variable<any, string>;
     client_id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     eth?: string | undefined | null | Variable<any, string>;
@@ -1283,22 +1262,43 @@ export type ValueTypes = {
     sol?: string | undefined | null | Variable<any, string>;
     usdc?: string | undefined | null | Variable<any, string>;
   };
-  /** update columns of table "chain" */
-  ["chain_update_column"]: chain_update_column;
-  ["chain_updates"]: {
+  /** update columns of table "address" */
+  ["address_update_column"]: address_update_column;
+  ["address_updates"]: {
     /** sets the columns of the filtered rows to the given values */
     _set?:
-      | ValueTypes["chain_set_input"]
+      | ValueTypes["address_set_input"]
       | undefined
       | null
       | Variable<any, string>;
     /** filter the rows which have to be updated */
-    where: ValueTypes["chain_bool_exp"] | Variable<any, string>;
+    where: ValueTypes["address_bool_exp"] | Variable<any, string>;
+  };
+  ["bigint"]: unknown;
+  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+  ["bigint_comparison_exp"]: {
+    _eq?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _gt?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _gte?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _in?:
+      | Array<ValueTypes["bigint"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _lte?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _neq?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    _nin?:
+      | Array<ValueTypes["bigint"]>
+      | undefined
+      | null
+      | Variable<any, string>;
   };
   /** subscriber for paybox */
   ["client"]: AliasType<{
     /** An object relationship */
-    chain?: ValueTypes["chain"];
+    address?: ValueTypes["address"];
     email?: boolean | `@${string}`;
     firstname?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -1361,8 +1361,8 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    chain?:
-      | ValueTypes["chain_bool_exp"]
+    address?:
+      | ValueTypes["address_bool_exp"]
       | undefined
       | null
       | Variable<any, string>;
@@ -1410,8 +1410,8 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
-    chain?:
-      | ValueTypes["chain_obj_rel_insert_input"]
+    address?:
+      | ValueTypes["address_obj_rel_insert_input"]
       | undefined
       | null
       | Variable<any, string>;
@@ -1477,8 +1477,8 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "client". */
   ["client_order_by"]: {
-    chain?:
-      | ValueTypes["chain_order_by"]
+    address?:
+      | ValueTypes["address_order_by"]
       | undefined
       | null
       | Variable<any, string>;
@@ -1602,16 +1602,16 @@ export type ValueTypes = {
   ["cursor_ordering"]: cursor_ordering;
   /** mutation root */
   ["mutation_root"]: AliasType<{
-    delete_chain?: [
+    delete_address?: [
       {
         /** filter the rows which have to be deleted */
-        where: ValueTypes["chain_bool_exp"] | Variable<any, string>;
+        where: ValueTypes["address_bool_exp"] | Variable<any, string>;
       },
-      ValueTypes["chain_mutation_response"],
+      ValueTypes["address_mutation_response"],
     ];
-    delete_chain_by_pk?: [
+    delete_address_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
-      ValueTypes["chain"],
+      ValueTypes["address"],
     ];
     delete_client?: [
       {
@@ -1624,33 +1624,33 @@ export type ValueTypes = {
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["client"],
     ];
-    insert_chain?: [
+    insert_address?: [
       {
         /** the rows to be inserted */
         objects:
-          | Array<ValueTypes["chain_insert_input"]>
+          | Array<ValueTypes["address_insert_input"]>
           | Variable<any, string> /** upsert condition */;
         on_conflict?:
-          | ValueTypes["chain_on_conflict"]
+          | ValueTypes["address_on_conflict"]
           | undefined
           | null
           | Variable<any, string>;
       },
-      ValueTypes["chain_mutation_response"],
+      ValueTypes["address_mutation_response"],
     ];
-    insert_chain_one?: [
+    insert_address_one?: [
       {
         /** the row to be inserted */
         object:
-          | ValueTypes["chain_insert_input"]
+          | ValueTypes["address_insert_input"]
           | Variable<any, string> /** upsert condition */;
         on_conflict?:
-          | ValueTypes["chain_on_conflict"]
+          | ValueTypes["address_on_conflict"]
           | undefined
           | null
           | Variable<any, string>;
       },
-      ValueTypes["chain"],
+      ValueTypes["address"],
     ];
     insert_client?: [
       {
@@ -1680,41 +1680,41 @@ export type ValueTypes = {
       },
       ValueTypes["client"],
     ];
-    update_chain?: [
+    update_address?: [
       {
         /** sets the columns of the filtered rows to the given values */
         _set?:
-          | ValueTypes["chain_set_input"]
+          | ValueTypes["address_set_input"]
           | undefined
           | null
           | Variable<
               any,
               string
             > /** filter the rows which have to be updated */;
-        where: ValueTypes["chain_bool_exp"] | Variable<any, string>;
+        where: ValueTypes["address_bool_exp"] | Variable<any, string>;
       },
-      ValueTypes["chain_mutation_response"],
+      ValueTypes["address_mutation_response"],
     ];
-    update_chain_by_pk?: [
+    update_address_by_pk?: [
       {
         /** sets the columns of the filtered rows to the given values */
         _set?:
-          | ValueTypes["chain_set_input"]
+          | ValueTypes["address_set_input"]
           | undefined
           | null
           | Variable<any, string>;
         pk_columns:
-          | ValueTypes["chain_pk_columns_input"]
+          | ValueTypes["address_pk_columns_input"]
           | Variable<any, string>;
       },
-      ValueTypes["chain"],
+      ValueTypes["address"],
     ];
-    update_chain_many?: [
+    update_address_many?: [
       {
         /** updates to execute, in order */
-        updates: Array<ValueTypes["chain_updates"]> | Variable<any, string>;
+        updates: Array<ValueTypes["address_updates"]> | Variable<any, string>;
       },
-      ValueTypes["chain_mutation_response"],
+      ValueTypes["address_mutation_response"],
     ];
     update_client?: [
       {
@@ -1773,11 +1773,11 @@ export type ValueTypes = {
   /** column ordering options */
   ["order_by"]: order_by;
   ["query_root"]: AliasType<{
-    chain?: [
+    address?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes["chain_select_column"]>
+          | Array<ValueTypes["address_select_column"]>
           | undefined
           | null
           | Variable<any, string> /** limit the number of rows returned */;
@@ -1795,23 +1795,23 @@ export type ValueTypes = {
           | null
           | Variable<any, string> /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes["chain_order_by"]>
+          | Array<ValueTypes["address_order_by"]>
           | undefined
           | null
           | Variable<any, string> /** filter the rows returned */;
         where?:
-          | ValueTypes["chain_bool_exp"]
+          | ValueTypes["address_bool_exp"]
           | undefined
           | null
           | Variable<any, string>;
       },
-      ValueTypes["chain"],
+      ValueTypes["address"],
     ];
-    chain_aggregate?: [
+    address_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes["chain_select_column"]>
+          | Array<ValueTypes["address_select_column"]>
           | undefined
           | null
           | Variable<any, string> /** limit the number of rows returned */;
@@ -1829,21 +1829,21 @@ export type ValueTypes = {
           | null
           | Variable<any, string> /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes["chain_order_by"]>
+          | Array<ValueTypes["address_order_by"]>
           | undefined
           | null
           | Variable<any, string> /** filter the rows returned */;
         where?:
-          | ValueTypes["chain_bool_exp"]
+          | ValueTypes["address_bool_exp"]
           | undefined
           | null
           | Variable<any, string>;
       },
-      ValueTypes["chain_aggregate"],
+      ValueTypes["address_aggregate"],
     ];
-    chain_by_pk?: [
+    address_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
-      ValueTypes["chain"],
+      ValueTypes["address"],
     ];
     client?: [
       {
@@ -1920,11 +1920,11 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ["subscription_root"]: AliasType<{
-    chain?: [
+    address?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes["chain_select_column"]>
+          | Array<ValueTypes["address_select_column"]>
           | undefined
           | null
           | Variable<any, string> /** limit the number of rows returned */;
@@ -1942,23 +1942,23 @@ export type ValueTypes = {
           | null
           | Variable<any, string> /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes["chain_order_by"]>
+          | Array<ValueTypes["address_order_by"]>
           | undefined
           | null
           | Variable<any, string> /** filter the rows returned */;
         where?:
-          | ValueTypes["chain_bool_exp"]
+          | ValueTypes["address_bool_exp"]
           | undefined
           | null
           | Variable<any, string>;
       },
-      ValueTypes["chain"],
+      ValueTypes["address"],
     ];
-    chain_aggregate?: [
+    address_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ValueTypes["chain_select_column"]>
+          | Array<ValueTypes["address_select_column"]>
           | undefined
           | null
           | Variable<any, string> /** limit the number of rows returned */;
@@ -1976,23 +1976,23 @@ export type ValueTypes = {
           | null
           | Variable<any, string> /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ValueTypes["chain_order_by"]>
+          | Array<ValueTypes["address_order_by"]>
           | undefined
           | null
           | Variable<any, string> /** filter the rows returned */;
         where?:
-          | ValueTypes["chain_bool_exp"]
+          | ValueTypes["address_bool_exp"]
           | undefined
           | null
           | Variable<any, string>;
       },
-      ValueTypes["chain_aggregate"],
+      ValueTypes["address_aggregate"],
     ];
-    chain_by_pk?: [
+    address_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
-      ValueTypes["chain"],
+      ValueTypes["address"],
     ];
-    chain_stream?: [
+    address_stream?: [
       {
         /** maximum number of rows returned in a single batch */
         batch_size:
@@ -2002,15 +2002,15 @@ export type ValueTypes = {
               string
             > /** cursor to stream the results returned by the query */;
         cursor:
-          | Array<ValueTypes["chain_stream_cursor_input"] | undefined | null>
+          | Array<ValueTypes["address_stream_cursor_input"] | undefined | null>
           | Variable<any, string> /** filter the rows returned */;
         where?:
-          | ValueTypes["chain_bool_exp"]
+          | ValueTypes["address_bool_exp"]
           | undefined
           | null
           | Variable<any, string>;
       },
-      ValueTypes["chain"],
+      ValueTypes["address"],
     ];
     client?: [
       {
@@ -2160,6 +2160,157 @@ export type ResolverInputTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null;
   };
+  /** different chain and there address */
+  ["address"]: AliasType<{
+    bitcoin?: boolean | `@${string}`;
+    /** An object relationship */
+    client?: ResolverInputTypes["client"];
+    client_id?: boolean | `@${string}`;
+    eth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    sol?: boolean | `@${string}`;
+    usdc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "address" */
+  ["address_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["address_aggregate_fields"];
+    nodes?: ResolverInputTypes["address"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "address" */
+  ["address_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["address_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["address_max_fields"];
+    min?: ResolverInputTypes["address_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "address". All fields are combined with a logical 'AND'. */
+  ["address_bool_exp"]: {
+    _and?: Array<ResolverInputTypes["address_bool_exp"]> | undefined | null;
+    _not?: ResolverInputTypes["address_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["address_bool_exp"]> | undefined | null;
+    bitcoin?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    client_id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    eth?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    sol?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    usdc?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "address" */
+  ["address_constraint"]: address_constraint;
+  /** input type for inserting data into table "address" */
+  ["address_insert_input"]: {
+    bitcoin?: string | undefined | null;
+    client?:
+      | ResolverInputTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null;
+    client_id?: ResolverInputTypes["uuid"] | undefined | null;
+    eth?: string | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    sol?: string | undefined | null;
+    usdc?: string | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["address_max_fields"]: AliasType<{
+    bitcoin?: boolean | `@${string}`;
+    client_id?: boolean | `@${string}`;
+    eth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    sol?: boolean | `@${string}`;
+    usdc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["address_min_fields"]: AliasType<{
+    bitcoin?: boolean | `@${string}`;
+    client_id?: boolean | `@${string}`;
+    eth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    sol?: boolean | `@${string}`;
+    usdc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "address" */
+  ["address_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["address"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "address" */
+  ["address_obj_rel_insert_input"]: {
+    data: ResolverInputTypes["address_insert_input"];
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["address_on_conflict"] | undefined | null;
+  };
+  /** on_conflict condition type for table "address" */
+  ["address_on_conflict"]: {
+    constraint: ResolverInputTypes["address_constraint"];
+    update_columns: Array<ResolverInputTypes["address_update_column"]>;
+    where?: ResolverInputTypes["address_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "address". */
+  ["address_order_by"]: {
+    bitcoin?: ResolverInputTypes["order_by"] | undefined | null;
+    client?: ResolverInputTypes["client_order_by"] | undefined | null;
+    client_id?: ResolverInputTypes["order_by"] | undefined | null;
+    eth?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    sol?: ResolverInputTypes["order_by"] | undefined | null;
+    usdc?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: address */
+  ["address_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "address" */
+  ["address_select_column"]: address_select_column;
+  /** input type for updating data in table "address" */
+  ["address_set_input"]: {
+    bitcoin?: string | undefined | null;
+    client_id?: ResolverInputTypes["uuid"] | undefined | null;
+    eth?: string | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    sol?: string | undefined | null;
+    usdc?: string | undefined | null;
+  };
+  /** Streaming cursor of the table "address" */
+  ["address_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["address_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["address_stream_cursor_value_input"]: {
+    bitcoin?: string | undefined | null;
+    client_id?: ResolverInputTypes["uuid"] | undefined | null;
+    eth?: string | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    sol?: string | undefined | null;
+    usdc?: string | undefined | null;
+  };
+  /** update columns of table "address" */
+  ["address_update_column"]: address_update_column;
+  ["address_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["address_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["address_bool_exp"];
+  };
   ["bigint"]: unknown;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ["bigint_comparison_exp"]: {
@@ -2173,161 +2324,10 @@ export type ResolverInputTypes = {
     _neq?: ResolverInputTypes["bigint"] | undefined | null;
     _nin?: Array<ResolverInputTypes["bigint"]> | undefined | null;
   };
-  /** different chain and there address */
-  ["chain"]: AliasType<{
-    bitcoin?: boolean | `@${string}`;
-    /** An object relationship */
-    client?: ResolverInputTypes["client"];
-    client_id?: boolean | `@${string}`;
-    eth?: boolean | `@${string}`;
-    id?: boolean | `@${string}`;
-    sol?: boolean | `@${string}`;
-    usdc?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregated selection of "chain" */
-  ["chain_aggregate"]: AliasType<{
-    aggregate?: ResolverInputTypes["chain_aggregate_fields"];
-    nodes?: ResolverInputTypes["chain"];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate fields of "chain" */
-  ["chain_aggregate_fields"]: AliasType<{
-    count?: [
-      {
-        columns?:
-          | Array<ResolverInputTypes["chain_select_column"]>
-          | undefined
-          | null;
-        distinct?: boolean | undefined | null;
-      },
-      boolean | `@${string}`,
-    ];
-    max?: ResolverInputTypes["chain_max_fields"];
-    min?: ResolverInputTypes["chain_min_fields"];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** Boolean expression to filter rows from the table "chain". All fields are combined with a logical 'AND'. */
-  ["chain_bool_exp"]: {
-    _and?: Array<ResolverInputTypes["chain_bool_exp"]> | undefined | null;
-    _not?: ResolverInputTypes["chain_bool_exp"] | undefined | null;
-    _or?: Array<ResolverInputTypes["chain_bool_exp"]> | undefined | null;
-    bitcoin?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
-    client_id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
-    eth?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
-    sol?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-    usdc?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-  };
-  /** unique or primary key constraints on table "chain" */
-  ["chain_constraint"]: chain_constraint;
-  /** input type for inserting data into table "chain" */
-  ["chain_insert_input"]: {
-    bitcoin?: string | undefined | null;
-    client?:
-      | ResolverInputTypes["client_obj_rel_insert_input"]
-      | undefined
-      | null;
-    client_id?: ResolverInputTypes["uuid"] | undefined | null;
-    eth?: string | undefined | null;
-    id?: ResolverInputTypes["uuid"] | undefined | null;
-    sol?: string | undefined | null;
-    usdc?: string | undefined | null;
-  };
-  /** aggregate max on columns */
-  ["chain_max_fields"]: AliasType<{
-    bitcoin?: boolean | `@${string}`;
-    client_id?: boolean | `@${string}`;
-    eth?: boolean | `@${string}`;
-    id?: boolean | `@${string}`;
-    sol?: boolean | `@${string}`;
-    usdc?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** aggregate min on columns */
-  ["chain_min_fields"]: AliasType<{
-    bitcoin?: boolean | `@${string}`;
-    client_id?: boolean | `@${string}`;
-    eth?: boolean | `@${string}`;
-    id?: boolean | `@${string}`;
-    sol?: boolean | `@${string}`;
-    usdc?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** response of any mutation on the table "chain" */
-  ["chain_mutation_response"]: AliasType<{
-    /** number of rows affected by the mutation */
-    affected_rows?: boolean | `@${string}`;
-    /** data from the rows affected by the mutation */
-    returning?: ResolverInputTypes["chain"];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** input type for inserting object relation for remote table "chain" */
-  ["chain_obj_rel_insert_input"]: {
-    data: ResolverInputTypes["chain_insert_input"];
-    /** upsert condition */
-    on_conflict?: ResolverInputTypes["chain_on_conflict"] | undefined | null;
-  };
-  /** on_conflict condition type for table "chain" */
-  ["chain_on_conflict"]: {
-    constraint: ResolverInputTypes["chain_constraint"];
-    update_columns: Array<ResolverInputTypes["chain_update_column"]>;
-    where?: ResolverInputTypes["chain_bool_exp"] | undefined | null;
-  };
-  /** Ordering options when selecting data from "chain". */
-  ["chain_order_by"]: {
-    bitcoin?: ResolverInputTypes["order_by"] | undefined | null;
-    client?: ResolverInputTypes["client_order_by"] | undefined | null;
-    client_id?: ResolverInputTypes["order_by"] | undefined | null;
-    eth?: ResolverInputTypes["order_by"] | undefined | null;
-    id?: ResolverInputTypes["order_by"] | undefined | null;
-    sol?: ResolverInputTypes["order_by"] | undefined | null;
-    usdc?: ResolverInputTypes["order_by"] | undefined | null;
-  };
-  /** primary key columns input for table: chain */
-  ["chain_pk_columns_input"]: {
-    id: ResolverInputTypes["uuid"];
-  };
-  /** select columns of table "chain" */
-  ["chain_select_column"]: chain_select_column;
-  /** input type for updating data in table "chain" */
-  ["chain_set_input"]: {
-    bitcoin?: string | undefined | null;
-    client_id?: ResolverInputTypes["uuid"] | undefined | null;
-    eth?: string | undefined | null;
-    id?: ResolverInputTypes["uuid"] | undefined | null;
-    sol?: string | undefined | null;
-    usdc?: string | undefined | null;
-  };
-  /** Streaming cursor of the table "chain" */
-  ["chain_stream_cursor_input"]: {
-    /** Stream column input with initial value */
-    initial_value: ResolverInputTypes["chain_stream_cursor_value_input"];
-    /** cursor ordering */
-    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ["chain_stream_cursor_value_input"]: {
-    bitcoin?: string | undefined | null;
-    client_id?: ResolverInputTypes["uuid"] | undefined | null;
-    eth?: string | undefined | null;
-    id?: ResolverInputTypes["uuid"] | undefined | null;
-    sol?: string | undefined | null;
-    usdc?: string | undefined | null;
-  };
-  /** update columns of table "chain" */
-  ["chain_update_column"]: chain_update_column;
-  ["chain_updates"]: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ResolverInputTypes["chain_set_input"] | undefined | null;
-    /** filter the rows which have to be updated */
-    where: ResolverInputTypes["chain_bool_exp"];
-  };
   /** subscriber for paybox */
   ["client"]: AliasType<{
     /** An object relationship */
-    chain?: ResolverInputTypes["chain"];
+    address?: ResolverInputTypes["address"];
     email?: boolean | `@${string}`;
     firstname?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -2377,7 +2377,7 @@ export type ResolverInputTypes = {
     _and?: Array<ResolverInputTypes["client_bool_exp"]> | undefined | null;
     _not?: ResolverInputTypes["client_bool_exp"] | undefined | null;
     _or?: Array<ResolverInputTypes["client_bool_exp"]> | undefined | null;
-    chain?: ResolverInputTypes["chain_bool_exp"] | undefined | null;
+    address?: ResolverInputTypes["address_bool_exp"] | undefined | null;
     email?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     firstname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
@@ -2394,7 +2394,10 @@ export type ResolverInputTypes = {
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
-    chain?: ResolverInputTypes["chain_obj_rel_insert_input"] | undefined | null;
+    address?:
+      | ResolverInputTypes["address_obj_rel_insert_input"]
+      | undefined
+      | null;
     email?: string | undefined | null;
     firstname?: string | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
@@ -2447,7 +2450,7 @@ export type ResolverInputTypes = {
   };
   /** Ordering options when selecting data from "client". */
   ["client_order_by"]: {
-    chain?: ResolverInputTypes["chain_order_by"] | undefined | null;
+    address?: ResolverInputTypes["address_order_by"] | undefined | null;
     email?: ResolverInputTypes["order_by"] | undefined | null;
     firstname?: ResolverInputTypes["order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
@@ -2538,16 +2541,16 @@ export type ResolverInputTypes = {
   ["cursor_ordering"]: cursor_ordering;
   /** mutation root */
   ["mutation_root"]: AliasType<{
-    delete_chain?: [
+    delete_address?: [
       {
         /** filter the rows which have to be deleted */
-        where: ResolverInputTypes["chain_bool_exp"];
+        where: ResolverInputTypes["address_bool_exp"];
       },
-      ResolverInputTypes["chain_mutation_response"],
+      ResolverInputTypes["address_mutation_response"],
     ];
-    delete_chain_by_pk?: [
+    delete_address_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
-      ResolverInputTypes["chain"],
+      ResolverInputTypes["address"],
     ];
     delete_client?: [
       {
@@ -2560,29 +2563,29 @@ export type ResolverInputTypes = {
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["client"],
     ];
-    insert_chain?: [
+    insert_address?: [
       {
         /** the rows to be inserted */
         objects: Array<
-          ResolverInputTypes["chain_insert_input"]
+          ResolverInputTypes["address_insert_input"]
         > /** upsert condition */;
         on_conflict?:
-          | ResolverInputTypes["chain_on_conflict"]
+          | ResolverInputTypes["address_on_conflict"]
           | undefined
           | null;
       },
-      ResolverInputTypes["chain_mutation_response"],
+      ResolverInputTypes["address_mutation_response"],
     ];
-    insert_chain_one?: [
+    insert_address_one?: [
       {
         /** the row to be inserted */
-        object: ResolverInputTypes["chain_insert_input"] /** upsert condition */;
+        object: ResolverInputTypes["address_insert_input"] /** upsert condition */;
         on_conflict?:
-          | ResolverInputTypes["chain_on_conflict"]
+          | ResolverInputTypes["address_on_conflict"]
           | undefined
           | null;
       },
-      ResolverInputTypes["chain"],
+      ResolverInputTypes["address"],
     ];
     insert_client?: [
       {
@@ -2608,31 +2611,31 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["client"],
     ];
-    update_chain?: [
+    update_address?: [
       {
         /** sets the columns of the filtered rows to the given values */
         _set?:
-          | ResolverInputTypes["chain_set_input"]
+          | ResolverInputTypes["address_set_input"]
           | undefined
           | null /** filter the rows which have to be updated */;
-        where: ResolverInputTypes["chain_bool_exp"];
+        where: ResolverInputTypes["address_bool_exp"];
       },
-      ResolverInputTypes["chain_mutation_response"],
+      ResolverInputTypes["address_mutation_response"],
     ];
-    update_chain_by_pk?: [
+    update_address_by_pk?: [
       {
         /** sets the columns of the filtered rows to the given values */
-        _set?: ResolverInputTypes["chain_set_input"] | undefined | null;
-        pk_columns: ResolverInputTypes["chain_pk_columns_input"];
+        _set?: ResolverInputTypes["address_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["address_pk_columns_input"];
       },
-      ResolverInputTypes["chain"],
+      ResolverInputTypes["address"],
     ];
-    update_chain_many?: [
+    update_address_many?: [
       {
         /** updates to execute, in order */
-        updates: Array<ResolverInputTypes["chain_updates"]>;
+        updates: Array<ResolverInputTypes["address_updates"]>;
       },
-      ResolverInputTypes["chain_mutation_response"],
+      ResolverInputTypes["address_mutation_response"],
     ];
     update_client?: [
       {
@@ -2673,11 +2676,11 @@ export type ResolverInputTypes = {
   /** column ordering options */
   ["order_by"]: order_by;
   ["query_root"]: AliasType<{
-    chain?: [
+    address?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ResolverInputTypes["chain_select_column"]>
+          | Array<ResolverInputTypes["address_select_column"]>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -2689,18 +2692,18 @@ export type ResolverInputTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ResolverInputTypes["chain_order_by"]>
+          | Array<ResolverInputTypes["address_order_by"]>
           | undefined
           | null /** filter the rows returned */;
-        where?: ResolverInputTypes["chain_bool_exp"] | undefined | null;
+        where?: ResolverInputTypes["address_bool_exp"] | undefined | null;
       },
-      ResolverInputTypes["chain"],
+      ResolverInputTypes["address"],
     ];
-    chain_aggregate?: [
+    address_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ResolverInputTypes["chain_select_column"]>
+          | Array<ResolverInputTypes["address_select_column"]>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -2712,16 +2715,16 @@ export type ResolverInputTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ResolverInputTypes["chain_order_by"]>
+          | Array<ResolverInputTypes["address_order_by"]>
           | undefined
           | null /** filter the rows returned */;
-        where?: ResolverInputTypes["chain_bool_exp"] | undefined | null;
+        where?: ResolverInputTypes["address_bool_exp"] | undefined | null;
       },
-      ResolverInputTypes["chain_aggregate"],
+      ResolverInputTypes["address_aggregate"],
     ];
-    chain_by_pk?: [
+    address_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
-      ResolverInputTypes["chain"],
+      ResolverInputTypes["address"],
     ];
     client?: [
       {
@@ -2776,11 +2779,11 @@ export type ResolverInputTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ["subscription_root"]: AliasType<{
-    chain?: [
+    address?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ResolverInputTypes["chain_select_column"]>
+          | Array<ResolverInputTypes["address_select_column"]>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -2792,18 +2795,18 @@ export type ResolverInputTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ResolverInputTypes["chain_order_by"]>
+          | Array<ResolverInputTypes["address_order_by"]>
           | undefined
           | null /** filter the rows returned */;
-        where?: ResolverInputTypes["chain_bool_exp"] | undefined | null;
+        where?: ResolverInputTypes["address_bool_exp"] | undefined | null;
       },
-      ResolverInputTypes["chain"],
+      ResolverInputTypes["address"],
     ];
-    chain_aggregate?: [
+    address_aggregate?: [
       {
         /** distinct select on columns */
         distinct_on?:
-          | Array<ResolverInputTypes["chain_select_column"]>
+          | Array<ResolverInputTypes["address_select_column"]>
           | undefined
           | null /** limit the number of rows returned */;
         limit?:
@@ -2815,27 +2818,27 @@ export type ResolverInputTypes = {
           | undefined
           | null /** sort the rows by one or more columns */;
         order_by?:
-          | Array<ResolverInputTypes["chain_order_by"]>
+          | Array<ResolverInputTypes["address_order_by"]>
           | undefined
           | null /** filter the rows returned */;
-        where?: ResolverInputTypes["chain_bool_exp"] | undefined | null;
+        where?: ResolverInputTypes["address_bool_exp"] | undefined | null;
       },
-      ResolverInputTypes["chain_aggregate"],
+      ResolverInputTypes["address_aggregate"],
     ];
-    chain_by_pk?: [
+    address_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
-      ResolverInputTypes["chain"],
+      ResolverInputTypes["address"],
     ];
-    chain_stream?: [
+    address_stream?: [
       {
         /** maximum number of rows returned in a single batch */
         batch_size: number /** cursor to stream the results returned by the query */;
         cursor: Array<
-          ResolverInputTypes["chain_stream_cursor_input"] | undefined | null
+          ResolverInputTypes["address_stream_cursor_input"] | undefined | null
         > /** filter the rows returned */;
-        where?: ResolverInputTypes["chain_bool_exp"] | undefined | null;
+        where?: ResolverInputTypes["address_bool_exp"] | undefined | null;
       },
-      ResolverInputTypes["chain"],
+      ResolverInputTypes["address"],
     ];
     client?: [
       {
@@ -2953,6 +2956,136 @@ export type ModelTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
   };
+  /** different chain and there address */
+  ["address"]: {
+    bitcoin?: string | undefined;
+    /** An object relationship */
+    client: ModelTypes["client"];
+    client_id: ModelTypes["uuid"];
+    eth?: string | undefined;
+    id: ModelTypes["uuid"];
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** aggregated selection of "address" */
+  ["address_aggregate"]: {
+    aggregate?: ModelTypes["address_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["address"]>;
+  };
+  /** aggregate fields of "address" */
+  ["address_aggregate_fields"]: {
+    count: number;
+    max?: ModelTypes["address_max_fields"] | undefined;
+    min?: ModelTypes["address_min_fields"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "address". All fields are combined with a logical 'AND'. */
+  ["address_bool_exp"]: {
+    _and?: Array<ModelTypes["address_bool_exp"]> | undefined;
+    _not?: ModelTypes["address_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["address_bool_exp"]> | undefined;
+    bitcoin?: ModelTypes["String_comparison_exp"] | undefined;
+    client?: ModelTypes["client_bool_exp"] | undefined;
+    client_id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    eth?: ModelTypes["String_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    sol?: ModelTypes["String_comparison_exp"] | undefined;
+    usdc?: ModelTypes["String_comparison_exp"] | undefined;
+  };
+  ["address_constraint"]: address_constraint;
+  /** input type for inserting data into table "address" */
+  ["address_insert_input"]: {
+    bitcoin?: string | undefined;
+    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ["address_max_fields"]: {
+    bitcoin?: string | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ["address_min_fields"]: {
+    bitcoin?: string | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** response of any mutation on the table "address" */
+  ["address_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["address"]>;
+  };
+  /** input type for inserting object relation for remote table "address" */
+  ["address_obj_rel_insert_input"]: {
+    data: ModelTypes["address_insert_input"];
+    /** upsert condition */
+    on_conflict?: ModelTypes["address_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "address" */
+  ["address_on_conflict"]: {
+    constraint: ModelTypes["address_constraint"];
+    update_columns: Array<ModelTypes["address_update_column"]>;
+    where?: ModelTypes["address_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "address". */
+  ["address_order_by"]: {
+    bitcoin?: ModelTypes["order_by"] | undefined;
+    client?: ModelTypes["client_order_by"] | undefined;
+    client_id?: ModelTypes["order_by"] | undefined;
+    eth?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    sol?: ModelTypes["order_by"] | undefined;
+    usdc?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: address */
+  ["address_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["address_select_column"]: address_select_column;
+  /** input type for updating data in table "address" */
+  ["address_set_input"]: {
+    bitcoin?: string | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** Streaming cursor of the table "address" */
+  ["address_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["address_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["address_stream_cursor_value_input"]: {
+    bitcoin?: string | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  ["address_update_column"]: address_update_column;
+  ["address_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["address_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["address_bool_exp"];
+  };
   ["bigint"]: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ["bigint_comparison_exp"]: {
@@ -2966,140 +3099,10 @@ export type ModelTypes = {
     _neq?: ModelTypes["bigint"] | undefined;
     _nin?: Array<ModelTypes["bigint"]> | undefined;
   };
-  /** different chain and there address */
-  ["chain"]: {
-    bitcoin?: string | undefined;
-    /** An object relationship */
-    client: ModelTypes["client"];
-    client_id: ModelTypes["uuid"];
-    eth?: string | undefined;
-    id: ModelTypes["uuid"];
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** aggregated selection of "chain" */
-  ["chain_aggregate"]: {
-    aggregate?: ModelTypes["chain_aggregate_fields"] | undefined;
-    nodes: Array<ModelTypes["chain"]>;
-  };
-  /** aggregate fields of "chain" */
-  ["chain_aggregate_fields"]: {
-    count: number;
-    max?: ModelTypes["chain_max_fields"] | undefined;
-    min?: ModelTypes["chain_min_fields"] | undefined;
-  };
-  /** Boolean expression to filter rows from the table "chain". All fields are combined with a logical 'AND'. */
-  ["chain_bool_exp"]: {
-    _and?: Array<ModelTypes["chain_bool_exp"]> | undefined;
-    _not?: ModelTypes["chain_bool_exp"] | undefined;
-    _or?: Array<ModelTypes["chain_bool_exp"]> | undefined;
-    bitcoin?: ModelTypes["String_comparison_exp"] | undefined;
-    client?: ModelTypes["client_bool_exp"] | undefined;
-    client_id?: ModelTypes["uuid_comparison_exp"] | undefined;
-    eth?: ModelTypes["String_comparison_exp"] | undefined;
-    id?: ModelTypes["uuid_comparison_exp"] | undefined;
-    sol?: ModelTypes["String_comparison_exp"] | undefined;
-    usdc?: ModelTypes["String_comparison_exp"] | undefined;
-  };
-  ["chain_constraint"]: chain_constraint;
-  /** input type for inserting data into table "chain" */
-  ["chain_insert_input"]: {
-    bitcoin?: string | undefined;
-    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
-    client_id?: ModelTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: ModelTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** aggregate max on columns */
-  ["chain_max_fields"]: {
-    bitcoin?: string | undefined;
-    client_id?: ModelTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: ModelTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** aggregate min on columns */
-  ["chain_min_fields"]: {
-    bitcoin?: string | undefined;
-    client_id?: ModelTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: ModelTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** response of any mutation on the table "chain" */
-  ["chain_mutation_response"]: {
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<ModelTypes["chain"]>;
-  };
-  /** input type for inserting object relation for remote table "chain" */
-  ["chain_obj_rel_insert_input"]: {
-    data: ModelTypes["chain_insert_input"];
-    /** upsert condition */
-    on_conflict?: ModelTypes["chain_on_conflict"] | undefined;
-  };
-  /** on_conflict condition type for table "chain" */
-  ["chain_on_conflict"]: {
-    constraint: ModelTypes["chain_constraint"];
-    update_columns: Array<ModelTypes["chain_update_column"]>;
-    where?: ModelTypes["chain_bool_exp"] | undefined;
-  };
-  /** Ordering options when selecting data from "chain". */
-  ["chain_order_by"]: {
-    bitcoin?: ModelTypes["order_by"] | undefined;
-    client?: ModelTypes["client_order_by"] | undefined;
-    client_id?: ModelTypes["order_by"] | undefined;
-    eth?: ModelTypes["order_by"] | undefined;
-    id?: ModelTypes["order_by"] | undefined;
-    sol?: ModelTypes["order_by"] | undefined;
-    usdc?: ModelTypes["order_by"] | undefined;
-  };
-  /** primary key columns input for table: chain */
-  ["chain_pk_columns_input"]: {
-    id: ModelTypes["uuid"];
-  };
-  ["chain_select_column"]: chain_select_column;
-  /** input type for updating data in table "chain" */
-  ["chain_set_input"]: {
-    bitcoin?: string | undefined;
-    client_id?: ModelTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: ModelTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** Streaming cursor of the table "chain" */
-  ["chain_stream_cursor_input"]: {
-    /** Stream column input with initial value */
-    initial_value: ModelTypes["chain_stream_cursor_value_input"];
-    /** cursor ordering */
-    ordering?: ModelTypes["cursor_ordering"] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ["chain_stream_cursor_value_input"]: {
-    bitcoin?: string | undefined;
-    client_id?: ModelTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: ModelTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  ["chain_update_column"]: chain_update_column;
-  ["chain_updates"]: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: ModelTypes["chain_set_input"] | undefined;
-    /** filter the rows which have to be updated */
-    where: ModelTypes["chain_bool_exp"];
-  };
   /** subscriber for paybox */
   ["client"]: {
     /** An object relationship */
-    chain?: ModelTypes["chain"] | undefined;
+    address?: ModelTypes["address"] | undefined;
     email: string;
     firstname?: string | undefined;
     id: ModelTypes["uuid"];
@@ -3136,7 +3139,7 @@ export type ModelTypes = {
     _and?: Array<ModelTypes["client_bool_exp"]> | undefined;
     _not?: ModelTypes["client_bool_exp"] | undefined;
     _or?: Array<ModelTypes["client_bool_exp"]> | undefined;
-    chain?: ModelTypes["chain_bool_exp"] | undefined;
+    address?: ModelTypes["address_bool_exp"] | undefined;
     email?: ModelTypes["String_comparison_exp"] | undefined;
     firstname?: ModelTypes["String_comparison_exp"] | undefined;
     id?: ModelTypes["uuid_comparison_exp"] | undefined;
@@ -3152,7 +3155,7 @@ export type ModelTypes = {
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
-    chain?: ModelTypes["chain_obj_rel_insert_input"] | undefined;
+    address?: ModelTypes["address_obj_rel_insert_input"] | undefined;
     email?: string | undefined;
     firstname?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
@@ -3202,7 +3205,7 @@ export type ModelTypes = {
   };
   /** Ordering options when selecting data from "client". */
   ["client_order_by"]: {
-    chain?: ModelTypes["chain_order_by"] | undefined;
+    address?: ModelTypes["address_order_by"] | undefined;
     email?: ModelTypes["order_by"] | undefined;
     firstname?: ModelTypes["order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
@@ -3283,29 +3286,29 @@ export type ModelTypes = {
   ["cursor_ordering"]: cursor_ordering;
   /** mutation root */
   ["mutation_root"]: {
-    /** delete data from the table: "chain" */
-    delete_chain?: ModelTypes["chain_mutation_response"] | undefined;
-    /** delete single row from the table: "chain" */
-    delete_chain_by_pk?: ModelTypes["chain"] | undefined;
+    /** delete data from the table: "address" */
+    delete_address?: ModelTypes["address_mutation_response"] | undefined;
+    /** delete single row from the table: "address" */
+    delete_address_by_pk?: ModelTypes["address"] | undefined;
     /** delete data from the table: "client" */
     delete_client?: ModelTypes["client_mutation_response"] | undefined;
     /** delete single row from the table: "client" */
     delete_client_by_pk?: ModelTypes["client"] | undefined;
-    /** insert data into the table: "chain" */
-    insert_chain?: ModelTypes["chain_mutation_response"] | undefined;
-    /** insert a single row into the table: "chain" */
-    insert_chain_one?: ModelTypes["chain"] | undefined;
+    /** insert data into the table: "address" */
+    insert_address?: ModelTypes["address_mutation_response"] | undefined;
+    /** insert a single row into the table: "address" */
+    insert_address_one?: ModelTypes["address"] | undefined;
     /** insert data into the table: "client" */
     insert_client?: ModelTypes["client_mutation_response"] | undefined;
     /** insert a single row into the table: "client" */
     insert_client_one?: ModelTypes["client"] | undefined;
-    /** update data of the table: "chain" */
-    update_chain?: ModelTypes["chain_mutation_response"] | undefined;
-    /** update single row of the table: "chain" */
-    update_chain_by_pk?: ModelTypes["chain"] | undefined;
-    /** update multiples rows of table: "chain" */
-    update_chain_many?:
-      | Array<ModelTypes["chain_mutation_response"] | undefined>
+    /** update data of the table: "address" */
+    update_address?: ModelTypes["address_mutation_response"] | undefined;
+    /** update single row of the table: "address" */
+    update_address_by_pk?: ModelTypes["address"] | undefined;
+    /** update multiples rows of table: "address" */
+    update_address_many?:
+      | Array<ModelTypes["address_mutation_response"] | undefined>
       | undefined;
     /** update data of the table: "client" */
     update_client?: ModelTypes["client_mutation_response"] | undefined;
@@ -3318,12 +3321,12 @@ export type ModelTypes = {
   };
   ["order_by"]: order_by;
   ["query_root"]: {
-    /** fetch data from the table: "chain" */
-    chain: Array<ModelTypes["chain"]>;
-    /** fetch aggregated fields from the table: "chain" */
-    chain_aggregate: ModelTypes["chain_aggregate"];
-    /** fetch data from the table: "chain" using primary key columns */
-    chain_by_pk?: ModelTypes["chain"] | undefined;
+    /** fetch data from the table: "address" */
+    address: Array<ModelTypes["address"]>;
+    /** fetch aggregated fields from the table: "address" */
+    address_aggregate: ModelTypes["address_aggregate"];
+    /** fetch data from the table: "address" using primary key columns */
+    address_by_pk?: ModelTypes["address"] | undefined;
     /** fetch data from the table: "client" */
     client: Array<ModelTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -3332,14 +3335,14 @@ export type ModelTypes = {
     client_by_pk?: ModelTypes["client"] | undefined;
   };
   ["subscription_root"]: {
-    /** fetch data from the table: "chain" */
-    chain: Array<ModelTypes["chain"]>;
-    /** fetch aggregated fields from the table: "chain" */
-    chain_aggregate: ModelTypes["chain_aggregate"];
-    /** fetch data from the table: "chain" using primary key columns */
-    chain_by_pk?: ModelTypes["chain"] | undefined;
-    /** fetch data from the table in a streaming manner: "chain" */
-    chain_stream: Array<ModelTypes["chain"]>;
+    /** fetch data from the table: "address" */
+    address: Array<ModelTypes["address"]>;
+    /** fetch aggregated fields from the table: "address" */
+    address_aggregate: ModelTypes["address_aggregate"];
+    /** fetch data from the table: "address" using primary key columns */
+    address_by_pk?: ModelTypes["address"] | undefined;
+    /** fetch data from the table in a streaming manner: "address" */
+    address_stream: Array<ModelTypes["address"]>;
     /** fetch data from the table: "client" */
     client: Array<ModelTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -3397,6 +3400,145 @@ export type GraphQLTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
   };
+  /** different chain and there address */
+  ["address"]: {
+    __typename: "address";
+    bitcoin?: string | undefined;
+    /** An object relationship */
+    client: GraphQLTypes["client"];
+    client_id: GraphQLTypes["uuid"];
+    eth?: string | undefined;
+    id: GraphQLTypes["uuid"];
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** aggregated selection of "address" */
+  ["address_aggregate"]: {
+    __typename: "address_aggregate";
+    aggregate?: GraphQLTypes["address_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["address"]>;
+  };
+  /** aggregate fields of "address" */
+  ["address_aggregate_fields"]: {
+    __typename: "address_aggregate_fields";
+    count: number;
+    max?: GraphQLTypes["address_max_fields"] | undefined;
+    min?: GraphQLTypes["address_min_fields"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "address". All fields are combined with a logical 'AND'. */
+  ["address_bool_exp"]: {
+    _and?: Array<GraphQLTypes["address_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["address_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["address_bool_exp"]> | undefined;
+    bitcoin?: GraphQLTypes["String_comparison_exp"] | undefined;
+    client?: GraphQLTypes["client_bool_exp"] | undefined;
+    client_id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    eth?: GraphQLTypes["String_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    sol?: GraphQLTypes["String_comparison_exp"] | undefined;
+    usdc?: GraphQLTypes["String_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "address" */
+  ["address_constraint"]: address_constraint;
+  /** input type for inserting data into table "address" */
+  ["address_insert_input"]: {
+    bitcoin?: string | undefined;
+    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ["address_max_fields"]: {
+    __typename: "address_max_fields";
+    bitcoin?: string | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ["address_min_fields"]: {
+    __typename: "address_min_fields";
+    bitcoin?: string | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** response of any mutation on the table "address" */
+  ["address_mutation_response"]: {
+    __typename: "address_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["address"]>;
+  };
+  /** input type for inserting object relation for remote table "address" */
+  ["address_obj_rel_insert_input"]: {
+    data: GraphQLTypes["address_insert_input"];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["address_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "address" */
+  ["address_on_conflict"]: {
+    constraint: GraphQLTypes["address_constraint"];
+    update_columns: Array<GraphQLTypes["address_update_column"]>;
+    where?: GraphQLTypes["address_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "address". */
+  ["address_order_by"]: {
+    bitcoin?: GraphQLTypes["order_by"] | undefined;
+    client?: GraphQLTypes["client_order_by"] | undefined;
+    client_id?: GraphQLTypes["order_by"] | undefined;
+    eth?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    sol?: GraphQLTypes["order_by"] | undefined;
+    usdc?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: address */
+  ["address_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "address" */
+  ["address_select_column"]: address_select_column;
+  /** input type for updating data in table "address" */
+  ["address_set_input"]: {
+    bitcoin?: string | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** Streaming cursor of the table "address" */
+  ["address_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["address_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["address_stream_cursor_value_input"]: {
+    bitcoin?: string | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    eth?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    sol?: string | undefined;
+    usdc?: string | undefined;
+  };
+  /** update columns of table "address" */
+  ["address_update_column"]: address_update_column;
+  ["address_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["address_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["address_bool_exp"];
+  };
   ["bigint"]: "scalar" & { name: "bigint" };
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ["bigint_comparison_exp"]: {
@@ -3410,150 +3552,11 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes["bigint"] | undefined;
     _nin?: Array<GraphQLTypes["bigint"]> | undefined;
   };
-  /** different chain and there address */
-  ["chain"]: {
-    __typename: "chain";
-    bitcoin?: string | undefined;
-    /** An object relationship */
-    client: GraphQLTypes["client"];
-    client_id: GraphQLTypes["uuid"];
-    eth?: string | undefined;
-    id: GraphQLTypes["uuid"];
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** aggregated selection of "chain" */
-  ["chain_aggregate"]: {
-    __typename: "chain_aggregate";
-    aggregate?: GraphQLTypes["chain_aggregate_fields"] | undefined;
-    nodes: Array<GraphQLTypes["chain"]>;
-  };
-  /** aggregate fields of "chain" */
-  ["chain_aggregate_fields"]: {
-    __typename: "chain_aggregate_fields";
-    count: number;
-    max?: GraphQLTypes["chain_max_fields"] | undefined;
-    min?: GraphQLTypes["chain_min_fields"] | undefined;
-  };
-  /** Boolean expression to filter rows from the table "chain". All fields are combined with a logical 'AND'. */
-  ["chain_bool_exp"]: {
-    _and?: Array<GraphQLTypes["chain_bool_exp"]> | undefined;
-    _not?: GraphQLTypes["chain_bool_exp"] | undefined;
-    _or?: Array<GraphQLTypes["chain_bool_exp"]> | undefined;
-    bitcoin?: GraphQLTypes["String_comparison_exp"] | undefined;
-    client?: GraphQLTypes["client_bool_exp"] | undefined;
-    client_id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
-    eth?: GraphQLTypes["String_comparison_exp"] | undefined;
-    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
-    sol?: GraphQLTypes["String_comparison_exp"] | undefined;
-    usdc?: GraphQLTypes["String_comparison_exp"] | undefined;
-  };
-  /** unique or primary key constraints on table "chain" */
-  ["chain_constraint"]: chain_constraint;
-  /** input type for inserting data into table "chain" */
-  ["chain_insert_input"]: {
-    bitcoin?: string | undefined;
-    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
-    client_id?: GraphQLTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: GraphQLTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** aggregate max on columns */
-  ["chain_max_fields"]: {
-    __typename: "chain_max_fields";
-    bitcoin?: string | undefined;
-    client_id?: GraphQLTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: GraphQLTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** aggregate min on columns */
-  ["chain_min_fields"]: {
-    __typename: "chain_min_fields";
-    bitcoin?: string | undefined;
-    client_id?: GraphQLTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: GraphQLTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** response of any mutation on the table "chain" */
-  ["chain_mutation_response"]: {
-    __typename: "chain_mutation_response";
-    /** number of rows affected by the mutation */
-    affected_rows: number;
-    /** data from the rows affected by the mutation */
-    returning: Array<GraphQLTypes["chain"]>;
-  };
-  /** input type for inserting object relation for remote table "chain" */
-  ["chain_obj_rel_insert_input"]: {
-    data: GraphQLTypes["chain_insert_input"];
-    /** upsert condition */
-    on_conflict?: GraphQLTypes["chain_on_conflict"] | undefined;
-  };
-  /** on_conflict condition type for table "chain" */
-  ["chain_on_conflict"]: {
-    constraint: GraphQLTypes["chain_constraint"];
-    update_columns: Array<GraphQLTypes["chain_update_column"]>;
-    where?: GraphQLTypes["chain_bool_exp"] | undefined;
-  };
-  /** Ordering options when selecting data from "chain". */
-  ["chain_order_by"]: {
-    bitcoin?: GraphQLTypes["order_by"] | undefined;
-    client?: GraphQLTypes["client_order_by"] | undefined;
-    client_id?: GraphQLTypes["order_by"] | undefined;
-    eth?: GraphQLTypes["order_by"] | undefined;
-    id?: GraphQLTypes["order_by"] | undefined;
-    sol?: GraphQLTypes["order_by"] | undefined;
-    usdc?: GraphQLTypes["order_by"] | undefined;
-  };
-  /** primary key columns input for table: chain */
-  ["chain_pk_columns_input"]: {
-    id: GraphQLTypes["uuid"];
-  };
-  /** select columns of table "chain" */
-  ["chain_select_column"]: chain_select_column;
-  /** input type for updating data in table "chain" */
-  ["chain_set_input"]: {
-    bitcoin?: string | undefined;
-    client_id?: GraphQLTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: GraphQLTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** Streaming cursor of the table "chain" */
-  ["chain_stream_cursor_input"]: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes["chain_stream_cursor_value_input"];
-    /** cursor ordering */
-    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ["chain_stream_cursor_value_input"]: {
-    bitcoin?: string | undefined;
-    client_id?: GraphQLTypes["uuid"] | undefined;
-    eth?: string | undefined;
-    id?: GraphQLTypes["uuid"] | undefined;
-    sol?: string | undefined;
-    usdc?: string | undefined;
-  };
-  /** update columns of table "chain" */
-  ["chain_update_column"]: chain_update_column;
-  ["chain_updates"]: {
-    /** sets the columns of the filtered rows to the given values */
-    _set?: GraphQLTypes["chain_set_input"] | undefined;
-    /** filter the rows which have to be updated */
-    where: GraphQLTypes["chain_bool_exp"];
-  };
   /** subscriber for paybox */
   ["client"]: {
     __typename: "client";
     /** An object relationship */
-    chain?: GraphQLTypes["chain"] | undefined;
+    address?: GraphQLTypes["address"] | undefined;
     email: string;
     firstname?: string | undefined;
     id: GraphQLTypes["uuid"];
@@ -3593,7 +3596,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes["client_bool_exp"]> | undefined;
     _not?: GraphQLTypes["client_bool_exp"] | undefined;
     _or?: Array<GraphQLTypes["client_bool_exp"]> | undefined;
-    chain?: GraphQLTypes["chain_bool_exp"] | undefined;
+    address?: GraphQLTypes["address_bool_exp"] | undefined;
     email?: GraphQLTypes["String_comparison_exp"] | undefined;
     firstname?: GraphQLTypes["String_comparison_exp"] | undefined;
     id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
@@ -3610,7 +3613,7 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
-    chain?: GraphQLTypes["chain_obj_rel_insert_input"] | undefined;
+    address?: GraphQLTypes["address_obj_rel_insert_input"] | undefined;
     email?: string | undefined;
     firstname?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
@@ -3663,7 +3666,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "client". */
   ["client_order_by"]: {
-    chain?: GraphQLTypes["chain_order_by"] | undefined;
+    address?: GraphQLTypes["address_order_by"] | undefined;
     email?: GraphQLTypes["order_by"] | undefined;
     firstname?: GraphQLTypes["order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
@@ -3755,29 +3758,29 @@ export type GraphQLTypes = {
   /** mutation root */
   ["mutation_root"]: {
     __typename: "mutation_root";
-    /** delete data from the table: "chain" */
-    delete_chain?: GraphQLTypes["chain_mutation_response"] | undefined;
-    /** delete single row from the table: "chain" */
-    delete_chain_by_pk?: GraphQLTypes["chain"] | undefined;
+    /** delete data from the table: "address" */
+    delete_address?: GraphQLTypes["address_mutation_response"] | undefined;
+    /** delete single row from the table: "address" */
+    delete_address_by_pk?: GraphQLTypes["address"] | undefined;
     /** delete data from the table: "client" */
     delete_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** delete single row from the table: "client" */
     delete_client_by_pk?: GraphQLTypes["client"] | undefined;
-    /** insert data into the table: "chain" */
-    insert_chain?: GraphQLTypes["chain_mutation_response"] | undefined;
-    /** insert a single row into the table: "chain" */
-    insert_chain_one?: GraphQLTypes["chain"] | undefined;
+    /** insert data into the table: "address" */
+    insert_address?: GraphQLTypes["address_mutation_response"] | undefined;
+    /** insert a single row into the table: "address" */
+    insert_address_one?: GraphQLTypes["address"] | undefined;
     /** insert data into the table: "client" */
     insert_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** insert a single row into the table: "client" */
     insert_client_one?: GraphQLTypes["client"] | undefined;
-    /** update data of the table: "chain" */
-    update_chain?: GraphQLTypes["chain_mutation_response"] | undefined;
-    /** update single row of the table: "chain" */
-    update_chain_by_pk?: GraphQLTypes["chain"] | undefined;
-    /** update multiples rows of table: "chain" */
-    update_chain_many?:
-      | Array<GraphQLTypes["chain_mutation_response"] | undefined>
+    /** update data of the table: "address" */
+    update_address?: GraphQLTypes["address_mutation_response"] | undefined;
+    /** update single row of the table: "address" */
+    update_address_by_pk?: GraphQLTypes["address"] | undefined;
+    /** update multiples rows of table: "address" */
+    update_address_many?:
+      | Array<GraphQLTypes["address_mutation_response"] | undefined>
       | undefined;
     /** update data of the table: "client" */
     update_client?: GraphQLTypes["client_mutation_response"] | undefined;
@@ -3792,12 +3795,12 @@ export type GraphQLTypes = {
   ["order_by"]: order_by;
   ["query_root"]: {
     __typename: "query_root";
-    /** fetch data from the table: "chain" */
-    chain: Array<GraphQLTypes["chain"]>;
-    /** fetch aggregated fields from the table: "chain" */
-    chain_aggregate: GraphQLTypes["chain_aggregate"];
-    /** fetch data from the table: "chain" using primary key columns */
-    chain_by_pk?: GraphQLTypes["chain"] | undefined;
+    /** fetch data from the table: "address" */
+    address: Array<GraphQLTypes["address"]>;
+    /** fetch aggregated fields from the table: "address" */
+    address_aggregate: GraphQLTypes["address_aggregate"];
+    /** fetch data from the table: "address" using primary key columns */
+    address_by_pk?: GraphQLTypes["address"] | undefined;
     /** fetch data from the table: "client" */
     client: Array<GraphQLTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -3807,14 +3810,14 @@ export type GraphQLTypes = {
   };
   ["subscription_root"]: {
     __typename: "subscription_root";
-    /** fetch data from the table: "chain" */
-    chain: Array<GraphQLTypes["chain"]>;
-    /** fetch aggregated fields from the table: "chain" */
-    chain_aggregate: GraphQLTypes["chain_aggregate"];
-    /** fetch data from the table: "chain" using primary key columns */
-    chain_by_pk?: GraphQLTypes["chain"] | undefined;
-    /** fetch data from the table in a streaming manner: "chain" */
-    chain_stream: Array<GraphQLTypes["chain"]>;
+    /** fetch data from the table: "address" */
+    address: Array<GraphQLTypes["address"]>;
+    /** fetch aggregated fields from the table: "address" */
+    address_aggregate: GraphQLTypes["address_aggregate"];
+    /** fetch data from the table: "address" using primary key columns */
+    address_by_pk?: GraphQLTypes["address"] | undefined;
+    /** fetch data from the table in a streaming manner: "address" */
+    address_stream: Array<GraphQLTypes["address"]>;
     /** fetch data from the table: "client" */
     client: Array<GraphQLTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -3838,13 +3841,13 @@ export type GraphQLTypes = {
     _nin?: Array<GraphQLTypes["uuid"]> | undefined;
   };
 };
-/** unique or primary key constraints on table "chain" */
-export const enum chain_constraint {
+/** unique or primary key constraints on table "address" */
+export const enum address_constraint {
   chain_client_id_key = "chain_client_id_key",
   chain_pkey = "chain_pkey",
 }
-/** select columns of table "chain" */
-export const enum chain_select_column {
+/** select columns of table "address" */
+export const enum address_select_column {
   bitcoin = "bitcoin",
   client_id = "client_id",
   eth = "eth",
@@ -3852,8 +3855,8 @@ export const enum chain_select_column {
   sol = "sol",
   usdc = "usdc",
 }
-/** update columns of table "chain" */
-export const enum chain_update_column {
+/** update columns of table "address" */
+export const enum address_update_column {
   bitcoin = "bitcoin",
   client_id = "client_id",
   eth = "eth",
@@ -3904,21 +3907,21 @@ export const enum order_by {
 
 type ZEUS_VARIABLES = {
   ["String_comparison_exp"]: ValueTypes["String_comparison_exp"];
+  ["address_bool_exp"]: ValueTypes["address_bool_exp"];
+  ["address_constraint"]: ValueTypes["address_constraint"];
+  ["address_insert_input"]: ValueTypes["address_insert_input"];
+  ["address_obj_rel_insert_input"]: ValueTypes["address_obj_rel_insert_input"];
+  ["address_on_conflict"]: ValueTypes["address_on_conflict"];
+  ["address_order_by"]: ValueTypes["address_order_by"];
+  ["address_pk_columns_input"]: ValueTypes["address_pk_columns_input"];
+  ["address_select_column"]: ValueTypes["address_select_column"];
+  ["address_set_input"]: ValueTypes["address_set_input"];
+  ["address_stream_cursor_input"]: ValueTypes["address_stream_cursor_input"];
+  ["address_stream_cursor_value_input"]: ValueTypes["address_stream_cursor_value_input"];
+  ["address_update_column"]: ValueTypes["address_update_column"];
+  ["address_updates"]: ValueTypes["address_updates"];
   ["bigint"]: ValueTypes["bigint"];
   ["bigint_comparison_exp"]: ValueTypes["bigint_comparison_exp"];
-  ["chain_bool_exp"]: ValueTypes["chain_bool_exp"];
-  ["chain_constraint"]: ValueTypes["chain_constraint"];
-  ["chain_insert_input"]: ValueTypes["chain_insert_input"];
-  ["chain_obj_rel_insert_input"]: ValueTypes["chain_obj_rel_insert_input"];
-  ["chain_on_conflict"]: ValueTypes["chain_on_conflict"];
-  ["chain_order_by"]: ValueTypes["chain_order_by"];
-  ["chain_pk_columns_input"]: ValueTypes["chain_pk_columns_input"];
-  ["chain_select_column"]: ValueTypes["chain_select_column"];
-  ["chain_set_input"]: ValueTypes["chain_set_input"];
-  ["chain_stream_cursor_input"]: ValueTypes["chain_stream_cursor_input"];
-  ["chain_stream_cursor_value_input"]: ValueTypes["chain_stream_cursor_value_input"];
-  ["chain_update_column"]: ValueTypes["chain_update_column"];
-  ["chain_updates"]: ValueTypes["chain_updates"];
   ["client_bool_exp"]: ValueTypes["client_bool_exp"];
   ["client_constraint"]: ValueTypes["client_constraint"];
   ["client_inc_input"]: ValueTypes["client_inc_input"];

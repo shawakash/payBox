@@ -10,6 +10,15 @@ const chain = Chain(HASURA_URL, {
     },
 });
 
+/**
+ * @param username 
+ * @param email 
+ * @param firstname 
+ * @param lastname 
+ * @param hashPassword 
+ * @param mobile 
+ * @returns 
+ */
 export const createClient = async (
     username: string,
     email: string,
@@ -19,7 +28,7 @@ export const createClient = async (
     mobile: number | null
 ): Promise<{
     id?: unknown,
-    chain?: unknown,
+    address?: unknown,
     status: dbResStatus,
 }> => {
     const response = await chain("mutation")({
@@ -34,7 +43,7 @@ export const createClient = async (
             },
         }, {
             id: true,
-            chain: {
+            address: {
                 bitcoin: true,
                 eth: true,
                 sol: true,
@@ -68,7 +77,7 @@ export const getClientByEmail = async (
         lastname?: unknown,
         mobile?: unknown,
         id?: unknown,
-        chain?: unknown,
+        address?: unknown,
         password?: unknown
     }[],
 }> => {
@@ -86,7 +95,7 @@ export const getClientByEmail = async (
             mobile: true,
             password: true,
             id: true,
-            chain: {
+            address: {
                 bitcoin: true,
                 eth: true,
                 sol: true,
@@ -107,6 +116,12 @@ export const getClientByEmail = async (
     }
 }
 
+/**
+ * 
+ * @param username 
+ * @param email 
+ * @returns 
+ */
 export const conflictClient = async (
     username: string,
     email: string,
@@ -140,6 +155,12 @@ export const conflictClient = async (
     }
 }
 
+/**
+ * 
+ * @param username 
+ * @param email 
+ * @returns 
+ */
 export const checkClient = async (
     username: string,
     email: string
@@ -151,7 +172,7 @@ export const checkClient = async (
         lastname?: unknown,
         mobile?: unknown,
         id?: unknown,
-        chain?: unknown,
+        address?: unknown,
         password?: unknown
     }[],
     status: dbResStatus
@@ -169,7 +190,7 @@ export const checkClient = async (
             firstname: true,
             lastname: true,
             id: true,
-            chain: {
+            address: {
                 bitcoin: true,
                 eth: true,
                 sol: true,
@@ -191,6 +212,12 @@ export const checkClient = async (
     }
 }
 
+/**
+ * 
+ * @param username 
+ * @param email 
+ * @returns 
+ */
 export const getClientMetaData = async (
     username: string
 ): Promise<{
@@ -201,7 +228,7 @@ export const getClientMetaData = async (
         lastname?: unknown,
         mobile?: unknown,
         id?: unknown,
-        chain?: unknown,
+        address?: unknown,
     }[],
     status: dbResStatus
 }> => {
@@ -218,7 +245,7 @@ export const getClientMetaData = async (
             firstname: true,
             lastname: true,
             id: true,
-            chain: {
+            address: {
                 bitcoin: true,
                 eth: true,
                 sol: true,
@@ -240,6 +267,12 @@ export const getClientMetaData = async (
     }
 };
 
+/**
+ * 
+ * @param username 
+ * @param email 
+ * @returns 
+ */
 export const updateMetadata = async (
     id: string,
     firstname: string,
@@ -273,6 +306,12 @@ export const updateMetadata = async (
     }
 };
 
+/**
+ * 
+ * @param username 
+ * @param email 
+ * @returns 
+ */
 export const getClientById = async (
     id: string
 ): Promise<{
@@ -300,7 +339,7 @@ export const getClientById = async (
             lastname: true,
             firstname: true,
             mobile: true,
-            chain: {
+            address: {
                 bitcoin: true,
                 eth: true,
                 sol: true,
@@ -320,6 +359,12 @@ export const getClientById = async (
     }
 }
 
+/**
+ * 
+ * @param username 
+ * @param email 
+ * @returns 
+ */
 export const deleteClient = async (
     id: string
 ): Promise<{

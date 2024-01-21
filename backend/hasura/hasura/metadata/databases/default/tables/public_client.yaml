@@ -2,10 +2,10 @@ table:
   name: client
   schema: public
 object_relationships:
-  - name: chain
+  - name: address
     using:
       foreign_key_constraint_on:
         column: client_id
         table:
-          name: chain
+          name: address
           schema: public

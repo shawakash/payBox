@@ -45,6 +45,15 @@ export class SolTxnLogs {
             this.connection.removeOnLogsListener(0);
         });
     }
+
+    async checkAddress(): Promise<boolean> {
+        const isAccount = await this.connection.getAccountInfo(this.publicKey);
+        if(isAccount) {
+            console.log(isAccount);
+            return true;
+        }
+        return false;
+    }
 }
 
 export default SolTxnLogs;
