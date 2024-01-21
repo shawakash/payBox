@@ -2,6 +2,68 @@
 
 export const AllTypesProps: Record<string, any> = {
   String_comparison_exp: {},
+  address_aggregate_fields: {
+    count: {
+      columns: "address_select_column",
+    },
+  },
+  address_bool_exp: {
+    _and: "address_bool_exp",
+    _not: "address_bool_exp",
+    _or: "address_bool_exp",
+    bitcoin: "String_comparison_exp",
+    client: "client_bool_exp",
+    client_id: "uuid_comparison_exp",
+    eth: "String_comparison_exp",
+    id: "uuid_comparison_exp",
+    sol: "String_comparison_exp",
+    usdc: "String_comparison_exp",
+  },
+  address_constraint: "enum" as const,
+  address_insert_input: {
+    client: "client_obj_rel_insert_input",
+    client_id: "uuid",
+    id: "uuid",
+  },
+  address_obj_rel_insert_input: {
+    data: "address_insert_input",
+    on_conflict: "address_on_conflict",
+  },
+  address_on_conflict: {
+    constraint: "address_constraint",
+    update_columns: "address_update_column",
+    where: "address_bool_exp",
+  },
+  address_order_by: {
+    bitcoin: "order_by",
+    client: "client_order_by",
+    client_id: "order_by",
+    eth: "order_by",
+    id: "order_by",
+    sol: "order_by",
+    usdc: "order_by",
+  },
+  address_pk_columns_input: {
+    id: "uuid",
+  },
+  address_select_column: "enum" as const,
+  address_set_input: {
+    client_id: "uuid",
+    id: "uuid",
+  },
+  address_stream_cursor_input: {
+    initial_value: "address_stream_cursor_value_input",
+    ordering: "cursor_ordering",
+  },
+  address_stream_cursor_value_input: {
+    client_id: "uuid",
+    id: "uuid",
+  },
+  address_update_column: "enum" as const,
+  address_updates: {
+    _set: "address_set_input",
+    where: "address_bool_exp",
+  },
   bigint: `scalar.bigint` as const,
   bigint_comparison_exp: {
     _eq: "bigint",
@@ -13,68 +75,6 @@ export const AllTypesProps: Record<string, any> = {
     _neq: "bigint",
     _nin: "bigint",
   },
-  chain_aggregate_fields: {
-    count: {
-      columns: "chain_select_column",
-    },
-  },
-  chain_bool_exp: {
-    _and: "chain_bool_exp",
-    _not: "chain_bool_exp",
-    _or: "chain_bool_exp",
-    bitcoin: "String_comparison_exp",
-    client: "client_bool_exp",
-    client_id: "uuid_comparison_exp",
-    eth: "String_comparison_exp",
-    id: "uuid_comparison_exp",
-    sol: "String_comparison_exp",
-    usdc: "String_comparison_exp",
-  },
-  chain_constraint: "enum" as const,
-  chain_insert_input: {
-    client: "client_obj_rel_insert_input",
-    client_id: "uuid",
-    id: "uuid",
-  },
-  chain_obj_rel_insert_input: {
-    data: "chain_insert_input",
-    on_conflict: "chain_on_conflict",
-  },
-  chain_on_conflict: {
-    constraint: "chain_constraint",
-    update_columns: "chain_update_column",
-    where: "chain_bool_exp",
-  },
-  chain_order_by: {
-    bitcoin: "order_by",
-    client: "client_order_by",
-    client_id: "order_by",
-    eth: "order_by",
-    id: "order_by",
-    sol: "order_by",
-    usdc: "order_by",
-  },
-  chain_pk_columns_input: {
-    id: "uuid",
-  },
-  chain_select_column: "enum" as const,
-  chain_set_input: {
-    client_id: "uuid",
-    id: "uuid",
-  },
-  chain_stream_cursor_input: {
-    initial_value: "chain_stream_cursor_value_input",
-    ordering: "cursor_ordering",
-  },
-  chain_stream_cursor_value_input: {
-    client_id: "uuid",
-    id: "uuid",
-  },
-  chain_update_column: "enum" as const,
-  chain_updates: {
-    _set: "chain_set_input",
-    where: "chain_bool_exp",
-  },
   client_aggregate_fields: {
     count: {
       columns: "client_select_column",
@@ -84,7 +84,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: "client_bool_exp",
     _not: "client_bool_exp",
     _or: "client_bool_exp",
-    chain: "chain_bool_exp",
+    address: "address_bool_exp",
     email: "String_comparison_exp",
     firstname: "String_comparison_exp",
     id: "uuid_comparison_exp",
@@ -98,7 +98,7 @@ export const AllTypesProps: Record<string, any> = {
     mobile: "bigint",
   },
   client_insert_input: {
-    chain: "chain_obj_rel_insert_input",
+    address: "address_obj_rel_insert_input",
     id: "uuid",
     mobile: "bigint",
   },
@@ -112,7 +112,7 @@ export const AllTypesProps: Record<string, any> = {
     where: "client_bool_exp",
   },
   client_order_by: {
-    chain: "chain_order_by",
+    address: "address_order_by",
     email: "order_by",
     firstname: "order_by",
     id: "order_by",
@@ -145,10 +145,10 @@ export const AllTypesProps: Record<string, any> = {
   },
   cursor_ordering: "enum" as const,
   mutation_root: {
-    delete_chain: {
-      where: "chain_bool_exp",
+    delete_address: {
+      where: "address_bool_exp",
     },
-    delete_chain_by_pk: {
+    delete_address_by_pk: {
       id: "uuid",
     },
     delete_client: {
@@ -157,13 +157,13 @@ export const AllTypesProps: Record<string, any> = {
     delete_client_by_pk: {
       id: "uuid",
     },
-    insert_chain: {
-      objects: "chain_insert_input",
-      on_conflict: "chain_on_conflict",
+    insert_address: {
+      objects: "address_insert_input",
+      on_conflict: "address_on_conflict",
     },
-    insert_chain_one: {
-      object: "chain_insert_input",
-      on_conflict: "chain_on_conflict",
+    insert_address_one: {
+      object: "address_insert_input",
+      on_conflict: "address_on_conflict",
     },
     insert_client: {
       objects: "client_insert_input",
@@ -173,16 +173,16 @@ export const AllTypesProps: Record<string, any> = {
       object: "client_insert_input",
       on_conflict: "client_on_conflict",
     },
-    update_chain: {
-      _set: "chain_set_input",
-      where: "chain_bool_exp",
+    update_address: {
+      _set: "address_set_input",
+      where: "address_bool_exp",
     },
-    update_chain_by_pk: {
-      _set: "chain_set_input",
-      pk_columns: "chain_pk_columns_input",
+    update_address_by_pk: {
+      _set: "address_set_input",
+      pk_columns: "address_pk_columns_input",
     },
-    update_chain_many: {
-      updates: "chain_updates",
+    update_address_many: {
+      updates: "address_updates",
     },
     update_client: {
       _inc: "client_inc_input",
@@ -200,17 +200,17 @@ export const AllTypesProps: Record<string, any> = {
   },
   order_by: "enum" as const,
   query_root: {
-    chain: {
-      distinct_on: "chain_select_column",
-      order_by: "chain_order_by",
-      where: "chain_bool_exp",
+    address: {
+      distinct_on: "address_select_column",
+      order_by: "address_order_by",
+      where: "address_bool_exp",
     },
-    chain_aggregate: {
-      distinct_on: "chain_select_column",
-      order_by: "chain_order_by",
-      where: "chain_bool_exp",
+    address_aggregate: {
+      distinct_on: "address_select_column",
+      order_by: "address_order_by",
+      where: "address_bool_exp",
     },
-    chain_by_pk: {
+    address_by_pk: {
       id: "uuid",
     },
     client: {
@@ -228,22 +228,22 @@ export const AllTypesProps: Record<string, any> = {
     },
   },
   subscription_root: {
-    chain: {
-      distinct_on: "chain_select_column",
-      order_by: "chain_order_by",
-      where: "chain_bool_exp",
+    address: {
+      distinct_on: "address_select_column",
+      order_by: "address_order_by",
+      where: "address_bool_exp",
     },
-    chain_aggregate: {
-      distinct_on: "chain_select_column",
-      order_by: "chain_order_by",
-      where: "chain_bool_exp",
+    address_aggregate: {
+      distinct_on: "address_select_column",
+      order_by: "address_order_by",
+      where: "address_bool_exp",
     },
-    chain_by_pk: {
+    address_by_pk: {
       id: "uuid",
     },
-    chain_stream: {
-      cursor: "chain_stream_cursor_input",
-      where: "chain_bool_exp",
+    address_stream: {
+      cursor: "address_stream_cursor_input",
+      where: "address_bool_exp",
     },
     client: {
       distinct_on: "client_select_column",
@@ -281,8 +281,7 @@ export const ReturnTypes: Record<string, any> = {
     ttl: "Int",
     refresh: "Boolean",
   },
-  bigint: `scalar.bigint` as const,
-  chain: {
+  address: {
     bitcoin: "String",
     client: "client",
     client_id: "uuid",
@@ -291,16 +290,16 @@ export const ReturnTypes: Record<string, any> = {
     sol: "String",
     usdc: "String",
   },
-  chain_aggregate: {
-    aggregate: "chain_aggregate_fields",
-    nodes: "chain",
+  address_aggregate: {
+    aggregate: "address_aggregate_fields",
+    nodes: "address",
   },
-  chain_aggregate_fields: {
+  address_aggregate_fields: {
     count: "Int",
-    max: "chain_max_fields",
-    min: "chain_min_fields",
+    max: "address_max_fields",
+    min: "address_min_fields",
   },
-  chain_max_fields: {
+  address_max_fields: {
     bitcoin: "String",
     client_id: "uuid",
     eth: "String",
@@ -308,7 +307,7 @@ export const ReturnTypes: Record<string, any> = {
     sol: "String",
     usdc: "String",
   },
-  chain_min_fields: {
+  address_min_fields: {
     bitcoin: "String",
     client_id: "uuid",
     eth: "String",
@@ -316,12 +315,13 @@ export const ReturnTypes: Record<string, any> = {
     sol: "String",
     usdc: "String",
   },
-  chain_mutation_response: {
+  address_mutation_response: {
     affected_rows: "Int",
-    returning: "chain",
+    returning: "address",
   },
+  bigint: `scalar.bigint` as const,
   client: {
-    chain: "chain",
+    address: "address",
     email: "String",
     firstname: "String",
     id: "uuid",
@@ -394,34 +394,34 @@ export const ReturnTypes: Record<string, any> = {
     mobile: "Float",
   },
   mutation_root: {
-    delete_chain: "chain_mutation_response",
-    delete_chain_by_pk: "chain",
+    delete_address: "address_mutation_response",
+    delete_address_by_pk: "address",
     delete_client: "client_mutation_response",
     delete_client_by_pk: "client",
-    insert_chain: "chain_mutation_response",
-    insert_chain_one: "chain",
+    insert_address: "address_mutation_response",
+    insert_address_one: "address",
     insert_client: "client_mutation_response",
     insert_client_one: "client",
-    update_chain: "chain_mutation_response",
-    update_chain_by_pk: "chain",
-    update_chain_many: "chain_mutation_response",
+    update_address: "address_mutation_response",
+    update_address_by_pk: "address",
+    update_address_many: "address_mutation_response",
     update_client: "client_mutation_response",
     update_client_by_pk: "client",
     update_client_many: "client_mutation_response",
   },
   query_root: {
-    chain: "chain",
-    chain_aggregate: "chain_aggregate",
-    chain_by_pk: "chain",
+    address: "address",
+    address_aggregate: "address_aggregate",
+    address_by_pk: "address",
     client: "client",
     client_aggregate: "client_aggregate",
     client_by_pk: "client",
   },
   subscription_root: {
-    chain: "chain",
-    chain_aggregate: "chain_aggregate",
-    chain_by_pk: "chain",
-    chain_stream: "chain",
+    address: "address",
+    address_aggregate: "address_aggregate",
+    address_by_pk: "address",
+    address_stream: "address",
     client: "client",
     client_aggregate: "client_aggregate",
     client_by_pk: "client",
