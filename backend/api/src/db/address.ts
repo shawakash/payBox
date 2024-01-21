@@ -91,3 +91,45 @@ export const conflictAddress = async (
         status: dbResStatus.Error
     }
 }
+
+/**
+ * 
+ * @param client_id 
+ * @returns Address for the given client id
+ */
+export const getAddressByClientId = async (
+    client_id: string
+): Promise<{
+    status: dbResStatus,
+    address?: {
+        bitcoin?: unknown,
+        eth?: unknown,
+        sol?: unknown,
+        usdc?: unknown,
+        id?: unknown
+    }[] 
+}> => {
+    const response = await chain("query")({
+        address: [{
+            where: {
+                client_id: {_eq: client_id}
+            },
+            limit: 1
+        }, {
+            bitcoin: true,
+            eth: true,
+            usdc: true,
+            sol: true,
+            id: true,
+        }]
+    }, {operationName: "getAddressByClientId"});
+    if(response.address[0].id) {
+        return {
+            ...response,
+            status: dbResStatus.Ok,
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}

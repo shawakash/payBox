@@ -82,17 +82,7 @@ export class Redis {
             return null;
         }
 
-        return {
-            id: client.id,
-            email: client.email,
-            mobile: client.mobile,
-            password: client.password,
-            username: client.username,
-            firstname: client.firstname,
-            lastname: client.lastname,
-            //@ts-ignore  Redis does not allow to cache with types
-            address: JSON.parse(client.address)
-        }
+        return {...client}
     }
 
     async updateUserFields(key: string, updatedFields: Partial<Client>) {
@@ -115,10 +105,29 @@ export class Redis {
                 eth: items.eth,
                 bitcoin: items.bitcoin,
                 usdc: items.usdc,
-                clientId: items.clientId
+                client_id: items.clientId
             });
         console.log(`Address Cached ${data}`);
+        await this.cacheIdUsingKey(items.clientId, items.id);
         return;
+    }
+
+
+    async getAddress(key: string): Promise<Partial<Address & {id: string, clientId: string}> | null> {
+        const address = await this.client.hGetAll(key);
+
+        if (!address) {
+            return null;
+        }
+
+        return {
+            id: address.id,
+            clientId: address.client_id,
+            eth: address.eth,
+            sol: address.sol,
+            bitcoin: address.bitcoin,
+            usdc: address.usdc
+        }
     }
 
     async updateClientAddress(key: string, items: Partial<Address>) {
@@ -131,6 +140,27 @@ export class Redis {
         await this.client.hSet(key, "address", JSON.stringify(items));
         console.log(`Client address updated for client ID: ${key}`);
     
+        return;
+    }
+
+
+    async getAddressFromKey(key: string): Promise<Partial<Address & {id: string, clientId: string}> | null> {
+        const addressId = await this.client.get(key);
+        if (!addressId) {
+            return null;
+        }
+        const address = await this.getAddress(addressId);
+        
+        if (!address) {
+            return null;
+        }
+
+        return {...address};
+    }
+
+    async cacheIdUsingKey(key: string, item: string) {
+        const data = await this.client.set(key, item);
+        console.log(`${data} is cached with ${key}`);
         return;
     }
 
