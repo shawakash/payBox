@@ -3,7 +3,7 @@ import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { dbResStatus } from "../types/client";
 import { Address, responseStatus } from "@paybox/common";
 import { checkClient, conflictClient, createClient, deleteClient, getClientByEmail, getClientById, getClientMetaData, updateMetadata } from "../db/client";
-import { cache } from "..";
+import { cache } from "../index";
 import { setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
 import { extractClientId } from "../auth/middleware";
 import { Client, ClientSigninFormValidate, ClientSignupFormValidate } from "@paybox/common";

@@ -111,6 +111,7 @@ export class EthTxnLogs {
   async checkAddress(): Promise<boolean> {
     try {
       const account = await this.httpProvider.lookupAddress(this.address);
+      //check this
       if(account) {
         console.log(account);
         return true;

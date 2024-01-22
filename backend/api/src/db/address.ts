@@ -1,7 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
-import { dbResStatus, getClientId } from "../types/client";
-import { Address, HASURA_ADMIN_SERCRET } from "@paybox/common";
+import { dbResStatus } from "../types/client";
+import { HASURA_ADMIN_SERCRET } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
     headers: {
@@ -11,7 +11,6 @@ const chain = Chain(HASURA_URL, {
 });
 
 /**
- * 
  * @param eth 
  * @param sol 
  * @param clientId 
@@ -36,12 +35,17 @@ export const createAddress = async (
                 sol,
                 bitcoin,
                 usdc,
-                client_id: clientId
+                client: {
+                    data: {
+                        id: clientId
+                    }
+                }
             },
         }, {
-            id: true
+            id: true,
         }]
     }, { operationName: "createChain" });
+    console.log(response)
     if (response.insert_address_one?.id) {
         return { ...response.insert_address_one, status: dbResStatus.Ok }
     }
@@ -51,7 +55,6 @@ export const createAddress = async (
 };
 
 /**
- * 
  * @param eth 
  * @param sol 
  * @param clientId 
@@ -60,14 +63,16 @@ export const createAddress = async (
  * @returns checks for conflciting adderss
  */
 export const conflictAddress = async (
-    eth: string,
-    sol: string,
     clientId: string,
+    eth?: string,
+    sol?: string,
     bitcoin?: string,
     usdc?: string
 ): Promise<{
     status: dbResStatus,
-    chain?: Address[]
+    address?: {
+        id?: unknown | null
+    }[]
 }> => {
     const response = await chain("query")({
         address: [{
@@ -140,9 +145,9 @@ export const getAddressByClientId = async (
  * @returns updates the address
  */
 export const updateAddress = async (
-    eth: string,
-    sol: string,
     clientId: string,
+    eth?: string,
+    sol?: string,
     bitcoin?: string,
     usdc?: string
 ): Promise<{

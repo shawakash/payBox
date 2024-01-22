@@ -154,7 +154,7 @@ export class Redis {
 
     async cacheIdUsingKey(key: string, item: string) {
         const data = await this.client.set(key, item);
-        console.log(`${data} is cached with ${key}`);
+        console.log(`${key} is cached with ${key}`);
         return;
     }
 

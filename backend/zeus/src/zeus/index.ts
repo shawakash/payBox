@@ -4760,9 +4760,9 @@ export type ModelTypes = {
     /** An object relationship */
     client: ModelTypes["client"];
     client_id: ModelTypes["uuid"];
-    eth?: string | undefined;
+    eth: string;
     id: ModelTypes["uuid"];
-    sol?: string | undefined;
+    sol: string;
     usdc?: string | undefined;
   };
   /** aggregated selection of "address" */
@@ -5667,9 +5667,9 @@ export type GraphQLTypes = {
     /** An object relationship */
     client: GraphQLTypes["client"];
     client_id: GraphQLTypes["uuid"];
-    eth?: string | undefined;
+    eth: string;
     id: GraphQLTypes["uuid"];
-    sol?: string | undefined;
+    sol: string;
     usdc?: string | undefined;
   };
   /** aggregated selection of "address" */

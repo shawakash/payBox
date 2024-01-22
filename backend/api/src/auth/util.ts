@@ -2,9 +2,14 @@ import type { Request, Response } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
 import bcryptjs from "bcryptjs";
 import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
-import { JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
+import { Address, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
+import * as qr from "qrcode";
 
 
+/**
+ * @param jwt 
+ * @returns 
+ */
 export const validateJwt = async (jwt: string) => {
   const publicKey = await importSPKI(AUTH_JWT_PUBLIC_KEY, JWT_ALGO);
   return await jwtVerify(jwt, publicKey, {
@@ -13,6 +18,11 @@ export const validateJwt = async (jwt: string) => {
   });
 };
 
+/**
+ * 
+ * @param res 
+ * @param cookieName 
+ */
 export const clearCookie = (res: Response, cookieName: string) => {
   res.clearCookie(cookieName);
 };
@@ -86,4 +96,32 @@ export const validatePassword = async (
   } catch (error) {
     throw new Error('Error hashing password');
   }
+}
+/**
+ * 
+ * @param payload 
+ * @param path 
+ * @returns true if the qr code is generated successfully else false
+ */
+export const generateQRCode = async (
+  payload: Partial<Address> & { id: string },
+  path: string
+): Promise<boolean> => {
+  try {
+    const qrCodeDataURL = await qr.toDataURL(JSON.stringify(payload));
+    console.log(qrCodeDataURL);
+    await qr.toFile(path, JSON.stringify(payload));
+
+    console.log(`QR code generated successfully and saved at: ${path}`);
+    return true;
+  } catch (error) {
+    console.error('Error generating QR code:', error);
+    return false;
+  }
+}
+
+export const generateUniqueImageName = (id: string): string => {
+  const timestamp: number = Date.now();
+  const imageName: string = `./code/${id.slice(5)}_${timestamp.toString().slice(5)}.png`;
+  return imageName;
 }
