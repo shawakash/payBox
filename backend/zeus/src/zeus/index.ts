@@ -1016,11 +1016,26 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(
 type ZEUS_INTERFACES = never;
 export type ScalarCoders = {
   bigint?: ScalarResolver;
+  date?: ScalarResolver;
+  float8?: ScalarResolver;
+  time?: ScalarResolver;
   uuid?: ScalarResolver;
 };
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+  ["Int_comparison_exp"]: {
+    _eq?: number | undefined | null | Variable<any, string>;
+    _gt?: number | undefined | null | Variable<any, string>;
+    _gte?: number | undefined | null | Variable<any, string>;
+    _in?: Array<number> | undefined | null | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: number | undefined | null | Variable<any, string>;
+    _lte?: number | undefined | null | Variable<any, string>;
+    _neq?: number | undefined | null | Variable<any, string>;
+    _nin?: Array<number> | undefined | null | Variable<any, string>;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ["String_comparison_exp"]: {
     _eq?: string | undefined | null | Variable<any, string>;
@@ -1305,6 +1320,74 @@ export type ValueTypes = {
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
     password?: boolean | `@${string}`;
+    transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["transactions_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["transactions_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["transactions_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions"],
+    ];
+    transactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["transactions_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["transactions_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["transactions_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions_aggregate"],
+    ];
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1396,6 +1479,16 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    transactions?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    transactions_aggregate?:
+      | ValueTypes["transactions_aggregate_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
     username?:
       | ValueTypes["String_comparison_exp"]
       | undefined
@@ -1421,6 +1514,11 @@ export type ValueTypes = {
     lastname?: string | undefined | null | Variable<any, string>;
     mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     password?: string | undefined | null | Variable<any, string>;
+    transactions?:
+      | ValueTypes["transactions_arr_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate max on columns */
@@ -1497,6 +1595,11 @@ export type ValueTypes = {
     mobile?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     password?:
       | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    transactions_aggregate?:
+      | ValueTypes["transactions_aggregate_order_by"]
       | undefined
       | null
       | Variable<any, string>;
@@ -1600,6 +1703,40 @@ export type ValueTypes = {
   }>;
   /** ordering argument of a cursor */
   ["cursor_ordering"]: cursor_ordering;
+  ["date"]: unknown;
+  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+  ["date_comparison_exp"]: {
+    _eq?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    _gt?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    _gte?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    _in?: Array<ValueTypes["date"]> | undefined | null | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    _lte?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    _neq?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    _nin?: Array<ValueTypes["date"]> | undefined | null | Variable<any, string>;
+  };
+  ["float8"]: unknown;
+  /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+  ["float8_comparison_exp"]: {
+    _eq?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    _gt?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    _gte?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    _in?:
+      | Array<ValueTypes["float8"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    _lte?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    _neq?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    _nin?:
+      | Array<ValueTypes["float8"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
   /** mutation root */
   ["mutation_root"]: AliasType<{
     delete_address?: [
@@ -1623,6 +1760,17 @@ export type ValueTypes = {
     delete_client_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["client"],
+    ];
+    delete_transactions?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["transactions_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["transactions_mutation_response"],
+    ];
+    delete_transactions_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["transactions"],
     ];
     insert_address?: [
       {
@@ -1679,6 +1827,34 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["client"],
+    ];
+    insert_transactions?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["transactions_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["transactions_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions_mutation_response"],
+    ];
+    insert_transactions_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["transactions_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["transactions_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions"],
     ];
     update_address?: [
       {
@@ -1767,6 +1943,60 @@ export type ValueTypes = {
         updates: Array<ValueTypes["client_updates"]> | Variable<any, string>;
       },
       ValueTypes["client_mutation_response"],
+    ];
+    update_transactions?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes["transactions_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes["transactions_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["transactions_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["transactions_mutation_response"],
+    ];
+    update_transactions_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes["transactions_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes["transactions_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns:
+          | ValueTypes["transactions_pk_columns_input"]
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions"],
+    ];
+    update_transactions_many?: [
+      {
+        /** updates to execute, in order */
+        updates:
+          | Array<ValueTypes["transactions_updates"]>
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions_mutation_response"],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -1916,6 +2146,78 @@ export type ValueTypes = {
     client_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["client"],
+    ];
+    transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["transactions_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["transactions_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["transactions_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions"],
+    ];
+    transactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["transactions_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["transactions_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["transactions_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions_aggregate"],
+    ];
+    transactions_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["transactions"],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -2104,8 +2406,749 @@ export type ValueTypes = {
       },
       ValueTypes["client"],
     ];
+    transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["transactions_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["transactions_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["transactions_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions"],
+    ];
+    transactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["transactions_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["transactions_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["transactions_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions_aggregate"],
+    ];
+    transactions_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["transactions"],
+    ];
+    transactions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<
+              ValueTypes["transactions_stream_cursor_input"] | undefined | null
+            >
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["transactions_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["transactions"],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
+  ["time"]: unknown;
+  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
+  ["time_comparison_exp"]: {
+    _eq?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    _gt?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    _gte?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    _in?: Array<ValueTypes["time"]> | undefined | null | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    _lte?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    _neq?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    _nin?: Array<ValueTypes["time"]> | undefined | null | Variable<any, string>;
+  };
+  /** transactions table  */
+  ["transactions"]: AliasType<{
+    address?: boolean | `@${string}`;
+    amount?: boolean | `@${string}`;
+    /** An object relationship */
+    client?: ValueTypes["client"];
+    client_id?: boolean | `@${string}`;
+    date?: boolean | `@${string}`;
+    from?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    time?: boolean | `@${string}`;
+    to?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "transactions" */
+  ["transactions_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["transactions_aggregate_fields"];
+    nodes?: ValueTypes["transactions"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["transactions_aggregate_bool_exp"]: {
+    avg?:
+      | ValueTypes["transactions_aggregate_bool_exp_avg"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    corr?:
+      | ValueTypes["transactions_aggregate_bool_exp_corr"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    count?:
+      | ValueTypes["transactions_aggregate_bool_exp_count"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    covar_samp?:
+      | ValueTypes["transactions_aggregate_bool_exp_covar_samp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    max?:
+      | ValueTypes["transactions_aggregate_bool_exp_max"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    min?:
+      | ValueTypes["transactions_aggregate_bool_exp_min"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    stddev_samp?:
+      | ValueTypes["transactions_aggregate_bool_exp_stddev_samp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sum?:
+      | ValueTypes["transactions_aggregate_bool_exp_sum"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    var_samp?:
+      | ValueTypes["transactions_aggregate_bool_exp_var_samp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_avg"]: {
+    arguments:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["float8_comparison_exp"] | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_corr"]: {
+    arguments:
+      | ValueTypes["transactions_aggregate_bool_exp_corr_arguments"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["float8_comparison_exp"] | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_corr_arguments"]: {
+    X:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"]
+      | Variable<any, string>;
+    Y:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"]
+      | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ValueTypes["transactions_select_column"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_covar_samp"]: {
+    arguments:
+      | ValueTypes["transactions_aggregate_bool_exp_covar_samp_arguments"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["float8_comparison_exp"] | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_covar_samp_arguments"]: {
+    X:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"]
+      | Variable<any, string>;
+    Y:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"]
+      | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_max"]: {
+    arguments:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["float8_comparison_exp"] | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_min"]: {
+    arguments:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["float8_comparison_exp"] | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_stddev_samp"]: {
+    arguments:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["float8_comparison_exp"] | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_sum"]: {
+    arguments:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["float8_comparison_exp"] | Variable<any, string>;
+  };
+  ["transactions_aggregate_bool_exp_var_samp"]: {
+    arguments:
+      | ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["float8_comparison_exp"] | Variable<any, string>;
+  };
+  /** aggregate fields of "transactions" */
+  ["transactions_aggregate_fields"]: AliasType<{
+    avg?: ValueTypes["transactions_avg_fields"];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["transactions_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["transactions_max_fields"];
+    min?: ValueTypes["transactions_min_fields"];
+    stddev?: ValueTypes["transactions_stddev_fields"];
+    stddev_pop?: ValueTypes["transactions_stddev_pop_fields"];
+    stddev_samp?: ValueTypes["transactions_stddev_samp_fields"];
+    sum?: ValueTypes["transactions_sum_fields"];
+    var_pop?: ValueTypes["transactions_var_pop_fields"];
+    var_samp?: ValueTypes["transactions_var_samp_fields"];
+    variance?: ValueTypes["transactions_variance_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "transactions" */
+  ["transactions_aggregate_order_by"]: {
+    avg?:
+      | ValueTypes["transactions_avg_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    max?:
+      | ValueTypes["transactions_max_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    min?:
+      | ValueTypes["transactions_min_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    stddev?:
+      | ValueTypes["transactions_stddev_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    stddev_pop?:
+      | ValueTypes["transactions_stddev_pop_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    stddev_samp?:
+      | ValueTypes["transactions_stddev_samp_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sum?:
+      | ValueTypes["transactions_sum_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    var_pop?:
+      | ValueTypes["transactions_var_pop_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    var_samp?:
+      | ValueTypes["transactions_var_samp_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    variance?:
+      | ValueTypes["transactions_variance_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting array relation for remote table "transactions" */
+  ["transactions_arr_rel_insert_input"]: {
+    data:
+      | Array<ValueTypes["transactions_insert_input"]>
+      | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["transactions_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate avg on columns */
+  ["transactions_avg_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "transactions" */
+  ["transactions_avg_order_by"]: {
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
+  ["transactions_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["transactions_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["transactions_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    address?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    amount?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client_id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    date?:
+      | ValueTypes["date_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    from?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    hash?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    time?:
+      | ValueTypes["time_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    to?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    type?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "transactions" */
+  ["transactions_constraint"]: transactions_constraint;
+  /** input type for incrementing numeric columns in table "transactions" */
+  ["transactions_inc_input"]: {
+    amount?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+  };
+  /** input type for inserting data into table "transactions" */
+  ["transactions_insert_input"]: {
+    address?: string | undefined | null | Variable<any, string>;
+    amount?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    client?:
+      | ValueTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client_id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    from?: string | undefined | null | Variable<any, string>;
+    hash?: string | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    time?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    to?: string | undefined | null | Variable<any, string>;
+    type?: string | undefined | null | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["transactions_max_fields"]: AliasType<{
+    address?: boolean | `@${string}`;
+    amount?: boolean | `@${string}`;
+    client_id?: boolean | `@${string}`;
+    date?: boolean | `@${string}`;
+    from?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    to?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "transactions" */
+  ["transactions_max_order_by"]: {
+    address?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    client_id?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** aggregate min on columns */
+  ["transactions_min_fields"]: AliasType<{
+    address?: boolean | `@${string}`;
+    amount?: boolean | `@${string}`;
+    client_id?: boolean | `@${string}`;
+    date?: boolean | `@${string}`;
+    from?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    to?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "transactions" */
+  ["transactions_min_order_by"]: {
+    address?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    client_id?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** response of any mutation on the table "transactions" */
+  ["transactions_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["transactions"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "transactions" */
+  ["transactions_on_conflict"]: {
+    constraint: ValueTypes["transactions_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["transactions_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["transactions_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "transactions". */
+  ["transactions_order_by"]: {
+    address?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    client?:
+      | ValueTypes["client_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client_id?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    time?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** primary key columns input for table: transactions */
+  ["transactions_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "transactions" */
+  ["transactions_select_column"]: transactions_select_column;
+  /** select "transactions_aggregate_bool_exp_avg_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_corr_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_covar_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_max_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_min_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_stddev_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_sum_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_var_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns;
+  /** input type for updating data in table "transactions" */
+  ["transactions_set_input"]: {
+    address?: string | undefined | null | Variable<any, string>;
+    amount?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    client_id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    from?: string | undefined | null | Variable<any, string>;
+    hash?: string | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    time?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    to?: string | undefined | null | Variable<any, string>;
+    type?: string | undefined | null | Variable<any, string>;
+  };
+  /** aggregate stddev on columns */
+  ["transactions_stddev_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "transactions" */
+  ["transactions_stddev_order_by"]: {
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** aggregate stddev_pop on columns */
+  ["transactions_stddev_pop_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "transactions" */
+  ["transactions_stddev_pop_order_by"]: {
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** aggregate stddev_samp on columns */
+  ["transactions_stddev_samp_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "transactions" */
+  ["transactions_stddev_samp_order_by"]: {
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** Streaming cursor of the table "transactions" */
+  ["transactions_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["transactions_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["transactions_stream_cursor_value_input"]: {
+    address?: string | undefined | null | Variable<any, string>;
+    amount?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    client_id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    from?: string | undefined | null | Variable<any, string>;
+    hash?: string | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    time?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    to?: string | undefined | null | Variable<any, string>;
+    type?: string | undefined | null | Variable<any, string>;
+  };
+  /** aggregate sum on columns */
+  ["transactions_sum_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "transactions" */
+  ["transactions_sum_order_by"]: {
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** update columns of table "transactions" */
+  ["transactions_update_column"]: transactions_update_column;
+  ["transactions_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?:
+      | ValueTypes["transactions_inc_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["transactions_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["transactions_bool_exp"] | Variable<any, string>;
+  };
+  /** aggregate var_pop on columns */
+  ["transactions_var_pop_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "transactions" */
+  ["transactions_var_pop_order_by"]: {
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** aggregate var_samp on columns */
+  ["transactions_var_samp_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "transactions" */
+  ["transactions_var_samp_order_by"]: {
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** aggregate variance on columns */
+  ["transactions_variance_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "transactions" */
+  ["transactions_variance_order_by"]: {
+    amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
   ["uuid"]: unknown;
   /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
   ["uuid_comparison_exp"]: {
@@ -2128,6 +3171,18 @@ export type ResolverInputTypes = {
     subscription?: ResolverInputTypes["subscription_root"];
     __typename?: boolean | `@${string}`;
   }>;
+  /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+  ["Int_comparison_exp"]: {
+    _eq?: number | undefined | null;
+    _gt?: number | undefined | null;
+    _gte?: number | undefined | null;
+    _in?: Array<number> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: number | undefined | null;
+    _lte?: number | undefined | null;
+    _neq?: number | undefined | null;
+    _nin?: Array<number> | undefined | null;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ["String_comparison_exp"]: {
     _eq?: string | undefined | null;
@@ -2334,6 +3389,52 @@ export type ResolverInputTypes = {
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
     password?: boolean | `@${string}`;
+    transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["transactions_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["transactions_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["transactions"],
+    ];
+    transactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["transactions_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["transactions_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["transactions_aggregate"],
+    ];
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -2384,6 +3485,14 @@ export type ResolverInputTypes = {
     lastname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     mobile?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null;
     password?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    transactions?:
+      | ResolverInputTypes["transactions_bool_exp"]
+      | undefined
+      | null;
+    transactions_aggregate?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp"]
+      | undefined
+      | null;
     username?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
   };
   /** unique or primary key constraints on table "client" */
@@ -2404,6 +3513,10 @@ export type ResolverInputTypes = {
     lastname?: string | undefined | null;
     mobile?: ResolverInputTypes["bigint"] | undefined | null;
     password?: string | undefined | null;
+    transactions?:
+      | ResolverInputTypes["transactions_arr_rel_insert_input"]
+      | undefined
+      | null;
     username?: string | undefined | null;
   };
   /** aggregate max on columns */
@@ -2457,6 +3570,10 @@ export type ResolverInputTypes = {
     lastname?: ResolverInputTypes["order_by"] | undefined | null;
     mobile?: ResolverInputTypes["order_by"] | undefined | null;
     password?: ResolverInputTypes["order_by"] | undefined | null;
+    transactions_aggregate?:
+      | ResolverInputTypes["transactions_aggregate_order_by"]
+      | undefined
+      | null;
     username?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** primary key columns input for table: client */
@@ -2539,6 +3656,32 @@ export type ResolverInputTypes = {
   }>;
   /** ordering argument of a cursor */
   ["cursor_ordering"]: cursor_ordering;
+  ["date"]: unknown;
+  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+  ["date_comparison_exp"]: {
+    _eq?: ResolverInputTypes["date"] | undefined | null;
+    _gt?: ResolverInputTypes["date"] | undefined | null;
+    _gte?: ResolverInputTypes["date"] | undefined | null;
+    _in?: Array<ResolverInputTypes["date"]> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ResolverInputTypes["date"] | undefined | null;
+    _lte?: ResolverInputTypes["date"] | undefined | null;
+    _neq?: ResolverInputTypes["date"] | undefined | null;
+    _nin?: Array<ResolverInputTypes["date"]> | undefined | null;
+  };
+  ["float8"]: unknown;
+  /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+  ["float8_comparison_exp"]: {
+    _eq?: ResolverInputTypes["float8"] | undefined | null;
+    _gt?: ResolverInputTypes["float8"] | undefined | null;
+    _gte?: ResolverInputTypes["float8"] | undefined | null;
+    _in?: Array<ResolverInputTypes["float8"]> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ResolverInputTypes["float8"] | undefined | null;
+    _lte?: ResolverInputTypes["float8"] | undefined | null;
+    _neq?: ResolverInputTypes["float8"] | undefined | null;
+    _nin?: Array<ResolverInputTypes["float8"]> | undefined | null;
+  };
   /** mutation root */
   ["mutation_root"]: AliasType<{
     delete_address?: [
@@ -2562,6 +3705,17 @@ export type ResolverInputTypes = {
     delete_client_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["client"],
+    ];
+    delete_transactions?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["transactions_bool_exp"];
+      },
+      ResolverInputTypes["transactions_mutation_response"],
+    ];
+    delete_transactions_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["transactions"],
     ];
     insert_address?: [
       {
@@ -2610,6 +3764,30 @@ export type ResolverInputTypes = {
           | null;
       },
       ResolverInputTypes["client"],
+    ];
+    insert_transactions?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["transactions_insert_input"]
+        > /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["transactions_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["transactions_mutation_response"],
+    ];
+    insert_transactions_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["transactions_insert_input"] /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["transactions_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["transactions"],
     ];
     update_address?: [
       {
@@ -2670,6 +3848,40 @@ export type ResolverInputTypes = {
         updates: Array<ResolverInputTypes["client_updates"]>;
       },
       ResolverInputTypes["client_mutation_response"],
+    ];
+    update_transactions?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ResolverInputTypes["transactions_inc_input"]
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ResolverInputTypes["transactions_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["transactions_bool_exp"];
+      },
+      ResolverInputTypes["transactions_mutation_response"],
+    ];
+    update_transactions_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ResolverInputTypes["transactions_inc_input"]
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ResolverInputTypes["transactions_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["transactions_pk_columns_input"];
+      },
+      ResolverInputTypes["transactions"],
+    ];
+    update_transactions_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["transactions_updates"]>;
+      },
+      ResolverInputTypes["transactions_mutation_response"],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -2775,6 +3987,56 @@ export type ResolverInputTypes = {
     client_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["client"],
+    ];
+    transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["transactions_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["transactions_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["transactions"],
+    ];
+    transactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["transactions_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["transactions_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["transactions_aggregate"],
+    ];
+    transactions_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["transactions"],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -2901,8 +4163,532 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["client"],
     ];
+    transactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["transactions_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["transactions_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["transactions"],
+    ];
+    transactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["transactions_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["transactions_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["transactions_aggregate"],
+    ];
+    transactions_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["transactions"],
+    ];
+    transactions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ResolverInputTypes["transactions_stream_cursor_input"]
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["transactions"],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
+  ["time"]: unknown;
+  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
+  ["time_comparison_exp"]: {
+    _eq?: ResolverInputTypes["time"] | undefined | null;
+    _gt?: ResolverInputTypes["time"] | undefined | null;
+    _gte?: ResolverInputTypes["time"] | undefined | null;
+    _in?: Array<ResolverInputTypes["time"]> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ResolverInputTypes["time"] | undefined | null;
+    _lte?: ResolverInputTypes["time"] | undefined | null;
+    _neq?: ResolverInputTypes["time"] | undefined | null;
+    _nin?: Array<ResolverInputTypes["time"]> | undefined | null;
+  };
+  /** transactions table  */
+  ["transactions"]: AliasType<{
+    address?: boolean | `@${string}`;
+    amount?: boolean | `@${string}`;
+    /** An object relationship */
+    client?: ResolverInputTypes["client"];
+    client_id?: boolean | `@${string}`;
+    date?: boolean | `@${string}`;
+    from?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    time?: boolean | `@${string}`;
+    to?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "transactions" */
+  ["transactions_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["transactions_aggregate_fields"];
+    nodes?: ResolverInputTypes["transactions"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["transactions_aggregate_bool_exp"]: {
+    avg?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_avg"]
+      | undefined
+      | null;
+    corr?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_corr"]
+      | undefined
+      | null;
+    count?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_count"]
+      | undefined
+      | null;
+    covar_samp?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_covar_samp"]
+      | undefined
+      | null;
+    max?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_max"]
+      | undefined
+      | null;
+    min?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_min"]
+      | undefined
+      | null;
+    stddev_samp?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_stddev_samp"]
+      | undefined
+      | null;
+    sum?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_sum"]
+      | undefined
+      | null;
+    var_samp?:
+      | ResolverInputTypes["transactions_aggregate_bool_exp_var_samp"]
+      | undefined
+      | null;
+  };
+  ["transactions_aggregate_bool_exp_avg"]: {
+    arguments: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_corr"]: {
+    arguments: ResolverInputTypes["transactions_aggregate_bool_exp_corr_arguments"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_corr_arguments"]: {
+    X: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"];
+    Y: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"];
+  };
+  ["transactions_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ResolverInputTypes["transactions_select_column"]>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["Int_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_covar_samp"]: {
+    arguments: ResolverInputTypes["transactions_aggregate_bool_exp_covar_samp_arguments"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_covar_samp_arguments"]: {
+    X: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"];
+    Y: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"];
+  };
+  ["transactions_aggregate_bool_exp_max"]: {
+    arguments: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_min"]: {
+    arguments: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_stddev_samp"]: {
+    arguments: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_sum"]: {
+    arguments: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_var_samp"]: {
+    arguments: ResolverInputTypes["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["float8_comparison_exp"];
+  };
+  /** aggregate fields of "transactions" */
+  ["transactions_aggregate_fields"]: AliasType<{
+    avg?: ResolverInputTypes["transactions_avg_fields"];
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["transactions_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["transactions_max_fields"];
+    min?: ResolverInputTypes["transactions_min_fields"];
+    stddev?: ResolverInputTypes["transactions_stddev_fields"];
+    stddev_pop?: ResolverInputTypes["transactions_stddev_pop_fields"];
+    stddev_samp?: ResolverInputTypes["transactions_stddev_samp_fields"];
+    sum?: ResolverInputTypes["transactions_sum_fields"];
+    var_pop?: ResolverInputTypes["transactions_var_pop_fields"];
+    var_samp?: ResolverInputTypes["transactions_var_samp_fields"];
+    variance?: ResolverInputTypes["transactions_variance_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "transactions" */
+  ["transactions_aggregate_order_by"]: {
+    avg?: ResolverInputTypes["transactions_avg_order_by"] | undefined | null;
+    count?: ResolverInputTypes["order_by"] | undefined | null;
+    max?: ResolverInputTypes["transactions_max_order_by"] | undefined | null;
+    min?: ResolverInputTypes["transactions_min_order_by"] | undefined | null;
+    stddev?:
+      | ResolverInputTypes["transactions_stddev_order_by"]
+      | undefined
+      | null;
+    stddev_pop?:
+      | ResolverInputTypes["transactions_stddev_pop_order_by"]
+      | undefined
+      | null;
+    stddev_samp?:
+      | ResolverInputTypes["transactions_stddev_samp_order_by"]
+      | undefined
+      | null;
+    sum?: ResolverInputTypes["transactions_sum_order_by"] | undefined | null;
+    var_pop?:
+      | ResolverInputTypes["transactions_var_pop_order_by"]
+      | undefined
+      | null;
+    var_samp?:
+      | ResolverInputTypes["transactions_var_samp_order_by"]
+      | undefined
+      | null;
+    variance?:
+      | ResolverInputTypes["transactions_variance_order_by"]
+      | undefined
+      | null;
+  };
+  /** input type for inserting array relation for remote table "transactions" */
+  ["transactions_arr_rel_insert_input"]: {
+    data: Array<ResolverInputTypes["transactions_insert_input"]>;
+    /** upsert condition */
+    on_conflict?:
+      | ResolverInputTypes["transactions_on_conflict"]
+      | undefined
+      | null;
+  };
+  /** aggregate avg on columns */
+  ["transactions_avg_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "transactions" */
+  ["transactions_avg_order_by"]: {
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
+  ["transactions_bool_exp"]: {
+    _and?:
+      | Array<ResolverInputTypes["transactions_bool_exp"]>
+      | undefined
+      | null;
+    _not?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["transactions_bool_exp"]> | undefined | null;
+    address?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    amount?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    client_id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    date?: ResolverInputTypes["date_comparison_exp"] | undefined | null;
+    from?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    hash?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    time?: ResolverInputTypes["time_comparison_exp"] | undefined | null;
+    to?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    type?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "transactions" */
+  ["transactions_constraint"]: transactions_constraint;
+  /** input type for incrementing numeric columns in table "transactions" */
+  ["transactions_inc_input"]: {
+    amount?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** input type for inserting data into table "transactions" */
+  ["transactions_insert_input"]: {
+    address?: string | undefined | null;
+    amount?: ResolverInputTypes["float8"] | undefined | null;
+    client?:
+      | ResolverInputTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null;
+    client_id?: ResolverInputTypes["uuid"] | undefined | null;
+    date?: ResolverInputTypes["date"] | undefined | null;
+    from?: string | undefined | null;
+    hash?: string | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    time?: ResolverInputTypes["time"] | undefined | null;
+    to?: string | undefined | null;
+    type?: string | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["transactions_max_fields"]: AliasType<{
+    address?: boolean | `@${string}`;
+    amount?: boolean | `@${string}`;
+    client_id?: boolean | `@${string}`;
+    date?: boolean | `@${string}`;
+    from?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    to?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "transactions" */
+  ["transactions_max_order_by"]: {
+    address?: ResolverInputTypes["order_by"] | undefined | null;
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+    client_id?: ResolverInputTypes["order_by"] | undefined | null;
+    date?: ResolverInputTypes["order_by"] | undefined | null;
+    from?: ResolverInputTypes["order_by"] | undefined | null;
+    hash?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    to?: ResolverInputTypes["order_by"] | undefined | null;
+    type?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ["transactions_min_fields"]: AliasType<{
+    address?: boolean | `@${string}`;
+    amount?: boolean | `@${string}`;
+    client_id?: boolean | `@${string}`;
+    date?: boolean | `@${string}`;
+    from?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    to?: boolean | `@${string}`;
+    type?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "transactions" */
+  ["transactions_min_order_by"]: {
+    address?: ResolverInputTypes["order_by"] | undefined | null;
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+    client_id?: ResolverInputTypes["order_by"] | undefined | null;
+    date?: ResolverInputTypes["order_by"] | undefined | null;
+    from?: ResolverInputTypes["order_by"] | undefined | null;
+    hash?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    to?: ResolverInputTypes["order_by"] | undefined | null;
+    type?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** response of any mutation on the table "transactions" */
+  ["transactions_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["transactions"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "transactions" */
+  ["transactions_on_conflict"]: {
+    constraint: ResolverInputTypes["transactions_constraint"];
+    update_columns: Array<ResolverInputTypes["transactions_update_column"]>;
+    where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "transactions". */
+  ["transactions_order_by"]: {
+    address?: ResolverInputTypes["order_by"] | undefined | null;
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+    client?: ResolverInputTypes["client_order_by"] | undefined | null;
+    client_id?: ResolverInputTypes["order_by"] | undefined | null;
+    date?: ResolverInputTypes["order_by"] | undefined | null;
+    from?: ResolverInputTypes["order_by"] | undefined | null;
+    hash?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    time?: ResolverInputTypes["order_by"] | undefined | null;
+    to?: ResolverInputTypes["order_by"] | undefined | null;
+    type?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: transactions */
+  ["transactions_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "transactions" */
+  ["transactions_select_column"]: transactions_select_column;
+  /** select "transactions_aggregate_bool_exp_avg_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_corr_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_covar_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_max_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_min_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_stddev_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_sum_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_var_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns;
+  /** input type for updating data in table "transactions" */
+  ["transactions_set_input"]: {
+    address?: string | undefined | null;
+    amount?: ResolverInputTypes["float8"] | undefined | null;
+    client_id?: ResolverInputTypes["uuid"] | undefined | null;
+    date?: ResolverInputTypes["date"] | undefined | null;
+    from?: string | undefined | null;
+    hash?: string | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    time?: ResolverInputTypes["time"] | undefined | null;
+    to?: string | undefined | null;
+    type?: string | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ["transactions_stddev_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "transactions" */
+  ["transactions_stddev_order_by"]: {
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ["transactions_stddev_pop_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "transactions" */
+  ["transactions_stddev_pop_order_by"]: {
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ["transactions_stddev_samp_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "transactions" */
+  ["transactions_stddev_samp_order_by"]: {
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** Streaming cursor of the table "transactions" */
+  ["transactions_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["transactions_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["transactions_stream_cursor_value_input"]: {
+    address?: string | undefined | null;
+    amount?: ResolverInputTypes["float8"] | undefined | null;
+    client_id?: ResolverInputTypes["uuid"] | undefined | null;
+    date?: ResolverInputTypes["date"] | undefined | null;
+    from?: string | undefined | null;
+    hash?: string | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    time?: ResolverInputTypes["time"] | undefined | null;
+    to?: string | undefined | null;
+    type?: string | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ["transactions_sum_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "transactions" */
+  ["transactions_sum_order_by"]: {
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** update columns of table "transactions" */
+  ["transactions_update_column"]: transactions_update_column;
+  ["transactions_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ResolverInputTypes["transactions_inc_input"] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["transactions_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["transactions_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["transactions_var_pop_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "transactions" */
+  ["transactions_var_pop_order_by"]: {
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate var_samp on columns */
+  ["transactions_var_samp_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "transactions" */
+  ["transactions_var_samp_order_by"]: {
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate variance on columns */
+  ["transactions_variance_fields"]: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "transactions" */
+  ["transactions_variance_order_by"]: {
+    amount?: ResolverInputTypes["order_by"] | undefined | null;
+  };
   ["uuid"]: unknown;
   /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
   ["uuid_comparison_exp"]: {
@@ -2923,6 +4709,18 @@ export type ModelTypes = {
     query?: ModelTypes["query_root"] | undefined;
     mutation?: ModelTypes["mutation_root"] | undefined;
     subscription?: ModelTypes["subscription_root"] | undefined;
+  };
+  /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+  ["Int_comparison_exp"]: {
+    _eq?: number | undefined;
+    _gt?: number | undefined;
+    _gte?: number | undefined;
+    _in?: Array<number> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: number | undefined;
+    _lte?: number | undefined;
+    _neq?: number | undefined;
+    _nin?: Array<number> | undefined;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ["String_comparison_exp"]: {
@@ -3109,6 +4907,10 @@ export type ModelTypes = {
     lastname?: string | undefined;
     mobile?: ModelTypes["bigint"] | undefined;
     password: string;
+    /** An array relationship */
+    transactions: Array<ModelTypes["transactions"]>;
+    /** An aggregate relationship */
+    transactions_aggregate: ModelTypes["transactions_aggregate"];
     username: string;
   };
   /** aggregated selection of "client" */
@@ -3146,6 +4948,10 @@ export type ModelTypes = {
     lastname?: ModelTypes["String_comparison_exp"] | undefined;
     mobile?: ModelTypes["bigint_comparison_exp"] | undefined;
     password?: ModelTypes["String_comparison_exp"] | undefined;
+    transactions?: ModelTypes["transactions_bool_exp"] | undefined;
+    transactions_aggregate?:
+      | ModelTypes["transactions_aggregate_bool_exp"]
+      | undefined;
     username?: ModelTypes["String_comparison_exp"] | undefined;
   };
   ["client_constraint"]: client_constraint;
@@ -3162,6 +4968,7 @@ export type ModelTypes = {
     lastname?: string | undefined;
     mobile?: ModelTypes["bigint"] | undefined;
     password?: string | undefined;
+    transactions?: ModelTypes["transactions_arr_rel_insert_input"] | undefined;
     username?: string | undefined;
   };
   /** aggregate max on columns */
@@ -3212,6 +5019,9 @@ export type ModelTypes = {
     lastname?: ModelTypes["order_by"] | undefined;
     mobile?: ModelTypes["order_by"] | undefined;
     password?: ModelTypes["order_by"] | undefined;
+    transactions_aggregate?:
+      | ModelTypes["transactions_aggregate_order_by"]
+      | undefined;
     username?: ModelTypes["order_by"] | undefined;
   };
   /** primary key columns input for table: client */
@@ -3284,6 +5094,32 @@ export type ModelTypes = {
     mobile?: number | undefined;
   };
   ["cursor_ordering"]: cursor_ordering;
+  ["date"]: any;
+  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+  ["date_comparison_exp"]: {
+    _eq?: ModelTypes["date"] | undefined;
+    _gt?: ModelTypes["date"] | undefined;
+    _gte?: ModelTypes["date"] | undefined;
+    _in?: Array<ModelTypes["date"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: ModelTypes["date"] | undefined;
+    _lte?: ModelTypes["date"] | undefined;
+    _neq?: ModelTypes["date"] | undefined;
+    _nin?: Array<ModelTypes["date"]> | undefined;
+  };
+  ["float8"]: any;
+  /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+  ["float8_comparison_exp"]: {
+    _eq?: ModelTypes["float8"] | undefined;
+    _gt?: ModelTypes["float8"] | undefined;
+    _gte?: ModelTypes["float8"] | undefined;
+    _in?: Array<ModelTypes["float8"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: ModelTypes["float8"] | undefined;
+    _lte?: ModelTypes["float8"] | undefined;
+    _neq?: ModelTypes["float8"] | undefined;
+    _nin?: Array<ModelTypes["float8"]> | undefined;
+  };
   /** mutation root */
   ["mutation_root"]: {
     /** delete data from the table: "address" */
@@ -3294,6 +5130,12 @@ export type ModelTypes = {
     delete_client?: ModelTypes["client_mutation_response"] | undefined;
     /** delete single row from the table: "client" */
     delete_client_by_pk?: ModelTypes["client"] | undefined;
+    /** delete data from the table: "transactions" */
+    delete_transactions?:
+      | ModelTypes["transactions_mutation_response"]
+      | undefined;
+    /** delete single row from the table: "transactions" */
+    delete_transactions_by_pk?: ModelTypes["transactions"] | undefined;
     /** insert data into the table: "address" */
     insert_address?: ModelTypes["address_mutation_response"] | undefined;
     /** insert a single row into the table: "address" */
@@ -3302,6 +5144,12 @@ export type ModelTypes = {
     insert_client?: ModelTypes["client_mutation_response"] | undefined;
     /** insert a single row into the table: "client" */
     insert_client_one?: ModelTypes["client"] | undefined;
+    /** insert data into the table: "transactions" */
+    insert_transactions?:
+      | ModelTypes["transactions_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "transactions" */
+    insert_transactions_one?: ModelTypes["transactions"] | undefined;
     /** update data of the table: "address" */
     update_address?: ModelTypes["address_mutation_response"] | undefined;
     /** update single row of the table: "address" */
@@ -3318,6 +5166,16 @@ export type ModelTypes = {
     update_client_many?:
       | Array<ModelTypes["client_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "transactions" */
+    update_transactions?:
+      | ModelTypes["transactions_mutation_response"]
+      | undefined;
+    /** update single row of the table: "transactions" */
+    update_transactions_by_pk?: ModelTypes["transactions"] | undefined;
+    /** update multiples rows of table: "transactions" */
+    update_transactions_many?:
+      | Array<ModelTypes["transactions_mutation_response"] | undefined>
+      | undefined;
   };
   ["order_by"]: order_by;
   ["query_root"]: {
@@ -3333,6 +5191,12 @@ export type ModelTypes = {
     client_aggregate: ModelTypes["client_aggregate"];
     /** fetch data from the table: "client" using primary key columns */
     client_by_pk?: ModelTypes["client"] | undefined;
+    /** An array relationship */
+    transactions: Array<ModelTypes["transactions"]>;
+    /** An aggregate relationship */
+    transactions_aggregate: ModelTypes["transactions_aggregate"];
+    /** fetch data from the table: "transactions" using primary key columns */
+    transactions_by_pk?: ModelTypes["transactions"] | undefined;
   };
   ["subscription_root"]: {
     /** fetch data from the table: "address" */
@@ -3351,6 +5215,390 @@ export type ModelTypes = {
     client_by_pk?: ModelTypes["client"] | undefined;
     /** fetch data from the table in a streaming manner: "client" */
     client_stream: Array<ModelTypes["client"]>;
+    /** An array relationship */
+    transactions: Array<ModelTypes["transactions"]>;
+    /** An aggregate relationship */
+    transactions_aggregate: ModelTypes["transactions_aggregate"];
+    /** fetch data from the table: "transactions" using primary key columns */
+    transactions_by_pk?: ModelTypes["transactions"] | undefined;
+    /** fetch data from the table in a streaming manner: "transactions" */
+    transactions_stream: Array<ModelTypes["transactions"]>;
+  };
+  ["time"]: any;
+  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
+  ["time_comparison_exp"]: {
+    _eq?: ModelTypes["time"] | undefined;
+    _gt?: ModelTypes["time"] | undefined;
+    _gte?: ModelTypes["time"] | undefined;
+    _in?: Array<ModelTypes["time"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: ModelTypes["time"] | undefined;
+    _lte?: ModelTypes["time"] | undefined;
+    _neq?: ModelTypes["time"] | undefined;
+    _nin?: Array<ModelTypes["time"]> | undefined;
+  };
+  /** transactions table  */
+  ["transactions"]: {
+    address: string;
+    amount: ModelTypes["float8"];
+    /** An object relationship */
+    client: ModelTypes["client"];
+    client_id: ModelTypes["uuid"];
+    date: ModelTypes["date"];
+    from: string;
+    hash: string;
+    id: ModelTypes["uuid"];
+    time: ModelTypes["time"];
+    to: string;
+    type: string;
+  };
+  /** aggregated selection of "transactions" */
+  ["transactions_aggregate"]: {
+    aggregate?: ModelTypes["transactions_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["transactions"]>;
+  };
+  ["transactions_aggregate_bool_exp"]: {
+    avg?: ModelTypes["transactions_aggregate_bool_exp_avg"] | undefined;
+    corr?: ModelTypes["transactions_aggregate_bool_exp_corr"] | undefined;
+    count?: ModelTypes["transactions_aggregate_bool_exp_count"] | undefined;
+    covar_samp?:
+      | ModelTypes["transactions_aggregate_bool_exp_covar_samp"]
+      | undefined;
+    max?: ModelTypes["transactions_aggregate_bool_exp_max"] | undefined;
+    min?: ModelTypes["transactions_aggregate_bool_exp_min"] | undefined;
+    stddev_samp?:
+      | ModelTypes["transactions_aggregate_bool_exp_stddev_samp"]
+      | undefined;
+    sum?: ModelTypes["transactions_aggregate_bool_exp_sum"] | undefined;
+    var_samp?:
+      | ModelTypes["transactions_aggregate_bool_exp_var_samp"]
+      | undefined;
+  };
+  ["transactions_aggregate_bool_exp_avg"]: {
+    arguments: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_corr"]: {
+    arguments: ModelTypes["transactions_aggregate_bool_exp_corr_arguments"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_corr_arguments"]: {
+    X: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"];
+    Y: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"];
+  };
+  ["transactions_aggregate_bool_exp_count"]: {
+    arguments?: Array<ModelTypes["transactions_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["Int_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_covar_samp"]: {
+    arguments: ModelTypes["transactions_aggregate_bool_exp_covar_samp_arguments"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_covar_samp_arguments"]: {
+    X: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"];
+    Y: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"];
+  };
+  ["transactions_aggregate_bool_exp_max"]: {
+    arguments: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_min"]: {
+    arguments: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_stddev_samp"]: {
+    arguments: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_sum"]: {
+    arguments: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_var_samp"]: {
+    arguments: ModelTypes["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["transactions_bool_exp"] | undefined;
+    predicate: ModelTypes["float8_comparison_exp"];
+  };
+  /** aggregate fields of "transactions" */
+  ["transactions_aggregate_fields"]: {
+    avg?: ModelTypes["transactions_avg_fields"] | undefined;
+    count: number;
+    max?: ModelTypes["transactions_max_fields"] | undefined;
+    min?: ModelTypes["transactions_min_fields"] | undefined;
+    stddev?: ModelTypes["transactions_stddev_fields"] | undefined;
+    stddev_pop?: ModelTypes["transactions_stddev_pop_fields"] | undefined;
+    stddev_samp?: ModelTypes["transactions_stddev_samp_fields"] | undefined;
+    sum?: ModelTypes["transactions_sum_fields"] | undefined;
+    var_pop?: ModelTypes["transactions_var_pop_fields"] | undefined;
+    var_samp?: ModelTypes["transactions_var_samp_fields"] | undefined;
+    variance?: ModelTypes["transactions_variance_fields"] | undefined;
+  };
+  /** order by aggregate values of table "transactions" */
+  ["transactions_aggregate_order_by"]: {
+    avg?: ModelTypes["transactions_avg_order_by"] | undefined;
+    count?: ModelTypes["order_by"] | undefined;
+    max?: ModelTypes["transactions_max_order_by"] | undefined;
+    min?: ModelTypes["transactions_min_order_by"] | undefined;
+    stddev?: ModelTypes["transactions_stddev_order_by"] | undefined;
+    stddev_pop?: ModelTypes["transactions_stddev_pop_order_by"] | undefined;
+    stddev_samp?: ModelTypes["transactions_stddev_samp_order_by"] | undefined;
+    sum?: ModelTypes["transactions_sum_order_by"] | undefined;
+    var_pop?: ModelTypes["transactions_var_pop_order_by"] | undefined;
+    var_samp?: ModelTypes["transactions_var_samp_order_by"] | undefined;
+    variance?: ModelTypes["transactions_variance_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "transactions" */
+  ["transactions_arr_rel_insert_input"]: {
+    data: Array<ModelTypes["transactions_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ModelTypes["transactions_on_conflict"] | undefined;
+  };
+  /** aggregate avg on columns */
+  ["transactions_avg_fields"]: {
+    amount?: number | undefined;
+  };
+  /** order by avg() on columns of table "transactions" */
+  ["transactions_avg_order_by"]: {
+    amount?: ModelTypes["order_by"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
+  ["transactions_bool_exp"]: {
+    _and?: Array<ModelTypes["transactions_bool_exp"]> | undefined;
+    _not?: ModelTypes["transactions_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["transactions_bool_exp"]> | undefined;
+    address?: ModelTypes["String_comparison_exp"] | undefined;
+    amount?: ModelTypes["float8_comparison_exp"] | undefined;
+    client?: ModelTypes["client_bool_exp"] | undefined;
+    client_id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    date?: ModelTypes["date_comparison_exp"] | undefined;
+    from?: ModelTypes["String_comparison_exp"] | undefined;
+    hash?: ModelTypes["String_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    time?: ModelTypes["time_comparison_exp"] | undefined;
+    to?: ModelTypes["String_comparison_exp"] | undefined;
+    type?: ModelTypes["String_comparison_exp"] | undefined;
+  };
+  ["transactions_constraint"]: transactions_constraint;
+  /** input type for incrementing numeric columns in table "transactions" */
+  ["transactions_inc_input"]: {
+    amount?: ModelTypes["float8"] | undefined;
+  };
+  /** input type for inserting data into table "transactions" */
+  ["transactions_insert_input"]: {
+    address?: string | undefined;
+    amount?: ModelTypes["float8"] | undefined;
+    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    date?: ModelTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    time?: ModelTypes["time"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ["transactions_max_fields"]: {
+    address?: string | undefined;
+    amount?: ModelTypes["float8"] | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    date?: ModelTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** order by max() on columns of table "transactions" */
+  ["transactions_max_order_by"]: {
+    address?: ModelTypes["order_by"] | undefined;
+    amount?: ModelTypes["order_by"] | undefined;
+    client_id?: ModelTypes["order_by"] | undefined;
+    date?: ModelTypes["order_by"] | undefined;
+    from?: ModelTypes["order_by"] | undefined;
+    hash?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    to?: ModelTypes["order_by"] | undefined;
+    type?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["transactions_min_fields"]: {
+    address?: string | undefined;
+    amount?: ModelTypes["float8"] | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    date?: ModelTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** order by min() on columns of table "transactions" */
+  ["transactions_min_order_by"]: {
+    address?: ModelTypes["order_by"] | undefined;
+    amount?: ModelTypes["order_by"] | undefined;
+    client_id?: ModelTypes["order_by"] | undefined;
+    date?: ModelTypes["order_by"] | undefined;
+    from?: ModelTypes["order_by"] | undefined;
+    hash?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    to?: ModelTypes["order_by"] | undefined;
+    type?: ModelTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "transactions" */
+  ["transactions_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["transactions"]>;
+  };
+  /** on_conflict condition type for table "transactions" */
+  ["transactions_on_conflict"]: {
+    constraint: ModelTypes["transactions_constraint"];
+    update_columns: Array<ModelTypes["transactions_update_column"]>;
+    where?: ModelTypes["transactions_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "transactions". */
+  ["transactions_order_by"]: {
+    address?: ModelTypes["order_by"] | undefined;
+    amount?: ModelTypes["order_by"] | undefined;
+    client?: ModelTypes["client_order_by"] | undefined;
+    client_id?: ModelTypes["order_by"] | undefined;
+    date?: ModelTypes["order_by"] | undefined;
+    from?: ModelTypes["order_by"] | undefined;
+    hash?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    time?: ModelTypes["order_by"] | undefined;
+    to?: ModelTypes["order_by"] | undefined;
+    type?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: transactions */
+  ["transactions_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["transactions_select_column"]: transactions_select_column;
+  ["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns;
+  ["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns;
+  ["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns;
+  ["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns;
+  ["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns;
+  ["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns;
+  ["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns;
+  ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns;
+  /** input type for updating data in table "transactions" */
+  ["transactions_set_input"]: {
+    address?: string | undefined;
+    amount?: ModelTypes["float8"] | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    date?: ModelTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    time?: ModelTypes["time"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** aggregate stddev on columns */
+  ["transactions_stddev_fields"]: {
+    amount?: number | undefined;
+  };
+  /** order by stddev() on columns of table "transactions" */
+  ["transactions_stddev_order_by"]: {
+    amount?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ["transactions_stddev_pop_fields"]: {
+    amount?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "transactions" */
+  ["transactions_stddev_pop_order_by"]: {
+    amount?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ["transactions_stddev_samp_fields"]: {
+    amount?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "transactions" */
+  ["transactions_stddev_samp_order_by"]: {
+    amount?: ModelTypes["order_by"] | undefined;
+  };
+  /** Streaming cursor of the table "transactions" */
+  ["transactions_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["transactions_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["transactions_stream_cursor_value_input"]: {
+    address?: string | undefined;
+    amount?: ModelTypes["float8"] | undefined;
+    client_id?: ModelTypes["uuid"] | undefined;
+    date?: ModelTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    time?: ModelTypes["time"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** aggregate sum on columns */
+  ["transactions_sum_fields"]: {
+    amount?: ModelTypes["float8"] | undefined;
+  };
+  /** order by sum() on columns of table "transactions" */
+  ["transactions_sum_order_by"]: {
+    amount?: ModelTypes["order_by"] | undefined;
+  };
+  ["transactions_update_column"]: transactions_update_column;
+  ["transactions_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ModelTypes["transactions_inc_input"] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["transactions_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["transactions_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["transactions_var_pop_fields"]: {
+    amount?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "transactions" */
+  ["transactions_var_pop_order_by"]: {
+    amount?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ["transactions_var_samp_fields"]: {
+    amount?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "transactions" */
+  ["transactions_var_samp_order_by"]: {
+    amount?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate variance on columns */
+  ["transactions_variance_fields"]: {
+    amount?: number | undefined;
+  };
+  /** order by variance() on columns of table "transactions" */
+  ["transactions_variance_order_by"]: {
+    amount?: ModelTypes["order_by"] | undefined;
   };
   ["uuid"]: any;
   /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
@@ -3368,6 +5616,18 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
+  /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
+  ["Int_comparison_exp"]: {
+    _eq?: number | undefined;
+    _gt?: number | undefined;
+    _gte?: number | undefined;
+    _in?: Array<number> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: number | undefined;
+    _lte?: number | undefined;
+    _neq?: number | undefined;
+    _nin?: Array<number> | undefined;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ["String_comparison_exp"]: {
     _eq?: string | undefined;
@@ -3563,6 +5823,10 @@ export type GraphQLTypes = {
     lastname?: string | undefined;
     mobile?: GraphQLTypes["bigint"] | undefined;
     password: string;
+    /** An array relationship */
+    transactions: Array<GraphQLTypes["transactions"]>;
+    /** An aggregate relationship */
+    transactions_aggregate: GraphQLTypes["transactions_aggregate"];
     username: string;
   };
   /** aggregated selection of "client" */
@@ -3603,6 +5867,10 @@ export type GraphQLTypes = {
     lastname?: GraphQLTypes["String_comparison_exp"] | undefined;
     mobile?: GraphQLTypes["bigint_comparison_exp"] | undefined;
     password?: GraphQLTypes["String_comparison_exp"] | undefined;
+    transactions?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    transactions_aggregate?:
+      | GraphQLTypes["transactions_aggregate_bool_exp"]
+      | undefined;
     username?: GraphQLTypes["String_comparison_exp"] | undefined;
   };
   /** unique or primary key constraints on table "client" */
@@ -3620,6 +5888,9 @@ export type GraphQLTypes = {
     lastname?: string | undefined;
     mobile?: GraphQLTypes["bigint"] | undefined;
     password?: string | undefined;
+    transactions?:
+      | GraphQLTypes["transactions_arr_rel_insert_input"]
+      | undefined;
     username?: string | undefined;
   };
   /** aggregate max on columns */
@@ -3673,6 +5944,9 @@ export type GraphQLTypes = {
     lastname?: GraphQLTypes["order_by"] | undefined;
     mobile?: GraphQLTypes["order_by"] | undefined;
     password?: GraphQLTypes["order_by"] | undefined;
+    transactions_aggregate?:
+      | GraphQLTypes["transactions_aggregate_order_by"]
+      | undefined;
     username?: GraphQLTypes["order_by"] | undefined;
   };
   /** primary key columns input for table: client */
@@ -3755,6 +6029,32 @@ export type GraphQLTypes = {
   };
   /** ordering argument of a cursor */
   ["cursor_ordering"]: cursor_ordering;
+  ["date"]: "scalar" & { name: "date" };
+  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+  ["date_comparison_exp"]: {
+    _eq?: GraphQLTypes["date"] | undefined;
+    _gt?: GraphQLTypes["date"] | undefined;
+    _gte?: GraphQLTypes["date"] | undefined;
+    _in?: Array<GraphQLTypes["date"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes["date"] | undefined;
+    _lte?: GraphQLTypes["date"] | undefined;
+    _neq?: GraphQLTypes["date"] | undefined;
+    _nin?: Array<GraphQLTypes["date"]> | undefined;
+  };
+  ["float8"]: "scalar" & { name: "float8" };
+  /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+  ["float8_comparison_exp"]: {
+    _eq?: GraphQLTypes["float8"] | undefined;
+    _gt?: GraphQLTypes["float8"] | undefined;
+    _gte?: GraphQLTypes["float8"] | undefined;
+    _in?: Array<GraphQLTypes["float8"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes["float8"] | undefined;
+    _lte?: GraphQLTypes["float8"] | undefined;
+    _neq?: GraphQLTypes["float8"] | undefined;
+    _nin?: Array<GraphQLTypes["float8"]> | undefined;
+  };
   /** mutation root */
   ["mutation_root"]: {
     __typename: "mutation_root";
@@ -3766,6 +6066,12 @@ export type GraphQLTypes = {
     delete_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** delete single row from the table: "client" */
     delete_client_by_pk?: GraphQLTypes["client"] | undefined;
+    /** delete data from the table: "transactions" */
+    delete_transactions?:
+      | GraphQLTypes["transactions_mutation_response"]
+      | undefined;
+    /** delete single row from the table: "transactions" */
+    delete_transactions_by_pk?: GraphQLTypes["transactions"] | undefined;
     /** insert data into the table: "address" */
     insert_address?: GraphQLTypes["address_mutation_response"] | undefined;
     /** insert a single row into the table: "address" */
@@ -3774,6 +6080,12 @@ export type GraphQLTypes = {
     insert_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** insert a single row into the table: "client" */
     insert_client_one?: GraphQLTypes["client"] | undefined;
+    /** insert data into the table: "transactions" */
+    insert_transactions?:
+      | GraphQLTypes["transactions_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "transactions" */
+    insert_transactions_one?: GraphQLTypes["transactions"] | undefined;
     /** update data of the table: "address" */
     update_address?: GraphQLTypes["address_mutation_response"] | undefined;
     /** update single row of the table: "address" */
@@ -3789,6 +6101,16 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "client" */
     update_client_many?:
       | Array<GraphQLTypes["client_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "transactions" */
+    update_transactions?:
+      | GraphQLTypes["transactions_mutation_response"]
+      | undefined;
+    /** update single row of the table: "transactions" */
+    update_transactions_by_pk?: GraphQLTypes["transactions"] | undefined;
+    /** update multiples rows of table: "transactions" */
+    update_transactions_many?:
+      | Array<GraphQLTypes["transactions_mutation_response"] | undefined>
       | undefined;
   };
   /** column ordering options */
@@ -3807,6 +6129,12 @@ export type GraphQLTypes = {
     client_aggregate: GraphQLTypes["client_aggregate"];
     /** fetch data from the table: "client" using primary key columns */
     client_by_pk?: GraphQLTypes["client"] | undefined;
+    /** An array relationship */
+    transactions: Array<GraphQLTypes["transactions"]>;
+    /** An aggregate relationship */
+    transactions_aggregate: GraphQLTypes["transactions_aggregate"];
+    /** fetch data from the table: "transactions" using primary key columns */
+    transactions_by_pk?: GraphQLTypes["transactions"] | undefined;
   };
   ["subscription_root"]: {
     __typename: "subscription_root";
@@ -3826,6 +6154,415 @@ export type GraphQLTypes = {
     client_by_pk?: GraphQLTypes["client"] | undefined;
     /** fetch data from the table in a streaming manner: "client" */
     client_stream: Array<GraphQLTypes["client"]>;
+    /** An array relationship */
+    transactions: Array<GraphQLTypes["transactions"]>;
+    /** An aggregate relationship */
+    transactions_aggregate: GraphQLTypes["transactions_aggregate"];
+    /** fetch data from the table: "transactions" using primary key columns */
+    transactions_by_pk?: GraphQLTypes["transactions"] | undefined;
+    /** fetch data from the table in a streaming manner: "transactions" */
+    transactions_stream: Array<GraphQLTypes["transactions"]>;
+  };
+  ["time"]: "scalar" & { name: "time" };
+  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
+  ["time_comparison_exp"]: {
+    _eq?: GraphQLTypes["time"] | undefined;
+    _gt?: GraphQLTypes["time"] | undefined;
+    _gte?: GraphQLTypes["time"] | undefined;
+    _in?: Array<GraphQLTypes["time"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes["time"] | undefined;
+    _lte?: GraphQLTypes["time"] | undefined;
+    _neq?: GraphQLTypes["time"] | undefined;
+    _nin?: Array<GraphQLTypes["time"]> | undefined;
+  };
+  /** transactions table  */
+  ["transactions"]: {
+    __typename: "transactions";
+    address: string;
+    amount: GraphQLTypes["float8"];
+    /** An object relationship */
+    client: GraphQLTypes["client"];
+    client_id: GraphQLTypes["uuid"];
+    date: GraphQLTypes["date"];
+    from: string;
+    hash: string;
+    id: GraphQLTypes["uuid"];
+    time: GraphQLTypes["time"];
+    to: string;
+    type: string;
+  };
+  /** aggregated selection of "transactions" */
+  ["transactions_aggregate"]: {
+    __typename: "transactions_aggregate";
+    aggregate?: GraphQLTypes["transactions_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["transactions"]>;
+  };
+  ["transactions_aggregate_bool_exp"]: {
+    avg?: GraphQLTypes["transactions_aggregate_bool_exp_avg"] | undefined;
+    corr?: GraphQLTypes["transactions_aggregate_bool_exp_corr"] | undefined;
+    count?: GraphQLTypes["transactions_aggregate_bool_exp_count"] | undefined;
+    covar_samp?:
+      | GraphQLTypes["transactions_aggregate_bool_exp_covar_samp"]
+      | undefined;
+    max?: GraphQLTypes["transactions_aggregate_bool_exp_max"] | undefined;
+    min?: GraphQLTypes["transactions_aggregate_bool_exp_min"] | undefined;
+    stddev_samp?:
+      | GraphQLTypes["transactions_aggregate_bool_exp_stddev_samp"]
+      | undefined;
+    sum?: GraphQLTypes["transactions_aggregate_bool_exp_sum"] | undefined;
+    var_samp?:
+      | GraphQLTypes["transactions_aggregate_bool_exp_var_samp"]
+      | undefined;
+  };
+  ["transactions_aggregate_bool_exp_avg"]: {
+    arguments: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_corr"]: {
+    arguments: GraphQLTypes["transactions_aggregate_bool_exp_corr_arguments"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_corr_arguments"]: {
+    X: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"];
+    Y: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"];
+  };
+  ["transactions_aggregate_bool_exp_count"]: {
+    arguments?: Array<GraphQLTypes["transactions_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["Int_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_covar_samp"]: {
+    arguments: GraphQLTypes["transactions_aggregate_bool_exp_covar_samp_arguments"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_covar_samp_arguments"]: {
+    X: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"];
+    Y: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"];
+  };
+  ["transactions_aggregate_bool_exp_max"]: {
+    arguments: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_min"]: {
+    arguments: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_stddev_samp"]: {
+    arguments: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_sum"]: {
+    arguments: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["float8_comparison_exp"];
+  };
+  ["transactions_aggregate_bool_exp_var_samp"]: {
+    arguments: GraphQLTypes["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    predicate: GraphQLTypes["float8_comparison_exp"];
+  };
+  /** aggregate fields of "transactions" */
+  ["transactions_aggregate_fields"]: {
+    __typename: "transactions_aggregate_fields";
+    avg?: GraphQLTypes["transactions_avg_fields"] | undefined;
+    count: number;
+    max?: GraphQLTypes["transactions_max_fields"] | undefined;
+    min?: GraphQLTypes["transactions_min_fields"] | undefined;
+    stddev?: GraphQLTypes["transactions_stddev_fields"] | undefined;
+    stddev_pop?: GraphQLTypes["transactions_stddev_pop_fields"] | undefined;
+    stddev_samp?: GraphQLTypes["transactions_stddev_samp_fields"] | undefined;
+    sum?: GraphQLTypes["transactions_sum_fields"] | undefined;
+    var_pop?: GraphQLTypes["transactions_var_pop_fields"] | undefined;
+    var_samp?: GraphQLTypes["transactions_var_samp_fields"] | undefined;
+    variance?: GraphQLTypes["transactions_variance_fields"] | undefined;
+  };
+  /** order by aggregate values of table "transactions" */
+  ["transactions_aggregate_order_by"]: {
+    avg?: GraphQLTypes["transactions_avg_order_by"] | undefined;
+    count?: GraphQLTypes["order_by"] | undefined;
+    max?: GraphQLTypes["transactions_max_order_by"] | undefined;
+    min?: GraphQLTypes["transactions_min_order_by"] | undefined;
+    stddev?: GraphQLTypes["transactions_stddev_order_by"] | undefined;
+    stddev_pop?: GraphQLTypes["transactions_stddev_pop_order_by"] | undefined;
+    stddev_samp?: GraphQLTypes["transactions_stddev_samp_order_by"] | undefined;
+    sum?: GraphQLTypes["transactions_sum_order_by"] | undefined;
+    var_pop?: GraphQLTypes["transactions_var_pop_order_by"] | undefined;
+    var_samp?: GraphQLTypes["transactions_var_samp_order_by"] | undefined;
+    variance?: GraphQLTypes["transactions_variance_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "transactions" */
+  ["transactions_arr_rel_insert_input"]: {
+    data: Array<GraphQLTypes["transactions_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["transactions_on_conflict"] | undefined;
+  };
+  /** aggregate avg on columns */
+  ["transactions_avg_fields"]: {
+    __typename: "transactions_avg_fields";
+    amount?: number | undefined;
+  };
+  /** order by avg() on columns of table "transactions" */
+  ["transactions_avg_order_by"]: {
+    amount?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
+  ["transactions_bool_exp"]: {
+    _and?: Array<GraphQLTypes["transactions_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["transactions_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["transactions_bool_exp"]> | undefined;
+    address?: GraphQLTypes["String_comparison_exp"] | undefined;
+    amount?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    client?: GraphQLTypes["client_bool_exp"] | undefined;
+    client_id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    date?: GraphQLTypes["date_comparison_exp"] | undefined;
+    from?: GraphQLTypes["String_comparison_exp"] | undefined;
+    hash?: GraphQLTypes["String_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    time?: GraphQLTypes["time_comparison_exp"] | undefined;
+    to?: GraphQLTypes["String_comparison_exp"] | undefined;
+    type?: GraphQLTypes["String_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "transactions" */
+  ["transactions_constraint"]: transactions_constraint;
+  /** input type for incrementing numeric columns in table "transactions" */
+  ["transactions_inc_input"]: {
+    amount?: GraphQLTypes["float8"] | undefined;
+  };
+  /** input type for inserting data into table "transactions" */
+  ["transactions_insert_input"]: {
+    address?: string | undefined;
+    amount?: GraphQLTypes["float8"] | undefined;
+    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    date?: GraphQLTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    time?: GraphQLTypes["time"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ["transactions_max_fields"]: {
+    __typename: "transactions_max_fields";
+    address?: string | undefined;
+    amount?: GraphQLTypes["float8"] | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    date?: GraphQLTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** order by max() on columns of table "transactions" */
+  ["transactions_max_order_by"]: {
+    address?: GraphQLTypes["order_by"] | undefined;
+    amount?: GraphQLTypes["order_by"] | undefined;
+    client_id?: GraphQLTypes["order_by"] | undefined;
+    date?: GraphQLTypes["order_by"] | undefined;
+    from?: GraphQLTypes["order_by"] | undefined;
+    hash?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    to?: GraphQLTypes["order_by"] | undefined;
+    type?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["transactions_min_fields"]: {
+    __typename: "transactions_min_fields";
+    address?: string | undefined;
+    amount?: GraphQLTypes["float8"] | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    date?: GraphQLTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** order by min() on columns of table "transactions" */
+  ["transactions_min_order_by"]: {
+    address?: GraphQLTypes["order_by"] | undefined;
+    amount?: GraphQLTypes["order_by"] | undefined;
+    client_id?: GraphQLTypes["order_by"] | undefined;
+    date?: GraphQLTypes["order_by"] | undefined;
+    from?: GraphQLTypes["order_by"] | undefined;
+    hash?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    to?: GraphQLTypes["order_by"] | undefined;
+    type?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "transactions" */
+  ["transactions_mutation_response"]: {
+    __typename: "transactions_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["transactions"]>;
+  };
+  /** on_conflict condition type for table "transactions" */
+  ["transactions_on_conflict"]: {
+    constraint: GraphQLTypes["transactions_constraint"];
+    update_columns: Array<GraphQLTypes["transactions_update_column"]>;
+    where?: GraphQLTypes["transactions_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "transactions". */
+  ["transactions_order_by"]: {
+    address?: GraphQLTypes["order_by"] | undefined;
+    amount?: GraphQLTypes["order_by"] | undefined;
+    client?: GraphQLTypes["client_order_by"] | undefined;
+    client_id?: GraphQLTypes["order_by"] | undefined;
+    date?: GraphQLTypes["order_by"] | undefined;
+    from?: GraphQLTypes["order_by"] | undefined;
+    hash?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    time?: GraphQLTypes["order_by"] | undefined;
+    to?: GraphQLTypes["order_by"] | undefined;
+    type?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: transactions */
+  ["transactions_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "transactions" */
+  ["transactions_select_column"]: transactions_select_column;
+  /** select "transactions_aggregate_bool_exp_avg_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_corr_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_covar_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_max_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_min_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_stddev_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_sum_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns;
+  /** select "transactions_aggregate_bool_exp_var_samp_arguments_columns" columns of table "transactions" */
+  ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns;
+  /** input type for updating data in table "transactions" */
+  ["transactions_set_input"]: {
+    address?: string | undefined;
+    amount?: GraphQLTypes["float8"] | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    date?: GraphQLTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    time?: GraphQLTypes["time"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** aggregate stddev on columns */
+  ["transactions_stddev_fields"]: {
+    __typename: "transactions_stddev_fields";
+    amount?: number | undefined;
+  };
+  /** order by stddev() on columns of table "transactions" */
+  ["transactions_stddev_order_by"]: {
+    amount?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ["transactions_stddev_pop_fields"]: {
+    __typename: "transactions_stddev_pop_fields";
+    amount?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "transactions" */
+  ["transactions_stddev_pop_order_by"]: {
+    amount?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ["transactions_stddev_samp_fields"]: {
+    __typename: "transactions_stddev_samp_fields";
+    amount?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "transactions" */
+  ["transactions_stddev_samp_order_by"]: {
+    amount?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** Streaming cursor of the table "transactions" */
+  ["transactions_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["transactions_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["transactions_stream_cursor_value_input"]: {
+    address?: string | undefined;
+    amount?: GraphQLTypes["float8"] | undefined;
+    client_id?: GraphQLTypes["uuid"] | undefined;
+    date?: GraphQLTypes["date"] | undefined;
+    from?: string | undefined;
+    hash?: string | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    time?: GraphQLTypes["time"] | undefined;
+    to?: string | undefined;
+    type?: string | undefined;
+  };
+  /** aggregate sum on columns */
+  ["transactions_sum_fields"]: {
+    __typename: "transactions_sum_fields";
+    amount?: GraphQLTypes["float8"] | undefined;
+  };
+  /** order by sum() on columns of table "transactions" */
+  ["transactions_sum_order_by"]: {
+    amount?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** update columns of table "transactions" */
+  ["transactions_update_column"]: transactions_update_column;
+  ["transactions_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes["transactions_inc_input"] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["transactions_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["transactions_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["transactions_var_pop_fields"]: {
+    __typename: "transactions_var_pop_fields";
+    amount?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "transactions" */
+  ["transactions_var_pop_order_by"]: {
+    amount?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ["transactions_var_samp_fields"]: {
+    __typename: "transactions_var_samp_fields";
+    amount?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "transactions" */
+  ["transactions_var_samp_order_by"]: {
+    amount?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate variance on columns */
+  ["transactions_variance_fields"]: {
+    __typename: "transactions_variance_fields";
+    amount?: number | undefined;
+  };
+  /** order by variance() on columns of table "transactions" */
+  ["transactions_variance_order_by"]: {
+    amount?: GraphQLTypes["order_by"] | undefined;
   };
   ["uuid"]: "scalar" & { name: "uuid" };
   /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
@@ -3904,8 +6641,71 @@ export const enum order_by {
   desc_nulls_first = "desc_nulls_first",
   desc_nulls_last = "desc_nulls_last",
 }
+/** unique or primary key constraints on table "transactions" */
+export const enum transactions_constraint {
+  transactions_pkey = "transactions_pkey",
+}
+/** select columns of table "transactions" */
+export const enum transactions_select_column {
+  address = "address",
+  amount = "amount",
+  client_id = "client_id",
+  date = "date",
+  from = "from",
+  hash = "hash",
+  id = "id",
+  time = "time",
+  to = "to",
+  type = "type",
+}
+/** select "transactions_aggregate_bool_exp_avg_arguments_columns" columns of table "transactions" */
+export const enum transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns {
+  amount = "amount",
+}
+/** select "transactions_aggregate_bool_exp_corr_arguments_columns" columns of table "transactions" */
+export const enum transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns {
+  amount = "amount",
+}
+/** select "transactions_aggregate_bool_exp_covar_samp_arguments_columns" columns of table "transactions" */
+export const enum transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns {
+  amount = "amount",
+}
+/** select "transactions_aggregate_bool_exp_max_arguments_columns" columns of table "transactions" */
+export const enum transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns {
+  amount = "amount",
+}
+/** select "transactions_aggregate_bool_exp_min_arguments_columns" columns of table "transactions" */
+export const enum transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns {
+  amount = "amount",
+}
+/** select "transactions_aggregate_bool_exp_stddev_samp_arguments_columns" columns of table "transactions" */
+export const enum transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns {
+  amount = "amount",
+}
+/** select "transactions_aggregate_bool_exp_sum_arguments_columns" columns of table "transactions" */
+export const enum transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns {
+  amount = "amount",
+}
+/** select "transactions_aggregate_bool_exp_var_samp_arguments_columns" columns of table "transactions" */
+export const enum transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns {
+  amount = "amount",
+}
+/** update columns of table "transactions" */
+export const enum transactions_update_column {
+  address = "address",
+  amount = "amount",
+  client_id = "client_id",
+  date = "date",
+  from = "from",
+  hash = "hash",
+  id = "id",
+  time = "time",
+  to = "to",
+  type = "type",
+}
 
 type ZEUS_VARIABLES = {
+  ["Int_comparison_exp"]: ValueTypes["Int_comparison_exp"];
   ["String_comparison_exp"]: ValueTypes["String_comparison_exp"];
   ["address_bool_exp"]: ValueTypes["address_bool_exp"];
   ["address_constraint"]: ValueTypes["address_constraint"];
@@ -3937,7 +6737,58 @@ type ZEUS_VARIABLES = {
   ["client_update_column"]: ValueTypes["client_update_column"];
   ["client_updates"]: ValueTypes["client_updates"];
   ["cursor_ordering"]: ValueTypes["cursor_ordering"];
+  ["date"]: ValueTypes["date"];
+  ["date_comparison_exp"]: ValueTypes["date_comparison_exp"];
+  ["float8"]: ValueTypes["float8"];
+  ["float8_comparison_exp"]: ValueTypes["float8_comparison_exp"];
   ["order_by"]: ValueTypes["order_by"];
+  ["time"]: ValueTypes["time"];
+  ["time_comparison_exp"]: ValueTypes["time_comparison_exp"];
+  ["transactions_aggregate_bool_exp"]: ValueTypes["transactions_aggregate_bool_exp"];
+  ["transactions_aggregate_bool_exp_avg"]: ValueTypes["transactions_aggregate_bool_exp_avg"];
+  ["transactions_aggregate_bool_exp_corr"]: ValueTypes["transactions_aggregate_bool_exp_corr"];
+  ["transactions_aggregate_bool_exp_corr_arguments"]: ValueTypes["transactions_aggregate_bool_exp_corr_arguments"];
+  ["transactions_aggregate_bool_exp_count"]: ValueTypes["transactions_aggregate_bool_exp_count"];
+  ["transactions_aggregate_bool_exp_covar_samp"]: ValueTypes["transactions_aggregate_bool_exp_covar_samp"];
+  ["transactions_aggregate_bool_exp_covar_samp_arguments"]: ValueTypes["transactions_aggregate_bool_exp_covar_samp_arguments"];
+  ["transactions_aggregate_bool_exp_max"]: ValueTypes["transactions_aggregate_bool_exp_max"];
+  ["transactions_aggregate_bool_exp_min"]: ValueTypes["transactions_aggregate_bool_exp_min"];
+  ["transactions_aggregate_bool_exp_stddev_samp"]: ValueTypes["transactions_aggregate_bool_exp_stddev_samp"];
+  ["transactions_aggregate_bool_exp_sum"]: ValueTypes["transactions_aggregate_bool_exp_sum"];
+  ["transactions_aggregate_bool_exp_var_samp"]: ValueTypes["transactions_aggregate_bool_exp_var_samp"];
+  ["transactions_aggregate_order_by"]: ValueTypes["transactions_aggregate_order_by"];
+  ["transactions_arr_rel_insert_input"]: ValueTypes["transactions_arr_rel_insert_input"];
+  ["transactions_avg_order_by"]: ValueTypes["transactions_avg_order_by"];
+  ["transactions_bool_exp"]: ValueTypes["transactions_bool_exp"];
+  ["transactions_constraint"]: ValueTypes["transactions_constraint"];
+  ["transactions_inc_input"]: ValueTypes["transactions_inc_input"];
+  ["transactions_insert_input"]: ValueTypes["transactions_insert_input"];
+  ["transactions_max_order_by"]: ValueTypes["transactions_max_order_by"];
+  ["transactions_min_order_by"]: ValueTypes["transactions_min_order_by"];
+  ["transactions_on_conflict"]: ValueTypes["transactions_on_conflict"];
+  ["transactions_order_by"]: ValueTypes["transactions_order_by"];
+  ["transactions_pk_columns_input"]: ValueTypes["transactions_pk_columns_input"];
+  ["transactions_select_column"]: ValueTypes["transactions_select_column"];
+  ["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"];
+  ["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"];
+  ["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns"];
+  ["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns"];
+  ["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns"];
+  ["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns"];
+  ["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns"];
+  ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"];
+  ["transactions_set_input"]: ValueTypes["transactions_set_input"];
+  ["transactions_stddev_order_by"]: ValueTypes["transactions_stddev_order_by"];
+  ["transactions_stddev_pop_order_by"]: ValueTypes["transactions_stddev_pop_order_by"];
+  ["transactions_stddev_samp_order_by"]: ValueTypes["transactions_stddev_samp_order_by"];
+  ["transactions_stream_cursor_input"]: ValueTypes["transactions_stream_cursor_input"];
+  ["transactions_stream_cursor_value_input"]: ValueTypes["transactions_stream_cursor_value_input"];
+  ["transactions_sum_order_by"]: ValueTypes["transactions_sum_order_by"];
+  ["transactions_update_column"]: ValueTypes["transactions_update_column"];
+  ["transactions_updates"]: ValueTypes["transactions_updates"];
+  ["transactions_var_pop_order_by"]: ValueTypes["transactions_var_pop_order_by"];
+  ["transactions_var_samp_order_by"]: ValueTypes["transactions_var_samp_order_by"];
+  ["transactions_variance_order_by"]: ValueTypes["transactions_variance_order_by"];
   ["uuid"]: ValueTypes["uuid"];
   ["uuid_comparison_exp"]: ValueTypes["uuid_comparison_exp"];
 };

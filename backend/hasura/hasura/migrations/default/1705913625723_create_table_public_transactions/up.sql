@@ -1,0 +1,2 @@
+CREATE TABLE "public"."transactions" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "address" Text NOT NULL, "type" text NOT NULL, "from" text NOT NULL, "hash" text NOT NULL, "amount" float8 NOT NULL, "date" date NOT NULL, "time" time NOT NULL, "to" text NOT NULL, PRIMARY KEY ("id") , UNIQUE ("id"));COMMENT ON TABLE "public"."transactions" IS E'transactions table ';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;

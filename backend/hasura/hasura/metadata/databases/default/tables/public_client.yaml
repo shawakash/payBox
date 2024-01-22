@@ -9,3 +9,11 @@ object_relationships:
         table:
           name: address
           schema: public
+array_relationships:
+  - name: transactions
+    using:
+      foreign_key_constraint_on:
+        column: client_id
+        table:
+          name: transactions
+          schema: public
