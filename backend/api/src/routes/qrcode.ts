@@ -19,17 +19,16 @@ qrcodeRouter.post("/address", async (req, res) => {
             if (!addressQuery.address) {
                 return res.status(400).json({ status: responseStatus.Error, msg: "Address is not added" });
             }
-            const path = generateUniqueImageName(id);
             const isGenerated = await generateQRCode(
                 addressQuery?.address[0] as Partial<Address> & { id: string },
-                path
+                id
             );
             if (!isGenerated) {
                 return res.status(500).json({ status: responseStatus.Error, msg: "Error in generating qr code" });
             }
             res.setHeader('Content-Type', 'image/png');
-            createReadStream(path).pipe(res);
-            return res.status(200).json({ status: responseStatus.Ok, path });
+            createReadStream(isGenerated).pipe(res);
+            return res.status(200).json({ status: responseStatus.Ok, path: isGenerated });
         }
         return res.status(401).json({ status: responseStatus.Error, msg: "Uuauthorized to do this" });
     } catch (error) {

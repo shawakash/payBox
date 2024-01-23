@@ -4,6 +4,7 @@ import bcryptjs from "bcryptjs";
 import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
 import { Address, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
 import * as qr from "qrcode";
+import fs from "fs";
 
 
 /**
@@ -105,23 +106,30 @@ export const validatePassword = async (
  */
 export const generateQRCode = async (
   payload: Partial<Address> & { id: string },
-  path: string
-): Promise<boolean> => {
+  id: string
+): Promise<null | string> => {
   try {
+    const path = generateUniqueImageName(id);
     const qrCodeDataURL = await qr.toDataURL(JSON.stringify(payload));
     console.log(qrCodeDataURL);
-    await qr.toFile(path, JSON.stringify(payload));
-
-    console.log(`QR code generated successfully and saved at: ${path}`);
-    return true;
+    if (!fs.existsSync(path)) {
+      await qr.toFile(path, JSON.stringify(payload));
+      console.log(`QR code generated successfully and saved at: ${path}`);
+      return path;
+    } else {
+      const uniquePath = generateUniqueImageName(`${id}_new`);
+      await qr.toFile(uniquePath, JSON.stringify(payload));
+      console.log(`QR code generated successfully and saved at: ${uniquePath}`);
+      return uniquePath;
+    }
   } catch (error) {
     console.error('Error generating QR code:', error);
-    return false;
+    return null;
   }
 }
 
 export const generateUniqueImageName = (id: string): string => {
   const timestamp: number = Date.now();
-  const imageName: string = `./code/${id.slice(5)}_${timestamp.toString().slice(5)}.png`;
+  const imageName: string = `./codes/${id.slice(5)}_${timestamp.toString().slice(5)}.png`;
   return imageName;
 }
