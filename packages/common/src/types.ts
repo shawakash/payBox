@@ -35,3 +35,9 @@ export type AddressFormPartialType = z.infer<typeof AddressFormPartial>;
 export type AddressPartial = AddressFormPartialType & {id: string};
 
 export type Address = z.infer<typeof AddressForm>
+
+export type AcceptSolTxn = {
+    senderKey: string,
+    amount: number,
+    recieverKey?: string
+}
