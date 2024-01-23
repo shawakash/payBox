@@ -55,28 +55,31 @@ export const checkAddress = async (req: Request, res: Response, next: NextFuncti
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { eth, sol } = AddressFormPartial.parse(req.body);
-      // if (eth) {
-      //   const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, eth);
-      //   const isAddress = await ethTxn.checkAddress();
-      //   console.log(isAddress);
-      //   if (!isAddress) {
-      //     return res.status(400).json({ status: responseStatus.Error, msg: "No such etherum address" });
-      //   }
-      // }
-      if (sol) {
-        const solTxn = new SolTxnLogs("devnet", sol);
-        const isAddress = await solTxn.checkAddress();
-        console.log(isAddress);
-        if (!isAddress) {
-          return res.status(400).json({ status: responseStatus.Error, msg: "No such solana address" });
+      try {
+        const { eth, sol } = AddressFormPartial.parse(req.body);
+        // if (eth) {
+        //   const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, eth);
+        //   const isAddress = await ethTxn.checkAddress();
+        //   console.log(isAddress);
+        //   if (!isAddress) {
+        //     return res.status(400).json({ status: responseStatus.Error, msg: "No such etherum address" });
+        //   }
+        // }
+        if (sol) {
+          const solTxn = new SolTxnLogs("devnet", sol);
+          const isAddress = await solTxn.checkAddress();
+          if (!isAddress) {
+            return res.status(400).json({ status: responseStatus.Error, msg: "No such solana address" });
+          }
         }
+      } catch (error) {
+        console.log(error);
+        return res.status(403).json({ msg: "Address Validation error", status: responseStatus.Error });
       }
-      console.log("yes")
-      next();
+    } else {
+      return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
     }
-    //@ts-ignore
-    return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
+    next();
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });

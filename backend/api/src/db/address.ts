@@ -31,21 +31,16 @@ export const createAddress = async (
     const response = await chain("mutation")({
         insert_address_one: [{
             object: {
+                client_id: clientId,
                 eth,
                 sol,
                 bitcoin,
                 usdc,
-                client: {
-                    data: {
-                        id: clientId
-                    }
-                }
             },
         }, {
             id: true,
         }]
-    }, { operationName: "createChain" });
-    console.log(response)
+    }, { operationName: "createAddress" });
     if (response.insert_address_one?.id) {
         return { ...response.insert_address_one, status: dbResStatus.Ok }
     }
@@ -77,9 +72,14 @@ export const conflictAddress = async (
     const response = await chain("query")({
         address: [{
             where: {
-                _or: [
-                    { eth: { _eq: eth } },
-                    { sol: { _eq: sol } }
+                _and: [
+                    { client_id: { _neq: clientId } },
+                    {
+                        _or: [
+                            { eth: { _eq: eth } },
+                            { sol: { _eq: sol } }
+                        ]
+                    }
                 ]
             },
         }, {

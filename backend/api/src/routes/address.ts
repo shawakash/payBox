@@ -22,9 +22,7 @@ addressRouter.post("/", checkAddress, async (req, res) => {
                 if(isInDb.status == dbResStatus.Error) {
                     return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
                 }
-                console.log(isInDb, id);
                 const mutateAddress = await createAddress(eth, sol, id, bitcoin, usdc);
-                console.log(mutateAddress)
                 if (mutateAddress.status == dbResStatus.Error) {
                     return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
                 }
@@ -41,15 +39,15 @@ addressRouter.post("/", checkAddress, async (req, res) => {
                     id: mutateAddress.id as string,
                     clientId: id
                 });
-                await cache.updateClientAddress(id, {
-                    eth,
-                    bitcoin,
-                    sol,
-                    usdc
-                });
+                // await cache.updateClientAddress(id, {
+                //     eth,
+                //     bitcoin,
+                //     sol,
+                //     usdc
+                // });
                 return res.status(200).json({ id: mutateAddress.id, status: responseStatus.Ok });
             }
-            // return res.status(400).json({ status: responseStatus.Error, msg: "Atleast eth and sol are required 😊" });
+            return res.status(400).json({ status: responseStatus.Error, msg: "Atleast eth and sol are required 😊" });
 
         }
         //@ts-ignore
@@ -68,7 +66,7 @@ addressRouter.get("/", async (req, res) => {
         if (id) {
             const isCached = await cache.getAddressFromKey(id);
             if (isCached) {
-                return res.status(200).json({ status: responseStatus.Ok, })
+                return res.status(200).json({ status: responseStatus.Ok, ...isCached })
             }
 
             const query = await getAddressByClientId(id);
@@ -117,12 +115,12 @@ addressRouter.patch("/update", checkAddress, async (req, res) => {
                 bitcoin,
                 usdc,
             });
-            await cache.updateClientAddress(id, {
-                eth,
-                bitcoin,
-                sol,
-                usdc
-            });
+            // await cache.updateClientAddress(id, {
+            //     eth,
+            //     bitcoin,
+            //     sol,
+            //     usdc
+            // });
 
             return res.status(200).json({ id: mutateAddress.id, status: responseStatus.Ok });
 

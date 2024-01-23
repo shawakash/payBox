@@ -6580,8 +6580,9 @@ export type GraphQLTypes = {
 };
 /** unique or primary key constraints on table "address" */
 export const enum address_constraint {
+  address_id_key = "address_id_key",
+  address_pkey = "address_pkey",
   chain_client_id_key = "chain_client_id_key",
-  chain_pkey = "chain_pkey",
 }
 /** select columns of table "address" */
 export const enum address_select_column {
@@ -6606,6 +6607,7 @@ export const enum client_constraint {
   client_email_key = "client_email_key",
   client_mobile_number_key = "client_mobile_number_key",
   client_pkey = "client_pkey",
+  client_username_key = "client_username_key",
 }
 /** select columns of table "client" */
 export const enum client_select_column {
