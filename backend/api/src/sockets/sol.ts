@@ -1,7 +1,9 @@
-import { Cluster, Connection, Keypair, PublicKey, Signer, SystemProgram, Transaction, TransactionResponse, clusterApiUrl, sendAndConfirmTransaction } from '@solana/web3.js';
+import { Cluster, Connection, Keypair, LAMPORTS_PER_SOL, PublicKey, Signer, SystemProgram, Transaction, TransactionResponse, clusterApiUrl, sendAndConfirmTransaction } from '@solana/web3.js';
 import { WebSocket, WebSocketServer } from "ws";
 import { TransactionData } from '../types/sol';
 import { AcceptSolTxn } from '@paybox/common';
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import baseX from "base-x"
 
 export class SolTxnLogs {
     private rpcUrl: string;
@@ -57,21 +59,41 @@ export class SolTxnLogs {
         return false;
     }
 
-    async acceptTxn({ senderKey, amount }: AcceptSolTxn) {
-        const senderPublicKey = new PublicKey(senderKey);
-        console.log(this.keyPair.publicKey, this.publicKey)
-        const transaction = new Transaction().add(
-            SystemProgram.transfer({
-                fromPubkey: senderPublicKey,
-                toPubkey: this.keyPair.publicKey,
-                lamports: amount * 10 ** 9, // Convert amount to lamports
-            })
-        );
 
-        // Sign and send the transaction
-        const signature = await sendAndConfirmTransaction(this.connection, transaction, [this.keyPair]);
+    async acceptTxn({ senderKey, receiverKey, amount }: AcceptSolTxn): Promise<string | null> {
+        try {
+            const senderPublicKey = Keypair.fromSeed((new PublicKey(senderKey)).toBuffer());
+            const receiverSigner = Keypair.fromSeed((new PublicKey(receiverKey)).toBuffer())
+            /**
+             * Do some airdrop for new keypair generated
+             */
+            // const airdropSignature = await this.connection.requestAirdrop(
+            //     senderPublicKey.publicKey,
+            //     LAMPORTS_PER_SOL
+            // );
+            const { blockhash } = await this.connection.getRecentBlockhash();
 
-        console.log(`Transaction confirmed with signature: ${signature}`);
+            const transaction = new Transaction().add(
+                SystemProgram.transfer({
+                    fromPubkey: senderPublicKey.publicKey,
+                    toPubkey: receiverSigner.publicKey,
+                    lamports: amount * 10 ** 9, // Convert amount to lamports
+                })
+            );
+
+            transaction.recentBlockhash = blockhash;
+            
+            const signature = await sendAndConfirmTransaction(this.connection, transaction, [senderPublicKey]);
+            const status = await this.connection.getSignatureStatuses([signature]);
+            if (status.value[0]?.confirmationStatus == "confirmed") {
+                console.log(`Transaction confirmed with signature: ${signature}`);
+                return signature;
+            }
+            return null;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
     }
 }
 

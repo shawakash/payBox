@@ -12,5 +12,15 @@ export const TxnSolSendQuery = z.object({
         .refine(isSolanaAddress, {
             message: 'Invalid Ethereum address',
         }),
-    amount: z.number()
+    amount: z
+        .string()
+        .refine(value => {
+            const numericValue = parseFloat(value);
+            return !isNaN(numericValue);
+        }, {
+            message: 'Amount must be a valid number',
+            path: ['amount'],
+        })
+        .transform(value => parseFloat(value)),
 });
+

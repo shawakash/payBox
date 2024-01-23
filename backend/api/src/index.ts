@@ -14,6 +14,7 @@ import cors from "cors";
 import { addressRouter } from "./routes/address";
 import { extractClientId } from "./auth/middleware";
 import { qrcodeRouter } from "./routes/qrcode";
+import { txnRouter } from "./routes/transaction";
 
 export const app = express();
 export const server = http.createServer(app);
@@ -57,6 +58,7 @@ app.get("/_health", (_req, res) => {
 app.use("/client", clientRouter);
 app.use("/address", extractClientId, addressRouter);
 app.use("/qrcode", extractClientId, qrcodeRouter);
+app.use("/txn", txnRouter);
 
 
 wss.on('connection', async (ws) => {

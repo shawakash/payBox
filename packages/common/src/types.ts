@@ -39,7 +39,7 @@ export type Address = z.infer<typeof AddressForm>
 export type AcceptSolTxn = {
     senderKey: string,
     amount: number,
-    recieverKey: string
+    receiverKey: string
 }
 
 export type TxnSolSendQueryType = z.infer<typeof TxnSolSendQuery>;
