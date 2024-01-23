@@ -1,17 +1,20 @@
-import { Cluster, Connection, PublicKey, Transaction, TransactionResponse, clusterApiUrl } from '@solana/web3.js';
+import { Cluster, Connection, Keypair, PublicKey, Signer, SystemProgram, Transaction, TransactionResponse, clusterApiUrl, sendAndConfirmTransaction } from '@solana/web3.js';
 import { WebSocket, WebSocketServer } from "ws";
 import { TransactionData } from '../types/sol';
+import { AcceptSolTxn } from '@paybox/common';
 
 export class SolTxnLogs {
     private rpcUrl: string;
     private connection: Connection;
     private publicKey: PublicKey;
+    private keyPair: Signer;
     private logsListeners: TransactionData[];
 
     constructor(net: Cluster, address: string) {
         this.rpcUrl = clusterApiUrl(net);
         this.connection = new Connection(this.rpcUrl, 'confirmed');
         this.publicKey = new PublicKey(address);
+        this.keyPair = Keypair.fromSeed(this.publicKey.toBuffer())
         this.logsListeners = [];
     }
 
@@ -48,10 +51,27 @@ export class SolTxnLogs {
 
     async checkAddress(): Promise<boolean> {
         const isAccount = await this.connection.getAccountInfo(this.publicKey);
-        if(isAccount) {
+        if (isAccount) {
             return true;
         }
         return false;
+    }
+
+    async acceptTxn({ senderKey, amount }: AcceptSolTxn) {
+        const senderPublicKey = new PublicKey(senderKey);
+        console.log(this.keyPair.publicKey, this.publicKey)
+        const transaction = new Transaction().add(
+            SystemProgram.transfer({
+                fromPubkey: senderPublicKey,
+                toPubkey: this.keyPair.publicKey,
+                lamports: amount * 10 ** 9, // Convert amount to lamports
+            })
+        );
+
+        // Sign and send the transaction
+        const signature = await sendAndConfirmTransaction(this.connection, transaction, [this.keyPair]);
+
+        console.log(`Transaction confirmed with signature: ${signature}`);
     }
 }
 
