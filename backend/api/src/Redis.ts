@@ -65,12 +65,12 @@ export class Redis {
             return null;
         }
         const client = await this.getClientCache(clientId);
-        
+
         if (!client) {
             return null;
         }
 
-        return {...client}
+        return { ...client }
     }
 
     async updateUserFields(key: string, updatedFields: Partial<Client>) {
@@ -85,7 +85,7 @@ export class Redis {
         return deletedKeys;
     }
 
-    async cacheAddress(key: string, items: Address & {id: string, clientId: string}) {
+    async cacheAddress(key: string, items: Address & { id: string, clientId: string }) {
         const data = await this.client.hSet(key,
             {
                 id: items.id,
@@ -101,7 +101,7 @@ export class Redis {
     }
 
 
-    async getAddress(key: string): Promise<Partial<Address & {id: string, clientId: string}> | null> {
+    async getAddress(key: string): Promise<Partial<Address & { id: string, clientId: string }> | null> {
         const address = await this.client.hGetAll(key);
 
         if (!address) {
@@ -124,32 +124,40 @@ export class Redis {
         }
         return;
     }
-    
+
     async updateClientAddress(key: string, items: Partial<Address>) {
-        const existingClient = await this.client.hGetAll(key);
-        
-        if (!existingClient) {
-            throw new Error(`Address not found for client ID: ${key}`);
+        const client = await this.client.hGetAll(key);
+        console.log(client)
+        if (!client) {
+            throw new Error(`Client not found for ID: ${key}`);
         }
-        
-        await this.client.hSet(key, "address", JSON.stringify(items));
+
+        // client.address = {
+        //     //@ts-ignore
+        //     ...client.address,
+        //     ...items,
+        // };
+        console.log(client)
+        //@ts-ignore
+        // await this.cacheClient(key, client);
+
         console.log(`Client address updated for client ID: ${key}`);
-        
+
         return;
     }
-    
-    async getAddressFromKey(key: string): Promise<Partial<Address & {id: string, clientId: string}> | null> {
+
+    async getAddressFromKey(key: string): Promise<Partial<Address & { id: string, clientId: string }> | null> {
         const addressId = await this.client.get(key);
         if (!addressId) {
             return null;
         }
         const address = await this.getAddress(addressId);
-        
+
         if (!address) {
             return null;
         }
 
-        return {...address};
+        return { ...address };
     }
 
     async cacheIdUsingKey(key: string, item: string) {
