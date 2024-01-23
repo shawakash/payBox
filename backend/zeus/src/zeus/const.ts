@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string, any> = {
+  Int_comparison_exp: {},
   String_comparison_exp: {},
   address_aggregate_fields: {
     count: {
@@ -75,6 +76,18 @@ export const AllTypesProps: Record<string, any> = {
     _neq: "bigint",
     _nin: "bigint",
   },
+  client: {
+    transactions: {
+      distinct_on: "transactions_select_column",
+      order_by: "transactions_order_by",
+      where: "transactions_bool_exp",
+    },
+    transactions_aggregate: {
+      distinct_on: "transactions_select_column",
+      order_by: "transactions_order_by",
+      where: "transactions_bool_exp",
+    },
+  },
   client_aggregate_fields: {
     count: {
       columns: "client_select_column",
@@ -91,6 +104,8 @@ export const AllTypesProps: Record<string, any> = {
     lastname: "String_comparison_exp",
     mobile: "bigint_comparison_exp",
     password: "String_comparison_exp",
+    transactions: "transactions_bool_exp",
+    transactions_aggregate: "transactions_aggregate_bool_exp",
     username: "String_comparison_exp",
   },
   client_constraint: "enum" as const,
@@ -101,6 +116,7 @@ export const AllTypesProps: Record<string, any> = {
     address: "address_obj_rel_insert_input",
     id: "uuid",
     mobile: "bigint",
+    transactions: "transactions_arr_rel_insert_input",
   },
   client_obj_rel_insert_input: {
     data: "client_insert_input",
@@ -119,6 +135,7 @@ export const AllTypesProps: Record<string, any> = {
     lastname: "order_by",
     mobile: "order_by",
     password: "order_by",
+    transactions_aggregate: "transactions_aggregate_order_by",
     username: "order_by",
   },
   client_pk_columns_input: {
@@ -144,6 +161,28 @@ export const AllTypesProps: Record<string, any> = {
     where: "client_bool_exp",
   },
   cursor_ordering: "enum" as const,
+  date: `scalar.date` as const,
+  date_comparison_exp: {
+    _eq: "date",
+    _gt: "date",
+    _gte: "date",
+    _in: "date",
+    _lt: "date",
+    _lte: "date",
+    _neq: "date",
+    _nin: "date",
+  },
+  float8: `scalar.float8` as const,
+  float8_comparison_exp: {
+    _eq: "float8",
+    _gt: "float8",
+    _gte: "float8",
+    _in: "float8",
+    _lt: "float8",
+    _lte: "float8",
+    _neq: "float8",
+    _nin: "float8",
+  },
   mutation_root: {
     delete_address: {
       where: "address_bool_exp",
@@ -155,6 +194,12 @@ export const AllTypesProps: Record<string, any> = {
       where: "client_bool_exp",
     },
     delete_client_by_pk: {
+      id: "uuid",
+    },
+    delete_transactions: {
+      where: "transactions_bool_exp",
+    },
+    delete_transactions_by_pk: {
       id: "uuid",
     },
     insert_address: {
@@ -172,6 +217,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_client_one: {
       object: "client_insert_input",
       on_conflict: "client_on_conflict",
+    },
+    insert_transactions: {
+      objects: "transactions_insert_input",
+      on_conflict: "transactions_on_conflict",
+    },
+    insert_transactions_one: {
+      object: "transactions_insert_input",
+      on_conflict: "transactions_on_conflict",
     },
     update_address: {
       _set: "address_set_input",
@@ -196,6 +249,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_client_many: {
       updates: "client_updates",
+    },
+    update_transactions: {
+      _inc: "transactions_inc_input",
+      _set: "transactions_set_input",
+      where: "transactions_bool_exp",
+    },
+    update_transactions_by_pk: {
+      _inc: "transactions_inc_input",
+      _set: "transactions_set_input",
+      pk_columns: "transactions_pk_columns_input",
+    },
+    update_transactions_many: {
+      updates: "transactions_updates",
     },
   },
   order_by: "enum" as const,
@@ -224,6 +290,19 @@ export const AllTypesProps: Record<string, any> = {
       where: "client_bool_exp",
     },
     client_by_pk: {
+      id: "uuid",
+    },
+    transactions: {
+      distinct_on: "transactions_select_column",
+      order_by: "transactions_order_by",
+      where: "transactions_bool_exp",
+    },
+    transactions_aggregate: {
+      distinct_on: "transactions_select_column",
+      order_by: "transactions_order_by",
+      where: "transactions_bool_exp",
+    },
+    transactions_by_pk: {
       id: "uuid",
     },
   },
@@ -262,6 +341,262 @@ export const AllTypesProps: Record<string, any> = {
       cursor: "client_stream_cursor_input",
       where: "client_bool_exp",
     },
+    transactions: {
+      distinct_on: "transactions_select_column",
+      order_by: "transactions_order_by",
+      where: "transactions_bool_exp",
+    },
+    transactions_aggregate: {
+      distinct_on: "transactions_select_column",
+      order_by: "transactions_order_by",
+      where: "transactions_bool_exp",
+    },
+    transactions_by_pk: {
+      id: "uuid",
+    },
+    transactions_stream: {
+      cursor: "transactions_stream_cursor_input",
+      where: "transactions_bool_exp",
+    },
+  },
+  time: `scalar.time` as const,
+  time_comparison_exp: {
+    _eq: "time",
+    _gt: "time",
+    _gte: "time",
+    _in: "time",
+    _lt: "time",
+    _lte: "time",
+    _neq: "time",
+    _nin: "time",
+  },
+  transactions_aggregate_bool_exp: {
+    avg: "transactions_aggregate_bool_exp_avg",
+    corr: "transactions_aggregate_bool_exp_corr",
+    count: "transactions_aggregate_bool_exp_count",
+    covar_samp: "transactions_aggregate_bool_exp_covar_samp",
+    max: "transactions_aggregate_bool_exp_max",
+    min: "transactions_aggregate_bool_exp_min",
+    stddev_samp: "transactions_aggregate_bool_exp_stddev_samp",
+    sum: "transactions_aggregate_bool_exp_sum",
+    var_samp: "transactions_aggregate_bool_exp_var_samp",
+  },
+  transactions_aggregate_bool_exp_avg: {
+    arguments:
+      "transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns",
+    filter: "transactions_bool_exp",
+    predicate: "float8_comparison_exp",
+  },
+  transactions_aggregate_bool_exp_corr: {
+    arguments: "transactions_aggregate_bool_exp_corr_arguments",
+    filter: "transactions_bool_exp",
+    predicate: "float8_comparison_exp",
+  },
+  transactions_aggregate_bool_exp_corr_arguments: {
+    X: "transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns",
+    Y: "transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns",
+  },
+  transactions_aggregate_bool_exp_count: {
+    arguments: "transactions_select_column",
+    filter: "transactions_bool_exp",
+    predicate: "Int_comparison_exp",
+  },
+  transactions_aggregate_bool_exp_covar_samp: {
+    arguments: "transactions_aggregate_bool_exp_covar_samp_arguments",
+    filter: "transactions_bool_exp",
+    predicate: "float8_comparison_exp",
+  },
+  transactions_aggregate_bool_exp_covar_samp_arguments: {
+    X: "transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns",
+    Y: "transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns",
+  },
+  transactions_aggregate_bool_exp_max: {
+    arguments:
+      "transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns",
+    filter: "transactions_bool_exp",
+    predicate: "float8_comparison_exp",
+  },
+  transactions_aggregate_bool_exp_min: {
+    arguments:
+      "transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns",
+    filter: "transactions_bool_exp",
+    predicate: "float8_comparison_exp",
+  },
+  transactions_aggregate_bool_exp_stddev_samp: {
+    arguments:
+      "transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns",
+    filter: "transactions_bool_exp",
+    predicate: "float8_comparison_exp",
+  },
+  transactions_aggregate_bool_exp_sum: {
+    arguments:
+      "transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns",
+    filter: "transactions_bool_exp",
+    predicate: "float8_comparison_exp",
+  },
+  transactions_aggregate_bool_exp_var_samp: {
+    arguments:
+      "transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns",
+    filter: "transactions_bool_exp",
+    predicate: "float8_comparison_exp",
+  },
+  transactions_aggregate_fields: {
+    count: {
+      columns: "transactions_select_column",
+    },
+  },
+  transactions_aggregate_order_by: {
+    avg: "transactions_avg_order_by",
+    count: "order_by",
+    max: "transactions_max_order_by",
+    min: "transactions_min_order_by",
+    stddev: "transactions_stddev_order_by",
+    stddev_pop: "transactions_stddev_pop_order_by",
+    stddev_samp: "transactions_stddev_samp_order_by",
+    sum: "transactions_sum_order_by",
+    var_pop: "transactions_var_pop_order_by",
+    var_samp: "transactions_var_samp_order_by",
+    variance: "transactions_variance_order_by",
+  },
+  transactions_arr_rel_insert_input: {
+    data: "transactions_insert_input",
+    on_conflict: "transactions_on_conflict",
+  },
+  transactions_avg_order_by: {
+    amount: "order_by",
+  },
+  transactions_bool_exp: {
+    _and: "transactions_bool_exp",
+    _not: "transactions_bool_exp",
+    _or: "transactions_bool_exp",
+    address: "String_comparison_exp",
+    amount: "float8_comparison_exp",
+    client: "client_bool_exp",
+    client_id: "uuid_comparison_exp",
+    date: "date_comparison_exp",
+    from: "String_comparison_exp",
+    hash: "String_comparison_exp",
+    id: "uuid_comparison_exp",
+    time: "time_comparison_exp",
+    to: "String_comparison_exp",
+    type: "String_comparison_exp",
+  },
+  transactions_constraint: "enum" as const,
+  transactions_inc_input: {
+    amount: "float8",
+  },
+  transactions_insert_input: {
+    amount: "float8",
+    client: "client_obj_rel_insert_input",
+    client_id: "uuid",
+    date: "date",
+    id: "uuid",
+    time: "time",
+  },
+  transactions_max_order_by: {
+    address: "order_by",
+    amount: "order_by",
+    client_id: "order_by",
+    date: "order_by",
+    from: "order_by",
+    hash: "order_by",
+    id: "order_by",
+    to: "order_by",
+    type: "order_by",
+  },
+  transactions_min_order_by: {
+    address: "order_by",
+    amount: "order_by",
+    client_id: "order_by",
+    date: "order_by",
+    from: "order_by",
+    hash: "order_by",
+    id: "order_by",
+    to: "order_by",
+    type: "order_by",
+  },
+  transactions_on_conflict: {
+    constraint: "transactions_constraint",
+    update_columns: "transactions_update_column",
+    where: "transactions_bool_exp",
+  },
+  transactions_order_by: {
+    address: "order_by",
+    amount: "order_by",
+    client: "client_order_by",
+    client_id: "order_by",
+    date: "order_by",
+    from: "order_by",
+    hash: "order_by",
+    id: "order_by",
+    time: "order_by",
+    to: "order_by",
+    type: "order_by",
+  },
+  transactions_pk_columns_input: {
+    id: "uuid",
+  },
+  transactions_select_column: "enum" as const,
+  transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns:
+    "enum" as const,
+  transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns:
+    "enum" as const,
+  transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns:
+    "enum" as const,
+  transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns:
+    "enum" as const,
+  transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns:
+    "enum" as const,
+  transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns:
+    "enum" as const,
+  transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns:
+    "enum" as const,
+  transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns:
+    "enum" as const,
+  transactions_set_input: {
+    amount: "float8",
+    client_id: "uuid",
+    date: "date",
+    id: "uuid",
+    time: "time",
+  },
+  transactions_stddev_order_by: {
+    amount: "order_by",
+  },
+  transactions_stddev_pop_order_by: {
+    amount: "order_by",
+  },
+  transactions_stddev_samp_order_by: {
+    amount: "order_by",
+  },
+  transactions_stream_cursor_input: {
+    initial_value: "transactions_stream_cursor_value_input",
+    ordering: "cursor_ordering",
+  },
+  transactions_stream_cursor_value_input: {
+    amount: "float8",
+    client_id: "uuid",
+    date: "date",
+    id: "uuid",
+    time: "time",
+  },
+  transactions_sum_order_by: {
+    amount: "order_by",
+  },
+  transactions_update_column: "enum" as const,
+  transactions_updates: {
+    _inc: "transactions_inc_input",
+    _set: "transactions_set_input",
+    where: "transactions_bool_exp",
+  },
+  transactions_var_pop_order_by: {
+    amount: "order_by",
+  },
+  transactions_var_samp_order_by: {
+    amount: "order_by",
+  },
+  transactions_variance_order_by: {
+    amount: "order_by",
   },
   uuid: `scalar.uuid` as const,
   uuid_comparison_exp: {
@@ -328,6 +663,8 @@ export const ReturnTypes: Record<string, any> = {
     lastname: "String",
     mobile: "bigint",
     password: "String",
+    transactions: "transactions",
+    transactions_aggregate: "transactions_aggregate",
     username: "String",
   },
   client_aggregate: {
@@ -393,21 +730,30 @@ export const ReturnTypes: Record<string, any> = {
   client_variance_fields: {
     mobile: "Float",
   },
+  date: `scalar.date` as const,
+  float8: `scalar.float8` as const,
   mutation_root: {
     delete_address: "address_mutation_response",
     delete_address_by_pk: "address",
     delete_client: "client_mutation_response",
     delete_client_by_pk: "client",
+    delete_transactions: "transactions_mutation_response",
+    delete_transactions_by_pk: "transactions",
     insert_address: "address_mutation_response",
     insert_address_one: "address",
     insert_client: "client_mutation_response",
     insert_client_one: "client",
+    insert_transactions: "transactions_mutation_response",
+    insert_transactions_one: "transactions",
     update_address: "address_mutation_response",
     update_address_by_pk: "address",
     update_address_many: "address_mutation_response",
     update_client: "client_mutation_response",
     update_client_by_pk: "client",
     update_client_many: "client_mutation_response",
+    update_transactions: "transactions_mutation_response",
+    update_transactions_by_pk: "transactions",
+    update_transactions_many: "transactions_mutation_response",
   },
   query_root: {
     address: "address",
@@ -416,6 +762,9 @@ export const ReturnTypes: Record<string, any> = {
     client: "client",
     client_aggregate: "client_aggregate",
     client_by_pk: "client",
+    transactions: "transactions",
+    transactions_aggregate: "transactions_aggregate",
+    transactions_by_pk: "transactions",
   },
   subscription_root: {
     address: "address",
@@ -426,6 +775,91 @@ export const ReturnTypes: Record<string, any> = {
     client_aggregate: "client_aggregate",
     client_by_pk: "client",
     client_stream: "client",
+    transactions: "transactions",
+    transactions_aggregate: "transactions_aggregate",
+    transactions_by_pk: "transactions",
+    transactions_stream: "transactions",
+  },
+  time: `scalar.time` as const,
+  transactions: {
+    address: "String",
+    amount: "float8",
+    client: "client",
+    client_id: "uuid",
+    date: "date",
+    from: "String",
+    hash: "String",
+    id: "uuid",
+    time: "time",
+    to: "String",
+    type: "String",
+  },
+  transactions_aggregate: {
+    aggregate: "transactions_aggregate_fields",
+    nodes: "transactions",
+  },
+  transactions_aggregate_fields: {
+    avg: "transactions_avg_fields",
+    count: "Int",
+    max: "transactions_max_fields",
+    min: "transactions_min_fields",
+    stddev: "transactions_stddev_fields",
+    stddev_pop: "transactions_stddev_pop_fields",
+    stddev_samp: "transactions_stddev_samp_fields",
+    sum: "transactions_sum_fields",
+    var_pop: "transactions_var_pop_fields",
+    var_samp: "transactions_var_samp_fields",
+    variance: "transactions_variance_fields",
+  },
+  transactions_avg_fields: {
+    amount: "Float",
+  },
+  transactions_max_fields: {
+    address: "String",
+    amount: "float8",
+    client_id: "uuid",
+    date: "date",
+    from: "String",
+    hash: "String",
+    id: "uuid",
+    to: "String",
+    type: "String",
+  },
+  transactions_min_fields: {
+    address: "String",
+    amount: "float8",
+    client_id: "uuid",
+    date: "date",
+    from: "String",
+    hash: "String",
+    id: "uuid",
+    to: "String",
+    type: "String",
+  },
+  transactions_mutation_response: {
+    affected_rows: "Int",
+    returning: "transactions",
+  },
+  transactions_stddev_fields: {
+    amount: "Float",
+  },
+  transactions_stddev_pop_fields: {
+    amount: "Float",
+  },
+  transactions_stddev_samp_fields: {
+    amount: "Float",
+  },
+  transactions_sum_fields: {
+    amount: "float8",
+  },
+  transactions_var_pop_fields: {
+    amount: "Float",
+  },
+  transactions_var_samp_fields: {
+    amount: "Float",
+  },
+  transactions_variance_fields: {
+    amount: "Float",
   },
   uuid: `scalar.uuid` as const,
 };

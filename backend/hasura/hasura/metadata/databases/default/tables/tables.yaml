@@ -1,2 +1,3 @@
 - "!include public_address.yaml"
 - "!include public_client.yaml"
+- "!include public_transactions.yaml"

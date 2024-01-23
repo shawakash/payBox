@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="68b95ec0-bf7d-419c-b9b9-0866ed110dbf" name="Changes" comment="" />
+    <list default="true" id="68b95ec0-bf7d-419c-b9b9-0866ed110dbf" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/hasura/hasura/metadata/databases/default/tables/public_address.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/hasura/hasura/metadata/databases/default/tables/public_address.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/zeus/src/zeus/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/zeus/src/zeus/index.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,9 +16,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2aoF8i3l7vrCgWgz0TqmjlqVlx9" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -26,7 +29,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "qrcode",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
@@ -42,10 +45,16 @@
       <option name="presentableId" value="Default" />
       <updated>1704976867385</updated>
       <workItem from="1704976869078" duration="55000" />
+      <workItem from="1706008864918" duration="11000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/apps/web/tailwind.config.js" />
+      </list>
+    </option>
   </component>
 </project>

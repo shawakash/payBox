@@ -1,9 +1,9 @@
-import { Address, AddressForm, responseStatus } from "@paybox/common";
+import { Address, AddressForm, AddressFormPartial, responseStatus } from "@paybox/common";
 import { Router } from "express";
 import { checkAddress } from "../auth/middleware";
 import { conflictAddress, createAddress, getAddressByClientId, updateAddress } from "../db/address";
 import { dbResStatus } from "../types/client";
-import { cache } from "..";
+import { cache } from "../index";
 
 export const addressRouter = Router();
 
@@ -15,42 +15,43 @@ addressRouter.post("/", checkAddress, async (req, res) => {
         //@ts-ignore
         const id = req.id;
         if (id) {
-            const { eth, sol, bitcoin, usdc } = AddressForm.parse(req.body);
+            const { eth, sol, bitcoin, usdc } = AddressFormPartial.parse(req.body);
 
-            const isInDb = await conflictAddress(eth, sol, id, bitcoin, usdc);
-            if (isInDb.chain?.length) {
-                return res.status(409).json({ msg: "address already exist", status: responseStatus.Error })
+            if(eth && sol) {
+                const isInDb = await conflictAddress(id, eth, sol, bitcoin, usdc);
+                if(isInDb.status == dbResStatus.Error) {
+                    return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
+                }
+                const mutateAddress = await createAddress(eth, sol, id, bitcoin, usdc);
+                if (mutateAddress.status == dbResStatus.Error) {
+                    return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
+                }
+    
+                /**
+                 * Cache
+                 */
+    
+                await cache.cacheAddress(mutateAddress.id as string, {
+                    eth,
+                    sol,
+                    bitcoin: bitcoin || "",
+                    usdc: usdc || "",
+                    id: mutateAddress.id as string,
+                    clientId: id
+                });
+                // await cache.updateClientAddress(id, {
+                //     eth,
+                //     bitcoin,
+                //     sol,
+                //     usdc
+                // });
+                return res.status(200).json({ id: mutateAddress.id, status: responseStatus.Ok });
             }
-
-            const mutateAddress = await createAddress(eth, sol, id, bitcoin, usdc);
-            if (mutateAddress.status == dbResStatus.Error) {
-                return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
-            }
-
-            /**
-             * Cache
-             */
-
-            await cache.cacheAddress(mutateAddress.id as string, {
-                eth,
-                sol,
-                bitcoin,
-                usdc,
-                id: mutateAddress.id as string,
-                clientId: id
-            });
-            await cache.updateClientAddress(id, {
-                eth,
-                bitcoin,
-                sol,
-                usdc
-            });
-
-            return res.status(200).json({ id: mutateAddress.id, status: responseStatus.Ok });
+            return res.status(400).json({ status: responseStatus.Error, msg: "Atleast eth and sol are required 😊" });
 
         }
         //@ts-ignore
-        return res.status(302).json({ ...query.client[0], status: responseStatus.Ok, jwt: req.jwt });
+        return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });
@@ -65,7 +66,7 @@ addressRouter.get("/", async (req, res) => {
         if (id) {
             const isCached = await cache.getAddressFromKey(id);
             if (isCached) {
-                return res.status(200).json({ status: responseStatus.Ok, })
+                return res.status(200).json({ status: responseStatus.Ok, ...isCached })
             }
 
             const query = await getAddressByClientId(id);
@@ -86,20 +87,20 @@ addressRouter.get("/", async (req, res) => {
     }
 });
 
-addressRouter.patch("/update", async (req, res) => {
+addressRouter.patch("/update", checkAddress, async (req, res) => {
     try {
         //@ts-ignore
         const id = req.id;
         if (id) {
 
-            const { eth, sol, bitcoin, usdc } = AddressForm.parse(req.body);
+            const { eth, sol, bitcoin, usdc } = AddressFormPartial.parse(req.body);
 
-            const isInDb = await conflictAddress(eth, sol, id, bitcoin, usdc);
-            if (isInDb.chain?.length) {
+            const isInDb = await conflictAddress(id, eth, sol, bitcoin, usdc);
+            if (isInDb.address?.length) {
                 return res.status(409).json({ msg: "address already exist", status: responseStatus.Error })
             }
 
-            const mutateAddress = await updateAddress(eth, sol, id, bitcoin, usdc);
+            const mutateAddress = await updateAddress(id, eth, sol, bitcoin, usdc);
             if (mutateAddress.status == dbResStatus.Error) {
                 return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
             }
@@ -114,12 +115,12 @@ addressRouter.patch("/update", async (req, res) => {
                 bitcoin,
                 usdc,
             });
-            await cache.updateClientAddress(id, {
-                eth,
-                bitcoin,
-                sol,
-                usdc
-            });
+            // await cache.updateClientAddress(id, {
+            //     eth,
+            //     bitcoin,
+            //     sol,
+            //     usdc
+            // });
 
             return res.status(200).json({ id: mutateAddress.id, status: responseStatus.Ok });
 

@@ -1,7 +1,7 @@
 import { PORT } from "@paybox/common";
 import cluster from "cluster";
 import os from "os";
-import { server } from ".";
+import { server } from "./index";
 
 const cpuCount = os.cpus().length;
 
