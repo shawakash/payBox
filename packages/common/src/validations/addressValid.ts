@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { isEthereumAddress, isSolanaAddress } from "../constant";
 
-const isEthereumAddress = (value: string): boolean => /^0x[0-9a-fA-F]{40}$/.test(value);
-const isSolanaAddress = (value: string): boolean => /^[a-zA-Z0-9]{44}$/.test(value);
+
 
 export const AddressForm = z.object({
     eth: z

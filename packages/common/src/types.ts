@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ClientSignupFormValidate, MetadataUpdateForm } from "./validations/clientValid";
-import { AddressForm, AddressFormPartial } from "./validations";
+import { AddressForm, AddressFormPartial, TxnSolSendQuery } from "./validations";
 
 export type Client = z.infer<typeof ClientSignupFormValidate> & { id: string }
 export enum SignType {
@@ -39,5 +39,7 @@ export type Address = z.infer<typeof AddressForm>
 export type AcceptSolTxn = {
     senderKey: string,
     amount: number,
-    recieverKey?: string
+    recieverKey: string
 }
+
+export type TxnSolSendQueryType = z.infer<typeof TxnSolSendQuery>;
