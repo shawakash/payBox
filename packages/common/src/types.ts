@@ -66,3 +66,8 @@ export type InsertTxnType = {
     network: Network,
     slot: number
 }
+
+export type TxnType = InsertTxnType & {
+    id: string,
+    data?: string
+}
