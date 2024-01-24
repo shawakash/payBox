@@ -1,7 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus } from "../types/client";
-import { HASURA_ADMIN_SERCRET, InsertTxnType, Network } from "@paybox/common";
+import { HASURA_ADMIN_SERCRET, InsertTxnType, TxnsQeuryType } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
     headers: {
@@ -27,13 +27,13 @@ const chain = Chain(HASURA_URL, {
  * @returns { status, id? }
  */
 export const insertTxn = async ({
-    clientId, 
-    blockTime, 
-    amount, 
-    fee, 
-    from, 
-    to, 
-    postBalances, 
+    clientId,
+    blockTime,
+    amount,
+    fee,
+    from,
+    to,
+    postBalances,
     preBalances,
     recentBlockhash,
     signature,
@@ -62,8 +62,8 @@ export const insertTxn = async ({
         }, {
             id: true
         }]
-    }, {operationName: "insertTxn"});
-    if(response.insert_transactions_one?.id) {
+    }, { operationName: "insertTxn" });
+    if (response.insert_transactions_one?.id) {
         return {
             status: dbResStatus.Ok,
             ...response.insert_transactions_one
@@ -73,3 +73,57 @@ export const insertTxn = async ({
         status: dbResStatus.Error
     }
 };
+
+/**
+ * 
+ * @param param0 
+ * @returns 
+ */
+export const getTxns = async ({
+    networks, count, clientId
+}: TxnsQeuryType): Promise<{
+    status: dbResStatus,
+    txns?: unknown[],
+    id?: unknown 
+}> => {
+    const networkArray = Array.isArray(networks) ? networks : [networks]; // Ensure networks is an array
+    const response = await chain("query")({
+        transactions: [{
+            where: {
+                client_id: { _eq: clientId },
+                _or: networkArray.map((network) => ({
+                    network: { _eq: network },
+                })),
+            },
+            limit: count,
+        }, {
+            id: true,
+            //@ts-ignore
+            signature: true,
+            amount: true,
+            block_time: true,
+            client_id: true,
+            fee: true,
+            date: true,
+            from: true,
+            network: true,
+            //@ts-ignore
+            post_balances: true,
+            //@ts-ignore
+            pre_balances: true,
+            recent_blockhash: true,
+            slot: true,
+            to: true
+        }]
+    }, { operationName: "getTxns" });
+    if (response.transactions[0]) {
+        return {
+            status: dbResStatus.Ok,
+            txns: response.transactions,
+            id: response.transactions[0].id
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}

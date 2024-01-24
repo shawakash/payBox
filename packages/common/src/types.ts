@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ClientSignupFormValidate, MetadataUpdateForm } from "./validations/clientValid";
-import { AddressForm, AddressFormPartial, TxnSendQuery } from "./validations";
+import { AddressForm, AddressFormPartial, TxnSendQuery, TxnsQeury } from "./validations";
 
 
 export enum Network {
@@ -50,7 +50,7 @@ export type AcceptSolTxn = {
     to: string
 }
 
-export type TxnSolSendQueryType = z.infer<typeof TxnSendQuery>;
+export type TxnSendQueryType = z.infer<typeof TxnSendQuery>;
 
 export type InsertTxnType = {
     clientId: string, 
@@ -71,3 +71,5 @@ export type TxnType = InsertTxnType & {
     id: string,
     data?: string
 }
+
+export type TxnsQeuryType = z.infer<typeof TxnsQeury> & {clientId: string};
