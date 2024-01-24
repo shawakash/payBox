@@ -166,26 +166,33 @@ export class Redis {
         return;
     }
 
-    async cacheTxn(key: string, items: TxnType) {
-        const data = await this.client.hSet(key,
-            {
-                id: items.id,
-                clientId: items.clientId,
-                signature: JSON.stringify(items.signature),
-                network: items.network,
-                slot: items.slot,
-                amount: items.amount,
-                blockTime: items.blockTime,
-                fee: items.fee,
-                from: items.from,
-                to: items.to,
-                preBalances: JSON.stringify(items.preBalances),
-                postBalances: JSON.stringify(items.postBalances),
-                recentBlockhash: items.recentBlockhash
+    async cacheTxn(key: string, items: TxnType | TxnType[]) {
+        const dataArray = Array.isArray(items) ? items : [items]; // Ensure items is an array
+        console.log(dataArray)
+        const promises = dataArray.map(async (item) => {
+            const data = await this.client.hSet(key, {
+                id: item.id,
+                clientId: item.clientId,
+                signature: JSON.stringify(item.signature),
+                network: item.network,
+                slot: item.slot,
+                amount: item.amount,
+                blockTime: item.blockTime,
+                fee: item.fee,
+                from: item.from,
+                to: item.to,
+                preBalances: JSON.stringify(item.preBalances),
+                postBalances: JSON.stringify(item.postBalances),
+                recentBlockhash: item.recentBlockhash,
             });
-        console.log(`Txn Cached ${data}`);
-        await this.cacheIdUsingKey(items.clientId, items.id);
-        await this.cacheIdUsingKey(items.signature[0], items.id);
+    
+            console.log(`Txn Cached ${data}`);
+            await this.cacheIdUsingKey(item.clientId, item.id);
+            await this.cacheIdUsingKey(item.signature[0], item.id);
+        });
+    
+        await Promise.all(promises);
+        
         return;
     }
 
