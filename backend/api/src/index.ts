@@ -20,8 +20,8 @@ export const app = express();
 export const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
-const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
-const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
+export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
+export const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
 
 export const cache = Redis.getInstance();
 
@@ -58,7 +58,7 @@ app.get("/_health", (_req, res) => {
 app.use("/client", clientRouter);
 app.use("/address", extractClientId, addressRouter);
 app.use("/qrcode", extractClientId, qrcodeRouter);
-app.use("/txn", txnRouter);
+app.use("/txn", extractClientId, txnRouter);
 
 
 wss.on('connection', async (ws) => {

@@ -51,8 +51,8 @@ export class SolTxnLogs {
         });
     }
 
-    async checkAddress(): Promise<boolean> {
-        const isAccount = await this.connection.getAccountInfo(this.publicKey);
+    async checkAddress(address: string): Promise<boolean> {
+        const isAccount = await this.connection.getAccountInfo(new PublicKey(address));
         if (isAccount) {
             return true;
         }
@@ -60,10 +60,10 @@ export class SolTxnLogs {
     }
 
 
-    async acceptTxn({ senderKey, receiverKey, amount }: AcceptSolTxn): Promise<string | null> {
+    async acceptTxn({ from, to, amount }: AcceptSolTxn): Promise<TransactionResponse | null> {
         try {
-            const senderPublicKey = Keypair.fromSeed((new PublicKey(senderKey)).toBuffer());
-            const receiverSigner = Keypair.fromSeed((new PublicKey(receiverKey)).toBuffer())
+            const senderPublicKey = Keypair.fromSeed((new PublicKey(from)).toBuffer());
+            const receiverSigner = Keypair.fromSeed((new PublicKey(to)).toBuffer())
             /**
              * Do some airdrop for new keypair generated
              */
@@ -87,7 +87,8 @@ export class SolTxnLogs {
             const status = await this.connection.getSignatureStatuses([signature]);
             if (status.value[0]?.confirmationStatus == "confirmed") {
                 console.log(`Transaction confirmed with signature: ${signature}`);
-                return signature;
+                const txn = await this.connection.getTransaction(signature);
+                return txn;
             }
             return null;
         } catch (error) {

@@ -1,6 +1,14 @@
 import { z } from "zod";
 import { ClientSignupFormValidate, MetadataUpdateForm } from "./validations/clientValid";
-import { AddressForm, AddressFormPartial, TxnSolSendQuery } from "./validations";
+import { AddressForm, AddressFormPartial, TxnSendQuery } from "./validations";
+
+
+export enum Network {
+    Sol = "sol",
+    Eth = "eth",
+    Bitcoin = "bitcoin",
+    USDC = "usdc"
+}
 
 export type Client = z.infer<typeof ClientSignupFormValidate> & { id: string }
 export enum SignType {
@@ -37,9 +45,24 @@ export type AddressPartial = AddressFormPartialType & {id: string};
 export type Address = z.infer<typeof AddressForm>
 
 export type AcceptSolTxn = {
-    senderKey: string,
+    from: string,
     amount: number,
-    receiverKey: string
+    to: string
 }
 
-export type TxnSolSendQueryType = z.infer<typeof TxnSolSendQuery>;
+export type TxnSolSendQueryType = z.infer<typeof TxnSendQuery>;
+
+export type InsertTxnType = {
+    clientId: string, 
+    blockTime: number, 
+    amount: number, 
+    fee: number, 
+    from: string, 
+    to: string, 
+    postBalances: number[], 
+    preBalances: number[],
+    recentBlockhash: string,
+    signature: string[],
+    network: Network,
+    slot: number
+}

@@ -1,13 +1,14 @@
 import { z } from "zod";
 import { isSolanaAddress } from "../constant";
+import { Network } from "../types";
 
-export const TxnSolSendQuery = z.object({
-    senderKey: z
+export const TxnSendQuery = z.object({
+    from: z
         .string()
         .refine(isSolanaAddress, {
             message: 'Invalid Ethereum address',
         }),
-    receiverKey: z
+    to: z
         .string()
         .refine(isSolanaAddress, {
             message: 'Invalid Ethereum address',
@@ -22,5 +23,6 @@ export const TxnSolSendQuery = z.object({
             path: ['amount'],
         })
         .transform(value => parseFloat(value)),
+    network: z.nativeEnum(Network)
 });
 
