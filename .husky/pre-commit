@@ -4,3 +4,5 @@
 yarn format
 yarn lint
 yarn build
+
+git status

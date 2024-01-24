@@ -21,3 +21,5 @@ export const CORS_ORIGIN = "http://localhost:3000";
 
 export const SALT_ROUNDS = 10;
 export const WEB_URL = "http://localhost:3000";
+export const isEthereumAddress = (value: string): boolean => /^0x[0-9a-fA-F]{40}$/.test(value);
+export const isSolanaAddress = (value: string): boolean => /^[a-zA-Z0-9]{44}$/.test(value);

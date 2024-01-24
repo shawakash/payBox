@@ -1,6 +1,6 @@
 import { RedisClientType, createClient } from "redis";
 import { REDIS_URL } from "./config";
-import { Address, AddressPartial, Client } from "@paybox/common";
+import { Address, AddressPartial, Client, TxnType } from "@paybox/common";
 
 export class Redis {
     private client: RedisClientType;
@@ -163,6 +163,36 @@ export class Redis {
     async cacheIdUsingKey(key: string, item: string) {
         const data = await this.client.set(key, item);
         console.log(`${key} is cached with ${key}`);
+        return;
+    }
+
+    async cacheTxn(key: string, items: TxnType | TxnType[]) {
+        const dataArray = Array.isArray(items) ? items : [items]; // Ensure items is an array
+        console.log(dataArray)
+        const promises = dataArray.map(async (item) => {
+            const data = await this.client.hSet(key, {
+                id: item.id,
+                clientId: item.clientId,
+                signature: JSON.stringify(item.signature),
+                network: item.network,
+                slot: item.slot,
+                amount: item.amount,
+                blockTime: item.blockTime,
+                fee: item.fee,
+                from: item.from,
+                to: item.to,
+                preBalances: JSON.stringify(item.preBalances),
+                postBalances: JSON.stringify(item.postBalances),
+                recentBlockhash: item.recentBlockhash,
+            });
+    
+            console.log(`Txn Cached ${data}`);
+            await this.cacheIdUsingKey(item.clientId, item.id);
+            await this.cacheIdUsingKey(item.signature[0], item.id);
+        });
+    
+        await Promise.all(promises);
+        
         return;
     }
 

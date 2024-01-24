@@ -1018,7 +1018,7 @@ export type ScalarCoders = {
   bigint?: ScalarResolver;
   date?: ScalarResolver;
   float8?: ScalarResolver;
-  time?: ScalarResolver;
+  jsonb?: ScalarResolver;
   uuid?: ScalarResolver;
 };
 type ZEUS_UNIONS = never;
@@ -1737,6 +1737,49 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
   };
+  ["jsonb"]: unknown;
+  ["jsonb_cast_exp"]: {
+    String?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+  ["jsonb_comparison_exp"]: {
+    _cast?:
+      | ValueTypes["jsonb_cast_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** is the column contained in the given json value */
+    _contained_in?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** does the column contain the given json value at the top level */
+    _contains?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    _eq?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    _gt?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    _gte?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    /** does the string exist as a top-level key in the column */
+    _has_key?: string | undefined | null | Variable<any, string>;
+    /** do all of these strings exist as top-level keys in the column */
+    _has_keys_all?: Array<string> | undefined | null | Variable<any, string>;
+    /** do any of these strings exist as top-level keys in the column */
+    _has_keys_any?: Array<string> | undefined | null | Variable<any, string>;
+    _in?: Array<ValueTypes["jsonb"]> | undefined | null | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    _lte?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    _neq?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    _nin?:
+      | Array<ValueTypes["jsonb"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
   /** mutation root */
   ["mutation_root"]: AliasType<{
     delete_address?: [
@@ -1946,9 +1989,49 @@ export type ValueTypes = {
     ];
     update_transactions?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ValueTypes["transactions_append_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ValueTypes["transactions_delete_at_path_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ValueTypes["transactions_delete_elem_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ValueTypes["transactions_delete_key_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ValueTypes["transactions_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ValueTypes["transactions_prepend_input"]
           | undefined
           | null
           | Variable<
@@ -1969,9 +2052,49 @@ export type ValueTypes = {
     ];
     update_transactions_by_pk?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ValueTypes["transactions_append_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ValueTypes["transactions_delete_at_path_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ValueTypes["transactions_delete_elem_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ValueTypes["transactions_delete_key_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ValueTypes["transactions_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ValueTypes["transactions_prepend_input"]
           | undefined
           | null
           | Variable<
@@ -2502,33 +2625,42 @@ export type ValueTypes = {
     ];
     __typename?: boolean | `@${string}`;
   }>;
-  ["time"]: unknown;
-  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
-  ["time_comparison_exp"]: {
-    _eq?: ValueTypes["time"] | undefined | null | Variable<any, string>;
-    _gt?: ValueTypes["time"] | undefined | null | Variable<any, string>;
-    _gte?: ValueTypes["time"] | undefined | null | Variable<any, string>;
-    _in?: Array<ValueTypes["time"]> | undefined | null | Variable<any, string>;
-    _is_null?: boolean | undefined | null | Variable<any, string>;
-    _lt?: ValueTypes["time"] | undefined | null | Variable<any, string>;
-    _lte?: ValueTypes["time"] | undefined | null | Variable<any, string>;
-    _neq?: ValueTypes["time"] | undefined | null | Variable<any, string>;
-    _nin?: Array<ValueTypes["time"]> | undefined | null | Variable<any, string>;
-  };
   /** transactions table  */
   ["transactions"]: AliasType<{
-    address?: boolean | `@${string}`;
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
     /** An object relationship */
     client?: ValueTypes["client"];
     client_id?: boolean | `@${string}`;
     date?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
-    hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    time?: boolean | `@${string}`;
+    network?: boolean | `@${string}`;
+    post_balances?: [
+      {
+        /** JSON select path */
+        path?: string | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    pre_balances?: [
+      {
+        /** JSON select path */
+        path?: string | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    recent_blockhash?: boolean | `@${string}`;
+    signature?: [
+      {
+        /** JSON select path */
+        path?: string | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    slot?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
-    type?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "transactions" */
@@ -2789,6 +2921,20 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ["transactions_append_input"]: {
+    post_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    pre_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    signature?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+  };
   /** input type for inserting array relation for remote table "transactions" */
   ["transactions_arr_rel_insert_input"]: {
     data:
@@ -2804,11 +2950,21 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ["transactions_avg_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by avg() on columns of table "transactions" */
   ["transactions_avg_order_by"]: {
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
   ["transactions_bool_exp"]: {
@@ -2827,13 +2983,13 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    address?:
-      | ValueTypes["String_comparison_exp"]
+    amount?:
+      | ValueTypes["float8_comparison_exp"]
       | undefined
       | null
       | Variable<any, string>;
-    amount?:
-      | ValueTypes["float8_comparison_exp"]
+    block_time?:
+      | ValueTypes["bigint_comparison_exp"]
       | undefined
       | null
       | Variable<any, string>;
@@ -2852,12 +3008,12 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    from?:
-      | ValueTypes["String_comparison_exp"]
+    fee?:
+      | ValueTypes["float8_comparison_exp"]
       | undefined
       | null
       | Variable<any, string>;
-    hash?:
+    from?:
       | ValueTypes["String_comparison_exp"]
       | undefined
       | null
@@ -2867,8 +3023,33 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    time?:
-      | ValueTypes["time_comparison_exp"]
+    network?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    post_balances?:
+      | ValueTypes["jsonb_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    pre_balances?:
+      | ValueTypes["jsonb_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    recent_blockhash?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    signature?:
+      | ValueTypes["jsonb_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    slot?:
+      | ValueTypes["bigint_comparison_exp"]
       | undefined
       | null
       | Variable<any, string>;
@@ -2877,22 +3058,46 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    type?:
-      | ValueTypes["String_comparison_exp"]
-      | undefined
-      | null
-      | Variable<any, string>;
   };
   /** unique or primary key constraints on table "transactions" */
   ["transactions_constraint"]: transactions_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ["transactions_delete_at_path_input"]: {
+    post_balances?: Array<string> | undefined | null | Variable<any, string>;
+    pre_balances?: Array<string> | undefined | null | Variable<any, string>;
+    signature?: Array<string> | undefined | null | Variable<any, string>;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ["transactions_delete_elem_input"]: {
+    post_balances?: number | undefined | null | Variable<any, string>;
+    pre_balances?: number | undefined | null | Variable<any, string>;
+    signature?: number | undefined | null | Variable<any, string>;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ["transactions_delete_key_input"]: {
+    post_balances?: string | undefined | null | Variable<any, string>;
+    pre_balances?: string | undefined | null | Variable<any, string>;
+    signature?: string | undefined | null | Variable<any, string>;
+  };
   /** input type for incrementing numeric columns in table "transactions" */
   ["transactions_inc_input"]: {
     amount?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["bigint"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
   };
   /** input type for inserting data into table "transactions" */
   ["transactions_insert_input"]: {
-    address?: string | undefined | null | Variable<any, string>;
     amount?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["bigint"]
+      | undefined
+      | null
+      | Variable<any, string>;
     client?:
       | ValueTypes["client_obj_rel_insert_input"]
       | undefined
@@ -2900,70 +3105,106 @@ export type ValueTypes = {
       | Variable<any, string>;
     client_id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    fee?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
     from?: string | undefined | null | Variable<any, string>;
-    hash?: string | undefined | null | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
-    time?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    network?: string | undefined | null | Variable<any, string>;
+    post_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    pre_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    recent_blockhash?: string | undefined | null | Variable<any, string>;
+    signature?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     to?: string | undefined | null | Variable<any, string>;
-    type?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate max on columns */
   ["transactions_max_fields"]: AliasType<{
-    address?: boolean | `@${string}`;
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
     client_id?: boolean | `@${string}`;
     date?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
-    hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    network?: boolean | `@${string}`;
+    recent_blockhash?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
-    type?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by max() on columns of table "transactions" */
   ["transactions_max_order_by"]: {
-    address?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
     client_id?:
       | ValueTypes["order_by"]
       | undefined
       | null
       | Variable<any, string>;
     date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    network?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    recent_blockhash?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** aggregate min on columns */
   ["transactions_min_fields"]: AliasType<{
-    address?: boolean | `@${string}`;
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
     client_id?: boolean | `@${string}`;
     date?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
-    hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    network?: boolean | `@${string}`;
+    recent_blockhash?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
-    type?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by min() on columns of table "transactions" */
   ["transactions_min_order_by"]: {
-    address?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
     client_id?:
       | ValueTypes["order_by"]
       | undefined
       | null
       | Variable<any, string>;
     date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    network?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    recent_blockhash?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** response of any mutation on the table "transactions" */
   ["transactions_mutation_response"]: AliasType<{
@@ -2987,8 +3228,12 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "transactions". */
   ["transactions_order_by"]: {
-    address?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
     client?:
       | ValueTypes["client_order_by"]
       | undefined
@@ -3000,16 +3245,50 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    time?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    network?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    post_balances?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    pre_balances?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    recent_blockhash?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    signature?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    type?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** primary key columns input for table: transactions */
   ["transactions_pk_columns_input"]: {
     id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ["transactions_prepend_input"]: {
+    post_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    pre_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    signature?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
   };
   /** select columns of table "transactions" */
   ["transactions_select_column"]: transactions_select_column;
@@ -3031,43 +3310,89 @@ export type ValueTypes = {
   ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns;
   /** input type for updating data in table "transactions" */
   ["transactions_set_input"]: {
-    address?: string | undefined | null | Variable<any, string>;
     amount?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["bigint"]
+      | undefined
+      | null
+      | Variable<any, string>;
     client_id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    fee?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
     from?: string | undefined | null | Variable<any, string>;
-    hash?: string | undefined | null | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
-    time?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    network?: string | undefined | null | Variable<any, string>;
+    post_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    pre_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    recent_blockhash?: string | undefined | null | Variable<any, string>;
+    signature?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     to?: string | undefined | null | Variable<any, string>;
-    type?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate stddev on columns */
   ["transactions_stddev_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev() on columns of table "transactions" */
   ["transactions_stddev_order_by"]: {
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** aggregate stddev_pop on columns */
   ["transactions_stddev_pop_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev_pop() on columns of table "transactions" */
   ["transactions_stddev_pop_order_by"]: {
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** aggregate stddev_samp on columns */
   ["transactions_stddev_samp_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev_samp() on columns of table "transactions" */
   ["transactions_stddev_samp_order_by"]: {
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** Streaming cursor of the table "transactions" */
   ["transactions_stream_cursor_input"]: {
@@ -3084,32 +3409,88 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ["transactions_stream_cursor_value_input"]: {
-    address?: string | undefined | null | Variable<any, string>;
     amount?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["bigint"]
+      | undefined
+      | null
+      | Variable<any, string>;
     client_id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
+    fee?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
     from?: string | undefined | null | Variable<any, string>;
-    hash?: string | undefined | null | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
-    time?: ValueTypes["time"] | undefined | null | Variable<any, string>;
+    network?: string | undefined | null | Variable<any, string>;
+    post_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    pre_balances?:
+      | ValueTypes["jsonb"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    recent_blockhash?: string | undefined | null | Variable<any, string>;
+    signature?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     to?: string | undefined | null | Variable<any, string>;
-    type?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate sum on columns */
   ["transactions_sum_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by sum() on columns of table "transactions" */
   ["transactions_sum_order_by"]: {
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** update columns of table "transactions" */
   ["transactions_update_column"]: transactions_update_column;
   ["transactions_updates"]: {
+    /** append existing jsonb value of filtered columns with new jsonb value */
+    _append?:
+      | ValueTypes["transactions_append_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+    _delete_at_path?:
+      | ValueTypes["transactions_delete_at_path_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+    _delete_elem?:
+      | ValueTypes["transactions_delete_elem_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+    _delete_key?:
+      | ValueTypes["transactions_delete_key_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
     /** increments the numeric columns with given value of the filtered values */
     _inc?:
       | ValueTypes["transactions_inc_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** prepend existing jsonb value of filtered columns with new jsonb value */
+    _prepend?:
+      | ValueTypes["transactions_prepend_input"]
       | undefined
       | null
       | Variable<any, string>;
@@ -3125,29 +3506,59 @@ export type ValueTypes = {
   /** aggregate var_pop on columns */
   ["transactions_var_pop_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by var_pop() on columns of table "transactions" */
   ["transactions_var_pop_order_by"]: {
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** aggregate var_samp on columns */
   ["transactions_var_samp_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by var_samp() on columns of table "transactions" */
   ["transactions_var_samp_order_by"]: {
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** aggregate variance on columns */
   ["transactions_variance_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by variance() on columns of table "transactions" */
   ["transactions_variance_order_by"]: {
     amount?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    block_time?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   ["uuid"]: unknown;
   /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
@@ -3682,6 +4093,33 @@ export type ResolverInputTypes = {
     _neq?: ResolverInputTypes["float8"] | undefined | null;
     _nin?: Array<ResolverInputTypes["float8"]> | undefined | null;
   };
+  ["jsonb"]: unknown;
+  ["jsonb_cast_exp"]: {
+    String?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+  };
+  /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+  ["jsonb_comparison_exp"]: {
+    _cast?: ResolverInputTypes["jsonb_cast_exp"] | undefined | null;
+    /** is the column contained in the given json value */
+    _contained_in?: ResolverInputTypes["jsonb"] | undefined | null;
+    /** does the column contain the given json value at the top level */
+    _contains?: ResolverInputTypes["jsonb"] | undefined | null;
+    _eq?: ResolverInputTypes["jsonb"] | undefined | null;
+    _gt?: ResolverInputTypes["jsonb"] | undefined | null;
+    _gte?: ResolverInputTypes["jsonb"] | undefined | null;
+    /** does the string exist as a top-level key in the column */
+    _has_key?: string | undefined | null;
+    /** do all of these strings exist as top-level keys in the column */
+    _has_keys_all?: Array<string> | undefined | null;
+    /** do any of these strings exist as top-level keys in the column */
+    _has_keys_any?: Array<string> | undefined | null;
+    _in?: Array<ResolverInputTypes["jsonb"]> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ResolverInputTypes["jsonb"] | undefined | null;
+    _lte?: ResolverInputTypes["jsonb"] | undefined | null;
+    _neq?: ResolverInputTypes["jsonb"] | undefined | null;
+    _nin?: Array<ResolverInputTypes["jsonb"]> | undefined | null;
+  };
   /** mutation root */
   ["mutation_root"]: AliasType<{
     delete_address?: [
@@ -3851,9 +4289,29 @@ export type ResolverInputTypes = {
     ];
     update_transactions?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ResolverInputTypes["transactions_append_input"]
+          | undefined
+          | null /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ResolverInputTypes["transactions_delete_at_path_input"]
+          | undefined
+          | null /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ResolverInputTypes["transactions_delete_elem_input"]
+          | undefined
+          | null /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ResolverInputTypes["transactions_delete_key_input"]
+          | undefined
+          | null /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ResolverInputTypes["transactions_inc_input"]
+          | undefined
+          | null /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ResolverInputTypes["transactions_prepend_input"]
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
         _set?:
@@ -3866,9 +4324,29 @@ export type ResolverInputTypes = {
     ];
     update_transactions_by_pk?: [
       {
-        /** increments the numeric columns with given value of the filtered values */
+        /** append existing jsonb value of filtered columns with new jsonb value */
+        _append?:
+          | ResolverInputTypes["transactions_append_input"]
+          | undefined
+          | null /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */;
+        _delete_at_path?:
+          | ResolverInputTypes["transactions_delete_at_path_input"]
+          | undefined
+          | null /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */;
+        _delete_elem?:
+          | ResolverInputTypes["transactions_delete_elem_input"]
+          | undefined
+          | null /** delete key/value pair or string element. key/value pairs are matched based on their key value */;
+        _delete_key?:
+          | ResolverInputTypes["transactions_delete_key_input"]
+          | undefined
+          | null /** increments the numeric columns with given value of the filtered values */;
         _inc?:
           | ResolverInputTypes["transactions_inc_input"]
+          | undefined
+          | null /** prepend existing jsonb value of filtered columns with new jsonb value */;
+        _prepend?:
+          | ResolverInputTypes["transactions_prepend_input"]
           | undefined
           | null /** sets the columns of the filtered rows to the given values */;
         _set?: ResolverInputTypes["transactions_set_input"] | undefined | null;
@@ -4228,33 +4706,39 @@ export type ResolverInputTypes = {
     ];
     __typename?: boolean | `@${string}`;
   }>;
-  ["time"]: unknown;
-  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
-  ["time_comparison_exp"]: {
-    _eq?: ResolverInputTypes["time"] | undefined | null;
-    _gt?: ResolverInputTypes["time"] | undefined | null;
-    _gte?: ResolverInputTypes["time"] | undefined | null;
-    _in?: Array<ResolverInputTypes["time"]> | undefined | null;
-    _is_null?: boolean | undefined | null;
-    _lt?: ResolverInputTypes["time"] | undefined | null;
-    _lte?: ResolverInputTypes["time"] | undefined | null;
-    _neq?: ResolverInputTypes["time"] | undefined | null;
-    _nin?: Array<ResolverInputTypes["time"]> | undefined | null;
-  };
   /** transactions table  */
   ["transactions"]: AliasType<{
-    address?: boolean | `@${string}`;
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
     /** An object relationship */
     client?: ResolverInputTypes["client"];
     client_id?: boolean | `@${string}`;
     date?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
-    hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
-    time?: boolean | `@${string}`;
+    network?: boolean | `@${string}`;
+    post_balances?: [
+      {
+        /** JSON select path */ path?: string | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    pre_balances?: [
+      {
+        /** JSON select path */ path?: string | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    recent_blockhash?: boolean | `@${string}`;
+    signature?: [
+      {
+        /** JSON select path */ path?: string | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    slot?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
-    type?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "transactions" */
@@ -4422,6 +4906,12 @@ export type ResolverInputTypes = {
       | undefined
       | null;
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ["transactions_append_input"]: {
+    post_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    pre_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    signature?: ResolverInputTypes["jsonb"] | undefined | null;
+  };
   /** input type for inserting array relation for remote table "transactions" */
   ["transactions_arr_rel_insert_input"]: {
     data: Array<ResolverInputTypes["transactions_insert_input"]>;
@@ -4434,11 +4924,17 @@ export type ResolverInputTypes = {
   /** aggregate avg on columns */
   ["transactions_avg_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by avg() on columns of table "transactions" */
   ["transactions_avg_order_by"]: {
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
   ["transactions_bool_exp"]: {
@@ -4448,90 +4944,136 @@ export type ResolverInputTypes = {
       | null;
     _not?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
     _or?: Array<ResolverInputTypes["transactions_bool_exp"]> | undefined | null;
-    address?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     amount?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    block_time?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null;
     client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
     client_id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     date?: ResolverInputTypes["date_comparison_exp"] | undefined | null;
+    fee?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
     from?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-    hash?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
-    time?: ResolverInputTypes["time_comparison_exp"] | undefined | null;
+    network?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    post_balances?:
+      | ResolverInputTypes["jsonb_comparison_exp"]
+      | undefined
+      | null;
+    pre_balances?:
+      | ResolverInputTypes["jsonb_comparison_exp"]
+      | undefined
+      | null;
+    recent_blockhash?:
+      | ResolverInputTypes["String_comparison_exp"]
+      | undefined
+      | null;
+    signature?: ResolverInputTypes["jsonb_comparison_exp"] | undefined | null;
+    slot?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null;
     to?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-    type?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
   };
   /** unique or primary key constraints on table "transactions" */
   ["transactions_constraint"]: transactions_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ["transactions_delete_at_path_input"]: {
+    post_balances?: Array<string> | undefined | null;
+    pre_balances?: Array<string> | undefined | null;
+    signature?: Array<string> | undefined | null;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ["transactions_delete_elem_input"]: {
+    post_balances?: number | undefined | null;
+    pre_balances?: number | undefined | null;
+    signature?: number | undefined | null;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ["transactions_delete_key_input"]: {
+    post_balances?: string | undefined | null;
+    pre_balances?: string | undefined | null;
+    signature?: string | undefined | null;
+  };
   /** input type for incrementing numeric columns in table "transactions" */
   ["transactions_inc_input"]: {
     amount?: ResolverInputTypes["float8"] | undefined | null;
+    block_time?: ResolverInputTypes["bigint"] | undefined | null;
+    fee?: ResolverInputTypes["float8"] | undefined | null;
+    slot?: ResolverInputTypes["bigint"] | undefined | null;
   };
   /** input type for inserting data into table "transactions" */
   ["transactions_insert_input"]: {
-    address?: string | undefined | null;
     amount?: ResolverInputTypes["float8"] | undefined | null;
+    block_time?: ResolverInputTypes["bigint"] | undefined | null;
     client?:
       | ResolverInputTypes["client_obj_rel_insert_input"]
       | undefined
       | null;
     client_id?: ResolverInputTypes["uuid"] | undefined | null;
     date?: ResolverInputTypes["date"] | undefined | null;
+    fee?: ResolverInputTypes["float8"] | undefined | null;
     from?: string | undefined | null;
-    hash?: string | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
-    time?: ResolverInputTypes["time"] | undefined | null;
+    network?: string | undefined | null;
+    post_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    pre_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    recent_blockhash?: string | undefined | null;
+    signature?: ResolverInputTypes["jsonb"] | undefined | null;
+    slot?: ResolverInputTypes["bigint"] | undefined | null;
     to?: string | undefined | null;
-    type?: string | undefined | null;
   };
   /** aggregate max on columns */
   ["transactions_max_fields"]: AliasType<{
-    address?: boolean | `@${string}`;
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
     client_id?: boolean | `@${string}`;
     date?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
-    hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    network?: boolean | `@${string}`;
+    recent_blockhash?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
-    type?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by max() on columns of table "transactions" */
   ["transactions_max_order_by"]: {
-    address?: ResolverInputTypes["order_by"] | undefined | null;
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
     client_id?: ResolverInputTypes["order_by"] | undefined | null;
     date?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
     from?: ResolverInputTypes["order_by"] | undefined | null;
-    hash?: ResolverInputTypes["order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
+    network?: ResolverInputTypes["order_by"] | undefined | null;
+    recent_blockhash?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
     to?: ResolverInputTypes["order_by"] | undefined | null;
-    type?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** aggregate min on columns */
   ["transactions_min_fields"]: AliasType<{
-    address?: boolean | `@${string}`;
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
     client_id?: boolean | `@${string}`;
     date?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
-    hash?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    network?: boolean | `@${string}`;
+    recent_blockhash?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
-    type?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by min() on columns of table "transactions" */
   ["transactions_min_order_by"]: {
-    address?: ResolverInputTypes["order_by"] | undefined | null;
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
     client_id?: ResolverInputTypes["order_by"] | undefined | null;
     date?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
     from?: ResolverInputTypes["order_by"] | undefined | null;
-    hash?: ResolverInputTypes["order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
+    network?: ResolverInputTypes["order_by"] | undefined | null;
+    recent_blockhash?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
     to?: ResolverInputTypes["order_by"] | undefined | null;
-    type?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** response of any mutation on the table "transactions" */
   ["transactions_mutation_response"]: AliasType<{
@@ -4549,21 +5091,31 @@ export type ResolverInputTypes = {
   };
   /** Ordering options when selecting data from "transactions". */
   ["transactions_order_by"]: {
-    address?: ResolverInputTypes["order_by"] | undefined | null;
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
     client?: ResolverInputTypes["client_order_by"] | undefined | null;
     client_id?: ResolverInputTypes["order_by"] | undefined | null;
     date?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
     from?: ResolverInputTypes["order_by"] | undefined | null;
-    hash?: ResolverInputTypes["order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
-    time?: ResolverInputTypes["order_by"] | undefined | null;
+    network?: ResolverInputTypes["order_by"] | undefined | null;
+    post_balances?: ResolverInputTypes["order_by"] | undefined | null;
+    pre_balances?: ResolverInputTypes["order_by"] | undefined | null;
+    recent_blockhash?: ResolverInputTypes["order_by"] | undefined | null;
+    signature?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
     to?: ResolverInputTypes["order_by"] | undefined | null;
-    type?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** primary key columns input for table: transactions */
   ["transactions_pk_columns_input"]: {
     id: ResolverInputTypes["uuid"];
+  };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ["transactions_prepend_input"]: {
+    post_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    pre_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    signature?: ResolverInputTypes["jsonb"] | undefined | null;
   };
   /** select columns of table "transactions" */
   ["transactions_select_column"]: transactions_select_column;
@@ -4585,43 +5137,65 @@ export type ResolverInputTypes = {
   ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns;
   /** input type for updating data in table "transactions" */
   ["transactions_set_input"]: {
-    address?: string | undefined | null;
     amount?: ResolverInputTypes["float8"] | undefined | null;
+    block_time?: ResolverInputTypes["bigint"] | undefined | null;
     client_id?: ResolverInputTypes["uuid"] | undefined | null;
     date?: ResolverInputTypes["date"] | undefined | null;
+    fee?: ResolverInputTypes["float8"] | undefined | null;
     from?: string | undefined | null;
-    hash?: string | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
-    time?: ResolverInputTypes["time"] | undefined | null;
+    network?: string | undefined | null;
+    post_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    pre_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    recent_blockhash?: string | undefined | null;
+    signature?: ResolverInputTypes["jsonb"] | undefined | null;
+    slot?: ResolverInputTypes["bigint"] | undefined | null;
     to?: string | undefined | null;
-    type?: string | undefined | null;
   };
   /** aggregate stddev on columns */
   ["transactions_stddev_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev() on columns of table "transactions" */
   ["transactions_stddev_order_by"]: {
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** aggregate stddev_pop on columns */
   ["transactions_stddev_pop_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev_pop() on columns of table "transactions" */
   ["transactions_stddev_pop_order_by"]: {
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** aggregate stddev_samp on columns */
   ["transactions_stddev_samp_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by stddev_samp() on columns of table "transactions" */
   ["transactions_stddev_samp_order_by"]: {
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** Streaming cursor of the table "transactions" */
   ["transactions_stream_cursor_input"]: {
@@ -4632,31 +5206,66 @@ export type ResolverInputTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ["transactions_stream_cursor_value_input"]: {
-    address?: string | undefined | null;
     amount?: ResolverInputTypes["float8"] | undefined | null;
+    block_time?: ResolverInputTypes["bigint"] | undefined | null;
     client_id?: ResolverInputTypes["uuid"] | undefined | null;
     date?: ResolverInputTypes["date"] | undefined | null;
+    fee?: ResolverInputTypes["float8"] | undefined | null;
     from?: string | undefined | null;
-    hash?: string | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
-    time?: ResolverInputTypes["time"] | undefined | null;
+    network?: string | undefined | null;
+    post_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    pre_balances?: ResolverInputTypes["jsonb"] | undefined | null;
+    recent_blockhash?: string | undefined | null;
+    signature?: ResolverInputTypes["jsonb"] | undefined | null;
+    slot?: ResolverInputTypes["bigint"] | undefined | null;
     to?: string | undefined | null;
-    type?: string | undefined | null;
   };
   /** aggregate sum on columns */
   ["transactions_sum_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by sum() on columns of table "transactions" */
   ["transactions_sum_order_by"]: {
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** update columns of table "transactions" */
   ["transactions_update_column"]: transactions_update_column;
   ["transactions_updates"]: {
+    /** append existing jsonb value of filtered columns with new jsonb value */
+    _append?:
+      | ResolverInputTypes["transactions_append_input"]
+      | undefined
+      | null;
+    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+    _delete_at_path?:
+      | ResolverInputTypes["transactions_delete_at_path_input"]
+      | undefined
+      | null;
+    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+    _delete_elem?:
+      | ResolverInputTypes["transactions_delete_elem_input"]
+      | undefined
+      | null;
+    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+    _delete_key?:
+      | ResolverInputTypes["transactions_delete_key_input"]
+      | undefined
+      | null;
     /** increments the numeric columns with given value of the filtered values */
     _inc?: ResolverInputTypes["transactions_inc_input"] | undefined | null;
+    /** prepend existing jsonb value of filtered columns with new jsonb value */
+    _prepend?:
+      | ResolverInputTypes["transactions_prepend_input"]
+      | undefined
+      | null;
     /** sets the columns of the filtered rows to the given values */
     _set?: ResolverInputTypes["transactions_set_input"] | undefined | null;
     /** filter the rows which have to be updated */
@@ -4665,29 +5274,47 @@ export type ResolverInputTypes = {
   /** aggregate var_pop on columns */
   ["transactions_var_pop_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by var_pop() on columns of table "transactions" */
   ["transactions_var_pop_order_by"]: {
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** aggregate var_samp on columns */
   ["transactions_var_samp_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by var_samp() on columns of table "transactions" */
   ["transactions_var_samp_order_by"]: {
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** aggregate variance on columns */
   ["transactions_variance_fields"]: AliasType<{
     amount?: boolean | `@${string}`;
+    block_time?: boolean | `@${string}`;
+    fee?: boolean | `@${string}`;
+    slot?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** order by variance() on columns of table "transactions" */
   ["transactions_variance_order_by"]: {
     amount?: ResolverInputTypes["order_by"] | undefined | null;
+    block_time?: ResolverInputTypes["order_by"] | undefined | null;
+    fee?: ResolverInputTypes["order_by"] | undefined | null;
+    slot?: ResolverInputTypes["order_by"] | undefined | null;
   };
   ["uuid"]: unknown;
   /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
@@ -4911,7 +5538,7 @@ export type ModelTypes = {
     transactions: Array<ModelTypes["transactions"]>;
     /** An aggregate relationship */
     transactions_aggregate: ModelTypes["transactions_aggregate"];
-    username: string;
+    username?: string | undefined;
   };
   /** aggregated selection of "client" */
   ["client_aggregate"]: {
@@ -5120,6 +5747,33 @@ export type ModelTypes = {
     _neq?: ModelTypes["float8"] | undefined;
     _nin?: Array<ModelTypes["float8"]> | undefined;
   };
+  ["jsonb"]: any;
+  ["jsonb_cast_exp"]: {
+    String?: ModelTypes["String_comparison_exp"] | undefined;
+  };
+  /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+  ["jsonb_comparison_exp"]: {
+    _cast?: ModelTypes["jsonb_cast_exp"] | undefined;
+    /** is the column contained in the given json value */
+    _contained_in?: ModelTypes["jsonb"] | undefined;
+    /** does the column contain the given json value at the top level */
+    _contains?: ModelTypes["jsonb"] | undefined;
+    _eq?: ModelTypes["jsonb"] | undefined;
+    _gt?: ModelTypes["jsonb"] | undefined;
+    _gte?: ModelTypes["jsonb"] | undefined;
+    /** does the string exist as a top-level key in the column */
+    _has_key?: string | undefined;
+    /** do all of these strings exist as top-level keys in the column */
+    _has_keys_all?: Array<string> | undefined;
+    /** do any of these strings exist as top-level keys in the column */
+    _has_keys_any?: Array<string> | undefined;
+    _in?: Array<ModelTypes["jsonb"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: ModelTypes["jsonb"] | undefined;
+    _lte?: ModelTypes["jsonb"] | undefined;
+    _neq?: ModelTypes["jsonb"] | undefined;
+    _nin?: Array<ModelTypes["jsonb"]> | undefined;
+  };
   /** mutation root */
   ["mutation_root"]: {
     /** delete data from the table: "address" */
@@ -5224,33 +5878,24 @@ export type ModelTypes = {
     /** fetch data from the table in a streaming manner: "transactions" */
     transactions_stream: Array<ModelTypes["transactions"]>;
   };
-  ["time"]: any;
-  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
-  ["time_comparison_exp"]: {
-    _eq?: ModelTypes["time"] | undefined;
-    _gt?: ModelTypes["time"] | undefined;
-    _gte?: ModelTypes["time"] | undefined;
-    _in?: Array<ModelTypes["time"]> | undefined;
-    _is_null?: boolean | undefined;
-    _lt?: ModelTypes["time"] | undefined;
-    _lte?: ModelTypes["time"] | undefined;
-    _neq?: ModelTypes["time"] | undefined;
-    _nin?: Array<ModelTypes["time"]> | undefined;
-  };
   /** transactions table  */
   ["transactions"]: {
-    address: string;
     amount: ModelTypes["float8"];
+    block_time: ModelTypes["bigint"];
     /** An object relationship */
     client: ModelTypes["client"];
     client_id: ModelTypes["uuid"];
     date: ModelTypes["date"];
+    fee: ModelTypes["float8"];
     from: string;
-    hash: string;
     id: ModelTypes["uuid"];
-    time: ModelTypes["time"];
+    network: string;
+    post_balances: ModelTypes["jsonb"];
+    pre_balances: ModelTypes["jsonb"];
+    recent_blockhash: string;
+    signature: ModelTypes["jsonb"];
+    slot: ModelTypes["bigint"];
     to: string;
-    type: string;
   };
   /** aggregated selection of "transactions" */
   ["transactions_aggregate"]: {
@@ -5364,6 +6009,12 @@ export type ModelTypes = {
     var_samp?: ModelTypes["transactions_var_samp_order_by"] | undefined;
     variance?: ModelTypes["transactions_variance_order_by"] | undefined;
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ["transactions_append_input"]: {
+    post_balances?: ModelTypes["jsonb"] | undefined;
+    pre_balances?: ModelTypes["jsonb"] | undefined;
+    signature?: ModelTypes["jsonb"] | undefined;
+  };
   /** input type for inserting array relation for remote table "transactions" */
   ["transactions_arr_rel_insert_input"]: {
     data: Array<ModelTypes["transactions_insert_input"]>;
@@ -5373,94 +6024,137 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ["transactions_avg_fields"]: {
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by avg() on columns of table "transactions" */
   ["transactions_avg_order_by"]: {
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
   };
   /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
   ["transactions_bool_exp"]: {
     _and?: Array<ModelTypes["transactions_bool_exp"]> | undefined;
     _not?: ModelTypes["transactions_bool_exp"] | undefined;
     _or?: Array<ModelTypes["transactions_bool_exp"]> | undefined;
-    address?: ModelTypes["String_comparison_exp"] | undefined;
     amount?: ModelTypes["float8_comparison_exp"] | undefined;
+    block_time?: ModelTypes["bigint_comparison_exp"] | undefined;
     client?: ModelTypes["client_bool_exp"] | undefined;
     client_id?: ModelTypes["uuid_comparison_exp"] | undefined;
     date?: ModelTypes["date_comparison_exp"] | undefined;
+    fee?: ModelTypes["float8_comparison_exp"] | undefined;
     from?: ModelTypes["String_comparison_exp"] | undefined;
-    hash?: ModelTypes["String_comparison_exp"] | undefined;
     id?: ModelTypes["uuid_comparison_exp"] | undefined;
-    time?: ModelTypes["time_comparison_exp"] | undefined;
+    network?: ModelTypes["String_comparison_exp"] | undefined;
+    post_balances?: ModelTypes["jsonb_comparison_exp"] | undefined;
+    pre_balances?: ModelTypes["jsonb_comparison_exp"] | undefined;
+    recent_blockhash?: ModelTypes["String_comparison_exp"] | undefined;
+    signature?: ModelTypes["jsonb_comparison_exp"] | undefined;
+    slot?: ModelTypes["bigint_comparison_exp"] | undefined;
     to?: ModelTypes["String_comparison_exp"] | undefined;
-    type?: ModelTypes["String_comparison_exp"] | undefined;
   };
   ["transactions_constraint"]: transactions_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ["transactions_delete_at_path_input"]: {
+    post_balances?: Array<string> | undefined;
+    pre_balances?: Array<string> | undefined;
+    signature?: Array<string> | undefined;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ["transactions_delete_elem_input"]: {
+    post_balances?: number | undefined;
+    pre_balances?: number | undefined;
+    signature?: number | undefined;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ["transactions_delete_key_input"]: {
+    post_balances?: string | undefined;
+    pre_balances?: string | undefined;
+    signature?: string | undefined;
+  };
   /** input type for incrementing numeric columns in table "transactions" */
   ["transactions_inc_input"]: {
     amount?: ModelTypes["float8"] | undefined;
+    block_time?: ModelTypes["bigint"] | undefined;
+    fee?: ModelTypes["float8"] | undefined;
+    slot?: ModelTypes["bigint"] | undefined;
   };
   /** input type for inserting data into table "transactions" */
   ["transactions_insert_input"]: {
-    address?: string | undefined;
     amount?: ModelTypes["float8"] | undefined;
+    block_time?: ModelTypes["bigint"] | undefined;
     client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
     client_id?: ModelTypes["uuid"] | undefined;
     date?: ModelTypes["date"] | undefined;
+    fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
-    time?: ModelTypes["time"] | undefined;
+    network?: string | undefined;
+    post_balances?: ModelTypes["jsonb"] | undefined;
+    pre_balances?: ModelTypes["jsonb"] | undefined;
+    recent_blockhash?: string | undefined;
+    signature?: ModelTypes["jsonb"] | undefined;
+    slot?: ModelTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** aggregate max on columns */
   ["transactions_max_fields"]: {
-    address?: string | undefined;
     amount?: ModelTypes["float8"] | undefined;
+    block_time?: ModelTypes["bigint"] | undefined;
     client_id?: ModelTypes["uuid"] | undefined;
     date?: ModelTypes["date"] | undefined;
+    fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    network?: string | undefined;
+    recent_blockhash?: string | undefined;
+    slot?: ModelTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** order by max() on columns of table "transactions" */
   ["transactions_max_order_by"]: {
-    address?: ModelTypes["order_by"] | undefined;
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
     client_id?: ModelTypes["order_by"] | undefined;
     date?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
     from?: ModelTypes["order_by"] | undefined;
-    hash?: ModelTypes["order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
+    network?: ModelTypes["order_by"] | undefined;
+    recent_blockhash?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
     to?: ModelTypes["order_by"] | undefined;
-    type?: ModelTypes["order_by"] | undefined;
   };
   /** aggregate min on columns */
   ["transactions_min_fields"]: {
-    address?: string | undefined;
     amount?: ModelTypes["float8"] | undefined;
+    block_time?: ModelTypes["bigint"] | undefined;
     client_id?: ModelTypes["uuid"] | undefined;
     date?: ModelTypes["date"] | undefined;
+    fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    network?: string | undefined;
+    recent_blockhash?: string | undefined;
+    slot?: ModelTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** order by min() on columns of table "transactions" */
   ["transactions_min_order_by"]: {
-    address?: ModelTypes["order_by"] | undefined;
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
     client_id?: ModelTypes["order_by"] | undefined;
     date?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
     from?: ModelTypes["order_by"] | undefined;
-    hash?: ModelTypes["order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
+    network?: ModelTypes["order_by"] | undefined;
+    recent_blockhash?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
     to?: ModelTypes["order_by"] | undefined;
-    type?: ModelTypes["order_by"] | undefined;
   };
   /** response of any mutation on the table "transactions" */
   ["transactions_mutation_response"]: {
@@ -5477,21 +6171,31 @@ export type ModelTypes = {
   };
   /** Ordering options when selecting data from "transactions". */
   ["transactions_order_by"]: {
-    address?: ModelTypes["order_by"] | undefined;
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
     client?: ModelTypes["client_order_by"] | undefined;
     client_id?: ModelTypes["order_by"] | undefined;
     date?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
     from?: ModelTypes["order_by"] | undefined;
-    hash?: ModelTypes["order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
-    time?: ModelTypes["order_by"] | undefined;
+    network?: ModelTypes["order_by"] | undefined;
+    post_balances?: ModelTypes["order_by"] | undefined;
+    pre_balances?: ModelTypes["order_by"] | undefined;
+    recent_blockhash?: ModelTypes["order_by"] | undefined;
+    signature?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
     to?: ModelTypes["order_by"] | undefined;
-    type?: ModelTypes["order_by"] | undefined;
   };
   /** primary key columns input for table: transactions */
   ["transactions_pk_columns_input"]: {
     id: ModelTypes["uuid"];
+  };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ["transactions_prepend_input"]: {
+    post_balances?: ModelTypes["jsonb"] | undefined;
+    pre_balances?: ModelTypes["jsonb"] | undefined;
+    signature?: ModelTypes["jsonb"] | undefined;
   };
   ["transactions_select_column"]: transactions_select_column;
   ["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns;
@@ -5504,40 +6208,62 @@ export type ModelTypes = {
   ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns;
   /** input type for updating data in table "transactions" */
   ["transactions_set_input"]: {
-    address?: string | undefined;
     amount?: ModelTypes["float8"] | undefined;
+    block_time?: ModelTypes["bigint"] | undefined;
     client_id?: ModelTypes["uuid"] | undefined;
     date?: ModelTypes["date"] | undefined;
+    fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
-    time?: ModelTypes["time"] | undefined;
+    network?: string | undefined;
+    post_balances?: ModelTypes["jsonb"] | undefined;
+    pre_balances?: ModelTypes["jsonb"] | undefined;
+    recent_blockhash?: string | undefined;
+    signature?: ModelTypes["jsonb"] | undefined;
+    slot?: ModelTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** aggregate stddev on columns */
   ["transactions_stddev_fields"]: {
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by stddev() on columns of table "transactions" */
   ["transactions_stddev_order_by"]: {
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
   };
   /** aggregate stddev_pop on columns */
   ["transactions_stddev_pop_fields"]: {
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "transactions" */
   ["transactions_stddev_pop_order_by"]: {
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
   };
   /** aggregate stddev_samp on columns */
   ["transactions_stddev_samp_fields"]: {
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "transactions" */
   ["transactions_stddev_samp_order_by"]: {
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
   };
   /** Streaming cursor of the table "transactions" */
   ["transactions_stream_cursor_input"]: {
@@ -5548,29 +6274,51 @@ export type ModelTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ["transactions_stream_cursor_value_input"]: {
-    address?: string | undefined;
     amount?: ModelTypes["float8"] | undefined;
+    block_time?: ModelTypes["bigint"] | undefined;
     client_id?: ModelTypes["uuid"] | undefined;
     date?: ModelTypes["date"] | undefined;
+    fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: ModelTypes["uuid"] | undefined;
-    time?: ModelTypes["time"] | undefined;
+    network?: string | undefined;
+    post_balances?: ModelTypes["jsonb"] | undefined;
+    pre_balances?: ModelTypes["jsonb"] | undefined;
+    recent_blockhash?: string | undefined;
+    signature?: ModelTypes["jsonb"] | undefined;
+    slot?: ModelTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** aggregate sum on columns */
   ["transactions_sum_fields"]: {
     amount?: ModelTypes["float8"] | undefined;
+    block_time?: ModelTypes["bigint"] | undefined;
+    fee?: ModelTypes["float8"] | undefined;
+    slot?: ModelTypes["bigint"] | undefined;
   };
   /** order by sum() on columns of table "transactions" */
   ["transactions_sum_order_by"]: {
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
   };
   ["transactions_update_column"]: transactions_update_column;
   ["transactions_updates"]: {
+    /** append existing jsonb value of filtered columns with new jsonb value */
+    _append?: ModelTypes["transactions_append_input"] | undefined;
+    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+    _delete_at_path?:
+      | ModelTypes["transactions_delete_at_path_input"]
+      | undefined;
+    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+    _delete_elem?: ModelTypes["transactions_delete_elem_input"] | undefined;
+    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+    _delete_key?: ModelTypes["transactions_delete_key_input"] | undefined;
     /** increments the numeric columns with given value of the filtered values */
     _inc?: ModelTypes["transactions_inc_input"] | undefined;
+    /** prepend existing jsonb value of filtered columns with new jsonb value */
+    _prepend?: ModelTypes["transactions_prepend_input"] | undefined;
     /** sets the columns of the filtered rows to the given values */
     _set?: ModelTypes["transactions_set_input"] | undefined;
     /** filter the rows which have to be updated */
@@ -5579,26 +6327,44 @@ export type ModelTypes = {
   /** aggregate var_pop on columns */
   ["transactions_var_pop_fields"]: {
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by var_pop() on columns of table "transactions" */
   ["transactions_var_pop_order_by"]: {
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
   };
   /** aggregate var_samp on columns */
   ["transactions_var_samp_fields"]: {
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by var_samp() on columns of table "transactions" */
   ["transactions_var_samp_order_by"]: {
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
   };
   /** aggregate variance on columns */
   ["transactions_variance_fields"]: {
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by variance() on columns of table "transactions" */
   ["transactions_variance_order_by"]: {
     amount?: ModelTypes["order_by"] | undefined;
+    block_time?: ModelTypes["order_by"] | undefined;
+    fee?: ModelTypes["order_by"] | undefined;
+    slot?: ModelTypes["order_by"] | undefined;
   };
   ["uuid"]: any;
   /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
@@ -5827,7 +6593,7 @@ export type GraphQLTypes = {
     transactions: Array<GraphQLTypes["transactions"]>;
     /** An aggregate relationship */
     transactions_aggregate: GraphQLTypes["transactions_aggregate"];
-    username: string;
+    username?: string | undefined;
   };
   /** aggregated selection of "client" */
   ["client_aggregate"]: {
@@ -6055,6 +6821,33 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes["float8"] | undefined;
     _nin?: Array<GraphQLTypes["float8"]> | undefined;
   };
+  ["jsonb"]: "scalar" & { name: "jsonb" };
+  ["jsonb_cast_exp"]: {
+    String?: GraphQLTypes["String_comparison_exp"] | undefined;
+  };
+  /** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+  ["jsonb_comparison_exp"]: {
+    _cast?: GraphQLTypes["jsonb_cast_exp"] | undefined;
+    /** is the column contained in the given json value */
+    _contained_in?: GraphQLTypes["jsonb"] | undefined;
+    /** does the column contain the given json value at the top level */
+    _contains?: GraphQLTypes["jsonb"] | undefined;
+    _eq?: GraphQLTypes["jsonb"] | undefined;
+    _gt?: GraphQLTypes["jsonb"] | undefined;
+    _gte?: GraphQLTypes["jsonb"] | undefined;
+    /** does the string exist as a top-level key in the column */
+    _has_key?: string | undefined;
+    /** do all of these strings exist as top-level keys in the column */
+    _has_keys_all?: Array<string> | undefined;
+    /** do any of these strings exist as top-level keys in the column */
+    _has_keys_any?: Array<string> | undefined;
+    _in?: Array<GraphQLTypes["jsonb"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes["jsonb"] | undefined;
+    _lte?: GraphQLTypes["jsonb"] | undefined;
+    _neq?: GraphQLTypes["jsonb"] | undefined;
+    _nin?: Array<GraphQLTypes["jsonb"]> | undefined;
+  };
   /** mutation root */
   ["mutation_root"]: {
     __typename: "mutation_root";
@@ -6163,34 +6956,25 @@ export type GraphQLTypes = {
     /** fetch data from the table in a streaming manner: "transactions" */
     transactions_stream: Array<GraphQLTypes["transactions"]>;
   };
-  ["time"]: "scalar" & { name: "time" };
-  /** Boolean expression to compare columns of type "time". All fields are combined with logical 'AND'. */
-  ["time_comparison_exp"]: {
-    _eq?: GraphQLTypes["time"] | undefined;
-    _gt?: GraphQLTypes["time"] | undefined;
-    _gte?: GraphQLTypes["time"] | undefined;
-    _in?: Array<GraphQLTypes["time"]> | undefined;
-    _is_null?: boolean | undefined;
-    _lt?: GraphQLTypes["time"] | undefined;
-    _lte?: GraphQLTypes["time"] | undefined;
-    _neq?: GraphQLTypes["time"] | undefined;
-    _nin?: Array<GraphQLTypes["time"]> | undefined;
-  };
   /** transactions table  */
   ["transactions"]: {
     __typename: "transactions";
-    address: string;
     amount: GraphQLTypes["float8"];
+    block_time: GraphQLTypes["bigint"];
     /** An object relationship */
     client: GraphQLTypes["client"];
     client_id: GraphQLTypes["uuid"];
     date: GraphQLTypes["date"];
+    fee: GraphQLTypes["float8"];
     from: string;
-    hash: string;
     id: GraphQLTypes["uuid"];
-    time: GraphQLTypes["time"];
+    network: string;
+    post_balances: GraphQLTypes["jsonb"];
+    pre_balances: GraphQLTypes["jsonb"];
+    recent_blockhash: string;
+    signature: GraphQLTypes["jsonb"];
+    slot: GraphQLTypes["bigint"];
     to: string;
-    type: string;
   };
   /** aggregated selection of "transactions" */
   ["transactions_aggregate"]: {
@@ -6306,6 +7090,12 @@ export type GraphQLTypes = {
     var_samp?: GraphQLTypes["transactions_var_samp_order_by"] | undefined;
     variance?: GraphQLTypes["transactions_variance_order_by"] | undefined;
   };
+  /** append existing jsonb value of filtered columns with new jsonb value */
+  ["transactions_append_input"]: {
+    post_balances?: GraphQLTypes["jsonb"] | undefined;
+    pre_balances?: GraphQLTypes["jsonb"] | undefined;
+    signature?: GraphQLTypes["jsonb"] | undefined;
+  };
   /** input type for inserting array relation for remote table "transactions" */
   ["transactions_arr_rel_insert_input"]: {
     data: Array<GraphQLTypes["transactions_insert_input"]>;
@@ -6316,97 +7106,140 @@ export type GraphQLTypes = {
   ["transactions_avg_fields"]: {
     __typename: "transactions_avg_fields";
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by avg() on columns of table "transactions" */
   ["transactions_avg_order_by"]: {
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
   };
   /** Boolean expression to filter rows from the table "transactions". All fields are combined with a logical 'AND'. */
   ["transactions_bool_exp"]: {
     _and?: Array<GraphQLTypes["transactions_bool_exp"]> | undefined;
     _not?: GraphQLTypes["transactions_bool_exp"] | undefined;
     _or?: Array<GraphQLTypes["transactions_bool_exp"]> | undefined;
-    address?: GraphQLTypes["String_comparison_exp"] | undefined;
     amount?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    block_time?: GraphQLTypes["bigint_comparison_exp"] | undefined;
     client?: GraphQLTypes["client_bool_exp"] | undefined;
     client_id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     date?: GraphQLTypes["date_comparison_exp"] | undefined;
+    fee?: GraphQLTypes["float8_comparison_exp"] | undefined;
     from?: GraphQLTypes["String_comparison_exp"] | undefined;
-    hash?: GraphQLTypes["String_comparison_exp"] | undefined;
     id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
-    time?: GraphQLTypes["time_comparison_exp"] | undefined;
+    network?: GraphQLTypes["String_comparison_exp"] | undefined;
+    post_balances?: GraphQLTypes["jsonb_comparison_exp"] | undefined;
+    pre_balances?: GraphQLTypes["jsonb_comparison_exp"] | undefined;
+    recent_blockhash?: GraphQLTypes["String_comparison_exp"] | undefined;
+    signature?: GraphQLTypes["jsonb_comparison_exp"] | undefined;
+    slot?: GraphQLTypes["bigint_comparison_exp"] | undefined;
     to?: GraphQLTypes["String_comparison_exp"] | undefined;
-    type?: GraphQLTypes["String_comparison_exp"] | undefined;
   };
   /** unique or primary key constraints on table "transactions" */
   ["transactions_constraint"]: transactions_constraint;
+  /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+  ["transactions_delete_at_path_input"]: {
+    post_balances?: Array<string> | undefined;
+    pre_balances?: Array<string> | undefined;
+    signature?: Array<string> | undefined;
+  };
+  /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+  ["transactions_delete_elem_input"]: {
+    post_balances?: number | undefined;
+    pre_balances?: number | undefined;
+    signature?: number | undefined;
+  };
+  /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+  ["transactions_delete_key_input"]: {
+    post_balances?: string | undefined;
+    pre_balances?: string | undefined;
+    signature?: string | undefined;
+  };
   /** input type for incrementing numeric columns in table "transactions" */
   ["transactions_inc_input"]: {
     amount?: GraphQLTypes["float8"] | undefined;
+    block_time?: GraphQLTypes["bigint"] | undefined;
+    fee?: GraphQLTypes["float8"] | undefined;
+    slot?: GraphQLTypes["bigint"] | undefined;
   };
   /** input type for inserting data into table "transactions" */
   ["transactions_insert_input"]: {
-    address?: string | undefined;
     amount?: GraphQLTypes["float8"] | undefined;
+    block_time?: GraphQLTypes["bigint"] | undefined;
     client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
     client_id?: GraphQLTypes["uuid"] | undefined;
     date?: GraphQLTypes["date"] | undefined;
+    fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
-    time?: GraphQLTypes["time"] | undefined;
+    network?: string | undefined;
+    post_balances?: GraphQLTypes["jsonb"] | undefined;
+    pre_balances?: GraphQLTypes["jsonb"] | undefined;
+    recent_blockhash?: string | undefined;
+    signature?: GraphQLTypes["jsonb"] | undefined;
+    slot?: GraphQLTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** aggregate max on columns */
   ["transactions_max_fields"]: {
     __typename: "transactions_max_fields";
-    address?: string | undefined;
     amount?: GraphQLTypes["float8"] | undefined;
+    block_time?: GraphQLTypes["bigint"] | undefined;
     client_id?: GraphQLTypes["uuid"] | undefined;
     date?: GraphQLTypes["date"] | undefined;
+    fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    network?: string | undefined;
+    recent_blockhash?: string | undefined;
+    slot?: GraphQLTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** order by max() on columns of table "transactions" */
   ["transactions_max_order_by"]: {
-    address?: GraphQLTypes["order_by"] | undefined;
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
     client_id?: GraphQLTypes["order_by"] | undefined;
     date?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
     from?: GraphQLTypes["order_by"] | undefined;
-    hash?: GraphQLTypes["order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
+    network?: GraphQLTypes["order_by"] | undefined;
+    recent_blockhash?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
     to?: GraphQLTypes["order_by"] | undefined;
-    type?: GraphQLTypes["order_by"] | undefined;
   };
   /** aggregate min on columns */
   ["transactions_min_fields"]: {
     __typename: "transactions_min_fields";
-    address?: string | undefined;
     amount?: GraphQLTypes["float8"] | undefined;
+    block_time?: GraphQLTypes["bigint"] | undefined;
     client_id?: GraphQLTypes["uuid"] | undefined;
     date?: GraphQLTypes["date"] | undefined;
+    fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    network?: string | undefined;
+    recent_blockhash?: string | undefined;
+    slot?: GraphQLTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** order by min() on columns of table "transactions" */
   ["transactions_min_order_by"]: {
-    address?: GraphQLTypes["order_by"] | undefined;
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
     client_id?: GraphQLTypes["order_by"] | undefined;
     date?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
     from?: GraphQLTypes["order_by"] | undefined;
-    hash?: GraphQLTypes["order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
+    network?: GraphQLTypes["order_by"] | undefined;
+    recent_blockhash?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
     to?: GraphQLTypes["order_by"] | undefined;
-    type?: GraphQLTypes["order_by"] | undefined;
   };
   /** response of any mutation on the table "transactions" */
   ["transactions_mutation_response"]: {
@@ -6424,21 +7257,31 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "transactions". */
   ["transactions_order_by"]: {
-    address?: GraphQLTypes["order_by"] | undefined;
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
     client?: GraphQLTypes["client_order_by"] | undefined;
     client_id?: GraphQLTypes["order_by"] | undefined;
     date?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
     from?: GraphQLTypes["order_by"] | undefined;
-    hash?: GraphQLTypes["order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
-    time?: GraphQLTypes["order_by"] | undefined;
+    network?: GraphQLTypes["order_by"] | undefined;
+    post_balances?: GraphQLTypes["order_by"] | undefined;
+    pre_balances?: GraphQLTypes["order_by"] | undefined;
+    recent_blockhash?: GraphQLTypes["order_by"] | undefined;
+    signature?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
     to?: GraphQLTypes["order_by"] | undefined;
-    type?: GraphQLTypes["order_by"] | undefined;
   };
   /** primary key columns input for table: transactions */
   ["transactions_pk_columns_input"]: {
     id: GraphQLTypes["uuid"];
+  };
+  /** prepend existing jsonb value of filtered columns with new jsonb value */
+  ["transactions_prepend_input"]: {
+    post_balances?: GraphQLTypes["jsonb"] | undefined;
+    pre_balances?: GraphQLTypes["jsonb"] | undefined;
+    signature?: GraphQLTypes["jsonb"] | undefined;
   };
   /** select columns of table "transactions" */
   ["transactions_select_column"]: transactions_select_column;
@@ -6460,43 +7303,65 @@ export type GraphQLTypes = {
   ["transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns"]: transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns;
   /** input type for updating data in table "transactions" */
   ["transactions_set_input"]: {
-    address?: string | undefined;
     amount?: GraphQLTypes["float8"] | undefined;
+    block_time?: GraphQLTypes["bigint"] | undefined;
     client_id?: GraphQLTypes["uuid"] | undefined;
     date?: GraphQLTypes["date"] | undefined;
+    fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
-    time?: GraphQLTypes["time"] | undefined;
+    network?: string | undefined;
+    post_balances?: GraphQLTypes["jsonb"] | undefined;
+    pre_balances?: GraphQLTypes["jsonb"] | undefined;
+    recent_blockhash?: string | undefined;
+    signature?: GraphQLTypes["jsonb"] | undefined;
+    slot?: GraphQLTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** aggregate stddev on columns */
   ["transactions_stddev_fields"]: {
     __typename: "transactions_stddev_fields";
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by stddev() on columns of table "transactions" */
   ["transactions_stddev_order_by"]: {
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
   };
   /** aggregate stddev_pop on columns */
   ["transactions_stddev_pop_fields"]: {
     __typename: "transactions_stddev_pop_fields";
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by stddev_pop() on columns of table "transactions" */
   ["transactions_stddev_pop_order_by"]: {
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
   };
   /** aggregate stddev_samp on columns */
   ["transactions_stddev_samp_fields"]: {
     __typename: "transactions_stddev_samp_fields";
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by stddev_samp() on columns of table "transactions" */
   ["transactions_stddev_samp_order_by"]: {
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
   };
   /** Streaming cursor of the table "transactions" */
   ["transactions_stream_cursor_input"]: {
@@ -6507,31 +7372,53 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ["transactions_stream_cursor_value_input"]: {
-    address?: string | undefined;
     amount?: GraphQLTypes["float8"] | undefined;
+    block_time?: GraphQLTypes["bigint"] | undefined;
     client_id?: GraphQLTypes["uuid"] | undefined;
     date?: GraphQLTypes["date"] | undefined;
+    fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
-    hash?: string | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
-    time?: GraphQLTypes["time"] | undefined;
+    network?: string | undefined;
+    post_balances?: GraphQLTypes["jsonb"] | undefined;
+    pre_balances?: GraphQLTypes["jsonb"] | undefined;
+    recent_blockhash?: string | undefined;
+    signature?: GraphQLTypes["jsonb"] | undefined;
+    slot?: GraphQLTypes["bigint"] | undefined;
     to?: string | undefined;
-    type?: string | undefined;
   };
   /** aggregate sum on columns */
   ["transactions_sum_fields"]: {
     __typename: "transactions_sum_fields";
     amount?: GraphQLTypes["float8"] | undefined;
+    block_time?: GraphQLTypes["bigint"] | undefined;
+    fee?: GraphQLTypes["float8"] | undefined;
+    slot?: GraphQLTypes["bigint"] | undefined;
   };
   /** order by sum() on columns of table "transactions" */
   ["transactions_sum_order_by"]: {
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
   };
   /** update columns of table "transactions" */
   ["transactions_update_column"]: transactions_update_column;
   ["transactions_updates"]: {
+    /** append existing jsonb value of filtered columns with new jsonb value */
+    _append?: GraphQLTypes["transactions_append_input"] | undefined;
+    /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+    _delete_at_path?:
+      | GraphQLTypes["transactions_delete_at_path_input"]
+      | undefined;
+    /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+    _delete_elem?: GraphQLTypes["transactions_delete_elem_input"] | undefined;
+    /** delete key/value pair or string element. key/value pairs are matched based on their key value */
+    _delete_key?: GraphQLTypes["transactions_delete_key_input"] | undefined;
     /** increments the numeric columns with given value of the filtered values */
     _inc?: GraphQLTypes["transactions_inc_input"] | undefined;
+    /** prepend existing jsonb value of filtered columns with new jsonb value */
+    _prepend?: GraphQLTypes["transactions_prepend_input"] | undefined;
     /** sets the columns of the filtered rows to the given values */
     _set?: GraphQLTypes["transactions_set_input"] | undefined;
     /** filter the rows which have to be updated */
@@ -6541,28 +7428,46 @@ export type GraphQLTypes = {
   ["transactions_var_pop_fields"]: {
     __typename: "transactions_var_pop_fields";
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by var_pop() on columns of table "transactions" */
   ["transactions_var_pop_order_by"]: {
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
   };
   /** aggregate var_samp on columns */
   ["transactions_var_samp_fields"]: {
     __typename: "transactions_var_samp_fields";
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by var_samp() on columns of table "transactions" */
   ["transactions_var_samp_order_by"]: {
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
   };
   /** aggregate variance on columns */
   ["transactions_variance_fields"]: {
     __typename: "transactions_variance_fields";
     amount?: number | undefined;
+    block_time?: number | undefined;
+    fee?: number | undefined;
+    slot?: number | undefined;
   };
   /** order by variance() on columns of table "transactions" */
   ["transactions_variance_order_by"]: {
     amount?: GraphQLTypes["order_by"] | undefined;
+    block_time?: GraphQLTypes["order_by"] | undefined;
+    fee?: GraphQLTypes["order_by"] | undefined;
+    slot?: GraphQLTypes["order_by"] | undefined;
   };
   ["uuid"]: "scalar" & { name: "uuid" };
   /** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
@@ -6607,7 +7512,6 @@ export const enum client_constraint {
   client_email_key = "client_email_key",
   client_mobile_number_key = "client_mobile_number_key",
   client_pkey = "client_pkey",
-  client_username_key = "client_username_key",
 }
 /** select columns of table "client" */
 export const enum client_select_column {
@@ -6645,65 +7549,82 @@ export const enum order_by {
 }
 /** unique or primary key constraints on table "transactions" */
 export const enum transactions_constraint {
+  transactions_block_time_key = "transactions_block_time_key",
   transactions_pkey = "transactions_pkey",
 }
 /** select columns of table "transactions" */
 export const enum transactions_select_column {
-  address = "address",
   amount = "amount",
+  block_time = "block_time",
   client_id = "client_id",
   date = "date",
+  fee = "fee",
   from = "from",
-  hash = "hash",
   id = "id",
-  time = "time",
+  network = "network",
+  post_balances = "post_balances",
+  pre_balances = "pre_balances",
+  recent_blockhash = "recent_blockhash",
+  signature = "signature",
+  slot = "slot",
   to = "to",
-  type = "type",
 }
 /** select "transactions_aggregate_bool_exp_avg_arguments_columns" columns of table "transactions" */
 export const enum transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns {
   amount = "amount",
+  fee = "fee",
 }
 /** select "transactions_aggregate_bool_exp_corr_arguments_columns" columns of table "transactions" */
 export const enum transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns {
   amount = "amount",
+  fee = "fee",
 }
 /** select "transactions_aggregate_bool_exp_covar_samp_arguments_columns" columns of table "transactions" */
 export const enum transactions_select_column_transactions_aggregate_bool_exp_covar_samp_arguments_columns {
   amount = "amount",
+  fee = "fee",
 }
 /** select "transactions_aggregate_bool_exp_max_arguments_columns" columns of table "transactions" */
 export const enum transactions_select_column_transactions_aggregate_bool_exp_max_arguments_columns {
   amount = "amount",
+  fee = "fee",
 }
 /** select "transactions_aggregate_bool_exp_min_arguments_columns" columns of table "transactions" */
 export const enum transactions_select_column_transactions_aggregate_bool_exp_min_arguments_columns {
   amount = "amount",
+  fee = "fee",
 }
 /** select "transactions_aggregate_bool_exp_stddev_samp_arguments_columns" columns of table "transactions" */
 export const enum transactions_select_column_transactions_aggregate_bool_exp_stddev_samp_arguments_columns {
   amount = "amount",
+  fee = "fee",
 }
 /** select "transactions_aggregate_bool_exp_sum_arguments_columns" columns of table "transactions" */
 export const enum transactions_select_column_transactions_aggregate_bool_exp_sum_arguments_columns {
   amount = "amount",
+  fee = "fee",
 }
 /** select "transactions_aggregate_bool_exp_var_samp_arguments_columns" columns of table "transactions" */
 export const enum transactions_select_column_transactions_aggregate_bool_exp_var_samp_arguments_columns {
   amount = "amount",
+  fee = "fee",
 }
 /** update columns of table "transactions" */
 export const enum transactions_update_column {
-  address = "address",
   amount = "amount",
+  block_time = "block_time",
   client_id = "client_id",
   date = "date",
+  fee = "fee",
   from = "from",
-  hash = "hash",
   id = "id",
-  time = "time",
+  network = "network",
+  post_balances = "post_balances",
+  pre_balances = "pre_balances",
+  recent_blockhash = "recent_blockhash",
+  signature = "signature",
+  slot = "slot",
   to = "to",
-  type = "type",
 }
 
 type ZEUS_VARIABLES = {
@@ -6743,9 +7664,10 @@ type ZEUS_VARIABLES = {
   ["date_comparison_exp"]: ValueTypes["date_comparison_exp"];
   ["float8"]: ValueTypes["float8"];
   ["float8_comparison_exp"]: ValueTypes["float8_comparison_exp"];
+  ["jsonb"]: ValueTypes["jsonb"];
+  ["jsonb_cast_exp"]: ValueTypes["jsonb_cast_exp"];
+  ["jsonb_comparison_exp"]: ValueTypes["jsonb_comparison_exp"];
   ["order_by"]: ValueTypes["order_by"];
-  ["time"]: ValueTypes["time"];
-  ["time_comparison_exp"]: ValueTypes["time_comparison_exp"];
   ["transactions_aggregate_bool_exp"]: ValueTypes["transactions_aggregate_bool_exp"];
   ["transactions_aggregate_bool_exp_avg"]: ValueTypes["transactions_aggregate_bool_exp_avg"];
   ["transactions_aggregate_bool_exp_corr"]: ValueTypes["transactions_aggregate_bool_exp_corr"];
@@ -6759,10 +7681,14 @@ type ZEUS_VARIABLES = {
   ["transactions_aggregate_bool_exp_sum"]: ValueTypes["transactions_aggregate_bool_exp_sum"];
   ["transactions_aggregate_bool_exp_var_samp"]: ValueTypes["transactions_aggregate_bool_exp_var_samp"];
   ["transactions_aggregate_order_by"]: ValueTypes["transactions_aggregate_order_by"];
+  ["transactions_append_input"]: ValueTypes["transactions_append_input"];
   ["transactions_arr_rel_insert_input"]: ValueTypes["transactions_arr_rel_insert_input"];
   ["transactions_avg_order_by"]: ValueTypes["transactions_avg_order_by"];
   ["transactions_bool_exp"]: ValueTypes["transactions_bool_exp"];
   ["transactions_constraint"]: ValueTypes["transactions_constraint"];
+  ["transactions_delete_at_path_input"]: ValueTypes["transactions_delete_at_path_input"];
+  ["transactions_delete_elem_input"]: ValueTypes["transactions_delete_elem_input"];
+  ["transactions_delete_key_input"]: ValueTypes["transactions_delete_key_input"];
   ["transactions_inc_input"]: ValueTypes["transactions_inc_input"];
   ["transactions_insert_input"]: ValueTypes["transactions_insert_input"];
   ["transactions_max_order_by"]: ValueTypes["transactions_max_order_by"];
@@ -6770,6 +7696,7 @@ type ZEUS_VARIABLES = {
   ["transactions_on_conflict"]: ValueTypes["transactions_on_conflict"];
   ["transactions_order_by"]: ValueTypes["transactions_order_by"];
   ["transactions_pk_columns_input"]: ValueTypes["transactions_pk_columns_input"];
+  ["transactions_prepend_input"]: ValueTypes["transactions_prepend_input"];
   ["transactions_select_column"]: ValueTypes["transactions_select_column"];
   ["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_avg_arguments_columns"];
   ["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"]: ValueTypes["transactions_select_column_transactions_aggregate_bool_exp_corr_arguments_columns"];
