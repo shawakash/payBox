@@ -1,0 +1,17 @@
+{
+  "name": "@paybox/kafka-test",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "type": "commonjs",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js",
+    "dev": "node dist/index.js --trace-warning"
+  },
+  "dependencies": {
+    "@types/kafkajs": "^1.9.0",
+    "kafkajs": "^2.2.4",
+    "common": "*"
+  }
+}
