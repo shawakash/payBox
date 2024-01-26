@@ -87,4 +87,21 @@ export type PublishType = {
         key: string,
         value: any
     }>
+};
+
+export enum dbResStatus {
+    Error = "error",
+    Ok = "ok",
+}
+
+export enum Partitions {
+  SolTxn = "solTxn",
+  EthTxn = "ethTxn",
+  BtcTxn = "btcTxn",
+  USDCTxn = "usdcTxn"
+}
+
+export enum Topics {
+    Txn = "transaction",
+    Client = "client"
 }

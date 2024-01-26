@@ -9,6 +9,7 @@ export class Redis {
     constructor() {
         this.client = createClient({
             url: REDIS_URL,
+            legacyMode: false
         });
         this.client.connect();
     }
@@ -224,7 +225,8 @@ export class Redis {
         return {
             id: txn.id,
             clientId: txn.clientId,
-            signature: [...JSON.stringify(txn.signature)],
+            //@ts-ignore
+            signature: JSON.stringify(txn.signature),
             network: txn.network as Network,
             slot: Number(txn.slot),
             amount: Number(txn.amount),
@@ -232,20 +234,22 @@ export class Redis {
             fee: Number(txn.fee),
             from: txn.from,
             to: txn.to,
-            preBalances: [...JSON.stringify(txn.preBalances)].map(pre => Number(pre)),
-            postBalances: [...JSON.stringify(txn.postBalances)].map(pre => Number(pre)),
+            //@ts-ignore
+            preBalances: JSON.stringify(txn.preBalances),
+            //@ts-ignore
+            postBalances: JSON.stringify(txn.postBalances),
             recentBlockhash: txn.recentBlockhash,
         }
     }
 
     async cacheGetTxnBySign(key: string): Promise<TxnType | null> {
         const txnId = await this.client.get(key);
-        if (!txnId) {
+        if (txnId == null) {
             return null;
         }
         const txn = await this.cacheGetTxn(txnId);
 
-        if (!txn) {
+        if (txn == null) {
             return null;
         }
 

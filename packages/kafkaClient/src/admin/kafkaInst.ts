@@ -1,6 +1,6 @@
 import { KafkaTopicType, PublishType } from "@paybox/common";
-import { kafka } from "./index";
 import { Admin, Producer, Consumer } from "kafkajs";
+import { kafka } from ".";
 
 export class KafkaInstance {
     private admin: Admin;
@@ -46,6 +46,7 @@ export class KafkaInstance {
             topic: payload.topic,
             messages: payload.message
         });
+        console.log("payload published successfully");
         return;
     }
 
