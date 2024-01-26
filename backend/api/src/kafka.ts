@@ -30,17 +30,19 @@ export class KafkaInstance {
         console.log("Disconnecting Admin..");
         await this.admin.disconnect();
         console.log("Admin disconnection success..");
-
+        return;
     }
 
     async connectProducer() {
         this.producer = kafka.producer();
         await this.producer.connect();
         console.log("Producer Connected Successfully");
+        return;
     }
 
     async disconnectProducer() {
         await this.producer.disconnect();
+        return;
     }
 
     async publishOne(payload: PublishType) {
@@ -48,6 +50,7 @@ export class KafkaInstance {
             topic: payload.topic,
             messages: payload.message
         });
+        return;
     }
 
     async publishMany(payloads: PublishType[]) {
@@ -59,11 +62,18 @@ export class KafkaInstance {
                 }
             })
         });
+        return;
     }
 
-    // Create A producer modifer
-
-    async createConsumers(groupId: string) {
+    async connectCounsumer(groupId: string, topics: string[], fromBeginning: boolean) {
         this.consumer = kafka.consumer({ groupId });
+        await this.consumer.connect();
+        await this.consumer.subscribe({ topics,  fromBeginning});
+        return this.consumer;
+    }
+
+    async disconnectConsumer() {
+        await this.consumer.disconnect();
+        return;
     }
 }
