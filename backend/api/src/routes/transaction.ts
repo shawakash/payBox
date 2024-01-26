@@ -5,6 +5,7 @@ import { cache, solTxn } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
 import { Network } from "ethers";
+import { kafkaClient } from "@paybox/kafkaClient";
 
 export const txnRouter = Router();
 
@@ -28,41 +29,61 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
              * Do a db call
              * Add a queue based system to improve mutations
              */
-            const insertTxnOne = await insertTxn({
-                signature: transaction.signatures,
-                amount,
-                blockTime,
-                fee: meta.fee,
-                clientId: id,
-                from: sender, to: receiver,
-                postBalances: meta.postBalances,
-                preBalances: meta.preBalances,
-                recentBlockhash: transaction.message.recentBlockhash,
-                slot,
-                network
-            });
-            if (insertTxnOne.status == dbResStatus.Error) {
-                return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
-            }
+            await kafkaClient.publishOne({
+                topic: "solTxn1",
+                message: [{
+                    partition: 0,
+                    key: transaction.signatures[0],
+                    value: JSON.stringify({
+                        signature: transaction.signatures,
+                        amount,
+                        blockTime,
+                        fee: meta.fee,
+                        clientId: id,
+                        from: sender, to: receiver,
+                        postBalances: meta.postBalances,
+                        preBalances: meta.preBalances,
+                        recentBlockhash: transaction.message.recentBlockhash,
+                        slot,
+                        network
+                    })
+                }]
+            })
+            // const insertTxnOne = await insertTxn({
+            //     signature: transaction.signatures,
+            //     amount,
+            //     blockTime,
+            //     fee: meta.fee,
+            //     clientId: id,
+            //     from: sender, to: receiver,
+            //     postBalances: meta.postBalances,
+            //     preBalances: meta.preBalances,
+            //     recentBlockhash: transaction.message.recentBlockhash,
+            //     slot,
+            //     network
+            // });
+            // if (insertTxnOne.status == dbResStatus.Error) {
+            //     return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
+            // }
 
             /**
              * Cache it
              */
-            await cache.cacheTxn(insertTxnOne?.id as string, {
-                signature: transaction.signatures,
-                amount,
-                blockTime,
-                fee: meta.fee,
-                clientId: id,
-                from: sender, to: receiver,
-                postBalances: meta.postBalances,
-                preBalances: meta.preBalances,
-                recentBlockhash: transaction.message.recentBlockhash,
-                slot,
-                network,
-                id: insertTxnOne.id as string
-            });
-            return res.status(200).json({ status: responseStatus.Ok, signature: instance, id: insertTxnOne.id })
+            // await cache.cacheTxn(insertTxnOne?.id as string, {
+            //     signature: transaction.signatures,
+            //     amount,
+            //     blockTime,
+            //     fee: meta.fee,
+            //     clientId: id,
+            //     from: sender, to: receiver,
+            //     postBalances: meta.postBalances,
+            //     preBalances: meta.preBalances,
+            //     recentBlockhash: transaction.message.recentBlockhash,
+            //     slot,
+            //     network,
+            //     id: insertTxnOne.id as string
+            // });
+            return res.status(200).json({ status: responseStatus.Ok, signature: instance,  })
         }
     } catch (error) {
         console.log(error);
@@ -81,7 +102,7 @@ txnRouter.get("/getMany", async (req, res) => {
             let { networks, count } = TxnsQeury.parse(req.query);
             //Db query
             const txns = await getTxns({ networks, count, clientId: id });
-            if(txns.status == dbResStatus.Error) {
+            if (txns.status == dbResStatus.Error) {
                 return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
             }
 
@@ -105,13 +126,13 @@ txnRouter.get("/get", async (req, res) => {
              * Cache
              */
             const isTxn = await cache.cacheGetTxnBySign(sign);
-            if(isTxn) {
+            if (isTxn) {
                 return res.status(302).json({ ...isTxn, status: responseStatus.Ok });
             }
 
             //Db query
             const txn = await getTxnByHash({ network, sign, clientId: id });
-            if(txn.status == dbResStatus.Error) {
+            if (txn.status == dbResStatus.Error) {
                 return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
             }
             //bug related to data type
