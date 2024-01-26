@@ -87,4 +87,9 @@ export type PublishType = {
         key: string,
         value: any
     }>
+};
+
+export enum dbResStatus {
+    Error = "error",
+    Ok = "ok",
 }

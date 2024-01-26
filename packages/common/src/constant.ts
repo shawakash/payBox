@@ -1,13 +1,9 @@
 export const PORT: number = 8080;
 export const SolanaRpcUrl = "https://api.devnet.solana.com";
 export const BACKEND_URL = "http://localhost:8080";
-export const HASURA_URL = "http://localhost:8112/v1/graphql"
 export const HASURA_ADMIN_SERCRET = "myadminsecretkey"
 export const REDIS_URL = "redis://localhost:6379";
 export const JWT_ALGO = "RS256";
-export const JWT =
-  process.env.AUTH_JWT ||
-  "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiYWRtaW4iXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjY0MjQ3NzE2fQ.RMvnfvZtfhgQvCGj5HeT_4qDk1jjGTVLvO4hXQhxvH1QOU3E4yWv5rqDwhGeH9m2aZh7EiV8s3zQ70XkvPV-TA";
 
 export const AUTH_JWT_PUBLIC_KEY =
   process.env.AUTH_JWT_PUBLIC_KEY ||
@@ -26,3 +22,13 @@ export const isSolanaAddress = (value: string): boolean => /^[a-zA-Z0-9]{44}$/.t
 
 export const KAFKA_CLIENT_ID = "83f59a2c6bc114d2ed9be33a353fce153f8a73313be585f2ae41fcebe4c8a18b";
 export const KAFKA_URL = "localhost:9092";
+
+export const HASURA_URL =
+  process.env.HASURA_URL || "http://localhost:8112/v1/graphql";
+
+export const HASURA_ADMIN_SECRET =
+  process.env.HAURA_ADMIN_SECRET || "myadminsecret";
+
+export const JWT =
+  process.env.AUTH_JWT ||
+  "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiYWRtaW4iXSwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjY0MjQ3NzE2fQ.RMvnfvZtfhgQvCGj5HeT_4qDk1jjGTVLvO4hXQhxvH1QOU3E4yWv5rqDwhGeH9m2aZh7EiV8s3zQ70XkvPV-TA";
