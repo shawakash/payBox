@@ -80,7 +80,7 @@ wss.on('connection', async (ws) => {
 });
 
 server.listen(PORT, async () => {
-    console.log(`Server listening on port: ${PORT}`);
+    console.log(`Server listening on port: ${PORT}\n`);
     await kafkaClient.init([
         {topicName: "solTxn", partitions: 1},
         {topicName: "ethTxn", partitions: 1},

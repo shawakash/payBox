@@ -15,7 +15,6 @@ export class KafkaInstance {
 
     async init(topics: KafkaTopicType[]) {
         await this.admin.connect();
-        console.log("Admin Connected");
         await this.admin.createTopics({
             topics: topics.map(topic => {
                 return {
@@ -24,12 +23,9 @@ export class KafkaInstance {
                 }
             })
         });
+        console.log("\n Kafka Ready");
 
-        console.log("Topics creatation success");
-
-        console.log("Disconnecting Admin..");
         await this.admin.disconnect();
-        console.log("Admin disconnection success..");
         return;
     }
 

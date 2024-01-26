@@ -39,3 +39,8 @@ export const TxnsQeury = z.object({
         })
         .transform(value => parseInt(value)),
 });
+
+export const TxnQeuryByHash = z.object({
+    network: z.nativeEnum(Network),
+    sign: z.string()
+});

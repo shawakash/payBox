@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ClientSignupFormValidate, MetadataUpdateForm } from "./validations/clientValid";
-import { AddressForm, AddressFormPartial, TxnSendQuery, TxnsQeury } from "./validations";
+import { AddressForm, AddressFormPartial, TxnQeuryByHash, TxnSendQuery, TxnsQeury } from "./validations";
 
 
 export enum Network {
@@ -73,6 +73,8 @@ export type TxnType = InsertTxnType & {
 }
 
 export type TxnsQeuryType = z.infer<typeof TxnsQeury> & { clientId: string };
+export type TxnQuerySignType = z.infer<typeof TxnQeuryByHash> & { clientId: string };
+
 export type KafkaTopicType = {
     topicName: string,
     partitions: number
