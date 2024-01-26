@@ -1,6 +1,6 @@
 import { RedisClientType, createClient } from "redis";
 import { REDIS_URL } from "./config";
-import { Address, AddressPartial, Client, TxnType } from "@paybox/common";
+import { Address, AddressPartial, Client, Network, TxnType } from "@paybox/common";
 
 export class Redis {
     private client: RedisClientType;
@@ -96,7 +96,6 @@ export class Redis {
                 client_id: items.clientId
             });
         console.log(`Address Cached ${data}`);
-        await this.cacheIdUsingKey(items.clientId, items.id);
         return;
     }
 
@@ -132,14 +131,14 @@ export class Redis {
             throw new Error(`Client not found for ID: ${key}`);
         }
 
-        // client.address = {
-        //     //@ts-ignore
-        //     ...client.address,
-        //     ...items,
-        // };
+        client.address = {
+            //@ts-ignore
+            ...client.address,
+            ...items,
+        };
         console.log(client)
         //@ts-ignore
-        // await this.cacheClient(key, client);
+        await this.cacheClient(key, client);
 
         console.log(`Client address updated for client ID: ${key}`);
 
@@ -162,11 +161,11 @@ export class Redis {
 
     async cacheIdUsingKey(key: string, item: string) {
         const data = await this.client.set(key, item);
-        console.log(`${key} is cached with ${key}`);
+        console.log(`${item} is cached with ${key}`);
         return;
     }
 
-    async cacheTxn(key: string, items: TxnType | TxnType[]) {
+    async cacheTxns(key: string, items: TxnType | TxnType[]) {
         const dataArray = Array.isArray(items) ? items : [items]; // Ensure items is an array
         console.log(dataArray)
         const promises = dataArray.map(async (item) => {
@@ -185,15 +184,72 @@ export class Redis {
                 postBalances: JSON.stringify(item.postBalances),
                 recentBlockhash: item.recentBlockhash,
             });
-    
+
             console.log(`Txn Cached ${data}`);
-            await this.cacheIdUsingKey(item.clientId, item.id);
             await this.cacheIdUsingKey(item.signature[0], item.id);
         });
-    
+
         await Promise.all(promises);
-        
+
         return;
+    }
+
+    async cacheTxn(key: string, item: TxnType) {
+        const data = await this.client.hSet(key, {
+            id: item.id,
+            clientId: item.clientId,
+            signature: JSON.stringify(item.signature),
+            network: item.network,
+            slot: item.slot,
+            amount: item.amount,
+            blockTime: item.blockTime,
+            fee: item.fee,
+            from: item.from,
+            to: item.to,
+            preBalances: JSON.stringify(item.preBalances),
+            postBalances: JSON.stringify(item.postBalances),
+            recentBlockhash: item.recentBlockhash,
+        });
+
+        console.log(`Txn Cached ${data}`);
+        await this.cacheIdUsingKey(item.signature[0], item.id);
+        return;
+    }
+
+    async cacheGetTxn(key: string): Promise<TxnType | null> {
+        const txn = await this.client.hGetAll(key);
+        if (!txn) {
+            return null;
+        }
+        return {
+            id: txn.id,
+            clientId: txn.clientId,
+            signature: [...JSON.stringify(txn.signature)],
+            network: txn.network as Network,
+            slot: Number(txn.slot),
+            amount: Number(txn.amount),
+            blockTime: Number(txn.blockTime),
+            fee: Number(txn.fee),
+            from: txn.from,
+            to: txn.to,
+            preBalances: [...JSON.stringify(txn.preBalances)].map(pre => Number(pre)),
+            postBalances: [...JSON.stringify(txn.postBalances)].map(pre => Number(pre)),
+            recentBlockhash: txn.recentBlockhash,
+        }
+    }
+
+    async cacheGetTxnBySign(key: string): Promise<TxnType | null> {
+        const txnId = await this.client.get(key);
+        if (!txnId) {
+            return null;
+        }
+        const txn = await this.cacheGetTxn(txnId);
+
+        if (!txn) {
+            return null;
+        }
+
+        return { ...txn }
     }
 
     // TODO: debounce here
