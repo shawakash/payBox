@@ -1,6 +1,6 @@
-import { KafkaTopicType } from "@paybox/common";
+import { KafkaTopicType, PublishType } from "@paybox/common";
 import { kafka } from "./index";
-import {Admin, Producer, Consumer} from "kafkajs";
+import { Admin, Producer, Consumer } from "kafkajs";
 
 export class KafkaInstance {
     private admin: Admin;
@@ -12,7 +12,7 @@ export class KafkaInstance {
         this.admin.connect();
         this.producer = kafka.producer();
     }
-    
+
     async init(topics: KafkaTopicType[]) {
         await this.admin.connect();
         console.log("Admin Connected");
@@ -24,13 +24,41 @@ export class KafkaInstance {
                 }
             })
         });
-    
+
         console.log("Topics creatation success");
-    
+
         console.log("Disconnecting Admin..");
         await this.admin.disconnect();
         console.log("Admin disconnection success..");
-    
+
+    }
+
+    async connectProducer() {
+        this.producer = kafka.producer();
+        await this.producer.connect();
+        console.log("Producer Connected Successfully");
+    }
+
+    async disconnectProducer() {
+        await this.producer.disconnect();
+    }
+
+    async publishOne(payload: PublishType) {
+        await this.producer.send({
+            topic: payload.topic,
+            messages: payload.message
+        });
+    }
+
+    async publishMany(payloads: PublishType[]) {
+        await this.producer.sendBatch({
+            topicMessages: payloads.map(payload => {
+                return {
+                    topic: payload.topic,
+                    messages: payload.message
+                }
+            })
+        });
     }
 
     // Create A producer modifer

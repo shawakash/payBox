@@ -30,9 +30,7 @@ const wss = new WebSocketServer({ server });
 
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 export const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
-export const kafkaClient = new KafkaInstance().init([
-    { topicName: "txn1", partitions: 1 }
-])
+export const kafkaClient = new KafkaInstance()
 export const cache = Redis.getInstance();
 
 app.use(bodyParser.json());
@@ -81,6 +79,10 @@ wss.on('connection', async (ws) => {
 
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
     console.log(`Server listening on port: ${PORT}`);
+    await kafkaClient.init([
+        {topicName: "solTxn", partitions: 1},
+        {topicName: "ethTxn", partitions: 1},
+    ]);
 });
