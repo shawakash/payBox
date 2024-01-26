@@ -1,7 +1,5 @@
 import { Chain } from "@paybox/zeus";
-import { HASURA_URL, JWT } from "@paybox/common";
-import { dbResStatus } from "@paybox/common";
-import { HASURA_ADMIN_SERCRET, InsertTxnType, TxnQuerySignType, TxnsQeuryType } from "@paybox/common";
+import { HASURA_ADMIN_SERCRET, HASURA_URL, InsertTxnType, JWT, TxnQuerySignType, TxnsQeuryType, dbResStatus } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
     headers: {
@@ -167,6 +165,7 @@ export const getTxnByHash = async ({
             to: true
         }]
     }, { operationName: "getTxnByHash" });
+    console.log(response.transactions[0]?.post_balances);
     if (response.transactions[0]) {
         return {
             status: dbResStatus.Ok,

@@ -49,41 +49,7 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
                     })
                 }]
             })
-            // const insertTxnOne = await insertTxn({
-            //     signature: transaction.signatures,
-            //     amount,
-            //     blockTime,
-            //     fee: meta.fee,
-            //     clientId: id,
-            //     from: sender, to: receiver,
-            //     postBalances: meta.postBalances,
-            //     preBalances: meta.preBalances,
-            //     recentBlockhash: transaction.message.recentBlockhash,
-            //     slot,
-            //     network
-            // });
-            // if (insertTxnOne.status == dbResStatus.Error) {
-            //     return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
-            // }
-
-            /**
-             * Cache it
-             */
-            // await cache.cacheTxn(insertTxnOne?.id as string, {
-            //     signature: transaction.signatures,
-            //     amount,
-            //     blockTime,
-            //     fee: meta.fee,
-            //     clientId: id,
-            //     from: sender, to: receiver,
-            //     postBalances: meta.postBalances,
-            //     preBalances: meta.preBalances,
-            //     recentBlockhash: transaction.message.recentBlockhash,
-            //     slot,
-            //     network,
-            //     id: insertTxnOne.id as string
-            // });
-            return res.status(200).json({ status: responseStatus.Ok, signature: instance,  })
+            return res.status(200).json({ status: responseStatus.Ok, signature: instance  })
         }
     } catch (error) {
         console.log(error);
@@ -107,7 +73,7 @@ txnRouter.get("/getMany", async (req, res) => {
             }
 
             //bug related to data type
-            await cache.cacheTxns(txns.id as string, txns.txns as TxnType[]);
+            // await cache.cacheTxns(txns.id as string, txns.txns as TxnType[]);
             return res.status(200).json({ txns: txns.txns as TxnType[], status: responseStatus.Ok })
         }
     } catch (error) {
@@ -129,14 +95,13 @@ txnRouter.get("/get", async (req, res) => {
             if (isTxn) {
                 return res.status(302).json({ ...isTxn, status: responseStatus.Ok });
             }
-
             //Db query
             const txn = await getTxnByHash({ network, sign, clientId: id });
             if (txn.status == dbResStatus.Error) {
                 return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
             }
             //bug related to data type
-            await cache.cacheTxn(txn.id as string, txn.txn as TxnType);
+            // await cache.cacheTxn(txn.id as string, txn.txn as TxnType);
             return res.status(200).json({ txn, status: responseStatus.Ok })
         }
     } catch (error) {
