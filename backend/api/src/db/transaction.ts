@@ -1,7 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus } from "../types/client";
-import { HASURA_ADMIN_SERCRET, InsertTxnType, TxnsQeuryType } from "@paybox/common";
+import { HASURA_ADMIN_SERCRET, InsertTxnType, TxnQuerySignType, TxnsQeuryType } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
     headers: {
@@ -84,7 +84,7 @@ export const getTxns = async ({
 }: TxnsQeuryType): Promise<{
     status: dbResStatus,
     txns?: unknown[],
-    id?: unknown 
+    id?: unknown
 }> => {
     const networkArray = Array.isArray(networks) ? networks : [networks]; // Ensure networks is an array
     const response = await chain("query")({
@@ -127,3 +127,54 @@ export const getTxns = async ({
         status: dbResStatus.Error
     }
 }
+
+/**
+ * 
+ * @param param0 
+ * @returns 
+ */
+export const getTxnByHash = async ({
+    network, sign, clientId
+}: TxnQuerySignType): Promise<{
+    status: dbResStatus,
+    txn?: unknown,
+    id?: unknown
+}> => {
+    const response = await chain("query")({
+        transactions: [{
+            where: {
+                signature: {_contains: sign},
+                client_id: { _eq: clientId },
+                network: { _eq: network },
+            },
+        }, {
+            id: true,
+            //@ts-ignore
+            signature: true,
+            amount: true,
+            block_time: true,
+            client_id: true,
+            fee: true,
+            date: true,
+            from: true,
+            network: true,
+            //@ts-ignore
+            post_balances: true,
+            //@ts-ignore
+            pre_balances: true,
+            recent_blockhash: true,
+            slot: true,
+            to: true
+        }]
+    }, { operationName: "getTxnByHash" });
+    if (response.transactions[0]) {
+        return {
+            status: dbResStatus.Ok,
+            id: response.transactions[0].id,
+            txn: response.transactions[0]
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+};
