@@ -8,7 +8,7 @@ import { kafka } from "./client";
 
     await admin.createTopics({
         topics: [{
-            topic: "transaction2",
+            topic: "transaction3",
             numPartitions: 2
         }]
     });

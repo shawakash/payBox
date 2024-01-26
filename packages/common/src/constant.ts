@@ -25,3 +25,4 @@ export const isEthereumAddress = (value: string): boolean => /^0x[0-9a-fA-F]{40}
 export const isSolanaAddress = (value: string): boolean => /^[a-zA-Z0-9]{44}$/.test(value);
 
 export const KAFKA_CLIENT_ID = "83f59a2c6bc114d2ed9be33a353fce153f8a73313be585f2ae41fcebe4c8a18b";
+export const KAFKA_URL = "localhost:9092";

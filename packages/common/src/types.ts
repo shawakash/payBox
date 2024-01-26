@@ -73,3 +73,7 @@ export type TxnType = InsertTxnType & {
 }
 
 export type TxnsQeuryType = z.infer<typeof TxnsQeury> & {clientId: string};
+export type KafkaTopicType = {
+    topicName: string,
+    partitions: number
+}

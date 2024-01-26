@@ -15,6 +15,14 @@ import { addressRouter } from "./routes/address";
 import { extractClientId } from "./auth/middleware";
 import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
+import { KAFKA_CLIENT_ID, KAFKA_URL } from "@paybox/common";
+import { KafkaInstance } from "./kafka"
+import { Kafka } from "kafkajs";
+
+export const kafka = new Kafka({
+    clientId: KAFKA_CLIENT_ID,
+    brokers: [KAFKA_URL]
+});
 
 export const app = express();
 export const server = http.createServer(app);
@@ -22,7 +30,9 @@ const wss = new WebSocketServer({ server });
 
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 export const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
-
+export const kafkaClient = new KafkaInstance().init([
+    { topicName: "txn1", partitions: 1 }
+])
 export const cache = Redis.getInstance();
 
 app.use(bodyParser.json());

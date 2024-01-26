@@ -21,7 +21,7 @@ const rl = readline.createInterface({
         const [hash, network] = line.split(" ");
         console.log(network);
         await producer.send({
-            topic: "transaction",
+            topic: "transaction3",
             messages: [
                 {
                     partition: network?.toLowerCase() === "sol" ? 0 : 1,
