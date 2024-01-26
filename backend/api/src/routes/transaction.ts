@@ -86,7 +86,7 @@ txnRouter.get("/getMany", async (req, res) => {
             }
 
             //bug related to data type
-            // await cache.cacheTxn(txns.id as string, txns.txns as TxnType[]);
+            await cache.cacheTxns(txns.id as string, txns.txns as TxnType[]);
             return res.status(200).json({ txns: txns.txns as TxnType[], status: responseStatus.Ok })
         }
     } catch (error) {
