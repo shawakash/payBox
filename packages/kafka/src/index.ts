@@ -13,7 +13,7 @@ export const kafkaClient = new KafkaInstance();
         {topicName: "txn", partitions: 2},
     ]);
     await kafkaClient.connectProducer();
-    const consumer = await kafkaClient.connectCounsumer("insertTxn", ["txn"], true);
+    const consumer = await kafkaClient.connectCounsumer("sendTxn", ["txn"], true);
     await consumer.run({
         eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
             const payload = JSON.parse(message.value?.toString() || ""); 

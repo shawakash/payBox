@@ -23,14 +23,16 @@ export const publishNewTxn = async (
     network: Network
 ): Promise<boolean> => {
     try {
-        
-        const sender = transaction.message.accountKeys[0].toBase58();
-        const receiver = transaction.message.accountKeys[1].toBase58();
+
+        //@ts-ignore
+        const sender = transaction.message?.accountKeys[0].toBase58();
+        //@ts-ignore
+        const receiver = transaction.message?.accountKeys[1].toBase58();
         await kafkaClient.publishOne({
             topic: "txn",
             message: [{
                 partition: 0,
-                key: transaction.signatures[0],
+                key: transaction.signatures[0] || "",
                 value: JSON.stringify({
                     signature: transaction.signatures,
                     amount,
