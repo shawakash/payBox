@@ -34,6 +34,7 @@ export class Redis {
                 password: items.password,
                 address: JSON.stringify(items.address)
             });
+        
         console.log(`User Cached ${data}`);
         await this.cacheIdUsingKey(items.username, items.id);
         await this.cacheIdUsingKey(items.email, items.id);
@@ -47,6 +48,7 @@ export class Redis {
             return null;
         }
 
+        
         return {
             id: client.id,
             email: client.email,

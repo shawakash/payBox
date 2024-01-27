@@ -112,7 +112,7 @@ export const checkAddress = async (req: Request, res: Response, next: NextFuncti
         //     return res.status(400).json({ status: responseStatus.Error, msg: "No such etherum address" });
         //   }
         // }
-        if (sol) {
+        if (sol != undefined) {
           const isAddress = await solTxn.checkAddress(sol);
           if (!isAddress) {
             return res.status(400).json({ status: responseStatus.Error, msg: "No such solana address" });

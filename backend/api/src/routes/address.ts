@@ -16,8 +16,7 @@ addressRouter.post("/", checkAddress, async (req, res) => {
         const id = req.id;
         if (id) {
             const { eth, sol, bitcoin, usdc } = AddressFormPartial.parse(req.body);
-
-            if(eth && sol) {
+            if(eth != undefined && sol != undefined) {
                 const isInDb = await conflictAddress(id, eth, sol, bitcoin, usdc);
                 if(isInDb.status == dbResStatus.Error) {
                     return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
