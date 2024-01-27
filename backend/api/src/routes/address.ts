@@ -38,12 +38,6 @@ addressRouter.post("/", checkAddress, async (req, res) => {
                     id: mutateAddress.id as string,
                     clientId: id
                 });
-                // await cache.updateClientAddress(id, {
-                //     eth,
-                //     bitcoin,
-                //     sol,
-                //     usdc
-                // });
                 return res.status(200).json({ id: mutateAddress.id, status: responseStatus.Ok });
             }
             return res.status(400).json({ status: responseStatus.Error, msg: "Atleast eth and sol are required 😊" });
@@ -114,12 +108,6 @@ addressRouter.patch("/update", checkAddress, async (req, res) => {
                 bitcoin,
                 usdc,
             });
-            // await cache.updateClientAddress(id, {
-            //     eth,
-            //     bitcoin,
-            //     sol,
-            //     usdc
-            // });
 
             return res.status(200).json({ id: mutateAddress.id, status: responseStatus.Ok });
 
