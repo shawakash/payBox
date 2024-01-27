@@ -15,9 +15,6 @@ import { addressRouter } from "./routes/address";
 import { extractClientId } from "./auth/middleware";
 import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
-import { kafkaClient } from "@paybox/kafkaClient";
-
-
 
 export const app = express();
 export const server = http.createServer(app);
@@ -75,8 +72,4 @@ wss.on('connection', async (ws) => {
 
 server.listen(PORT, async () => {
     console.log(`Server listening on port: ${PORT}\n`);
-    await kafkaClient.init([
-        {topicName: "solTxn1", partitions: 2},
-    ]);
-    await kafkaClient.connectProducer();
 });
