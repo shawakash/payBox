@@ -142,14 +142,15 @@ clientRouter.post("/login", async (req, res) => {
         /**
                  * Cache
                  */
-        // const cachedClient = await cache.getClientFromKey(email);
-        // if (cachedClient) {
-        //     let jwt;
-        //     if (cachedClient.id) {
-        //         jwt = await setJWTCookie(req, res, cachedClient.id as string);
-        //     }
-        //     return res.status(302).json({ ...cachedClient, status: responseStatus.Ok, jwt });
-        // }
+        const cachedClient = await cache.getClientFromKey(email);
+        if (cachedClient) {
+            let jwt;
+            if (cachedClient.id) {
+                jwt = await setJWTCookie(req, res, cachedClient.id as string);
+            }
+            console.log(cachedClient, "from cache");
+            return res.status(302).json({ ...cachedClient, status: responseStatus.Ok, jwt });
+        }
 
         /**
          * Query the db
@@ -187,7 +188,6 @@ clientRouter.post("/login", async (req, res) => {
         } else {
             return res.status(500).json({ msg: "Error creating user account", status: responseStatus.Error });
         }
-        console.log(query.client[0])
         return res.status(200).json({ ...query.client[0], jwt, status: responseStatus.Ok });
 
 
