@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { ClientSignupFormValidate, MetadataUpdateForm } from "./validations/clientValid";
 import { AddressForm, AddressFormPartial, TxnQeuryByHash, TxnSendQuery, TxnsQeury } from "./validations";
+import {Message} from "@solana/web3.js";
 
 
 export enum Network {
@@ -104,4 +105,9 @@ export enum Partitions {
 export enum Topics {
     Txn = "transaction",
     Client = "client"
+}
+
+export type TxnSolana = {
+    message: Message;
+    signatures: string[];
 }

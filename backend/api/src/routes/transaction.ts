@@ -4,8 +4,7 @@ import { getTxnByHash, getTxns, insertTxn } from "../db/transaction";
 import { cache, solTxn } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
-import { Network } from "ethers";
-import { kafkaClient } from "@paybox/kafkaClient";
+import { publishNewTxn } from "../../../../packages/kafka/src";
 
 export const txnRouter = Router();
 
@@ -23,32 +22,10 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
             if (!meta || !blockTime) {
                 return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" });
             }
-            const sender = transaction.message.accountKeys[0].toBase58();
-            const receiver = transaction.message.accountKeys[1].toBase58();
             /**
-             * Do a db call
-             * Add a queue based system to improve mutations
+             * Publishing the txn payload for que based system
              */
-            await kafkaClient.publishOne({
-                topic: "solTxn1",
-                message: [{
-                    partition: 0,
-                    key: transaction.signatures[0],
-                    value: JSON.stringify({
-                        signature: transaction.signatures,
-                        amount,
-                        blockTime,
-                        fee: meta.fee,
-                        clientId: id,
-                        from: sender, to: receiver,
-                        postBalances: meta.postBalances,
-                        preBalances: meta.preBalances,
-                        recentBlockhash: transaction.message.recentBlockhash,
-                        slot,
-                        network
-                    })
-                }]
-            })
+            await publishNewTxn(transaction, blockTime, meta, slot, amount, id, network);
             return res.status(200).json({ status: responseStatus.Ok, signature: instance  })
         }
     } catch (error) {

@@ -8,9 +8,13 @@ export * from "./producer";
 
 export const kafkaClient = new KafkaInstance();
 
-async function init() {
-    const consuemr = await kafkaClient.connectCounsumer("newTxn", ["solTxn1"], true);
-    await consuemr.run({
+(async () => {
+    await kafkaClient.init([
+        {topicName: "txn", partitions: 2},
+    ]);
+    await kafkaClient.connectProducer();
+    const consumer = await kafkaClient.connectCounsumer("insertTxn", ["txn"], true);
+    await consumer.run({
         eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
             const payload = JSON.parse(message.value?.toString() || ""); 
             const insertTxnOne = await insertTxn({
@@ -25,6 +29,4 @@ async function init() {
             );
         }
     })
-}
-
-init();
+})();

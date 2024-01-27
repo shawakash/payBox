@@ -21,7 +21,6 @@
     "base-x": "^4.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
-    "common": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "esbuild": "^0.19.11",
@@ -35,7 +34,8 @@
     "web3-eth": "^4.3.1",
     "ws": "^8.16.0",
     "zeus": "*",
-    "zod": "^3.22.4",
-    "@paybox/kafkaClient": "*"
+    "@paybox/kafka": "*",
+    "@paybox/common": "*",
+    "zod": "^3.22.4"
   }
 }
