@@ -34,7 +34,7 @@ export class Redis {
                 password: items.password,
                 address: JSON.stringify(items.address)
             });
-        
+
         console.log(`User Cached ${data}`);
         await this.cacheIdUsingKey(items.username, items.id);
         await this.cacheIdUsingKey(items.email, items.id);
@@ -48,7 +48,7 @@ export class Redis {
             return null;
         }
 
-        
+
         return {
             id: client.id,
             email: client.email,
@@ -88,7 +88,27 @@ export class Redis {
         return deletedKeys;
     }
 
-    async cacheAddress(key: string, items: Address & { id: string, clientId: string }) {
+    async cacheAddress(key: string, items: (Address & { id: string, clientId: string })) {
+        const client = await this.client.hGetAll(items.clientId);
+        if (!client) {
+            return
+        }
+        await this.client.hSet(items.clientId, {
+            id: client.id,
+            firstname: client.firstname || "",
+            lastname: client.lastname || "",
+            email: client.email,
+            mobile: client.mobile || "",
+            username: client.username,
+            password: client.password,
+            address: JSON.stringify({
+                id: items.id,
+                sol: items.sol,
+                eth: items.eth,
+                bitcoin: items.bitcoin,
+                usdc: items.usdc,
+            })
+        });
         const data = await this.client.hSet(key,
             {
                 id: items.id,
@@ -127,21 +147,27 @@ export class Redis {
         return;
     }
 
-    async updateClientAddress(key: string, items: Partial<Address>) {
+    async updateClientAddress(key: string, items: Partial<Address> & { id: string }) {
         const client = await this.client.hGetAll(key);
-        console.log(client)
         if (!client) {
-            throw new Error(`Client not found for ID: ${key}`);
+            return
         }
-
-        client.address = {
-            //@ts-ignore
-            ...client.address,
-            ...items,
-        };
-        console.log(client)
-        //@ts-ignore
-        await this.cacheClient(key, client);
+        await this.client.hSet(key, {
+            id: client.id,
+            firstname: client.firstname || "",
+            lastname: client.lastname || "",
+            email: client.email,
+            mobile: client.mobile || "",
+            username: client.username,
+            password: client.password,
+            address: JSON.stringify({
+                id: items.id,
+                sol: items.sol,
+                eth: items.eth,
+                bitcoin: items.bitcoin,
+                usdc: items.usdc,
+            })
+        })
 
         console.log(`Client address updated for client ID: ${key}`);
 
@@ -227,8 +253,7 @@ export class Redis {
         return {
             id: txn.id,
             clientId: txn.clientId,
-            //@ts-ignore
-            signature: JSON.stringify(txn.signature),
+            signature: JSON.parse(txn.signature),
             network: txn.network as Network,
             slot: Number(txn.slot),
             amount: Number(txn.amount),
@@ -236,10 +261,8 @@ export class Redis {
             fee: Number(txn.fee),
             from: txn.from,
             to: txn.to,
-            //@ts-ignore
-            preBalances: JSON.stringify(txn.preBalances),
-            //@ts-ignore
-            postBalances: JSON.stringify(txn.postBalances),
+            preBalances: JSON.parse(txn.preBalances),
+            postBalances: JSON.parse(txn.postBalances),
             recentBlockhash: txn.recentBlockhash,
         }
     }
@@ -254,7 +277,7 @@ export class Redis {
         if (txn == null) {
             return null;
         }
-
+        
         return { ...txn }
     }
 
