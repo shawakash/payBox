@@ -28,19 +28,23 @@ import { toast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { useEffect } from "react"
 import { useRecoilState } from "recoil"
-import { clientAtom, loadingAtom } from "@paybox/recoil"
+import { addressAtom, clientAtom, loadingAtom } from "@paybox/recoil"
 import { ClientWithJwt, MetadataUpdateForm, MetadataUpdateFormType } from "@paybox/common"
-import { Badge } from "@/components/ui/badge"
+// import { Badge } from "@/components/ui/badge"
 
 
 
 export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
   const [client, setClient] = useRecoilState(clientAtom);
   const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
+  const [address, setAddress] = useRecoilState(addressAtom);
 
   useEffect(() => {
     if (me) {
       setClient(me);
+      if(me.address) {
+        setAddress(me.address);
+      }
     }
   }, [me]);
 
@@ -51,7 +55,7 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
       lastname: client?.lastname,
       mobile: client?.mobile,
       bio: "Paybox changed my life.",
-      address: client?.address
+      // address: client?.address
     },
     mode: "onChange",
   })
@@ -173,7 +177,7 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
                   />
                 </FormControl>
                 <FormDescription>
-                  You can <Badge variant="outline">@mention</Badge>
+                  {/* You can <Badge variant="outline">@mention</Badge> */}
                   other users and organizations to
                   link to them.
                 </FormDescription>

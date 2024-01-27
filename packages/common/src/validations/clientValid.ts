@@ -39,11 +39,10 @@ export const ClientSignupFormValidate = z.object({
             message: "Invalid mobile number. It should be a 10-digit number.",
         }).optional(),
     address: z.object({
-        eth: z.string(),
-        bitcoin: z.string(),
-        sol: z.string(),
-        usdc: z.string(),
-        id: z.string().optional()
+        eth: z.string().optional(),
+        bitcoin: z.string().optional(),
+        sol: z.string().optional(),
+        usdc: z.string().optional(),
     }).optional()
 });
 

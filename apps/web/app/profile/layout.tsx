@@ -16,7 +16,7 @@ const sidebarNavItems = [
   },
   {
     title: "Account",
-    href: "/profile/account",
+    href: "/profile/address",
   },
   {
     title: "Appearance",
