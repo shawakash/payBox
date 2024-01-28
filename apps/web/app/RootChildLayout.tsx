@@ -15,7 +15,7 @@ export default function RootChildLayout({
       <>
         {/* <Progress value={33} className="absolute top-0 bg-transparent" /> */}
         <Nav />
-        <main className="flex min-h-screen py-5 flex-col w-full items-center justify-center ">
+        <main className="flex min-h-screen py-5 flex-col w-full justify-center">
           {children}
         </main>
         <Toaster />
