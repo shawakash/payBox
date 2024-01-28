@@ -20,7 +20,6 @@ export default async function SettingsProfilePage() {
       },
       next: { revalidate: 3600 }
     }).then(res => res.json());
-  console.log(session);
   return (
     <div className="space-y-6">
       <div>

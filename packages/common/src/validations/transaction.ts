@@ -44,3 +44,20 @@ export const TxnQeuryByHash = z.object({
     network: z.nativeEnum(Network),
     sign: z.string()
 });
+
+export const TxnSchema = z.object({
+    clientId: z.string(),
+    blockTime: z.number(),
+    amount: z.number(),
+    fee: z.number(),
+    from: z.string(),
+    to: z.string(),
+    postBalances: z.array(z.number()),
+    preBalances: z.array(z.number()),
+    recentBlockhash: z.string(),
+    signature: z.array(z.string()),
+    network: z.nativeEnum(Network),
+    slot: z.number(),
+    id: z.string(),
+    date: z.string().optional()
+});

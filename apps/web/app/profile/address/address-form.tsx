@@ -77,7 +77,7 @@ export function AddressForm() {
     setAddress(data);
     toast({
       title: "Address Added",
-      description: `${data}`
+      description: `${JSON.stringify(data)}`
     });
     setIsLoading(false);
   }

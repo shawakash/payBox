@@ -1,4 +1,4 @@
-import { promises as fs } from "fs"
+import { promises as fs, stat } from "fs"
 import path from "path"
 import { Metadata } from "next"
 import Image from "next/image"
@@ -8,6 +8,9 @@ import { columns } from "./components/columns"
 import { DataTable } from "./components/data-table"
 import { UserNav } from "./components/user-nav"
 import { taskSchema } from "./data/schema"
+import { getServerSession } from "next-auth"
+import { authOptions } from "../api/auth/[...nextauth]/util"
+import { BACKEND_URL, Network, TxnType, responseStatus } from "@paybox/common"
 
 export const metadata: Metadata = {
   title: "Tasks",
@@ -25,8 +28,35 @@ async function getTasks() {
   return z.array(taskSchema).parse(tasks)
 }
 
+const getTxns = async (jwt: string, count: number, networks: Network[]): Promise<TxnType[] | null> => {
+  try {
+    const apiUrl = `${BACKEND_URL}/txn/getMany?${networks.map(network => `networks=${network}`).join('&')}&count=${count}`;
+    const {status, txns}: {txns: TxnType[], status: responseStatus} = await fetch(apiUrl, {
+      method: "get",
+      headers: {
+        "Content-type": "application/json",
+        "authorization": `Bearer ${jwt}`
+      },
+      next: {
+        revalidate: 5
+      }
+    }).then(res => res.json());
+    if(status == responseStatus.Error) {
+      return null;
+    }
+    console.log(txns);
+    return txns;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
 export default async function TaskPage() {
-  const tasks = await getTasks()
+  const tasks = await getTasks();
+  const session = await getServerSession(authOptions);
+  //@ts-ignore
+  const txns = await getTxns(session?.user?.jwt, 4, [Network.Sol, Network.Eth]);
   return (
     <>
       <div className="flex flex-col w-screen items-center">

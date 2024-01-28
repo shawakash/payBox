@@ -70,7 +70,7 @@ export type InsertTxnType = {
 
 export type TxnType = InsertTxnType & {
     id: string,
-    data?: string
+    date?: string
 }
 
 export type TxnsQeuryType = z.infer<typeof TxnsQeury> & { clientId: string };
