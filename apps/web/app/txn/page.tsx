@@ -27,7 +27,6 @@ async function getTasks() {
 
 export default async function TaskPage() {
   const tasks = await getTasks()
-
   return (
     <>
       <div className="flex flex-col w-screen items-center">
