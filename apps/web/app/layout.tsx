@@ -31,6 +31,12 @@ export default async function RootLayout({
         "min-h-screen bg-background w-full font-sans antialiased py-9 flex flex-col gap-y-5 items-center justify-center",
         fontSans.variable
       )}>
+        <link
+          rel="icon"
+          href="/favicon.png"
+          type="image/png"
+          sizes="<generated>"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

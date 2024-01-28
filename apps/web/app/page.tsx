@@ -7,7 +7,9 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
   return (
     <>
-      {session?.user?.name ? (
+    
+      {//@ts-ignore
+      session?.user?.firstname ? (
         <div>{session?.user?.email}</div>
       ) : (
         <div>Not logged in</div>
