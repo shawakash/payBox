@@ -16,8 +16,8 @@ interface TxnLayoutProps {
 export default function TxnLayout({ children }: TxnLayoutProps) {
     return (
         <>
+            
             <div className="flex-1 lg:max-w-2xl">{children}</div>
-
         </>
     )
 }
