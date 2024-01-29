@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { labels } from "../data/data"
-import { taskSchema } from "../data/schema"
+import { TxnSchema } from "@paybox/common"
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
@@ -28,7 +28,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original)
+  const txn = TxnSchema.parse(row.original)
 
   return (
     <DropdownMenu>
@@ -38,18 +38,18 @@ export function DataTableRowActions<TData>({
           className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
         >
           <DotsHorizontalIcon className="h-4 w-4" />
-          <span className="sr-only">Open {task.network.charAt(0).toLocaleUpperCase() + task.network.slice(1)}scan</span>
+          <span className="sr-only">Open {txn.network.charAt(0).toLocaleUpperCase() + txn.network.slice(1)}scan</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem>Copy Sender Id</DropdownMenuItem>
         <DropdownMenuItem>Signature</DropdownMenuItem>
-        <DropdownMenuItem>Favorite</DropdownMenuItem>
+        <DropdownMenuItem>Blockhash</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>Labels</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={task.network}>
+            <DropdownMenuRadioGroup value={txn.network}>
               {labels.map((label) => (
                 <DropdownMenuRadioItem key={label.value} value={label.value}>
                   {label.label}

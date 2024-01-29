@@ -6,13 +6,14 @@ import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 
 import { labels, statuses } from "../data/data"
-import { Task } from "../data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { format } from "date-fns"
 import { CalendarIcon, ClockIcon } from "@radix-ui/react-icons"
+import { SOLSCAN_ACCOUNT_URL, SOLSCAN_TXN_URL, TxnType } from "@paybox/common"
+import Link from "next/link"
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<TxnType>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -42,7 +43,16 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Txn Id" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">Txn-{(row.getValue("id") as string).split("-")[1]}</div>,
+
+    cell: ({ row }) =>
+      // make the cluster dynamic
+      <Link
+        target="_blank"
+        href={SOLSCAN_TXN_URL(row.original.signature[0], "devnet")}
+      >
+        <div className="w-[80px]">Txn-{(row.getValue("id") as string).split("-")[1]}
+        </div>
+      </Link>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -57,9 +67,14 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <div className="flex space-x-2">
           {label && <Badge variant="outline">{label.label}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("from")}
-          </span>
+          <Link
+            target="_blank"
+            href={SOLSCAN_ACCOUNT_URL(row.getValue("from"))}
+          >
+            <span className="max-w-[500px] truncate font-medium">
+              {row.getValue("from")}
+            </span>
+          </Link>
         </div>
       )
     },
@@ -123,7 +138,7 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
-    accessorKey: "blockTime",
+    accessorKey: "date",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Block Date" />
     ),
