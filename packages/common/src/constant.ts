@@ -1,4 +1,5 @@
 import { Network } from "./types";
+import {Cluster} from "@solana/web3.js";
 
 export const PORT: number = 8080;
 export const SolanaRpcUrl = "https://api.devnet.solana.com";
@@ -39,3 +40,11 @@ export const AddressSelectFramework = Object.keys(Network).map((key) => ({
   value: Network[key as keyof typeof Network],
   label: key,
 }));
+
+export const SOLSCAN_TXN_URL = (txnId: string, cluster: Cluster): string => {
+  return `https://solscan.io/tx/${txnId}?cluster=${cluster}`
+}
+
+export const SOLSCAN_ACCOUNT_URL = (accountId: string): string => {
+  return `https://solscan.io/account/${accountId}`
+}
