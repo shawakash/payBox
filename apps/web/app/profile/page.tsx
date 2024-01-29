@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "../api/auth/[...nextauth]/util";
 import { BACKEND_URL, ClientWithJwt } from "@paybox/common";
 import { headers } from "next/headers";
+import { revalidateTag } from "next/cache";
 
 export default async function SettingsProfilePage() {
     const session = await getServerSession(authOptions);
@@ -20,6 +21,8 @@ export default async function SettingsProfilePage() {
       },
       next: { revalidate: 3600 }
     }).then(res => res.json());
+    revalidateTag("getTxn");
+    console.log(session.user)
   return (
     <div className="space-y-6">
       <div>

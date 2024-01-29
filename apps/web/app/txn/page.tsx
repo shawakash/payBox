@@ -26,8 +26,10 @@ const getTxns = async (jwt: string, count: number, networks: Network[]): Promise
         "Content-type": "application/json",
         "authorization": `Bearer ${jwt}`
       },
+      cache: "no-store",
       next: {
-        revalidate: 5
+        revalidate: 5,
+        tags: ['getTxns']
       }
     }).then(res => res.json());
     if(status == responseStatus.Error) {
