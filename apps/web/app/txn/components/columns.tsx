@@ -10,7 +10,7 @@ import { Task } from "../data/schema"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTableRowActions } from "./data-table-row-actions"
 import { format } from "date-fns"
-import { Clock } from "lucide-react"
+import { CalendarIcon, ClockIcon } from "@radix-ui/react-icons"
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -125,19 +125,40 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "blockTime",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Block Time" />
+      <DataTableColumnHeader column={column} title="Block Date" />
     ),
     cell: ({ row }) => {
+
       const blockTimeMilliseconds = row.original.blockTime * 1000;
 
       const blockDate = new Date(blockTimeMilliseconds);
-
-      const formattedDate = format(blockDate, "do MMM yyyy 'at' HHmm 'hrs'");
-
+      const formattedDate = format(blockDate, "do MMM yy");
       return (
-        <div className="flex items-center">
-          <Clock />
+        <div className="flex items-center space-x-2">
+          <CalendarIcon />
           <span>{formattedDate}</span>
+        </div>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
+  {
+    accessorKey: "blockTime",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Block Time" />
+    ),
+    cell: ({ row }) => {
+
+      const blockTimeMilliseconds = row.original.blockTime * 1000;
+
+      const blockDate = new Date(blockTimeMilliseconds);
+      const formattedTime = format(blockDate, "h:mm a");
+      return (
+        <div className="flex items-center space-x-2">
+          <ClockIcon />
+          <span>{formattedTime}</span>
         </div>
       )
     },
