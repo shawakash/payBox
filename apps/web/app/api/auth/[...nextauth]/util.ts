@@ -156,6 +156,7 @@ export const authOptions: NextAuthOptions = {
           },
           body: JSON.stringify(body)
         }).then(res => res.json());
+        console.log(response, "from jwt")
         token.jwt = response.jwt;
         token.id = response.id;
         token.firstname = user.name?.split(" ")[0];

@@ -41,6 +41,7 @@ export const insertTxn = async ({
     status: dbResStatus,
     id?: unknown
 }> => {
+    console.log(clientId)
     const response = await chain("mutation")({
         insert_transactions_one: [{
             object: {

@@ -29,7 +29,7 @@ export const publishNewTxn = async (
         //@ts-ignore
         const receiver = transaction.message?.accountKeys[1].toBase58();
         await kafkaClient.publishOne({
-            topic: "txn",
+            topic: "txn2",
             message: [{
                 partition: 0,
                 key: transaction.signatures[0] || "",

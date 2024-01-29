@@ -40,7 +40,7 @@ clientRouter.post("/", async (req, res) => {
                 mobile,
                 id: client.id as string,
                 //@ts-ignore
-                address: client.address ,
+                address: client.address,
                 password: hashPassword
             });
 
@@ -83,12 +83,31 @@ clientRouter.post("/providerAuth", async (req, res) => {
             return res.status(302).json({ ...cachedClient, status: responseStatus.Ok, jwt });
         }
 
-        const getClient = await conflictClient(username, email);
+        const hashPassword = await setHashPassword(password);
+        const getClient = await checkClient(username, email);
         if (getClient.client?.length) {
-            return res.status(409).json({ msg: "client already exist", status: responseStatus.Error })
+            let jwt: string;
+            if (getClient.client[0].id) {
+                jwt = await setJWTCookie(req, res, getClient.client[0].id as string);
+            } else {
+                return res.status(500).json({ msg: "Error creating user account", status: responseStatus.Error });
+            }
+            await cache.cacheClient(getClient.client[0].id as string,
+                {
+                    firstname,
+                    email,
+                    username,
+                    lastname,
+                    mobile,
+                    id: getClient?.client[0].id as string,
+                    address: getClient.client[0].address as Address,
+                    //@ts-ignore
+                    password: hashPassword || ""
+                });
+
+            return res.status(200).json({ ...getClient.client[0], jwt, status: responseStatus.Ok })
         }
 
-        const hashPassword = await setHashPassword(password);
         const client = await createClient(username, email, firstname, lastname, hashPassword, Number(mobile));
         if (client.status == dbResStatus.Error) {
             return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
