@@ -37,7 +37,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.0",
     "common": "*",
-    "date-fns": "^3.2.0",
+    "date-fns": "^3.3.1",
     "eslint": "8.56.0",
     "eslint-config-next": "14.0.4",
     "lucide-react": "^0.306.0",

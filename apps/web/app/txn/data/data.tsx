@@ -11,16 +11,20 @@ import {
 
 export const labels = [
   {
-    value: "bug",
-    label: "Bug",
+    value: "sol",
+    label: "Solana",
   },
   {
-    value: "feature",
-    label: "Feature",
+    value: "eth",
+    label: "Ethereum",
   },
   {
-    value: "documentation",
-    label: "Documentation",
+    value: "bitcoin",
+    label: "Bitcoin",
+  },
+  {
+    value: "usdc",
+    label: "Usdc",
   },
 ]
 

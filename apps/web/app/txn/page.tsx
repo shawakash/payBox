@@ -53,14 +53,13 @@ const getTxns = async (jwt: string, count: number, networks: Network[]): Promise
 }
 
 export default async function TaskPage() {
-  const tasks = await getTasks();
   const session = await getServerSession(authOptions);
   //@ts-ignore
   const txns = await getTxns(session?.user?.jwt, 4, [Network.Sol, Network.Eth]);
   return (
     <>
       <div className="flex flex-col w-screen items-center">
-        <div className="w-4/5 hidden h-full flex-1 flex-col border-2 rounded-lg space-y-8 p-8 md:flex">
+        <div className="w-5/6 hidden h-full flex-1 flex-col border-2 rounded-lg space-y-8 p-8 md:flex">
         <div className="flex items-center justify-between space-y-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
@@ -72,7 +71,7 @@ export default async function TaskPage() {
             <UserNav />
           </div>
         </div>
-        <DataTable data={tasks} columns={columns} />
+       {txns && <DataTable data={txns} columns={columns} />}
         </div>
       </div>
     </>
