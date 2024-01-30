@@ -69,7 +69,7 @@ addressRouter.get("/", async (req, res) => {
             if (!(query.address?.length)) {
                 return res.status(404).json({ msg: "Not found", status: responseStatus.Error });
             }
-            await cache.cacheAddress(id, query.address[0] as Address & { id: string, clientId: string });
+            await cache.cacheAddress(id, query.address[0] as unknown as Partial<Address> & { id: string, clientId: string });
 
             return res.status(302).json({ ...query.address[0], status: responseStatus.Ok });
         }

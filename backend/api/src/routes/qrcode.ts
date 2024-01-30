@@ -4,6 +4,7 @@ import { Address, responseStatus } from "@paybox/common";
 import { getAddressByClientId } from "../db/address";
 import { dbResStatus } from "../types/client";
 import { generateQRCode, generateUniqueImageName } from "../auth/util";
+import { hasAddress } from "../auth/middleware";
 
 export const qrcodeRouter = Router();
 
@@ -35,4 +36,8 @@ qrcodeRouter.post("/address", async (req, res) => {
         console.log(error);
         return res.status(500).json({ status: responseStatus.Error, msg: "Internal Server Error" });
     }
+});
+
+qrcodeRouter.get("/getCode", hasAddress, async () => {
+
 });

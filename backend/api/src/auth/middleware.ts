@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { clearCookie, setJWTCookie, validateJwt } from "./util";
 import { AddressFormPartial, Network, TxnSendQuery, responseStatus } from "@paybox/common";
 import { solTxn } from "..";
+import { getAddressByClient } from "../db/qrcode";
 
 /**
  * 
@@ -126,6 +127,32 @@ export const checkAddress = async (req: Request, res: Response, next: NextFuncti
       return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
     }
     next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });
+  }
+}
+
+export const hasAddress = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+    if(id) {
+      try {
+        //check cache
+        const getAddress = await getAddressByClient(id);
+        if(!getAddress.address?.id) {
+          return res.status(400).json({ msg: "Please add your address first", status: responseStatus.Error });
+        }
+        //cache it
+        //next();
+      } catch (error) {
+        console.log(error);
+        return res.status(403).json({ msg: "Please add address first", status: responseStatus.Error });
+      }
+    } else {
+      return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });
