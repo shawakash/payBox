@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { clearCookie, setJWTCookie, validateJwt } from "./util";
-import { AddressFormPartial, Network, TxnSendQuery, responseStatus } from "@paybox/common";
+import { AddressFormPartial, GetQrQuerySchema, Network, TxnSendQuery, responseStatus } from "@paybox/common";
 import { cache, solTxn } from "..";
 import { getAddressByClient } from "../db/qrcode";
 import { Address } from "web3";
@@ -137,7 +137,7 @@ export const checkAddress = async (req: Request, res: Response, next: NextFuncti
 export const hasAddress = async (req: Request, res: Response, next: NextFunction) => {
   try {
     //@ts-ignore
-    const id = req.id;
+    const {id} = GetQrQuerySchema.parse(req.query);
     if (id) {
       try {
         const isCached = await cache.getClientCache(id);

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ClientSignupFormValidate, MetadataUpdateForm } from "./validations/clientValid";
-import { AddressForm, AddressFormPartial, TxnQeuryByHash, TxnSendQuery, TxnsQeury } from "./validations";
+import { AddressForm, AddressFormPartial, GetQrQuerySchema, TxnQeuryByHash, TxnSendQuery, TxnsQeury } from "./validations";
 import {Message} from "@solana/web3.js";
 
 
@@ -111,3 +111,5 @@ export type TxnSolana = {
     message: Message;
     signatures: string[];
 }
+
+export type GetQrQuerySchemaType = z.infer<typeof GetQrQuerySchema>;
