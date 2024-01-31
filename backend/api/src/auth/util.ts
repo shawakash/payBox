@@ -111,7 +111,6 @@ export const generateQRCode = async (
   try {
     const path = generateUniqueImageName(id);
     const qrCodeDataURL = await qr.toDataURL(JSON.stringify(payload));
-    console.log(qrCodeDataURL);
     if (!fs.existsSync(path)) {
       await qr.toFile(path, JSON.stringify(payload));
       console.log(`QR code generated successfully and saved at: ${path}`);
