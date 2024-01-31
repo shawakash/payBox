@@ -4,33 +4,27 @@ import { Address, responseStatus } from "@paybox/common";
 import { getAddressByClientId } from "../db/address";
 import { dbResStatus } from "../types/client";
 import { generateQRCode, generateUniqueImageName } from "../auth/util";
+import { hasAddress } from "../auth/middleware";
 
 export const qrcodeRouter = Router();
 
-qrcodeRouter.post("/address", async (req, res) => {
+qrcodeRouter.get("/get", hasAddress, async (req, res) => {
     try {
         //@ts-ignore
-        const id = req.id;
-        if (id) {
-            const addressQuery = await getAddressByClientId(id);
-            if (addressQuery.status == dbResStatus.Error) {
-                return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
-            }
-            if (!addressQuery.address) {
-                return res.status(400).json({ status: responseStatus.Error, msg: "Address is not added" });
-            }
+        const address = req.address;
+        if(address) {
             const isGenerated = await generateQRCode(
-                addressQuery?.address[0] as Partial<Address> & { id: string },
-                id
+                address as Partial<Address> & { id: string },
+                address.id
             );
             if (!isGenerated) {
                 return res.status(500).json({ status: responseStatus.Error, msg: "Error in generating qr code" });
             }
             res.setHeader('Content-Type', 'image/png');
-            createReadStream(isGenerated).pipe(res);
-            return res.status(200).json({ status: responseStatus.Ok, path: isGenerated });
+            const stream = createReadStream(isGenerated);
+            
+            stream.pipe(res);
         }
-        return res.status(401).json({ status: responseStatus.Error, msg: "Uuauthorized to do this" });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: responseStatus.Error, msg: "Internal Server Error" });

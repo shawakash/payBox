@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { clearCookie, setJWTCookie, validateJwt } from "./util";
-import { AddressFormPartial, Network, TxnSendQuery, responseStatus } from "@paybox/common";
-import { solTxn } from "..";
+import { AddressFormPartial, GetQrQuerySchema, Network, TxnSendQuery, responseStatus } from "@paybox/common";
+import { cache, solTxn } from "..";
+import { getAddressByClient } from "../db/qrcode";
+import { Address } from "web3";
 
 /**
  * 
@@ -126,6 +128,41 @@ export const checkAddress = async (req: Request, res: Response, next: NextFuncti
       return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
     }
     next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });
+  }
+}
+
+export const hasAddress = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    //@ts-ignore
+    const {id} = GetQrQuerySchema.parse(req.query);
+    if (id) {
+      try {
+        const isCached = await cache.getClientCache(id);
+        if (!isCached?.address) {
+          const getAddress = await getAddressByClient(id);
+          if (!getAddress.address?.id) {
+            return res.status(400).json({ msg: "Please add your address first", status: responseStatus.Error });
+          }
+          await cache.cacheAddress(id, getAddress.address as Partial<Address> & { id: string, clientId: string });
+          //@ts-ignore
+          req.address = getAddress.address;
+        }
+        if (isCached?.address) {
+          //@ts-ignore
+          req.address = isCached.address;
+        }
+        next();
+
+      } catch (error) {
+        console.log(error);
+        return res.status(403).json({ msg: "Please add address first", status: responseStatus.Error });
+      }
+    } else {
+      return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });

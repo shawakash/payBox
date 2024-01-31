@@ -6,7 +6,7 @@ import { ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS } from "./config";
 import SolTxnLogs from "./sockets/sol";
 import EthTxnLogs from "./sockets/eth";
 import { EthNetwok } from "./types/address";
-import { CORS_ORIGIN, PORT } from "@paybox/common";
+import { CLIENT_URL, PORT } from "@paybox/common";
 import morgan from "morgan";
 import { Redis } from "./Redis";
 import { clientRouter } from "./routes/client";
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
 
 const corsOptions = {
-    origin: CORS_ORIGIN, // specify the allowed origin
+    origin: CLIENT_URL, // specify the allowed origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // specify the allowed HTTP methods
     credentials: true, // enable credentials (cookies, authorization headers, etc.)
     optionsSuccessStatus: 204, // handle preflight requests (OPTIONS) with a 204 status code
@@ -56,7 +56,7 @@ app.get("/_health", (_req, res) => {
 
 app.use("/client", clientRouter);
 app.use("/address", extractClientId, addressRouter);
-app.use("/qrcode", extractClientId, qrcodeRouter);
+app.use("/qrcode", qrcodeRouter);
 app.use("/txn", extractClientId, txnRouter);
 
 

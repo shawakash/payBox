@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="68b95ec0-bf7d-419c-b9b9-0866ed110dbf" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/hasura/hasura/metadata/databases/default/tables/public_address.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/hasura/hasura/metadata/databases/default/tables/public_address.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/zeus/src/zeus/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/zeus/src/zeus/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,10 +31,14 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "qrcode",
+    "git-widget-placeholder": "dev",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "/Users/phillo/code/payBox/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -46,6 +52,8 @@
       <updated>1704976867385</updated>
       <workItem from="1704976869078" duration="55000" />
       <workItem from="1706008864918" duration="11000" />
+      <workItem from="1706601426791" duration="37000" />
+      <workItem from="1706601468595" duration="1236000" />
     </task>
     <servers />
   </component>
@@ -55,6 +63,23 @@
       <list>
         <option value="$PROJECT_DIR$/apps/web/tailwind.config.js" />
       </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="TEXT_FILTER_SETTINGS">
+                <TextFilterSettings>
+                  <option name="MATCH_CASE" value="true" />
+                </TextFilterSettings>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
     </option>
   </component>
 </project>

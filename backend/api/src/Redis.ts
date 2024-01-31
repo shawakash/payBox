@@ -88,7 +88,7 @@ export class Redis {
         return deletedKeys;
     }
 
-    async cacheAddress(key: string, items: (Address & { id: string, clientId: string })) {
+    async cacheAddress(key: string, items: (Partial<Address> & { id: string, clientId: string })) {
         const client = await this.client.hGetAll(items.clientId);
         if (!client) {
             return
@@ -112,10 +112,10 @@ export class Redis {
         const data = await this.client.hSet(key,
             {
                 id: items.id,
-                sol: items.sol,
-                eth: items.eth,
-                bitcoin: items.bitcoin,
-                usdc: items.usdc,
+                sol: items.sol as string,
+                eth: items.eth as string,
+                bitcoin: items.bitcoin as string,
+                usdc: items.usdc as string,
                 client_id: items.clientId
             });
         console.log(`Address Cached ${data}`);

@@ -27,3 +27,7 @@ export const AddressForm = z.object({
 });
 
 export const AddressFormPartial = AddressForm.partial();
+
+export const GetQrQuerySchema = z.object({
+    id: z.string()
+});
