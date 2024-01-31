@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
 import bcryptjs from "bcryptjs";
 import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
-import { Address, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
+import { Address, CLIENT_URL, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
 import * as qr from "qrcode";
 import fs from "fs";
 
@@ -110,14 +110,15 @@ export const generateQRCode = async (
 ): Promise<null | string> => {
   try {
     const path = generateUniqueImageName(id);
-    const qrCodeDataURL = await qr.toDataURL(JSON.stringify(payload));
+    const redirectUrl = `${CLIENT_URL}/txn/send?sol=${payload.sol}&eth=${payload.eth}&bitcoin=${payload.bitcoin}&usdc=${payload.usdc}`
+    // const qrCodeDataURL = await qr.toDataURL(redirectUrl);
     if (!fs.existsSync(path)) {
-      await qr.toFile(path, JSON.stringify(payload));
+      await qr.toFile(path, redirectUrl);
       console.log(`QR code generated successfully and saved at: ${path}`);
       return path;
     } else {
       const uniquePath = generateUniqueImageName(`${id}_new`);
-      await qr.toFile(uniquePath, JSON.stringify(payload));
+      await qr.toFile(uniquePath, JSON.stringify(redirectUrl));
       console.log(`QR code generated successfully and saved at: ${uniquePath}`);
       return uniquePath;
     }
