@@ -1,28 +1,29 @@
 import { z } from "zod";
-import { isSolanaAddress } from "../constant";
+import { isEthereumAddress, isSolanaAddress } from "../constant";
 import { Network } from "../types";
 
+const AddressType = z.union([
+    z.string().refine(isSolanaAddress, {
+        message: 'Invalid Solana address',
+    }),
+    z.string().refine(isEthereumAddress, {
+        message: 'Invalid Ethereum address',
+    }),
+]);
+
 export const TxnSendQuery = z.object({
-    from: z
-        .string()
-        .refine(isSolanaAddress, {
-            message: 'Invalid Ethereum address',
-        }),
-    to: z
-        .string()
-        .refine(isSolanaAddress, {
-            message: 'Invalid Ethereum address',
-        }),
+    from: AddressType,
+    to: AddressType,
     amount: z
         .string()
         .refine(value => {
-            const numericValue = parseFloat(value);
+            const numericValue = parseFloat(value as unknown as string);
             return !isNaN(numericValue);
         }, {
             message: 'Amount must be a valid number',
             path: ['amount'],
         })
-        .transform(value => parseFloat(value)),
+        .transform(value => parseFloat(value as unknown as string)),
     network: z.nativeEnum(Network)
 });
 

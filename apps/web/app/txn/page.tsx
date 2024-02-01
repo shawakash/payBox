@@ -46,7 +46,7 @@ const getTxns = async (jwt: string, count: number, networks: Network[]): Promise
 export default async function TxnPage() {
   const session = await getServerSession(authOptions);
   //@ts-ignore
-  const txns = await getTxns(session?.user?.jwt, 4, [Network.Sol, Network.Eth]);
+  const txns = await getTxns(session?.user?.jwt, 10, [Network.Sol, Network.Eth]);
   return (
     <>
       <div className="flex flex-col w-screen items-center">

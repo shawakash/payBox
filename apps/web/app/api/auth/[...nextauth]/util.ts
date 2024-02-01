@@ -187,6 +187,14 @@ export const authOptions: NextAuthOptions = {
       if(trigger == "update") {
         console.log(user, token, "session")
       }
+      const me = await fetch(`${BACKEND_URL}/client/me`, {
+        method: "get",
+        headers: {
+          //@ts-ignore
+          "authorization": `Bearer ${token.jwt}`
+        },
+        cache: "force-cache",
+      }).then(res => res.json());
       /**
        * \Add the jwt from token to user
        */
@@ -194,14 +202,15 @@ export const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
-          id: token.id,
-          jwt: token.jwt,
-          firstname: token.firstname,
-          lastname: token.lastname,
-          username: token.username,
-          email: token.email,
-          address: token.address,
-          mobile: token.mobile
+          id: me.id,
+          jwt: me.jwt,
+          firstname: me.firstname,
+          lastname: me.lastname,
+          username: me.username,
+          email: me.email,
+          address: me.address,
+          mobile: Number(me.mobile),
+          name: `${me.firstname} ${me.lastname}`
         }
       }
     }

@@ -112,4 +112,20 @@ export type TxnSolana = {
     signatures: string[];
 }
 
+export enum SolToken {
+    Lamp = "lamp",
+    Sol = "sol",
+}
+
+export enum EthToken {
+    Eth = "eth",
+    Gwei = "gwei",
+}
+
+export enum BitcoinToken {
+    Bitcoin = "bitcoin",
+}
+
+export type Token = SolToken | EthToken | BitcoinToken;
+
 export type GetQrQuerySchemaType = z.infer<typeof GetQrQuerySchema>;

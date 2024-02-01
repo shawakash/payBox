@@ -13,14 +13,6 @@ export default async function SettingsProfilePage() {
     if (!session || !session.user || !session.user?.email) {
       redirect("/signup");
     }
-    const me = await fetch(`${BACKEND_URL}/client/me`, {
-      method: "get",
-      headers: {
-        //@ts-ignore
-        "authorization": `Bearer ${session.user.jwt}`
-      },
-      next: { revalidate: 3600 }
-    }).then(res => res.json());
     revalidateTag("getTxn");
     console.log(session.user)
   return (
@@ -32,7 +24,7 @@ export default async function SettingsProfilePage() {
         </p>
       </div>
       <Separator />
-      <ProfileForm me={me as unknown as ClientWithJwt} />
+      <ProfileForm me={session.user as unknown as ClientWithJwt} />
     </div>
   )
 }
