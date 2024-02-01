@@ -208,3 +208,67 @@ export const getTxnByHash = async ({
         status: dbResStatus.Error
     }
 };
+
+/**
+ * 
+ * @param param0 
+ * @returns 
+ */
+export const getAllTxn = async ({
+    clientId
+}: {clientId: string}): Promise<{
+    status: dbResStatus,
+    txns?: unknown[],
+}> => {
+    const response = await chain("query")({
+        transactions: [{
+            where: {
+                client_id: { _eq: clientId },
+            },
+        }, {
+            id: true,
+            //@ts-ignore
+            signature: true,
+            amount: true,
+            block_time: true,
+            client_id: true,
+            fee: true,
+            date: true,
+            from: true,
+            network: true,
+            //@ts-ignore
+            post_balances: true,
+            //@ts-ignore
+            pre_balances: true,
+            recent_blockhash: true,
+            slot: true,
+            to: true
+        }]
+    }, { operationName: "getTxns" });
+    if (response.transactions[0]) {
+        const txns = response.transactions.map(txn => {
+            return {
+                id: txn?.id,
+                clientId: txn?.client_id,
+                signature: txn?.signature,
+                network: txn?.network,
+                slot: txn?.slot,
+                amount: txn?.amount,
+                blockTime: txn?.block_time,
+                fee: txn?.fee,
+                from: txn?.from,
+                to: txn?.to,
+                preBalances: txn?.pre_balances,
+                postBalances: txn?.post_balances,
+                recentBlockhash: txn?.recent_blockhash,
+            }
+        });
+        return {
+            status: dbResStatus.Ok,
+            txns,
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}

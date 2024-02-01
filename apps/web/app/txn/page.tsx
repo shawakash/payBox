@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const getTxns = async (jwt: string, count: number, networks: Network[]): Promise<TxnType[] | null> => {
   try {
-    const apiUrl = `${BACKEND_URL}/txn/getMany?${networks.map(network => `networks=${network}`).join('&')}&count=${count}`;
+    const apiUrl = `${BACKEND_URL}/txn/getAll`;
     const {status, txns}: {txns: TxnType[], status: responseStatus} = await fetch(apiUrl, {
       method: "get",
       headers: {
