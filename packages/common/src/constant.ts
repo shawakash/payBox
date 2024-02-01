@@ -48,3 +48,7 @@ export const SOLSCAN_TXN_URL = (txnId: string, cluster: Cluster): string => {
 export const SOLSCAN_ACCOUNT_URL = (accountId: string): string => {
   return `https://solscan.io/account/${accountId}`
 }
+
+export const capitiliaze = (str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
