@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 
-export const getCode = async (clientId: string) => {
+const getCode = async (clientId: string) => {
   try {
     const response = await fetch(`${BACKEND_URL}/qrcode/get?id=${clientId}`, {
       method: "get",
