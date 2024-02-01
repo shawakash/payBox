@@ -1,6 +1,6 @@
 import { TxnQeuryByHash, TxnSendQuery, TxnType, TxnsQeury, responseStatus } from "@paybox/common";
 import { Router } from "express";
-import { getTxnByHash, getTxns, insertTxn } from "../db/transaction";
+import { getAllTxn, getTxnByHash, getTxns, insertTxn } from "../db/transaction";
 import { cache, solTxn } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
@@ -48,7 +48,6 @@ txnRouter.get("/getMany", async (req, res) => {
             if (txns.status == dbResStatus.Error) {
                 return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
             }
-            //bug related to data type
             await cache.cacheTxns(`${id}_txns_${count}_${Date.now()}`, txns.txns as TxnType[]);
             return res.status(200).json({ txns: txns.txns as TxnType[], status: responseStatus.Ok })
         }
@@ -76,9 +75,26 @@ txnRouter.get("/get", async (req, res) => {
             if (txn.status == dbResStatus.Error) {
                 return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
             }
-            //bug related to data type
             await cache.cacheTxn(txn.id as string, txn.txn as TxnType);
             return res.status(200).json({ txn, status: responseStatus.Ok })
+        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: responseStatus.Error, msg: "Internal Server Error" });
+    }
+});
+
+txnRouter.get("/getAll", async (req, res) => {
+    try {
+        //@ts-ignore
+        const id = req.id as string;
+        if (id) {
+            const txn = await getAllTxn({clientId: id});
+            if (txn.status == dbResStatus.Error) {
+                return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
+            }
+            // await cache.cacheTxns(`${id}_txns`, txn.txns as TxnType[]);
+            return res.status(200).json({ txns: txn.txns, status: responseStatus.Ok })
         }
     } catch (error) {
         console.log(error);
