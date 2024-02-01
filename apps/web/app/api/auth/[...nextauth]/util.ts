@@ -194,7 +194,6 @@ export const authOptions: NextAuthOptions = {
           "authorization": `Bearer ${token.jwt}`
         },
         cache: "force-cache",
-        next: { revalidate: 3600 }
       }).then(res => res.json());
       /**
        * \Add the jwt from token to user

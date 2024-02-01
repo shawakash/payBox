@@ -15,7 +15,7 @@ export const TxnSendQuery = z.object({
     from: AddressType,
     to: AddressType,
     amount: z
-        .number()
+        .string()
         .refine(value => {
             const numericValue = parseFloat(value as unknown as string);
             return !isNaN(numericValue);
