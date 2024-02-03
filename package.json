@@ -12,7 +12,9 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "./.husky/pre-commit"
+      "pre-commit": "./.husky/pre-commit",
+      "post-commit": "./.husky/post-commit",
+      "post-merge": "./.husky/post-merge"
     }
   },
   "devDependencies": {
