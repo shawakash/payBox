@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Add your post-commit script here
+# Example:
+# echo "Post-commit hook executed"
