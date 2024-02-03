@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { clearCookie, setJWTCookie, validateJwt } from "./util";
 import { AddressFormPartial, GetQrQuerySchema, Network, TxnSendQuery, responseStatus } from "@paybox/common";
-import { cache, solTxn } from "..";
+import { cache, ethTxn, solTxn } from "..";
 import { getAddressByClient } from "../db/qrcode";
-import { Address } from "web3";
+import { Address, eth } from "web3";
+import EthTxnLogs from "../sockets/eth";
+import { EthNetwok } from "../types/address";
+import { INFURA_PROJECT_ID } from "../config";
 
 /**
  * 
@@ -70,14 +73,13 @@ export const txnCheckAddress = async (req: Request, res: Response, next: NextFun
     if (id) {
       try {
         const { network, from, to } = TxnSendQuery.parse(req.query);
-        // if (network == Network.Eth) {
-        //   const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, eth);
-        //   const isAddress = await ethTxn.checkAddress();
-        //   console.log(isAddress);
-        //   if (!isAddress) {
-        //     return res.status(400).json({ status: responseStatus.Error, msg: "No such etherum address" });
-        //   }
-        // }
+        if (network == Network.Eth) {
+          const sender = await ethTxn.checkAddress(from);
+          const receiver = await ethTxn.checkAddress(to);
+          if (!sender && !receiver) {
+            return res.status(400).json({ status: responseStatus.Error, msg: "No such eth address" });
+          }
+        }
         if (network == Network.Sol) {
           const sender = await solTxn.checkAddress(from);
           const receiver = await solTxn.checkAddress(to);
