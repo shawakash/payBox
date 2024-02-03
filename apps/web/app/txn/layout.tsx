@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator"
 import { SidebarNav } from "@/app/profile/components/sidebar-nav"
 
 export const metadata: Metadata = {
-    title: "Txn",
+    title: "Txn | PayBox",
     description: "Transaction Details | PayBox",
 }
 

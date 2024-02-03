@@ -15,6 +15,10 @@ import { addressRouter } from "./routes/address";
 import { extractClientId } from "./auth/middleware";
 import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
+import { expressMiddleware } from '@apollo/server/express4';
+import { ApolloServer } from "@apollo/server";
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { typeDefs, resolvers } from "./resolver/server";
 
 export const app = express();
 export const server = http.createServer(app);
@@ -54,6 +58,28 @@ app.get("/_health", (_req, res) => {
     });
 });
 
+
+export const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+    plugins: [ApolloServerPluginDrainHttpServer({ httpServer: server })],
+});
+
+(async () => {
+    await apolloServer.start();
+})().then(_ => {
+
+    app.use(
+        '/graphql',
+        cors<cors.CorsRequest>(),
+        express.json(),
+        expressMiddleware(apolloServer, {
+            context: async ({ req }) => ({ token: req.headers.token }),
+        }),
+    );
+});
+
+
 app.use("/client", clientRouter);
 app.use("/address", extractClientId, addressRouter);
 app.use("/qrcode", qrcodeRouter);
@@ -69,6 +95,7 @@ wss.on('connection', async (ws) => {
     });
 
 });
+
 
 server.listen(PORT, async () => {
     console.log(`Server listening on port: ${PORT}\n`);
