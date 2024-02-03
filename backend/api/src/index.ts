@@ -20,8 +20,8 @@ import { createApollo } from "./resolver/server";
 
 export const app = express();
 export const server = http.createServer(app);
-export const wss = new WebSocketServer({ server, path: "/payBoxTxn"});
-export const apolloServer = createApollo();
+export const wss = new WebSocketServer({ server });
+// export const apolloServer = createApollo();
 
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 export const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
@@ -59,19 +59,19 @@ app.get("/_health", (_req, res) => {
 
 
 
-(async () => {
-    await apolloServer.start();
-})().then(_ => {
+// (async () => {
+//     await apolloServer.start();
+// })().then(_ => {
 
-    app.use(
-        '/graphql',
-        cors<cors.CorsRequest>(),
-        express.json(),
-        expressMiddleware(apolloServer, {
-            context: async ({ req }) => ({ token: req.headers.token }),
-        }),
-    );
-});
+//     app.use(
+//         '/graphql',
+//         cors<cors.CorsRequest>(),
+//         express.json(),
+//         expressMiddleware(apolloServer, {
+//             context: async ({ req }) => ({ token: req.headers.token }),
+//         }),
+//     );
+// });
 
 
 app.use("/client", clientRouter);
