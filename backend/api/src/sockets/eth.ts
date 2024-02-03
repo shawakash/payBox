@@ -73,7 +73,7 @@ export class EthTxnLogs {
     });
 
     ws.on('close', () => {
-      this.disconnectWebSocket(this.wsProvider, ws);
+      // this.disconnectWebSocket(this.wsProvider, ws);
     });
   }
 

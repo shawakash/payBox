@@ -16,13 +16,12 @@ import { extractClientId } from "./auth/middleware";
 import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
 import { expressMiddleware } from '@apollo/server/express4';
-import { ApolloServer } from "@apollo/server";
-import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-import { typeDefs, resolvers } from "./resolver/server";
+import { createApollo } from "./resolver/server";
 
 export const app = express();
 export const server = http.createServer(app);
-const wss = new WebSocketServer({ server });
+export const wss = new WebSocketServer({ server, path: "/payBoxTxn"});
+export const apolloServer = createApollo();
 
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 export const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
@@ -59,11 +58,6 @@ app.get("/_health", (_req, res) => {
 });
 
 
-export const apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer: server })],
-});
 
 (async () => {
     await apolloServer.start();
@@ -87,6 +81,7 @@ app.use("/txn", extractClientId, txnRouter);
 
 
 wss.on('connection', async (ws) => {
+    console.log("Ws connected");
     solTxn.connectWebSocket(ws);
     ethTxn.connectWebSocket(ws);
     ws.on('message', (message) => {
