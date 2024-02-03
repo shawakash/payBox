@@ -1,7 +1,7 @@
-import { TxnQeuryByHash, TxnSendQuery, TxnType, TxnsQeury, responseStatus } from "@paybox/common";
+import { Network, TxnQeuryByHash, TxnSendQuery, TxnType, TxnsQeury, responseStatus } from "@paybox/common";
 import { Router } from "express";
 import { getAllTxn, getTxnByHash, getTxns, insertTxn } from "../db/transaction";
-import { cache, solTxn } from "..";
+import { cache, ethTxn, solTxn } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
 import { publishNewTxn } from "../../../../packages/kafka/src";
@@ -14,18 +14,36 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
         const id = req.id;
         if (id) {
             const { from, amount, to, network } = TxnSendQuery.parse(req.query);
-            const instance = await solTxn.acceptTxn({ from, amount, to });
-            if (!instance) {
-                return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" })
+            if(network == Network.Eth) {
+                const instance = await ethTxn.acceptTxn({ amount, to, from });
+                if (!instance) {
+                    return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" })
+                }
+                console.log(instance, "instance");
+                // if (!meta || !blockTime) {
+                //     return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" });
+                // }
+                /**
+                 * Publishing the txn payload for que based system
+                 */
+                // await publishNewTxn(transaction, blockTime, meta, slot, amount, id, network);
+                return res.status(200).json({ status: responseStatus.Ok, signature: instance  })
             }
-            const { blockTime, meta, slot, transaction } = instance;
-            if (!meta || !blockTime) {
-                return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" });
+            let instance;
+            if(network == Network.Sol) {
+                instance = await solTxn.acceptTxn({ from, amount, to });
+                if (!instance) {
+                    return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" })
+                }
+                const { blockTime, meta, slot, transaction } = instance;
+                if (!meta || !blockTime) {
+                    return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" });
+                }
+                /**
+                 * Publishing the txn payload for que based system
+                 */
+                await publishNewTxn(transaction, blockTime, meta, slot, amount, id, network);
             }
-            /**
-             * Publishing the txn payload for que based system
-             */
-            await publishNewTxn(transaction, blockTime, meta, slot, amount, id, network);
             return res.status(200).json({ status: responseStatus.Ok, signature: instance  })
         }
     } catch (error) {

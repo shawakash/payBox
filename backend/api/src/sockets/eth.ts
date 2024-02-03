@@ -1,6 +1,7 @@
 import { InfuraProvider, InfuraWebSocketProvider, ProviderEvent, TransactionReceipt, ethers } from 'ethers';
 import { WebSocket } from 'ws';
 import { EthNetwok } from '../types/address';
+import { AcceptEthTxn } from '@paybox/common';
 
 interface EthereumTransactionData {
   type: 'transaction';
@@ -85,6 +86,42 @@ export class EthTxnLogs {
     // Optionally, you can remove the WebSocket instance from an array of connected clients.
     // Example: this.connectedClients = this.connectedClients.filter(client => client !== ws);
   }
+
+  async acceptTxn({ to, amount, from }: AcceptEthTxn) {
+    try {
+      let wallet = new ethers.Wallet(from, this.httpProvider);
+
+      let transaction = {
+        to: to,
+        value: ethers.parseEther(amount.toString()) // Convert amount to wei
+      };
+      console.log(wallet)
+      // Send the transaction
+      let tx = await wallet.sendTransaction(transaction);
+
+      // Wait for the transaction to be mined
+      let receipt = await tx.wait();
+      const status = await this.httpProvider.getTransactionReceipt(tx.hash);
+      // if(status && status === "confirmed") {
+
+      // }
+      console.log(status, "statsu");
+      console.log(tx, "tsxn")
+      const txn = await this.httpProvider.getTransaction(tx.hash);
+      console.log(txn, "txn");
+      if (receipt && receipt.status === 1) {
+        console.log(`Transaction confirmed with hash: ${tx.hash}`);
+        return txn;
+      } else {
+        console.log('Transaction failed');
+        return null;
+      }
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
+
   /**
    * to check if the pending transaction confirmed or not
    * @param transactionHash 
@@ -108,22 +145,33 @@ export class EthTxnLogs {
     }
   }
 
-  async checkAddress(): Promise<boolean> {
+  async checkAddress(address: string): Promise<boolean> {
     try {
-      const account = await this.httpProvider.lookupAddress(this.address);
-      //check this
-      if(account) {
-        console.log(account);
+      const balance = BigInt(await this.httpProvider.getBalance(address));
+      const code = await this.httpProvider.getCode(address);
+      console.log(code, "code");
+      console.log(balance, "balance");
+      if (code !== '0x') {
+        console.log(`Address ${address} is a contract address`);
         return true;
       }
+
+      // Check if the address is an EOA
+      if (balance !== BigInt(0)) {
+        console.log(`Address ${address} is an externally owned address with balance`);
+        return true;
+      }
+
+      console.log(`Address ${address} does not exist on the blockchain`);
       return false;
-      
+
     } catch (error) {
       console.error('Error checking account confirmation:', error);
       return false;
     }
 
   }
+
 
 }
 

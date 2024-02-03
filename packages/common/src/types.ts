@@ -51,6 +51,12 @@ export type AcceptSolTxn = {
     to: string
 }
 
+export type AcceptEthTxn = {
+    from: string,
+    amount: number,
+    to: string
+}
+
 export type TxnSendQueryType = z.infer<typeof TxnSendQuery>;
 
 export type InsertTxnType = {
