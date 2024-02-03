@@ -10,6 +10,9 @@
     "dev": "node dist/index.js --trace-warning"
   },
   "dependencies": {
+    "@apollo/server": "^4.10.0",
+    "@paybox/common": "*",
+    "@paybox/kafka": "*",
     "@solana/spl-token": "^0.3.11",
     "@solana/web3.js": "^1.89.0",
     "@types/bcryptjs": "^2.4.6",
@@ -18,6 +21,8 @@
     "@types/morgan": "^1.9.9",
     "@types/qrcode": "^1.5.5",
     "@types/ws": "^8.5.10",
+    "apollo-server": "^3.13.0",
+    "apollo-server-express": "^3.13.0",
     "base-x": "^4.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -26,16 +31,16 @@
     "esbuild": "^0.19.11",
     "ethers": "^6.10.0",
     "express": "^4.18.2",
+    "graphql": "^16.8.1",
     "jose": "^5.2.0",
     "morgan": "^1.10.0",
     "qrcode": "^1.5.3",
     "redis": "^4.6.12",
+    "subscriptions-transport-ws": "^0.11.0",
     "web3": "^4.3.0",
     "web3-eth": "^4.3.1",
     "ws": "^8.16.0",
     "zeus": "*",
-    "@paybox/kafka": "*",
-    "@paybox/common": "*",
     "zod": "^3.22.4"
   }
 }
