@@ -15,10 +15,13 @@ import { addressRouter } from "./routes/address";
 import { extractClientId } from "./auth/middleware";
 import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
+import { expressMiddleware } from '@apollo/server/express4';
+import { createApollo } from "./resolver/server";
 
 export const app = express();
 export const server = http.createServer(app);
-const wss = new WebSocketServer({ server });
+export const wss = new WebSocketServer({ server });
+// export const apolloServer = createApollo();
 
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 export const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
@@ -54,6 +57,23 @@ app.get("/_health", (_req, res) => {
     });
 });
 
+
+
+// (async () => {
+//     await apolloServer.start();
+// })().then(_ => {
+
+//     app.use(
+//         '/graphql',
+//         cors<cors.CorsRequest>(),
+//         express.json(),
+//         expressMiddleware(apolloServer, {
+//             context: async ({ req }) => ({ token: req.headers.token }),
+//         }),
+//     );
+// });
+
+
 app.use("/client", clientRouter);
 app.use("/address", extractClientId, addressRouter);
 app.use("/qrcode", qrcodeRouter);
@@ -61,6 +81,7 @@ app.use("/txn", extractClientId, txnRouter);
 
 
 wss.on('connection', async (ws) => {
+    console.log("Ws connected");
     solTxn.connectWebSocket(ws);
     ethTxn.connectWebSocket(ws);
     ws.on('message', (message) => {
@@ -69,6 +90,7 @@ wss.on('connection', async (ws) => {
     });
 
 });
+
 
 server.listen(PORT, async () => {
     console.log(`Server listening on port: ${PORT}\n`);
