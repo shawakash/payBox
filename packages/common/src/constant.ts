@@ -62,3 +62,5 @@ export const SOLSCAN_ACCOUNT_URL = (accountId: string): string => {
 export const capitiliaze = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export const BTC_WS_URL = "wss://ws.blockchain.info/inv";
