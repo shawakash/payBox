@@ -66,8 +66,6 @@ export const publishEthTxn = async (
     cluster: EthCluster
 ): Promise<boolean> => {
     try {
-        console.log(transaction, "from producer")
-        console.log(calculateGas(transaction.gasLimit, transaction.gasPrice), "fee")
         await kafkaClient.publishOne({
             topic: "txn3",
             message: [{
