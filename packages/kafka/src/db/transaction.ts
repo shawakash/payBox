@@ -1,5 +1,5 @@
 import { Chain } from "@paybox/zeus";
-import { HASURA_ADMIN_SERCRET, HASURA_URL, InsertTxnType, JWT, TxnQuerySignType, TxnsQeuryType, dbResStatus } from "@paybox/common";
+import { HASURA_ADMIN_SERCRET, HASURA_URL, InsertTxnType, JWT, TxnQuerySignType, TxnType, TxnsQeuryType, dbResStatus } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
     headers: {
@@ -7,6 +7,7 @@ const chain = Chain(HASURA_URL, {
         'x-hasura-admin-secret': HASURA_ADMIN_SERCRET,
     },
 });
+
 
 /**
  * 
@@ -36,27 +37,31 @@ export const insertTxn = async ({
     recentBlockhash,
     signature,
     network,
-    slot
+    slot,
+    chainId,
+    cluster
 }: InsertTxnType): Promise<{
     status: dbResStatus,
     id?: unknown
 }> => {
-    console.log(clientId)
     const response = await chain("mutation")({
         insert_transactions_one: [{
             object: {
-                client_id: clientId,
+                clientId,
                 signature,
                 network,
                 slot,
                 amount,
-                block_time: blockTime,
+                blockTime,
                 fee,
                 from,
                 to,
-                pre_balances: preBalances,
-                post_balances: postBalances,
-                recent_blockhash: recentBlockhash
+                preBalances,
+                postBalances,
+                recentBlockhash,
+                chainId,
+                cluster,
+                status: "confirmed"
             }
         }, {
             id: true
@@ -83,43 +88,42 @@ export const getTxns = async ({
 }: TxnsQeuryType): Promise<{
     status: dbResStatus,
     txns?: unknown[],
-    id?: unknown
 }> => {
     const networkArray = Array.isArray(networks) ? networks : [networks]; // Ensure networks is an array
     const response = await chain("query")({
         transactions: [{
             where: {
-                client_id: { _eq: clientId },
+                clientId: { _eq: clientId },
                 _or: networkArray.map((network) => ({
                     network: { _eq: network },
                 })),
             },
-            limit: count,
+            limit: count
         }, {
             id: true,
             //@ts-ignore
             signature: true,
             amount: true,
-            block_time: true,
-            client_id: true,
+            blockTime: true,
+            clientId: true,
             fee: true,
             date: true,
             from: true,
             network: true,
             //@ts-ignore
-            post_balances: true,
+            postBalances: true,
             //@ts-ignore
-            pre_balances: true,
-            recent_blockhash: true,
+            preBalances: true,
+            recentBlockhash: true,
             slot: true,
             to: true
         }]
     }, { operationName: "getTxns" });
     if (response.transactions[0]) {
+        const txns = response.transactions as unknown as TxnType[];
         return {
             status: dbResStatus.Ok,
-            txns: response.transactions,
-            id: response.transactions[0].id
+            txns,
         }
     }
     return {
@@ -136,14 +140,14 @@ export const getTxnByHash = async ({
     network, sign, clientId
 }: TxnQuerySignType): Promise<{
     status: dbResStatus,
-    txn?: unknown,
+    txn?: TxnType,
     id?: unknown
 }> => {
     const response = await chain("query")({
         transactions: [{
             where: {
-                signature: {_contains: sign},
-                client_id: { _eq: clientId },
+                signature: { _contains: sign },
+                clientId: { _eq: clientId },
                 network: { _eq: network },
             },
         }, {
@@ -151,30 +155,78 @@ export const getTxnByHash = async ({
             //@ts-ignore
             signature: true,
             amount: true,
-            block_time: true,
-            client_id: true,
+            blockTime: true,
+            clientId: true,
             fee: true,
             date: true,
             from: true,
             network: true,
             //@ts-ignore
-            post_balances: true,
+            postBalances: true,
             //@ts-ignore
-            pre_balances: true,
-            recent_blockhash: true,
+            preBalances: true,
+            recentBlockhash: true,
             slot: true,
             to: true
         }]
     }, { operationName: "getTxnByHash" });
-    console.log(response.transactions[0]?.post_balances);
     if (response.transactions[0]) {
+        const txn = response.transactions[0] as unknown as TxnType;
         return {
             status: dbResStatus.Ok,
             id: response.transactions[0].id,
-            txn: response.transactions[0]
+            txn
         }
     }
     return {
         status: dbResStatus.Error
     }
 };
+
+/**
+ * 
+ * @param param0 
+ * @returns 
+ */
+export const getAllTxn = async ({
+    clientId
+}: {clientId: string}): Promise<{
+    status: dbResStatus,
+    txns?: unknown[],
+}> => {
+    const response = await chain("query")({
+        transactions: [{
+            where: {
+                clientId: { _eq: clientId },
+            },
+        }, {
+            id: true,
+            //@ts-ignore
+            signature: true,
+            amount: true,
+            blockTime: true,
+            clientId: true,
+            fee: true,
+            date: true,
+            from: true,
+            network: true,
+            //@ts-ignore
+            postBalances: true,
+            //@ts-ignore
+            preBalances: true,
+            recentBlockhash: true,
+            slot: true,
+            to: true
+        }]
+    }, { operationName: "getTxns" });
+    if (response.transactions[0]) {
+        const txns = response.transactions as unknown as TxnType[];
+        return {
+            status: dbResStatus.Ok,
+            txns,
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
