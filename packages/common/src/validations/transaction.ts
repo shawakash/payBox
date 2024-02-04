@@ -1,8 +1,11 @@
 import { z } from "zod";
-import { isEthereumAddress, isSolanaAddress } from "../constant";
+import { isEthereumAddress, isEthereumPrivateKey, isSolanaAddress } from "../constant";
 import { Network } from "../types";
 
 const AddressType = z.union([
+    z.string().refine(isEthereumPrivateKey, {
+        message: 'Invalid Ethereum address',
+    }),
     z.string().refine(isSolanaAddress, {
         message: 'Invalid Solana address',
     }),

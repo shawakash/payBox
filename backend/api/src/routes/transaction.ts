@@ -1,10 +1,10 @@
-import { Network, TxnQeuryByHash, TxnSendQuery, TxnType, TxnsQeury, responseStatus } from "@paybox/common";
+import { EthCluster, Network, TxnQeuryByHash, TxnSendQuery, TxnType, TxnsQeury, responseStatus } from "@paybox/common";
 import { Router } from "express";
 import { getAllTxn, getTxnByHash, getTxns, insertTxn } from "../db/transaction";
 import { cache, ethTxn, solTxn } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
-import { publishNewTxn } from "../../../../packages/kafka/src";
+import { publishEthTxn, publishSolTxn } from "../../../../packages/kafka/src";
 
 export const txnRouter = Router();
 
@@ -15,19 +15,16 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
         if (id) {
             const { from, amount, to, network } = TxnSendQuery.parse(req.query);
             if(network == Network.Eth) {
-                const instance = await ethTxn.acceptTxn({ amount, to, from });
-                if (!instance) {
+                const transaction = await ethTxn.acceptTxn({ amount, to, from });
+                if (!transaction) {
                     return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" })
                 }
-                console.log(instance, "instance");
-                // if (!meta || !blockTime) {
-                //     return res.status(400).json({ status: responseStatus.Error, msg: "Transaction failed" });
-                // }
+                
                 /**
                  * Publishing the txn payload for que based system
                  */
-                // await publishNewTxn(transaction, blockTime, meta, slot, amount, id, network);
-                return res.status(200).json({ status: responseStatus.Ok, signature: instance  })
+                await publishEthTxn(transaction, amount, id, network, EthCluster.Sepolia);
+                return res.status(200).json({ status: responseStatus.Ok, signature: transaction  })
             }
             let instance;
             if(network == Network.Sol) {
@@ -42,9 +39,9 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
                 /**
                  * Publishing the txn payload for que based system
                  */
-                await publishNewTxn(transaction, blockTime, meta, slot, amount, id, network);
+                await publishSolTxn(transaction, blockTime, meta, slot, amount, id, network);
+                return res.status(200).json({ status: responseStatus.Ok, signature: instance  })
             }
-            return res.status(200).json({ status: responseStatus.Ok, signature: instance  })
         }
     } catch (error) {
         console.log(error);

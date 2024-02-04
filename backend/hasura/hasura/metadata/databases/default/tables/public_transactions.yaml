@@ -4,4 +4,4 @@ table:
 object_relationships:
   - name: client
     using:
-      foreign_key_constraint_on: client_id
+      foreign_key_constraint_on: clientId

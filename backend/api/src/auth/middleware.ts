@@ -3,10 +3,7 @@ import { clearCookie, setJWTCookie, validateJwt } from "./util";
 import { AddressFormPartial, GetQrQuerySchema, Network, TxnSendQuery, responseStatus } from "@paybox/common";
 import { cache, ethTxn, solTxn } from "..";
 import { getAddressByClient } from "../db/qrcode";
-import { Address, eth } from "web3";
-import EthTxnLogs from "../sockets/eth";
-import { EthNetwok } from "../types/address";
-import { INFURA_PROJECT_ID } from "../config";
+import { Address } from "web3";
 
 /**
  * 

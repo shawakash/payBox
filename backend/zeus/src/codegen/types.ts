@@ -1067,19 +1067,21 @@ export type Subscription_RootTransactions_StreamArgs = {
 export type Transactions = {
   __typename?: 'transactions';
   amount: Scalars['float8']['output'];
-  block_time: Scalars['bigint']['output'];
+  blockTime: Scalars['bigint']['output'];
+  chainId?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   client: Client;
-  client_id: Scalars['uuid']['output'];
+  clientId: Scalars['uuid']['output'];
   cluster?: Maybe<Scalars['String']['output']>;
   date: Scalars['date']['output'];
   fee: Scalars['float8']['output'];
   from: Scalars['String']['output'];
+  hash?: Maybe<Scalars['String']['output']>;
   id: Scalars['uuid']['output'];
   network: Scalars['String']['output'];
-  post_balances: Scalars['jsonb']['output'];
-  pre_balances: Scalars['jsonb']['output'];
-  recent_blockhash: Scalars['String']['output'];
+  postBalances?: Maybe<Scalars['jsonb']['output']>;
+  preBalances?: Maybe<Scalars['jsonb']['output']>;
+  recentBlockhash: Scalars['String']['output'];
   signature: Scalars['jsonb']['output'];
   slot: Scalars['bigint']['output'];
   status: Scalars['String']['output'];
@@ -1088,13 +1090,13 @@ export type Transactions = {
 
 
 /** transactions table  */
-export type TransactionsPost_BalancesArgs = {
+export type TransactionsPostBalancesArgs = {
   path?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 /** transactions table  */
-export type TransactionsPre_BalancesArgs = {
+export type TransactionsPreBalancesArgs = {
   path?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1236,8 +1238,8 @@ export type Transactions_Aggregate_Order_By = {
 
 /** append existing jsonb value of filtered columns with new jsonb value */
 export type Transactions_Append_Input = {
-  post_balances?: InputMaybe<Scalars['jsonb']['input']>;
-  pre_balances?: InputMaybe<Scalars['jsonb']['input']>;
+  postBalances?: InputMaybe<Scalars['jsonb']['input']>;
+  preBalances?: InputMaybe<Scalars['jsonb']['input']>;
   signature?: InputMaybe<Scalars['jsonb']['input']>;
 };
 
@@ -1252,7 +1254,7 @@ export type Transactions_Arr_Rel_Insert_Input = {
 export type Transactions_Avg_Fields = {
   __typename?: 'transactions_avg_fields';
   amount?: Maybe<Scalars['Float']['output']>;
-  block_time?: Maybe<Scalars['Float']['output']>;
+  blockTime?: Maybe<Scalars['Float']['output']>;
   fee?: Maybe<Scalars['Float']['output']>;
   slot?: Maybe<Scalars['Float']['output']>;
 };
@@ -1260,7 +1262,7 @@ export type Transactions_Avg_Fields = {
 /** order by avg() on columns of table "transactions" */
 export type Transactions_Avg_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
 };
@@ -1271,18 +1273,20 @@ export type Transactions_Bool_Exp = {
   _not?: InputMaybe<Transactions_Bool_Exp>;
   _or?: InputMaybe<Array<Transactions_Bool_Exp>>;
   amount?: InputMaybe<Float8_Comparison_Exp>;
-  block_time?: InputMaybe<Bigint_Comparison_Exp>;
+  blockTime?: InputMaybe<Bigint_Comparison_Exp>;
+  chainId?: InputMaybe<String_Comparison_Exp>;
   client?: InputMaybe<Client_Bool_Exp>;
-  client_id?: InputMaybe<Uuid_Comparison_Exp>;
+  clientId?: InputMaybe<Uuid_Comparison_Exp>;
   cluster?: InputMaybe<String_Comparison_Exp>;
   date?: InputMaybe<Date_Comparison_Exp>;
   fee?: InputMaybe<Float8_Comparison_Exp>;
   from?: InputMaybe<String_Comparison_Exp>;
+  hash?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   network?: InputMaybe<String_Comparison_Exp>;
-  post_balances?: InputMaybe<Jsonb_Comparison_Exp>;
-  pre_balances?: InputMaybe<Jsonb_Comparison_Exp>;
-  recent_blockhash?: InputMaybe<String_Comparison_Exp>;
+  postBalances?: InputMaybe<Jsonb_Comparison_Exp>;
+  preBalances?: InputMaybe<Jsonb_Comparison_Exp>;
+  recentBlockhash?: InputMaybe<String_Comparison_Exp>;
   signature?: InputMaybe<Jsonb_Comparison_Exp>;
   slot?: InputMaybe<Bigint_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
@@ -1291,7 +1295,7 @@ export type Transactions_Bool_Exp = {
 
 /** unique or primary key constraints on table "transactions" */
 export enum Transactions_Constraint {
-  /** unique or primary key constraint on columns "block_time" */
+  /** unique or primary key constraint on columns "blockTime" */
   TransactionsBlockTimeKey = 'transactions_block_time_key',
   /** unique or primary key constraint on columns "id" */
   TransactionsPkey = 'transactions_pkey'
@@ -1299,29 +1303,29 @@ export enum Transactions_Constraint {
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Transactions_Delete_At_Path_Input = {
-  post_balances?: InputMaybe<Array<Scalars['String']['input']>>;
-  pre_balances?: InputMaybe<Array<Scalars['String']['input']>>;
+  postBalances?: InputMaybe<Array<Scalars['String']['input']>>;
+  preBalances?: InputMaybe<Array<Scalars['String']['input']>>;
   signature?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 /** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
 export type Transactions_Delete_Elem_Input = {
-  post_balances?: InputMaybe<Scalars['Int']['input']>;
-  pre_balances?: InputMaybe<Scalars['Int']['input']>;
+  postBalances?: InputMaybe<Scalars['Int']['input']>;
+  preBalances?: InputMaybe<Scalars['Int']['input']>;
   signature?: InputMaybe<Scalars['Int']['input']>;
 };
 
 /** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Transactions_Delete_Key_Input = {
-  post_balances?: InputMaybe<Scalars['String']['input']>;
-  pre_balances?: InputMaybe<Scalars['String']['input']>;
+  postBalances?: InputMaybe<Scalars['String']['input']>;
+  preBalances?: InputMaybe<Scalars['String']['input']>;
   signature?: InputMaybe<Scalars['String']['input']>;
 };
 
 /** input type for incrementing numeric columns in table "transactions" */
 export type Transactions_Inc_Input = {
   amount?: InputMaybe<Scalars['float8']['input']>;
-  block_time?: InputMaybe<Scalars['bigint']['input']>;
+  blockTime?: InputMaybe<Scalars['bigint']['input']>;
   fee?: InputMaybe<Scalars['float8']['input']>;
   slot?: InputMaybe<Scalars['bigint']['input']>;
 };
@@ -1329,18 +1333,20 @@ export type Transactions_Inc_Input = {
 /** input type for inserting data into table "transactions" */
 export type Transactions_Insert_Input = {
   amount?: InputMaybe<Scalars['float8']['input']>;
-  block_time?: InputMaybe<Scalars['bigint']['input']>;
+  blockTime?: InputMaybe<Scalars['bigint']['input']>;
+  chainId?: InputMaybe<Scalars['String']['input']>;
   client?: InputMaybe<Client_Obj_Rel_Insert_Input>;
-  client_id?: InputMaybe<Scalars['uuid']['input']>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
   cluster?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   fee?: InputMaybe<Scalars['float8']['input']>;
   from?: InputMaybe<Scalars['String']['input']>;
+  hash?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   network?: InputMaybe<Scalars['String']['input']>;
-  post_balances?: InputMaybe<Scalars['jsonb']['input']>;
-  pre_balances?: InputMaybe<Scalars['jsonb']['input']>;
-  recent_blockhash?: InputMaybe<Scalars['String']['input']>;
+  postBalances?: InputMaybe<Scalars['jsonb']['input']>;
+  preBalances?: InputMaybe<Scalars['jsonb']['input']>;
+  recentBlockhash?: InputMaybe<Scalars['String']['input']>;
   signature?: InputMaybe<Scalars['jsonb']['input']>;
   slot?: InputMaybe<Scalars['bigint']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -1351,15 +1357,17 @@ export type Transactions_Insert_Input = {
 export type Transactions_Max_Fields = {
   __typename?: 'transactions_max_fields';
   amount?: Maybe<Scalars['float8']['output']>;
-  block_time?: Maybe<Scalars['bigint']['output']>;
-  client_id?: Maybe<Scalars['uuid']['output']>;
+  blockTime?: Maybe<Scalars['bigint']['output']>;
+  chainId?: Maybe<Scalars['String']['output']>;
+  clientId?: Maybe<Scalars['uuid']['output']>;
   cluster?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['date']['output']>;
   fee?: Maybe<Scalars['float8']['output']>;
   from?: Maybe<Scalars['String']['output']>;
+  hash?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   network?: Maybe<Scalars['String']['output']>;
-  recent_blockhash?: Maybe<Scalars['String']['output']>;
+  recentBlockhash?: Maybe<Scalars['String']['output']>;
   slot?: Maybe<Scalars['bigint']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   to?: Maybe<Scalars['String']['output']>;
@@ -1368,15 +1376,17 @@ export type Transactions_Max_Fields = {
 /** order by max() on columns of table "transactions" */
 export type Transactions_Max_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
-  client_id?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
+  chainId?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
   cluster?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   from?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   network?: InputMaybe<Order_By>;
-  recent_blockhash?: InputMaybe<Order_By>;
+  recentBlockhash?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   to?: InputMaybe<Order_By>;
@@ -1386,15 +1396,17 @@ export type Transactions_Max_Order_By = {
 export type Transactions_Min_Fields = {
   __typename?: 'transactions_min_fields';
   amount?: Maybe<Scalars['float8']['output']>;
-  block_time?: Maybe<Scalars['bigint']['output']>;
-  client_id?: Maybe<Scalars['uuid']['output']>;
+  blockTime?: Maybe<Scalars['bigint']['output']>;
+  chainId?: Maybe<Scalars['String']['output']>;
+  clientId?: Maybe<Scalars['uuid']['output']>;
   cluster?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['date']['output']>;
   fee?: Maybe<Scalars['float8']['output']>;
   from?: Maybe<Scalars['String']['output']>;
+  hash?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   network?: Maybe<Scalars['String']['output']>;
-  recent_blockhash?: Maybe<Scalars['String']['output']>;
+  recentBlockhash?: Maybe<Scalars['String']['output']>;
   slot?: Maybe<Scalars['bigint']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   to?: Maybe<Scalars['String']['output']>;
@@ -1403,15 +1415,17 @@ export type Transactions_Min_Fields = {
 /** order by min() on columns of table "transactions" */
 export type Transactions_Min_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
-  client_id?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
+  chainId?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
   cluster?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   from?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   network?: InputMaybe<Order_By>;
-  recent_blockhash?: InputMaybe<Order_By>;
+  recentBlockhash?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
   to?: InputMaybe<Order_By>;
@@ -1436,18 +1450,20 @@ export type Transactions_On_Conflict = {
 /** Ordering options when selecting data from "transactions". */
 export type Transactions_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
+  chainId?: InputMaybe<Order_By>;
   client?: InputMaybe<Client_Order_By>;
-  client_id?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
   cluster?: InputMaybe<Order_By>;
   date?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   from?: InputMaybe<Order_By>;
+  hash?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   network?: InputMaybe<Order_By>;
-  post_balances?: InputMaybe<Order_By>;
-  pre_balances?: InputMaybe<Order_By>;
-  recent_blockhash?: InputMaybe<Order_By>;
+  postBalances?: InputMaybe<Order_By>;
+  preBalances?: InputMaybe<Order_By>;
+  recentBlockhash?: InputMaybe<Order_By>;
   signature?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
   status?: InputMaybe<Order_By>;
@@ -1461,8 +1477,8 @@ export type Transactions_Pk_Columns_Input = {
 
 /** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Transactions_Prepend_Input = {
-  post_balances?: InputMaybe<Scalars['jsonb']['input']>;
-  pre_balances?: InputMaybe<Scalars['jsonb']['input']>;
+  postBalances?: InputMaybe<Scalars['jsonb']['input']>;
+  preBalances?: InputMaybe<Scalars['jsonb']['input']>;
   signature?: InputMaybe<Scalars['jsonb']['input']>;
 };
 
@@ -1471,9 +1487,11 @@ export enum Transactions_Select_Column {
   /** column name */
   Amount = 'amount',
   /** column name */
-  BlockTime = 'block_time',
+  BlockTime = 'blockTime',
   /** column name */
-  ClientId = 'client_id',
+  ChainId = 'chainId',
+  /** column name */
+  ClientId = 'clientId',
   /** column name */
   Cluster = 'cluster',
   /** column name */
@@ -1483,15 +1501,17 @@ export enum Transactions_Select_Column {
   /** column name */
   From = 'from',
   /** column name */
+  Hash = 'hash',
+  /** column name */
   Id = 'id',
   /** column name */
   Network = 'network',
   /** column name */
-  PostBalances = 'post_balances',
+  PostBalances = 'postBalances',
   /** column name */
-  PreBalances = 'pre_balances',
+  PreBalances = 'preBalances',
   /** column name */
-  RecentBlockhash = 'recent_blockhash',
+  RecentBlockhash = 'recentBlockhash',
   /** column name */
   Signature = 'signature',
   /** column name */
@@ -1569,17 +1589,19 @@ export enum Transactions_Select_Column_Transactions_Aggregate_Bool_Exp_Var_Samp_
 /** input type for updating data in table "transactions" */
 export type Transactions_Set_Input = {
   amount?: InputMaybe<Scalars['float8']['input']>;
-  block_time?: InputMaybe<Scalars['bigint']['input']>;
-  client_id?: InputMaybe<Scalars['uuid']['input']>;
+  blockTime?: InputMaybe<Scalars['bigint']['input']>;
+  chainId?: InputMaybe<Scalars['String']['input']>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
   cluster?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   fee?: InputMaybe<Scalars['float8']['input']>;
   from?: InputMaybe<Scalars['String']['input']>;
+  hash?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   network?: InputMaybe<Scalars['String']['input']>;
-  post_balances?: InputMaybe<Scalars['jsonb']['input']>;
-  pre_balances?: InputMaybe<Scalars['jsonb']['input']>;
-  recent_blockhash?: InputMaybe<Scalars['String']['input']>;
+  postBalances?: InputMaybe<Scalars['jsonb']['input']>;
+  preBalances?: InputMaybe<Scalars['jsonb']['input']>;
+  recentBlockhash?: InputMaybe<Scalars['String']['input']>;
   signature?: InputMaybe<Scalars['jsonb']['input']>;
   slot?: InputMaybe<Scalars['bigint']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -1590,7 +1612,7 @@ export type Transactions_Set_Input = {
 export type Transactions_Stddev_Fields = {
   __typename?: 'transactions_stddev_fields';
   amount?: Maybe<Scalars['Float']['output']>;
-  block_time?: Maybe<Scalars['Float']['output']>;
+  blockTime?: Maybe<Scalars['Float']['output']>;
   fee?: Maybe<Scalars['Float']['output']>;
   slot?: Maybe<Scalars['Float']['output']>;
 };
@@ -1598,7 +1620,7 @@ export type Transactions_Stddev_Fields = {
 /** order by stddev() on columns of table "transactions" */
 export type Transactions_Stddev_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
 };
@@ -1607,7 +1629,7 @@ export type Transactions_Stddev_Order_By = {
 export type Transactions_Stddev_Pop_Fields = {
   __typename?: 'transactions_stddev_pop_fields';
   amount?: Maybe<Scalars['Float']['output']>;
-  block_time?: Maybe<Scalars['Float']['output']>;
+  blockTime?: Maybe<Scalars['Float']['output']>;
   fee?: Maybe<Scalars['Float']['output']>;
   slot?: Maybe<Scalars['Float']['output']>;
 };
@@ -1615,7 +1637,7 @@ export type Transactions_Stddev_Pop_Fields = {
 /** order by stddev_pop() on columns of table "transactions" */
 export type Transactions_Stddev_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
 };
@@ -1624,7 +1646,7 @@ export type Transactions_Stddev_Pop_Order_By = {
 export type Transactions_Stddev_Samp_Fields = {
   __typename?: 'transactions_stddev_samp_fields';
   amount?: Maybe<Scalars['Float']['output']>;
-  block_time?: Maybe<Scalars['Float']['output']>;
+  blockTime?: Maybe<Scalars['Float']['output']>;
   fee?: Maybe<Scalars['Float']['output']>;
   slot?: Maybe<Scalars['Float']['output']>;
 };
@@ -1632,7 +1654,7 @@ export type Transactions_Stddev_Samp_Fields = {
 /** order by stddev_samp() on columns of table "transactions" */
 export type Transactions_Stddev_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
 };
@@ -1648,17 +1670,19 @@ export type Transactions_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Transactions_Stream_Cursor_Value_Input = {
   amount?: InputMaybe<Scalars['float8']['input']>;
-  block_time?: InputMaybe<Scalars['bigint']['input']>;
-  client_id?: InputMaybe<Scalars['uuid']['input']>;
+  blockTime?: InputMaybe<Scalars['bigint']['input']>;
+  chainId?: InputMaybe<Scalars['String']['input']>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
   cluster?: InputMaybe<Scalars['String']['input']>;
   date?: InputMaybe<Scalars['date']['input']>;
   fee?: InputMaybe<Scalars['float8']['input']>;
   from?: InputMaybe<Scalars['String']['input']>;
+  hash?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   network?: InputMaybe<Scalars['String']['input']>;
-  post_balances?: InputMaybe<Scalars['jsonb']['input']>;
-  pre_balances?: InputMaybe<Scalars['jsonb']['input']>;
-  recent_blockhash?: InputMaybe<Scalars['String']['input']>;
+  postBalances?: InputMaybe<Scalars['jsonb']['input']>;
+  preBalances?: InputMaybe<Scalars['jsonb']['input']>;
+  recentBlockhash?: InputMaybe<Scalars['String']['input']>;
   signature?: InputMaybe<Scalars['jsonb']['input']>;
   slot?: InputMaybe<Scalars['bigint']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -1669,7 +1693,7 @@ export type Transactions_Stream_Cursor_Value_Input = {
 export type Transactions_Sum_Fields = {
   __typename?: 'transactions_sum_fields';
   amount?: Maybe<Scalars['float8']['output']>;
-  block_time?: Maybe<Scalars['bigint']['output']>;
+  blockTime?: Maybe<Scalars['bigint']['output']>;
   fee?: Maybe<Scalars['float8']['output']>;
   slot?: Maybe<Scalars['bigint']['output']>;
 };
@@ -1677,7 +1701,7 @@ export type Transactions_Sum_Fields = {
 /** order by sum() on columns of table "transactions" */
 export type Transactions_Sum_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
 };
@@ -1687,9 +1711,11 @@ export enum Transactions_Update_Column {
   /** column name */
   Amount = 'amount',
   /** column name */
-  BlockTime = 'block_time',
+  BlockTime = 'blockTime',
   /** column name */
-  ClientId = 'client_id',
+  ChainId = 'chainId',
+  /** column name */
+  ClientId = 'clientId',
   /** column name */
   Cluster = 'cluster',
   /** column name */
@@ -1699,15 +1725,17 @@ export enum Transactions_Update_Column {
   /** column name */
   From = 'from',
   /** column name */
+  Hash = 'hash',
+  /** column name */
   Id = 'id',
   /** column name */
   Network = 'network',
   /** column name */
-  PostBalances = 'post_balances',
+  PostBalances = 'postBalances',
   /** column name */
-  PreBalances = 'pre_balances',
+  PreBalances = 'preBalances',
   /** column name */
-  RecentBlockhash = 'recent_blockhash',
+  RecentBlockhash = 'recentBlockhash',
   /** column name */
   Signature = 'signature',
   /** column name */
@@ -1741,7 +1769,7 @@ export type Transactions_Updates = {
 export type Transactions_Var_Pop_Fields = {
   __typename?: 'transactions_var_pop_fields';
   amount?: Maybe<Scalars['Float']['output']>;
-  block_time?: Maybe<Scalars['Float']['output']>;
+  blockTime?: Maybe<Scalars['Float']['output']>;
   fee?: Maybe<Scalars['Float']['output']>;
   slot?: Maybe<Scalars['Float']['output']>;
 };
@@ -1749,7 +1777,7 @@ export type Transactions_Var_Pop_Fields = {
 /** order by var_pop() on columns of table "transactions" */
 export type Transactions_Var_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
 };
@@ -1758,7 +1786,7 @@ export type Transactions_Var_Pop_Order_By = {
 export type Transactions_Var_Samp_Fields = {
   __typename?: 'transactions_var_samp_fields';
   amount?: Maybe<Scalars['Float']['output']>;
-  block_time?: Maybe<Scalars['Float']['output']>;
+  blockTime?: Maybe<Scalars['Float']['output']>;
   fee?: Maybe<Scalars['Float']['output']>;
   slot?: Maybe<Scalars['Float']['output']>;
 };
@@ -1766,7 +1794,7 @@ export type Transactions_Var_Samp_Fields = {
 /** order by var_samp() on columns of table "transactions" */
 export type Transactions_Var_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
 };
@@ -1775,7 +1803,7 @@ export type Transactions_Var_Samp_Order_By = {
 export type Transactions_Variance_Fields = {
   __typename?: 'transactions_variance_fields';
   amount?: Maybe<Scalars['Float']['output']>;
-  block_time?: Maybe<Scalars['Float']['output']>;
+  blockTime?: Maybe<Scalars['Float']['output']>;
   fee?: Maybe<Scalars['Float']['output']>;
   slot?: Maybe<Scalars['Float']['output']>;
 };
@@ -1783,7 +1811,7 @@ export type Transactions_Variance_Fields = {
 /** order by variance() on columns of table "transactions" */
 export type Transactions_Variance_Order_By = {
   amount?: InputMaybe<Order_By>;
-  block_time?: InputMaybe<Order_By>;
+  blockTime?: InputMaybe<Order_By>;
   fee?: InputMaybe<Order_By>;
   slot?: InputMaybe<Order_By>;
 };

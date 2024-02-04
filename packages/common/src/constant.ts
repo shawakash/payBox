@@ -21,6 +21,7 @@ export const CLIENT_URL = "http://localhost:3000";
 export const SALT_ROUNDS = 10;
 export const WEB_URL = "http://localhost:3000";
 export const isEthereumAddress = (value: string): boolean => /^0x[0-9a-fA-F]{40}$/.test(value);
+export const isEthereumPrivateKey = (value: string) => /^0x[0-9a-fA-F]{64}$/.test(value);
 export const isSolanaAddress = (value: string): boolean => /^[a-zA-Z0-9]{44}$/.test(value);
 
 export const KAFKA_CLIENT_ID = "83f59a2c6bc114d2ed9be33a353fce153f8a73313be585f2ae41fcebe4c8a18b";
@@ -40,6 +41,15 @@ export const AddressSelectFramework = Object.keys(Network).map((key) => ({
   value: Network[key as keyof typeof Network],
   label: key,
 }));
+
+export enum EthCluster {
+  Mainnet = "mainnet",
+  Ropsten = "ropsten",  
+  Rinkeby = "rinkeby",
+  Goerli = "goerli",
+  Kovan = "kovan",
+  Sepolia = "sepolia",
+}
 
 export const SOLSCAN_TXN_URL = (txnId: string, cluster: Cluster): string => {
   return `https://solscan.io/tx/${txnId}?cluster=${cluster}`

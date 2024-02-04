@@ -13,7 +13,7 @@ array_relationships:
   - name: transactions
     using:
       foreign_key_constraint_on:
-        column: client_id
+        column: clientId
         table:
           name: transactions
           schema: public
