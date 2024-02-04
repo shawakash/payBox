@@ -95,20 +95,12 @@ export class EthTxnLogs {
         to: to,
         value: ethers.parseEther(amount.toString()) // Convert amount to wei
       };
-      console.log(wallet)
       // Send the transaction
       let tx = await wallet.sendTransaction(transaction);
 
       // Wait for the transaction to be mined
       let receipt = await tx.wait();
-      const status = await this.httpProvider.getTransactionReceipt(tx.hash);
-      // if(status && status === "confirmed") {
-
-      // }
-      console.log(status, "statsu");
-      console.log(tx, "tsxn")
       const txn = await this.httpProvider.getTransaction(tx.hash);
-      console.log(txn, "txn");
       if (receipt && receipt.status === 1) {
         console.log(`Transaction confirmed with hash: ${tx.hash}`);
         return txn;

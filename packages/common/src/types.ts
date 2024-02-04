@@ -2,6 +2,8 @@ import { z } from "zod";
 import { ClientSignupFormValidate, MetadataUpdateForm } from "./validations/clientValid";
 import { AddressForm, AddressFormPartial, GetQrQuerySchema, TxnQeuryByHash, TxnSendQuery, TxnsQeury } from "./validations";
 import {Message} from "@solana/web3.js";
+import { EthCluster } from "./constant";
+import { Cluster } from "@solana/web3.js";
 
 
 export enum Network {
@@ -66,12 +68,14 @@ export type InsertTxnType = {
     fee: number,
     from: string,
     to: string,
-    postBalances: number[],
-    preBalances: number[],
+    postBalances?: number[],
+    preBalances?: number[],
     recentBlockhash: string,
     signature: string[],
     network: Network,
-    slot: number
+    slot?: number,
+    chainId?: number,
+    cluster?: EthCluster | Cluster
 }
 
 export type TxnType = InsertTxnType & {
