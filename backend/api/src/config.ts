@@ -8,6 +8,9 @@ export const SOLANA_ADDRESS =
 export const ETH_ADDRESS =
   process.env.ETH_ADDRESS || "";
 
+export const BTC_ADDRESS =
+  process.env.BTC_ADDRESS || "";
+
 export const SEPOLIA_URL = 
   process.env.SEPOLIA_URL || "";
 

@@ -2,11 +2,11 @@ import express from "express";
 import bodyParser from "body-parser";
 import http from "http";
 import { WebSocketServer } from "ws";
-import { ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS } from "./config";
+import { BTC_ADDRESS, ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS } from "./config";
 import SolTxnLogs from "./sockets/sol";
 import EthTxnLogs from "./sockets/eth";
 import { EthNetwok } from "./types/address";
-import { CLIENT_URL, PORT } from "@paybox/common";
+import { BTC_WS_URL, CLIENT_URL, PORT } from "@paybox/common";
 import morgan from "morgan";
 import { Redis } from "./Redis";
 import { clientRouter } from "./routes/client";
@@ -17,6 +17,7 @@ import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
 import { expressMiddleware } from '@apollo/server/express4';
 import { createApollo } from "./resolver/server";
+import { BtcTxn } from "./sockets/btc";
 
 export const app = express();
 export const server = http.createServer(app);
@@ -25,6 +26,7 @@ export const wss = new WebSocketServer({ server });
 
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 export const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
+export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
 export const cache = Redis.getInstance();
 
 app.use(bodyParser.json());
@@ -81,9 +83,9 @@ app.use("/txn", extractClientId, txnRouter);
 
 
 wss.on('connection', async (ws) => {
-    console.log("Ws connected");
     solTxn.connectWebSocket(ws);
     ethTxn.connectWebSocket(ws);
+    btcTxn.connectWebSocket(ws);
     ws.on('message', (message) => {
         const data = message.toString();
         console.log(data);

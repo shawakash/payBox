@@ -9,10 +9,12 @@ export class BtcTxn {
     constructor(url: string, address: string) {
         this.socket = new WebSocket(url);
         this.address = address;
-        this.btcws = new WebSocket(BTC_WS_URL);
+        this.btcws = new WebSocket(BTC_WS_URL); //INCOMING SOCKET
     }
 
+    // ws OUTGOING SOCKET
     async connectWebSocket(ws: WebSocket) {
+        console.log('Connecting to BTC WebSocket...');
         this.btcws.send(JSON.stringify({ op: 'addr_sub', addr: this.address }));
 
         this.btcws.on('open', (data: any) => {
