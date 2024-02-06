@@ -102,6 +102,7 @@ paths:
                 type: object
                 properties:
                   $ref: "#/components/schemas/Error"
+    
           
   /client/providerAuth:
     post:
@@ -190,6 +191,109 @@ paths:
           description: Database Service Unavailable
         "500":
           description: Internal server error (jwt)
+          
+  /client/me:
+    get:
+      tags:
+        - Client
+      description: Client jwt check endpoint
+      operationId: checkClient
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+        # - in: header
+        #   name: Content-Type
+        #   description: The content type of the request body
+        #   required: true
+        #   schema:
+        #     type: string
+        #     enum: [application/json, application/xml]
+      responses:
+        "302":
+          description: Client Found from cache
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "404":
+          description: client not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "401":
+          description: Wrong password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+        "500":
+          description: Internal server error (jwt)
+
+  /client/{username}:
+    get:
+      tags: 
+        - Client
+      description: Client get endpoint
+      operationId: getClient
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: username
+          description: The username of the client to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "302":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReturnCreatedClient"
+        "404":
+          description: Client Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 
 components:
