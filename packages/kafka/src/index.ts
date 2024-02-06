@@ -5,6 +5,7 @@ import { insertTxn } from "./db/transaction";
 export * from "./admin";
 export * from "./consumer";
 export * from "./producer";
+export * from "./db";
 
 export const kafkaClient = new KafkaInstance();
 

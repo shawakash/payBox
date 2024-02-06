@@ -1,0 +1,520 @@
+openapi: 3.0.0
+
+info:
+  title: PayBox
+  version: 1.0.0
+  description: The Api collection for PayBox
+  license:
+    name: MIT license
+    url: https://github.com/shawakash/payBox/blob/dev/LICENSE.md
+
+servers:
+  - url: http://localhost:8080
+    description: Development server
+
+tags:
+  - name: Miscellaneous
+    description: Misc API
+  - name: Client
+    description: Client Crud API
+  - name: Transaction
+    description: Transactions API
+  - name: Address
+    description: Address Crud API
+  - name: Qrcode
+    description: Qrcode create API
+
+paths:
+  /_health:
+    get:
+      tags:
+        - Miscellaneous
+      description: healthcheck endpoint
+      operationId: getHealthCheck
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    $ref: "#/components/schemas/HeathCheck"
+
+  /:
+    get:
+      tags:
+        - Miscellaneous
+      description: homepage endpoint
+      operationId: getHealthCheck
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    $ref: "#/components/schemas/HeathCheck"
+
+  /client/:
+    post:
+      tags:
+        - Client
+      description: Client creation endpoint
+      operationId: createClient
+      requestBody:
+        description: Client object that needs to be added
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClient"
+      responses:
+        "200":
+          description: created client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "409":
+          description: Client already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+    
+          
+  /client/providerAuth:
+    post:
+      tags:
+        - Client
+      description: Client creation or login endpoint for credentials from provider
+      operationId: createClient
+      requestBody:
+        description: Client object that needs to be added
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClient"
+      responses:
+        "200":
+          description: created client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "302":
+          description: Client Found from cache
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+          
+  /client/login:
+    post:
+      tags:
+        - Client
+      description: Client login endpoint
+      operationId: loginClient
+      requestBody:
+        description: Login Data for client
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginClient"
+      responses:
+        "302":
+          description: Client Found from cache
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "404":
+          description: client not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "401":
+          description: Wrong password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+        "500":
+          description: Internal server error (jwt)
+          
+  /client/me:
+    get:
+      tags:
+        - Client
+      description: Client jwt check endpoint
+      operationId: checkClient
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+        # - in: header
+        #   name: Content-Type
+        #   description: The content type of the request body
+        #   required: true
+        #   schema:
+        #     type: string
+        #     enum: [application/json, application/xml]
+      responses:
+        "302":
+          description: Client Found from cache
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "404":
+          description: client not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "401":
+          description: Wrong password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+        "500":
+          description: Internal server error (jwt)
+
+  /client/{username}:
+    get:
+      tags: 
+        - Client
+      description: Client get endpoint
+      operationId: getClient
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: username
+          description: The username of the client to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        "302":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReturnCreatedClient"
+        "404":
+          description: Client Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /client/updateMetadata:
+    patch:
+      tags: 
+        - Client
+      description: Client metadata update endpoint
+      operationId: updateMetadata
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Client firstname lastname that needs to be updated
+        content:
+          application/json:
+            schema:
+              type: object
+              propterties:
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  msg:
+                    type: string
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /client/delete:
+    delete:
+      tags: 
+        - Client
+      description: Client delete endpoint
+      operationId: deleteClient
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  msg:
+                    type: string
+                    const: client deleted
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+components:
+  schemas:
+    HeathCheck:
+      type: object
+      properties:
+        uptime:
+          type: number
+        message:
+          type: string
+        timestamp:
+          type: integer
+          format: int64
+
+    ReturnCreatedClient:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: string
+            - type: null
+        jwt:
+          type: string
+        status:
+          type: string
+          enum:
+            - ok
+            - error
+        username:
+          type: string
+        email:
+          type: string
+        mobile:
+          oneOf:
+            - type: number
+            - type: null
+        firstname:
+          oneOf:
+            - type: string
+            - type: null
+        lastname:
+          oneOf:
+            - type: string
+            - type: null
+        password:
+          type: string
+        address:
+          oneOf: 
+            - type: object
+            - type: null
+          properties:
+            eth:
+              oneOf:
+                - type: null
+                - type: string
+            sol:
+              oneOf:
+                - type: null
+                - type: string
+            bitcoin:
+              oneOf:
+                - type: null
+                - type: string
+            usdc:
+              oneOf:
+                - type: null
+                - type: string
+
+    CreateClient:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        mobile:
+          oneOf:
+            - type: number
+            - type: null
+        firstname:
+          oneOf:
+            - type: string
+            - type: null
+        lastname:
+          oneOf:
+            - type: string
+            - type: null
+        password:
+          type: string
+
+    LoginClient:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          const: error
+        msg:
+          type: string
+

@@ -18,6 +18,8 @@ import { txnRouter } from "./routes/transaction";
 import { expressMiddleware } from '@apollo/server/express4';
 import { createApollo } from "./resolver/server";
 import { BtcTxn } from "./sockets/btc";
+import { swaggerSpec, swaggerYaml } from "@paybox/openapi";
+import swaggerUi, { JsonObject } from 'swagger-ui-express';
 
 export const app = express();
 export const server = http.createServer(app);
@@ -28,6 +30,7 @@ export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 export const ethTxn = new EthTxnLogs(EthNetwok.sepolia, INFURA_PROJECT_ID, ETH_ADDRESS);
 export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
 export const cache = Redis.getInstance();
+
 
 app.use(bodyParser.json());
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
@@ -40,6 +43,7 @@ const corsOptions = {
     allowedHeaders: 'Content-Type, Authorization', // specify allowed headers
 };
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerYaml as JsonObject));
 app.use(cors(corsOptions));
 
 

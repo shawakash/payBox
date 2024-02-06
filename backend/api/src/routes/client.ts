@@ -205,7 +205,7 @@ clientRouter.post("/login", async (req, res) => {
         if (query.client[0].id) {
             jwt = await setJWTCookie(req, res, query.client[0].id as string);
         } else {
-            return res.status(500).json({ msg: "Error creating user account", status: responseStatus.Error });
+            return res.status(500).json({ msg: "Error creating jwt", status: responseStatus.Error });
         }
         return res.status(200).json({ ...query.client[0], jwt, status: responseStatus.Ok });
 
