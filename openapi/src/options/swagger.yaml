@@ -65,6 +65,29 @@ paths:
                 properties:
                     $ref: "#/components/schemas/HeathCheck"
 
+  /client/:
+    post:
+      tags:
+        - Client
+      description: Client creation endpoint
+      operationId: createClient
+      requestBody:
+        description: Client object that needs to be added
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClient"
+      responses:
+        "200":
+          description: updated SMTP test settings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: boolean
+
 components:
   schemas:
     HeathCheck:
@@ -77,3 +100,57 @@ components:
         timestamp:
           type: integer
           format: int64
+
+    CreateClient:
+      type: object
+      properties:
+        id:
+          oneOf:
+            - type: string
+            - type: null
+        jwt:
+          type: string
+        status:
+          type: string
+          enum:
+            - ok
+            - error
+        username:
+          type: string
+        email:
+          type: string
+        mobile:
+          oneOf:
+            - type: number
+            - type: null
+        firstname:
+          oneOf:
+            - type: string
+            - type: null
+        lastname:
+          oneOf:
+            - type: string
+            - type: null
+        password:
+          type: string
+        address:
+          oneOf: 
+            - type: object
+            - type: null
+          properties:
+            eth:
+              oneOf:
+                - type: null
+                - type: string
+            sol:
+              oneOf:
+                - type: null
+                - type: string
+            bitcoin:
+              oneOf:
+                - type: null
+                - type: string
+            usdc:
+              oneOf:
+                - type: null
+                - type: string
