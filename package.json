@@ -31,7 +31,8 @@
   "workspaces": [
     "apps/*",
     "packages/*",
-    "backend/*"
+    "backend/*",
+    "openapi/*"
   ],
   "dependencies": {
     "anchor": "^1.4.1",
