@@ -11,6 +11,7 @@ info:
 servers:
   - url: http://localhost:8080
     description: Development server
+
 paths:
   /_health:
     get:
@@ -18,3 +19,61 @@ paths:
       responses:
         '200':
           description: A successful response
+
+tags:
+  - name: Miscellaneous
+    description: Misc API
+  - name: Client
+    description: Client Crud API
+  - name: Transaction
+    description: Transactions API
+  - name: Address
+    description: Address Crud API
+  - name: Qrcode
+    description: Qrcode create API
+
+paths:
+  /_health:
+    get:
+      tags:
+        - Miscellaneous
+      description: healthcheck endpoint
+      operationId: getHealthCheck
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    $ref: "#/components/schemas/HeathCheck"
+
+  /:
+    get:
+      tags:
+        - Miscellaneous
+      description: homepage endpoint
+      operationId: getHealthCheck
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    $ref: "#/components/schemas/HeathCheck"
+
+components:
+  schemas:
+    HeathCheck:
+      type: object
+      properties:
+        uptime:
+          type: number
+        message:
+          type: string
+        timestamp:
+          type: integer
+          format: int64
