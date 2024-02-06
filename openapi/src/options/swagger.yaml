@@ -12,14 +12,6 @@ servers:
   - url: http://localhost:8080
     description: Development server
 
-paths:
-  /_health:
-    get:
-      description: Health checkpoint
-      responses:
-        '200':
-          description: A successful response
-
 tags:
   - name: Miscellaneous
     description: Misc API
@@ -79,14 +71,126 @@ paths:
               $ref: "#/components/schemas/CreateClient"
       responses:
         "200":
-          description: updated SMTP test settings
+          description: created client
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: boolean
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "409":
+          description: Client already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+          
+  /client/providerAuth:
+    post:
+      tags:
+        - Client
+      description: Client creation or login endpoint for credentials from provider
+      operationId: createClient
+      requestBody:
+        description: Client object that needs to be added
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClient"
+      responses:
+        "200":
+          description: created client
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "302":
+          description: Client Found from cache
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+          
+  /client/login:
+    post:
+      tags:
+        - Client
+      description: Client login endpoint
+      operationId: loginClient
+      requestBody:
+        description: Login Data for client
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginClient"
+      responses:
+        "302":
+          description: Client Found from cache
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/ReturnCreatedClient"
+        "404":
+          description: client not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "401":
+          description: Wrong password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+        "500":
+          description: Internal server error (jwt)
+
 
 components:
   schemas:
@@ -101,7 +205,7 @@ components:
           type: integer
           format: int64
 
-    CreateClient:
+    ReturnCreatedClient:
       type: object
       properties:
         id:
@@ -154,3 +258,45 @@ components:
               oneOf:
                 - type: null
                 - type: string
+
+    CreateClient:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        mobile:
+          oneOf:
+            - type: number
+            - type: null
+        firstname:
+          oneOf:
+            - type: string
+            - type: null
+        lastname:
+          oneOf:
+            - type: string
+            - type: null
+        password:
+          type: string
+
+    LoginClient:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+            - error
+        message:
+          type: string
+
