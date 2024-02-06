@@ -308,7 +308,7 @@ paths:
       tags: 
         - Client
       description: Client metadata update endpoint
-      operationId: getClient
+      operationId: updateMetadata
       parameters:
         - in: header
           name: Authorization
@@ -340,6 +340,56 @@ paths:
                     type: string
                   msg:
                     type: string
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /client/delete:
+    delete:
+      tags: 
+        - Client
+      description: Client delete endpoint
+      operationId: deleteClient
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  msg:
+                    type: string
+                    const: client deleted
         "403":
           description: Auth Error
           content:
@@ -464,8 +514,7 @@ components:
       properties:
         status:
           type: string
-          enum:
-            - error
+          const: error
         msg:
           type: string
 
