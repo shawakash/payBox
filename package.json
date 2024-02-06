@@ -32,7 +32,7 @@
     "apps/*",
     "packages/*",
     "backend/*",
-    "openapi/*"
+    "openapi"
   ],
   "dependencies": {
     "anchor": "^1.4.1",

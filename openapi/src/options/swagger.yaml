@@ -1,0 +1,20 @@
+openapi: 3.0.0
+
+info:
+  title: PayBox
+  version: 1.0.0
+  description: The Api collection for PayBox
+  license:
+    name: MIT license
+    url: https://github.com/shawakash/payBox/blob/dev/LICENSE.md
+
+servers:
+  - url: http://localhost:8080
+    description: Development server
+paths:
+  /_health:
+    get:
+      description: Health checkpoint
+      responses:
+        '200':
+          description: A successful response
