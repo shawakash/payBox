@@ -322,11 +322,14 @@ paths:
           application/json:
             schema:
               type: object
-              propterties:
+              properties:
                 firstname:
                   type: string
                 lastname:
                   type: string
+              required:
+                - firstname
+                - lastname
 
       responses:
         "200":
@@ -500,6 +503,10 @@ components:
             - type: null
         password:
           type: string
+      required:
+        - username
+        - email
+        - password
 
     LoginClient:
       type: object

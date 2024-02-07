@@ -18,6 +18,7 @@ import { txnRouter } from "./routes/transaction";
 import { expressMiddleware } from '@apollo/server/express4';
 import { createApollo } from "./resolver/server";
 import { BtcTxn } from "./sockets/btc";
+import path from 'path';
 import { swaggerSpec, swaggerYaml } from "@paybox/openapi";
 import swaggerUi, { JsonObject } from 'swagger-ui-express';
 
@@ -44,6 +45,7 @@ const corsOptions = {
 };
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerYaml as JsonObject));
+// app.use('/api-docs', express.static(path.join(__dirname, 'node_modules/swagger-ui-dist')));
 app.use(cors(corsOptions));
 
 
