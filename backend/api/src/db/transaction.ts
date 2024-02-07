@@ -188,7 +188,7 @@ export const getAllTxn = async ({
     clientId
 }: {clientId: string}): Promise<{
     status: dbResStatus,
-    txns?: unknown[],
+    txns?: TxnType[],
 }> => {
     const response = await chain("query")({
         transactions: [{
