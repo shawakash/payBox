@@ -677,6 +677,60 @@ paths:
                 schema:
                   $ref: "#/components/schemas/Error"
 
+    /address/:
+      post:
+        tags:
+          - Address
+        description: Address creation endpoint
+        operationId: createAddress
+        parameters:
+          - in: header
+            name: Authorization
+            description: Access token for authentication
+            required: true
+            schema:
+              type: string
+        requestBody:
+          description: Address object that needs to be added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddressCreate"
+        responses:
+          "200":
+            description: created address
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      const: ok
+                    id:
+                      type: string
+                    
+          "409":
+            description: Address already exists
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+          "503":
+            description: Database Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "500":
+            description: Internal server error (jwt)
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+
 components:
   schemas:
     HealthCheck:
@@ -1064,4 +1118,20 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/TxnType"
+
+    AddressCreate:
+      type: object
+      properties:
+        eth:
+          type: string
+          pattern: "^0x[0-9a-fA-F]{40}$"  
+        sol:
+          type: string
+          pattern: "^[0-9a-zA-Z]{32}$"   
+        bitcoin:
+          type: string
+          nullable: true                  
+        usdc:
+          type: string
+          nullable: true                  
 
