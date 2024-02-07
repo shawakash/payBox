@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response as ExResponse, Request as ExRequest } from "express";
 import bodyParser from "body-parser";
 import http from "http";
 import { WebSocketServer } from "ws";
@@ -44,7 +44,12 @@ const corsOptions = {
     allowedHeaders: 'Content-Type, Authorization', // specify allowed headers
 };
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerYaml as JsonObject));
+app.use("/docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
+    return res.send(
+      swaggerUi.generateHTML(await import("./openapi.json"))
+    );
+  });
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerYaml));
 // app.use('/api-docs', express.static(path.join(__dirname, 'node_modules/swagger-ui-dist')));
 app.use(cors(corsOptions));
 

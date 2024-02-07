@@ -7,16 +7,18 @@
   "license": "MIT",
   "scripts": {
     "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js & cp ./src/options/swagger.yaml ./dist/swagger.yaml & cp ./src/options/swagger.yaml ../backend/api/dist/swagger.yaml",
-    "dev": "node dist/index.js --trace-warning"
+    "dev": "node dist/index.js --trace-warning",
+    "gen": "npx openapi-typescript-codegen -i openapi.json -o ./src/spec-client -c fetch"
   },
   "dependencies": {
+    "@paybox/kafka": "*",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "helpful-decorators": "^2.1.0",
     "js-yaml": "^4.1.0",
+    "openapi-typescript-codegen": "^0.27.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "tsoa": "^6.0.1",
-    "@paybox/kafka": "*"
+    "tsoa": "^6.0.1"
   }
 }

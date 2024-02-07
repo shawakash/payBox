@@ -39,7 +39,7 @@ paths:
               schema:
                 type: object
                 properties:
-                    $ref: "#/components/schemas/HeathCheck"
+                    $ref: "#/components/schemas/HealthCheck"
 
   /:
     get:
@@ -55,7 +55,7 @@ paths:
               schema:
                 type: object
                 properties:
-                    $ref: "#/components/schemas/HeathCheck"
+                    $ref: "#/components/schemas/HealthCheck"
 
   /client/:
     post:
@@ -432,8 +432,8 @@ paths:
             required: true
             description: The Transaction query object
             schema:
-              $ref: "#/components/schemas/TransactionQuery"
-              
+              $ref: "#/components/schemas/TransactionSendQuery"
+
         requestBody:
           description: Transaction object that needs to be added
           content:
@@ -500,9 +500,74 @@ paths:
                 schema:
                   $ref: "#/components/schemas/Error"
 
+      /txn/get:
+        get:
+          tags: 
+            - Transaction
+          description: Transaction get by hash endpoint
+          operationId: getTxn
+          parameters:
+            - in: header
+              name: Authorization
+              description: Access token for authentication
+              required: true
+              schema:
+                type: string
+            - in: query
+              required: true
+              description: The Get Transaction query object
+              schema:
+                $ref: "#/components/schemas/TxnGetQueryByHash"
+          responses:
+            "302":
+              description: Get the transaction from cache
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      $ref: "#/components/schemas/TxnGetResponseByHash"      
+            "200":
+              description: Get the transaction from database
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      $ref: "#/components/schemas/TxnGetResponseByHash"
+                      
+            "404":
+              description: Transaction Not Found
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      $ref: "#/components/schemas/Error"
+            "403":
+              description: Auth Error
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      $ref: "#/components/schemas/Error"
+            "503":
+              description: Database Service Unavailable
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Error"
+            "500":
+              description: Internal server error (jwt)
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/schemas/Error"
+
 components:
   schemas:
-    HeathCheck:
+    HealthCheck:
       type: object
       properties:
         uptime:
@@ -791,7 +856,7 @@ components:
         - type: string
           pattern: "^[1-9a-zA-Z]{32}$"     # Solana address pattern
 
-    TransactionQuery:
+    TransactionSendQuery:
       type: object
       properties:
         from:
@@ -804,3 +869,81 @@ components:
         network:
           $ref: "#/components/schemas/Network"
 
+    TxnGetQueryByHash:
+      type: object
+      properties:
+        network:
+          network:
+          $ref: "#/components/schemas/Network"
+        sign:
+          type: string
+
+    TxnGetResponseByHash:
+      type: object
+      properties:
+        status:
+          type: string
+          const: ok
+        txn:
+          $ref: "#/components/schemas/TxnType"
+
+    TxnType:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+        clientId:
+          type: string
+        blockTime:
+          type: number
+        amount:
+          type: number
+        fee:
+          type: number
+        from:
+          type: string
+        to:
+          type: string
+        postBalances:
+          type: array
+          items:
+            type: number
+        preBalances:
+          type: array
+          items:
+            type: number
+        recentBlockhash:
+          type: string
+        signature:
+          type: array
+          items:
+            type: string
+        network:
+          $ref: "#/components/schemas/Network"
+        slot:
+          type: number
+        chainId:
+          type: number
+        cluster:
+          oneOf:
+            - $ref: "#/components/schemas/EthCluster"
+            - $ref: "#/components/schemas/Cluster"
+
+    EthCluster:
+      type: string
+      enum:
+        - mainnet
+        - ropsten
+        - rinkeby
+        - goerli
+        - kovan
+        - sepolia
+
+    Cluster:
+      type: string
+      enum:
+        - devnet
+        - testnet
+        - mainnet-beta

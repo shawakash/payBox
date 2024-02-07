@@ -36,6 +36,7 @@
   ],
   "dependencies": {
     "anchor": "^1.4.1",
-    "esbuild": "^0.19.11"
+    "esbuild": "^0.19.11",
+    "openapi-typescript-codegen": "^0.27.0"
   }
 }
