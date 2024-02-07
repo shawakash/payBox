@@ -695,7 +695,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AddressCreate"
+                $ref: "#/components/schemas/AddressType"
         responses:
           "200":
             description: created address
@@ -709,9 +709,144 @@ paths:
                       const: ok
                     id:
                       type: string
-                    
+          
+          "403":
+            description: Address validation error response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+          
+          "400":
+            description: Incomplete request object
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+
           "409":
             description: Address already exists
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+          "503":
+            description: Database Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "500":
+            description: Internal server error (jwt)
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+
+    /address/:
+      get:
+        tags: 
+          - Address
+        description: Address get endpoint
+        operationId: getAddress
+        parameters:
+          - in: header
+            name: Authorization
+            description: Access token for authentication
+            required: true
+            schema:
+              type: string
+              
+        responses:
+          "302":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                        type: string
+                        const: ok
+                    address:
+                      $ref: "#/components/schemas/AddressType"
+          "404":
+            description: Address Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+          "403":
+            description: Auth Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+          "503":
+            description: Database Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "500":
+            description: Internal server error (jwt)
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+
+    /address/update:
+      patch:
+        tags: 
+          - Address
+        description: Address update endpoint
+        operationId: updateAddress
+        parameters:
+          - in: header
+            name: Authorization
+            description: Access token for authentication
+            required: true
+            schema:
+              type: string
+        requestBody:
+          description: Address object that needs to be updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddressType"
+        responses:
+          "200":
+            description: address updated
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      const: ok
+                    id:
+                      type: string
+          "409":
+            description: Address already exists
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+          "403":
+            description: Auth Error
             content:
               application/json:
                 schema:
@@ -1119,7 +1254,7 @@ components:
       items:
         $ref: "#/components/schemas/TxnType"
 
-    AddressCreate:
+    AddressType:
       type: object
       properties:
         eth:
