@@ -21,6 +21,9 @@ addressRouter.post("/", checkAddress, async (req, res) => {
                 if(isInDb.status == dbResStatus.Error) {
                     return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
                 }
+                if(isInDb.address?.length) {
+                    return res.status(409).json({ msg: "address already exist", status: responseStatus.Error })
+                }
                 const mutateAddress = await createAddress(eth, sol, id, bitcoin, usdc);
                 if (mutateAddress.status == dbResStatus.Error) {
                     return res.status(503).json({ msg: "Database Error", status: responseStatus.Error });
@@ -112,8 +115,6 @@ addressRouter.patch("/update", checkAddress, async (req, res) => {
             return res.status(200).json({ id: mutateAddress.id, status: responseStatus.Ok });
 
         }
-        //@ts-ignore
-        return res.status(302).json({ ...query.client[0], status: responseStatus.Ok, jwt: req.jwt });
 
     } catch (error) {
         console.log(error);
