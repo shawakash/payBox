@@ -500,182 +500,182 @@ paths:
                 schema:
                   $ref: "#/components/schemas/Error"
 
-      /txn/get:
-        get:
-          tags: 
-            - Transaction
-          description: Transaction get by hash endpoint
-          operationId: getTxn
-          parameters:
-            - in: header
-              name: Authorization
-              description: Access token for authentication
-              required: true
-              schema:
-                type: string
-            - in: query
-              required: true
-              description: The Get Transaction query object
-              schema:
-                $ref: "#/components/schemas/TxnGetQueryByHash"
-          responses:
-            "302":
-              description: Get the transaction from cache
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      $ref: "#/components/schemas/TxnGetResponseByHash"      
-            "200":
-              description: Transaction from database
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      $ref: "#/components/schemas/TxnGetResponseByHash"
-                      
-            "404":
-              description: Transaction Not Found
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      $ref: "#/components/schemas/Error"
-            "403":
-              description: Auth Error
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      $ref: "#/components/schemas/Error"
-            "503":
-              description: Database Service Unavailable
-              content:
-                application/json:
-                  schema:
+    /txn/get:
+      get:
+        tags: 
+          - Transaction
+        description: Transaction get by hash endpoint
+        operationId: getTxn
+        parameters:
+          - in: header
+            name: Authorization
+            description: Access token for authentication
+            required: true
+            schema:
+              type: string
+          - in: query
+            required: true
+            description: The Get Transaction query object
+            schema:
+              $ref: "#/components/schemas/TxnGetQueryByHash"
+        responses:
+          "302":
+            description: Get the transaction from cache
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/TxnGetResponseByHash"      
+          "200":
+            description: Transaction from database
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/TxnGetResponseByHash"
+                    
+          "404":
+            description: Transaction Not Found
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
                     $ref: "#/components/schemas/Error"
-            "500":
-              description: Internal server error (jwt)
-              content:
-                application/json:
-                  schema:
+          "403":
+            description: Auth Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
                     $ref: "#/components/schemas/Error"
+          "503":
+            description: Database Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "500":
+            description: Internal server error (jwt)
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
 
-      /txn/getMany:
-        get:
-          tags: 
-            - Transaction
-          description: Get Transactions based on networks and count endpoint
-          operationId: getMany
-          parameters:
-            - in: header
-              name: Authorization
-              description: Access token for authentication
-              required: true
-              schema:
-                type: string
-            - in: query
-              required: true
-              description: Network/s and counts Transaction query object
-              schema:
-                type: object
-                properties:
-                  networks:
-                    oneOf:
-                      - $ref: "#/components/schemas/Network"
-                      - type: array
-                        items:
-                          $ref: "#/components/schemas/Network"
-                  count:
-                    type: integer
-                    description: Count representing the number of transactions required
+    /txn/getMany:
+      get:
+        tags: 
+          - Transaction
+        description: Get Transactions based on networks and count endpoint
+        operationId: getMany
+        parameters:
+          - in: header
+            name: Authorization
+            description: Access token for authentication
+            required: true
+            schema:
+              type: string
+          - in: query
+            required: true
+            description: Network/s and counts Transaction query object
+            schema:
+              type: object
+              properties:
+                networks:
+                  oneOf:
+                    - $ref: "#/components/schemas/Network"
+                    - type: array
+                      items:
+                        $ref: "#/components/schemas/Network"
+                count:
+                  type: integer
+                  description: Count representing the number of transactions required
 
-          responses:
-            "200":
-              description: Some client transaction response
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      status:
-                        type: string
-                        const: ok
-                      txns:
-                        $ref: "#/components/schemas/TxnArray"
+        responses:
+          "200":
+            description: Some client transaction response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      const: ok
+                    txns:
+                      $ref: "#/components/schemas/TxnArray"
 
-            "403":
-              description: Auth Error
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      $ref: "#/components/schemas/Error"
-            "503":
-              description: Database Service Unavailable
-              content:
-                application/json:
-                  schema:
+          "403":
+            description: Auth Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
                     $ref: "#/components/schemas/Error"
-            "500":
-              description: Internal server error (jwt)
-              content:
-                application/json:
-                  schema:
-                    $ref: "#/components/schemas/Error"
+          "503":
+            description: Database Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "500":
+            description: Internal server error (jwt)
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
 
-      /txn/getAll:
-        get:
-          tags: 
-            - Transaction
-          description: Get all Transaction for client endpoint
-          operationId: getAllTxn
-          parameters:
-            - in: header
-              name: Authorization
-              description: Access token for authentication
-              required: true
-              schema:
-                type: string
-          responses:
-            "200":
-              description: Get all the client transaction response
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      status:
-                        type: string
-                        const: ok
-                      txns:
-                        $ref: "#/components/schemas/TxnArray"
+    /txn/getAll:
+      get:
+        tags: 
+          - Transaction
+        description: Get all Transaction for client endpoint
+        operationId: getAllTxn
+        parameters:
+          - in: header
+            name: Authorization
+            description: Access token for authentication
+            required: true
+            schema:
+              type: string
+        responses:
+          "200":
+            description: Get all the client transaction response
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      const: ok
+                    txns:
+                      $ref: "#/components/schemas/TxnArray"
 
-            "403":
-              description: Auth Error
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      $ref: "#/components/schemas/Error"
-            "503":
-              description: Database Service Unavailable
-              content:
-                application/json:
-                  schema:
+          "403":
+            description: Auth Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
                     $ref: "#/components/schemas/Error"
-            "500":
-              description: Internal server error (jwt)
-              content:
-                application/json:
-                  schema:
-                    $ref: "#/components/schemas/Error"
+          "503":
+            description: Database Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "500":
+            description: Internal server error (jwt)
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
 
 components:
   schemas:
