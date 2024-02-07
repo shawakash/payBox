@@ -414,6 +414,91 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
+    /txn/send:
+      post:
+        tags:
+          - Transaction
+        description: Transaction send endpoint
+        operationId: sendTxn
+        parameters:
+          - in: header
+            name: Authorization
+            description: Access token for authentication
+            required: true
+            schema:
+              type: string
+
+          - in: query
+            required: true
+            description: The Transaction query object
+            schema:
+              $ref: "#/components/schemas/TransactionQuery"
+              
+        requestBody:
+          description: Transaction object that needs to be added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  to:
+                    type: string
+                  amount:
+                    type: number
+                  currency:
+                    type: string
+                  note:
+                    type: string
+                required:
+                  - to
+                  - amount
+                  - currency
+        responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      const: ok
+                    signature:
+                      signature:
+                        oneOf:
+                          - $ref: "#/components/schemas/SolTransactionData"
+                          - $ref: "#/components/schemas/EthTxnResponse"
+                          
+
+          "403":
+            description: Auth Error or Address validation error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+          "400":
+            description: Transaction failed error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    $ref: "#/components/schemas/Error"
+          "503":
+            description: Database Service Unavailable
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "500":
+            description: Internal server error (jwt)
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
 
 components:
   schemas:
@@ -524,4 +609,198 @@ components:
           const: error
         msg:
           type: string
+
+    SolTransactionData:
+      type: object
+      properties:
+        blockTime:
+          type: integer
+          description: Time at which the block was created
+        meta:
+          type: object
+          description: Metadata related to the transaction
+          properties:
+            computeUnitsConsumed:
+              type: integer
+              description: Number of compute units consumed
+            fee:
+              type: integer
+              description: Transaction fee
+            logMessages:
+              type: array
+              description: Log messages related to the transaction
+              items:
+                type: string
+            postBalances:
+              type: array
+              description: Balances after the transaction
+              items:
+                type: integer
+            preBalances:
+              type: array
+              description: Balances before the transaction
+              items:
+                type: integer
+            status:
+              type: object
+              description: Status of the transaction
+              properties:
+                Ok:
+                  type: null
+        slot:
+          type: integer
+          description: Slot number of the transaction
+        transaction:
+          type: object
+          description: Transaction details
+          properties:
+            message:
+              type: object
+              description: Message details of the transaction
+              properties:
+                header:
+                  type: object
+                  description: Header of the transaction message
+                  properties:
+                    numReadonlySignedAccounts:
+                      type: integer
+                      description: Number of readonly signed accounts
+                    numReadonlyUnsignedAccounts:
+                      type: integer
+                      description: Number of readonly unsigned accounts
+                    numRequiredSignatures:
+                      type: integer
+                      description: Number of required signatures
+                accountKeys:
+                  type: array
+                  description: Account keys involved in the transaction
+                  items:
+                    type: string
+                recentBlockhash:
+                  type: string
+                  description: Recent blockhash used in the transaction
+                instructions:
+                  type: array
+                  description: Instructions for the transaction
+                  items:
+                    type: object
+                    properties:
+                      accounts:
+                        type: array
+                        description: Accounts involved in the instruction
+                        items:
+                          type: integer
+                      data:
+                        type: string
+                        description: Data for the instruction
+                      programIdIndex:
+                        type: integer
+                        description: Index of the program ID
+            signatures:
+              type: array
+              description: Signatures of the transaction
+              items:
+                type: string
+
+    EthTxnResponse:
+      type: object
+      properties:
+        _type:
+          type: string
+          description: Type of the transaction receipt
+        accessList:
+          type: array
+          items: {}
+          description: List of access lists
+        blockNumber:
+          type: integer
+          description: The block number
+        blockHash:
+          type: string
+          description: The block hash
+        chainId:
+          type: string
+          description: The chain ID
+        data:
+          type: string
+          description: The transaction data
+        from:
+          type: string
+          description: The sender address
+        gasLimit:
+          type: string
+          description: The gas limit
+        gasPrice:
+          type: string
+          description: The gas price
+        hash:
+          type: string
+          description: The transaction hash
+        maxFeePerGas:
+          type: string
+          description: The maximum fee per gas
+        maxPriorityFeePerGas:
+          type: string
+          description: The maximum priority fee per gas
+        nonce:
+          type: integer
+          description: The nonce
+        signature:
+          type: object
+          properties:
+            _type:
+              type: string
+              description: Type of the signature
+            networkV:
+              type: null
+              description: Network version
+            r:
+              type: string
+              description: The R value of the signature
+            s:
+              type: string
+              description: The S value of the signature
+            v:
+              type: integer
+              description: The V value of the signature
+          description: The transaction signature
+        to:
+          type: string
+          description: The recipient address
+        type:
+          type: integer
+          description: The transaction type
+        value:
+          type: string
+          description: The transaction value
+
+    Network:
+      type: string
+      enum:
+        - sol
+        - eth
+        - bitcoin
+        - usdc
+
+    AddressType:
+      oneOf:
+        - type: string
+          pattern: "^0x[0-9a-fA-F]{40}$"  # Ethereum address pattern
+        - type: string
+          pattern: "^[0-9a-fA-F]{62}$"     # Private key pattern
+        - type: string
+          pattern: "^[1-9a-zA-Z]{32}$"     # Solana address pattern
+
+    TransactionQuery:
+      type: object
+      properties:
+        from:
+          $ref: "#/components/schemas/AddressType"
+        to:
+          $ref: "#/components/schemas/AddressType"
+        amount:
+          type: string
+          pattern: "^[0-9]+(\\.[0-9]+)?$"
+        network:
+          $ref: "#/components/schemas/Network"
 
