@@ -91,7 +91,7 @@ txnRouter.get("/get", async (req, res) => {
                 return res.status(503).json({ status: responseStatus.Error, msg: "Database Error" });
             }
             await cache.cacheTxn(txn.id as string, txn.txn as TxnType);
-            return res.status(200).json({ txn, status: responseStatus.Ok })
+            return res.status(200).json({ ...txn, status: responseStatus.Ok })
         }
     } catch (error) {
         console.log(error);
