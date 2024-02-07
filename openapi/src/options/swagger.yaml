@@ -269,6 +269,7 @@ paths:
           required: true
           schema:
             type: string
+            pattern: "^[a-zA-Z0-9_]+$" 
       responses:
         "302":
           description: OK
@@ -749,7 +750,6 @@ paths:
                 schema:
                   $ref: "#/components/schemas/Error"
 
-    /address/:
       get:
         tags: 
           - Address
@@ -866,7 +866,36 @@ paths:
                 schema:
                   $ref: "#/components/schemas/Error"
 
+# paths:
+#   /example-path:
+#     get:
+#       security:
+#         - apiKeyAuth: [] 
+
+#   /example-path:
+#     get:
+#       security:
+#         - oauth2Auth: ['read']  
+  
+
 components:
+
+  # securitySchemes:
+  #     apiKeyAuth:
+  #       type: apiKey
+  #       in: header
+  #       name: Authorization
+  #       description: API Key Authentication
+
+  #     oauth2Auth:
+  #       type: oauth2
+  #       flows:
+  #         implicit:
+  #           authorizationUrl: https://example.com/oauth/authorize
+  #           scopes:
+  #             read: Grants read access
+  #             write: Grants write access
+
   schemas:
     HealthCheck:
       type: object
