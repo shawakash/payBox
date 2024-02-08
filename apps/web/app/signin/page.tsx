@@ -1,21 +1,20 @@
-import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { ClientSignupForm } from "@/app/signup/user-auth-signup-form"
-import { ClientSigninForm } from "@/app/signin/user-auth-signin-form"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { ClientSignupForm } from "@/app/signup/user-auth-signup-form";
+import { ClientSigninForm } from "@/app/signin/user-auth-signin-form";
 
 export const metadata: Metadata = {
   title: "Signin | PayBox",
   description: "Authentication forms built using the components.",
-}
+};
 
 export default function AuthenticationPage() {
   return (
     <div className="flex justify-center items-center mx-56 my-0 overflow-hidden rounded-[0.5rem] border bg-background shadow-md md:shadow-xl">
-      
       <div className="md:hidden">
         <Image
           src="/authentication-light.png"
@@ -37,7 +36,7 @@ export default function AuthenticationPage() {
           href="/signup"
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "absolute right-4 top-4 md:right-8 md:top-8"
+            "absolute right-4 top-4 md:right-8 md:top-8",
           )}
         >
           Signup
@@ -62,7 +61,8 @@ export default function AuthenticationPage() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;Introducing PayBox, the ultimate app for tracking and indexing blockchain transactions in real-time.&rdquo;
+                &ldquo;Introducing PayBox, the ultimate app for tracking and
+                indexing blockchain transactions in real-time.&rdquo;
               </p>
               <footer className="text-sm">Akash Shaw</footer>
             </blockquote>
@@ -100,5 +100,5 @@ export default function AuthenticationPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

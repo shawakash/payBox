@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 
-import { labels, statuses } from "../data/data"
-import { DataTableColumnHeader } from "./data-table-column-header"
-import { DataTableRowActions } from "./data-table-row-actions"
-import { format } from "date-fns"
-import { CalendarIcon, ClockIcon } from "@radix-ui/react-icons"
-import { SOLSCAN_ACCOUNT_URL, SOLSCAN_TXN_URL, TxnType } from "@paybox/common"
-import Link from "next/link"
+import { labels, statuses } from "../data/data";
+import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableRowActions } from "./data-table-row-actions";
+import { format } from "date-fns";
+import { CalendarIcon, ClockIcon } from "@radix-ui/react-icons";
+import { SOLSCAN_ACCOUNT_URL, SOLSCAN_TXN_URL, TxnType } from "@paybox/common";
+import Link from "next/link";
 
 export const columns: ColumnDef<TxnType>[] = [
   {
@@ -44,15 +44,17 @@ export const columns: ColumnDef<TxnType>[] = [
       <DataTableColumnHeader column={column} title="Txn Id" />
     ),
 
-    cell: ({ row }) =>
+    cell: ({ row }) => (
       // make the cluster dynamic
       <Link
         target="_blank"
         href={SOLSCAN_TXN_URL(row.original.signature[0], "devnet")}
       >
-        <div className="w-[80px]">Txn-{(row.getValue("id") as string).split("-")[1]}
+        <div className="w-[80px]">
+          Txn-{(row.getValue("id") as string).split("-")[1]}
         </div>
-      </Link>,
+      </Link>
+    ),
     enableSorting: false,
     enableHiding: false,
   },
@@ -62,7 +64,9 @@ export const columns: ColumnDef<TxnType>[] = [
       <DataTableColumnHeader column={column} title="Sender" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.network)
+      const label = labels.find(
+        (label) => label.value === row.original.network,
+      );
       // Give the label as Network type and fill the sender address or his name
       return (
         <div className="flex space-x-2">
@@ -76,7 +80,7 @@ export const columns: ColumnDef<TxnType>[] = [
             </span>
           </Link>
         </div>
-      )
+      );
     },
   },
   {
@@ -85,12 +89,16 @@ export const columns: ColumnDef<TxnType>[] = [
       <DataTableColumnHeader column={column} title="Amount" />
     ),
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("amount"));
 
-      return <div className="font-medium">{amount} {row.original.network}</div>
+      return (
+        <div className="font-medium">
+          {amount} {row.original.network}
+        </div>
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -101,12 +109,16 @@ export const columns: ColumnDef<TxnType>[] = [
     cell: ({ row }) => {
       const network = row.original.network;
       const type = network == "sol" ? "lamps" : "gwei";
-      const amount = parseFloat(row.getValue("fee"))
+      const amount = parseFloat(row.getValue("fee"));
 
-      return <div className="font-medium">{amount} {type}</div>
+      return (
+        <div className="font-medium">
+          {amount} {type}
+        </div>
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -116,12 +128,10 @@ export const columns: ColumnDef<TxnType>[] = [
     ),
     cell: ({ row }) => {
       // for now all are confirmed
-      const status = statuses.find(
-        (status) => status.value === "done"
-      )
+      const status = statuses.find((status) => status.value === "done");
 
       if (!status) {
-        return null
+        return null;
       }
 
       return (
@@ -131,10 +141,10 @@ export const columns: ColumnDef<TxnType>[] = [
           )}
           <span>{status.label}</span>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -143,7 +153,6 @@ export const columns: ColumnDef<TxnType>[] = [
       <DataTableColumnHeader column={column} title="Block Date" />
     ),
     cell: ({ row }) => {
-
       const blockTimeMilliseconds = row.original.blockTime * 1000;
 
       const blockDate = new Date(blockTimeMilliseconds);
@@ -153,10 +162,10 @@ export const columns: ColumnDef<TxnType>[] = [
           <CalendarIcon />
           <span>{formattedDate}</span>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
@@ -165,7 +174,6 @@ export const columns: ColumnDef<TxnType>[] = [
       <DataTableColumnHeader column={column} title="Block Time" />
     ),
     cell: ({ row }) => {
-
       const blockTimeMilliseconds = row.original.blockTime * 1000;
 
       const blockDate = new Date(blockTimeMilliseconds);
@@ -175,14 +183,14 @@ export const columns: ColumnDef<TxnType>[] = [
           <ClockIcon />
           <span>{formattedTime}</span>
         </div>
-      )
+      );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id))
+      return value.includes(row.getValue(id));
     },
   },
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },
-]
+];

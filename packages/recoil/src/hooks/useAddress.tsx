@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 interface CreateAddressResponse {
   // Define your API response structure here
@@ -25,16 +25,16 @@ const useAddress = (url: string, requestBody: any) => {
 
       try {
         const apiResponse = await fetch(url, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             // Add any additional headers if needed
           },
           body: JSON.stringify(requestBody),
         });
 
         if (!apiResponse.ok) {
-          throw new Error('Request failed');
+          throw new Error("Request failed");
         }
 
         const data = await apiResponse.json();
@@ -46,7 +46,7 @@ const useAddress = (url: string, requestBody: any) => {
       } catch (error) {
         setResponse({
           data: null,
-          error: 'Error fetching data',
+          error: "Error fetching data",
           loading: false,
         });
       }

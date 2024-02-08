@@ -1,16 +1,16 @@
-import { Metadata } from "next"
-import Image from "next/image"
-import Link from "next/link"
+import { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { ClientSignupForm } from "@/app/signup/user-auth-signup-form"
-import { Checkbox } from "@/components/ui/checkbox"
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+import { ClientSignupForm } from "@/app/signup/user-auth-signup-form";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const metadata: Metadata = {
   title: "Signup | PayBox",
   description: "Authentication forms built using the components.",
-}
+};
 
 export default function AuthenticationPage() {
   return (
@@ -36,7 +36,7 @@ export default function AuthenticationPage() {
           href="/signin"
           className={cn(
             buttonVariants({ variant: "ghost" }),
-            "absolute right-4 top-4 md:right-8 md:top-8"
+            "absolute right-4 top-4 md:right-8 md:top-8",
           )}
         >
           Signin
@@ -61,7 +61,8 @@ export default function AuthenticationPage() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-lg">
-                &ldquo;Introducing PayBox, the ultimate app for tracking and indexing blockchain transactions in real-time.&rdquo;
+                &ldquo;Introducing PayBox, the ultimate app for tracking and
+                indexing blockchain transactions in real-time.&rdquo;
               </p>
               <footer className="text-sm">Akash Shaw</footer>
             </blockquote>
@@ -108,5 +109,5 @@ export default function AuthenticationPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

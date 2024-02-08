@@ -5,5 +5,5 @@ export * from "./options";
 const api = new MiscellaneousApi();
 
 api.getHealthCheck().then((res) => {
-    console.log(res.data)
-})
+  console.log(res.data);
+});

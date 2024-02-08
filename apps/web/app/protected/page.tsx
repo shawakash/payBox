@@ -9,7 +9,7 @@ export default async function ProtectedRoute() {
   // // if (!session || !session.user) {
   // //   redirect("/signup");
   // // }
-  
+
   return (
     <div>
       This is a protected route.

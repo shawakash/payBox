@@ -1,19 +1,27 @@
 import { NextFunction, Request, Response } from "express";
 import { clearCookie, setJWTCookie, validateJwt } from "./util";
-import { AddressFormPartial, GetQrQuerySchema, Network, TxnSendQuery, responseStatus } from "@paybox/common";
+import {
+  AddressFormPartial,
+  GetQrQuerySchema,
+  Network,
+  TxnSendQuery,
+  responseStatus,
+} from "@paybox/common";
 import { cache, ethTxn, solTxn } from "..";
 import { getAddressByClient } from "../db/qrcode";
 import { Address } from "web3";
 
 /**
- * 
- * @param req 
- * @param res 
- * @param next 
+ *
+ * @param req
+ * @param res
+ * @param next
  * @returns id
  */
 export const extractClientId = async (
-  req: Request, res: Response, next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ) => {
   let jwt = "";
 
@@ -42,28 +50,43 @@ export const extractClientId = async (
       }
     } catch {
       clearCookie(res, "jwt");
-      return res.status(403).json({ msg: "Auth error", status: responseStatus.Error });
+      return res
+        .status(403)
+        .json({ msg: "Auth error", status: responseStatus.Error });
     }
   } else {
-    return res.status(403).json({ msg: "No authentication token found", status: responseStatus.Error });
+    return res
+      .status(403)
+      .json({
+        msg: "No authentication token found",
+        status: responseStatus.Error,
+      });
   }
   next();
 };
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const authMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   //@ts-ignore
   req.authHeader = req.headers.authorization;
   next();
 };
 
 /**
- * 
- * @param req 
- * @param res 
- * @param next 
+ *
+ * @param req
+ * @param res
+ * @param next
  * @returns middleware
  */
-export const txnCheckAddress = async (req: Request, res: Response, next: NextFunction) => {
+export const txnCheckAddress = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     //@ts-ignore
     const id = req.id;
@@ -74,31 +97,58 @@ export const txnCheckAddress = async (req: Request, res: Response, next: NextFun
           const sender = await ethTxn.checkAddress(from);
           const receiver = await ethTxn.checkAddress(to);
           if (!sender && !receiver) {
-            return res.status(400).json({ status: responseStatus.Error, msg: "No such eth address" });
+            return res
+              .status(400)
+              .json({
+                status: responseStatus.Error,
+                msg: "No such eth address",
+              });
           }
         }
         if (network == Network.Sol) {
           const sender = await solTxn.checkAddress(from);
           const receiver = await solTxn.checkAddress(to);
           if (!sender && !receiver) {
-            return res.status(400).json({ status: responseStatus.Error, msg: "No such solana address" });
+            return res
+              .status(400)
+              .json({
+                status: responseStatus.Error,
+                msg: "No such solana address",
+              });
           }
         }
       } catch (error) {
         console.log(error);
-        return res.status(403).json({ msg: "Address Validation error", status: responseStatus.Error });
+        return res
+          .status(403)
+          .json({
+            msg: "Address Validation error",
+            status: responseStatus.Error,
+          });
       }
     } else {
-      return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
+      return res
+        .status(500)
+        .json({ status: responseStatus.Error, msg: "Jwt error" });
     }
     next();
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });
+    return res
+      .status(500)
+      .json({
+        status: responseStatus.Error,
+        msg: "Internal error",
+        error: error,
+      });
   }
-}
+};
 
-export const checkAddress = async (req: Request, res: Response, next: NextFunction) => {
+export const checkAddress = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     //@ts-ignore
     const id = req.id;
@@ -116,36 +166,69 @@ export const checkAddress = async (req: Request, res: Response, next: NextFuncti
         if (sol != undefined) {
           const isAddress = await solTxn.checkAddress(sol);
           if (!isAddress) {
-            return res.status(400).json({ status: responseStatus.Error, msg: "No such solana address" });
+            return res
+              .status(400)
+              .json({
+                status: responseStatus.Error,
+                msg: "No such solana address",
+              });
           }
         }
       } catch (error) {
         console.log(error);
-        return res.status(403).json({ msg: "Address Validation error", status: responseStatus.Error });
+        return res
+          .status(403)
+          .json({
+            msg: "Address Validation error",
+            status: responseStatus.Error,
+          });
       }
     } else {
-      return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
+      return res
+        .status(500)
+        .json({ status: responseStatus.Error, msg: "Jwt error" });
     }
     next();
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });
+    return res
+      .status(500)
+      .json({
+        status: responseStatus.Error,
+        msg: "Internal error",
+        error: error,
+      });
   }
-}
+};
 
-export const hasAddress = async (req: Request, res: Response, next: NextFunction) => {
+export const hasAddress = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     //@ts-ignore
-    const {id} = GetQrQuerySchema.parse(req.query);
+    const { id } = GetQrQuerySchema.parse(req.query);
     if (id) {
       try {
         const isCached = await cache.getClientCache(id);
         if (!isCached?.address) {
           const getAddress = await getAddressByClient(id);
           if (!getAddress.address?.id) {
-            return res.status(400).json({ msg: "Please add your address first", status: responseStatus.Error });
+            return res
+              .status(400)
+              .json({
+                msg: "Please add your address first",
+                status: responseStatus.Error,
+              });
           }
-          await cache.cacheAddress(id, getAddress.address as Partial<Address> & { id: string, clientId: string });
+          await cache.cacheAddress(
+            id,
+            getAddress.address as Partial<Address> & {
+              id: string;
+              clientId: string;
+            },
+          );
           //@ts-ignore
           req.address = getAddress.address;
         }
@@ -154,16 +237,28 @@ export const hasAddress = async (req: Request, res: Response, next: NextFunction
           req.address = isCached.address;
         }
         next();
-
       } catch (error) {
         console.log(error);
-        return res.status(403).json({ msg: "Please add address first", status: responseStatus.Error });
+        return res
+          .status(403)
+          .json({
+            msg: "Please add address first",
+            status: responseStatus.Error,
+          });
       }
     } else {
-      return res.status(500).json({ status: responseStatus.Error, msg: "Jwt error" });
+      return res
+        .status(500)
+        .json({ status: responseStatus.Error, msg: "Jwt error" });
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ status: responseStatus.Error, msg: "Internal error", error: error });
+    return res
+      .status(500)
+      .json({
+        status: responseStatus.Error,
+        msg: "Internal error",
+        error: error,
+      });
   }
-}
+};

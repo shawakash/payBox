@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const User = () => {
-  return (
-    <div className='m-5'>User</div>
-  );
-}
+  return <div className="m-5">User</div>;
+};
 
 export default User;

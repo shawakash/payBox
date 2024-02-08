@@ -5,15 +5,15 @@ import { useState, useEffect } from "react";
 
 export default function APITestPage() {
   const [name, setName] = useState<string>();
-  const se = getSession()
+  const se = getSession();
   /**
    * Either by useSession or fetch the api
    */
   const session = useSession();
   const router = useRouter();
   // useEffect(() => {
-  //   fetch("/api/whoami", 
-  //   {     cache: "no-store", 
+  //   fetch("/api/whoami",
+  //   {     cache: "no-store",
   //       next: { revalidate: 10 }})
   //     .then((res) => res.json())
   //     .then((data) => {console.log(data); setName(data.name)});

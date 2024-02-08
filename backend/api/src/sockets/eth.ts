@@ -1,10 +1,16 @@
-import { InfuraProvider, InfuraWebSocketProvider, ProviderEvent, TransactionReceipt, ethers } from 'ethers';
-import { WebSocket } from 'ws';
-import { EthNetwok } from '../types/address';
-import { AcceptEthTxn } from '@paybox/common';
+import {
+  InfuraProvider,
+  InfuraWebSocketProvider,
+  ProviderEvent,
+  TransactionReceipt,
+  ethers,
+} from "ethers";
+import { WebSocket } from "ws";
+import { EthNetwok } from "../types/address";
+import { AcceptEthTxn } from "@paybox/common";
 
 interface EthereumTransactionData {
-  type: 'transaction';
+  type: "transaction";
   data: TransactionReceipt | null;
 }
 
@@ -17,13 +23,21 @@ export class EthTxnLogs {
   private httpProvider: InfuraProvider;
   private filter: ProviderEvent;
 
-  constructor(network: EthNetwok, projectId: string, address: string, filter?: ProviderEvent) {
+  constructor(
+    network: EthNetwok,
+    projectId: string,
+    address: string,
+    filter?: ProviderEvent,
+  ) {
     this.address = address;
     this.logsListeners = [];
     this.projectId = projectId;
     this.network = network;
     this.filter = filter || "pending";
-    this.wsProvider = new ethers.InfuraWebSocketProvider(this.network, this.projectId);
+    this.wsProvider = new ethers.InfuraWebSocketProvider(
+      this.network,
+      this.projectId,
+    );
     this.httpProvider = new ethers.InfuraProvider(this.network, this.projectId);
   }
 
@@ -45,22 +59,20 @@ export class EthTxnLogs {
         const txn = await this.httpProvider.getTransaction(log);
         if (txn !== null && txn.to !== null) {
           if (this.address === txn.to) {
-
             /**
              * Check if the transaction got confirmed
-            */
-            if ((await this.isTransactionConfirmed(txn.hash))) {
+             */
+            if (await this.isTransactionConfirmed(txn.hash)) {
               console.log({
                 txnObj: txn,
                 address: txn.from,
                 value: ethers.formatEther(txn.value),
                 timestamp: new Date(),
                 txnHash: txn.hash,
-                status: "success"
+                status: "success",
               });
               ws.send(JSON.stringify(txn));
             }
-
           }
         }
       } catch (err) {
@@ -68,12 +80,12 @@ export class EthTxnLogs {
       }
     });
 
-    ws.on('message', (message) => {
+    ws.on("message", (message) => {
       const data = message.toString();
       console.log(data);
     });
 
-    ws.on('close', () => {
+    ws.on("close", () => {
       // this.disconnectWebSocket(this.wsProvider, ws);
     });
   }
@@ -93,7 +105,7 @@ export class EthTxnLogs {
 
       let transaction = {
         to: to,
-        value: ethers.parseEther(amount.toString()) // Convert amount to wei
+        value: ethers.parseEther(amount.toString()), // Convert amount to wei
       };
       // Send the transaction
       let tx = await wallet.sendTransaction(transaction);
@@ -105,7 +117,7 @@ export class EthTxnLogs {
         console.log(`Transaction confirmed with hash: ${tx.hash}`);
         return txn;
       } else {
-        console.log('Transaction failed');
+        console.log("Transaction failed");
         return null;
       }
     } catch (error) {
@@ -116,23 +128,27 @@ export class EthTxnLogs {
 
   /**
    * to check if the pending transaction confirmed or not
-   * @param transactionHash 
-   * @returns 
+   * @param transactionHash
+   * @returns
    */
   async isTransactionConfirmed(transactionHash: string): Promise<boolean> {
     try {
-
-      const transactionReceipt = await this.httpProvider.waitForTransaction(transactionHash);
+      const transactionReceipt =
+        await this.httpProvider.waitForTransaction(transactionHash);
 
       if (transactionReceipt && transactionReceipt.blockHash.length > 0) {
-        console.log(`Transaction ${transactionHash} is confirmed with ${transactionReceipt.confirmations} confirmations.`);
+        console.log(
+          `Transaction ${transactionHash} is confirmed with ${transactionReceipt.confirmations} confirmations.`,
+        );
         return true;
       } else {
-        console.log(`Transaction ${transactionHash} is still pending or has not reached the required confirmations.`);
+        console.log(
+          `Transaction ${transactionHash} is still pending or has not reached the required confirmations.`,
+        );
         return false;
       }
     } catch (error) {
-      console.error('Error checking transaction confirmation:', error);
+      console.error("Error checking transaction confirmation:", error);
       return false;
     }
   }
@@ -143,28 +159,26 @@ export class EthTxnLogs {
       const code = await this.httpProvider.getCode(address);
       console.log(code, "code");
       console.log(balance, "balance");
-      if (code !== '0x') {
+      if (code !== "0x") {
         console.log(`Address ${address} is a contract address`);
         return true;
       }
 
       // Check if the address is an EOA
       if (balance !== BigInt(0)) {
-        console.log(`Address ${address} is an externally owned address with balance`);
+        console.log(
+          `Address ${address} is an externally owned address with balance`,
+        );
         return true;
       }
 
       console.log(`Address ${address} does not exist on the blockchain`);
       return false;
-
     } catch (error) {
-      console.error('Error checking account confirmation:', error);
+      console.error("Error checking account confirmation:", error);
       return false;
     }
-
   }
-
-
 }
 
 export default EthTxnLogs;

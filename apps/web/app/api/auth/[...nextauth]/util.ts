@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
-import CredentialsProvider from "next-auth/providers/credentials"
+import CredentialsProvider from "next-auth/providers/credentials";
 import { use } from "react";
 import { BACKEND_URL, Client, responseStatus } from "@paybox/common";
 import { headers } from "next/headers";
@@ -17,9 +17,9 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           username: profile.login,
-          image: profile.avatar_url
-        }
-      }
+          image: profile.avatar_url,
+        };
+      },
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID ?? "",
@@ -31,23 +31,23 @@ export const authOptions: NextAuthOptions = {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          username: username
-        }
-      }
+          username: username,
+        };
+      },
     }),
     CredentialsProvider({
       credentials: {},
       async authorize(_credentials, req) {
         let user;
-        if(req.body?.type == "signin") {
+        if (req.body?.type == "signin") {
           const response = await fetch(`${BACKEND_URL}/client/login`, {
             method: "post",
             headers: {
-              "Content-type": "application/json"
+              "Content-type": "application/json",
             },
             body: JSON.stringify(req.body),
-            cache: "no-store"
-          }).then(res => res.json());
+            cache: "no-store",
+          }).then((res) => res.json());
           if (response.status == responseStatus.Error) {
             return null;
           }
@@ -59,9 +59,9 @@ export const authOptions: NextAuthOptions = {
             username: response.username,
             email: response.email,
             address: response.address,
-            mobile: response.mobile
-          }
-  
+            mobile: response.mobile,
+          };
+
           if (user.jwt) {
             return user;
           }
@@ -70,11 +70,11 @@ export const authOptions: NextAuthOptions = {
         const response = await fetch(`${BACKEND_URL}/client/`, {
           method: "post",
           headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
           },
           body: JSON.stringify(req.body),
-          cache: "no-store"
-        }).then(res => res.json());
+          cache: "no-store",
+        }).then((res) => res.json());
         if (response.status == responseStatus.Error) {
           return null;
         }
@@ -86,28 +86,25 @@ export const authOptions: NextAuthOptions = {
           username: req.body?.username,
           email: req.body?.email,
           address: response.address,
-          mobile: req.body?.mobile
-        }
+          mobile: req.body?.mobile,
+        };
 
         if (user.jwt) {
           return user;
         }
         return null;
-      }
-    })
+      },
+    }),
   ],
   pages: {
     signIn: "/signin",
     newUser: "signup",
-    error: "/_404"
+    error: "/_404",
   },
 
   callbacks: {
-
     async jwt({ token, trigger, user, session }) {
-
       if (user) {
-
         /**
          * For credential provider
          */
@@ -132,10 +129,8 @@ export const authOptions: NextAuthOptions = {
         }
         //@ts-ignore
         if (token.jwt) {
-          return token
+          return token;
         }
-
-
 
         /**
          * create client for third-party provider
@@ -147,16 +142,16 @@ export const authOptions: NextAuthOptions = {
           firstname: user.name?.split(" ")[0] || "",
           lastname: user.name?.split(" ")[1] || "",
           email: user.email || "",
-          password: user.id.toString() || ""
+          password: user.id.toString() || "",
         };
         const response = await fetch(`${BACKEND_URL}/client/providerAuth`, {
           method: "post",
           headers: {
-            "Content-type": "application/json"
+            "Content-type": "application/json",
           },
-          body: JSON.stringify(body)
-        }).then(res => res.json());
-        console.log(response, "from jwt")
+          body: JSON.stringify(body),
+        }).then((res) => res.json());
+        console.log(response, "from jwt");
         token.jwt = response.jwt;
         token.id = response.id;
         token.firstname = user.name?.split(" ")[0];
@@ -177,24 +172,23 @@ export const authOptions: NextAuthOptions = {
           username: response.username,
           email: response.email,
           address: response.address,
-          mobile: response.mobile
-        }
-
+          mobile: response.mobile,
+        };
       }
       return token;
     },
     async session({ user, session, token, trigger, newSession }) {
-      if(trigger == "update") {
-        console.log(user, token, "session")
+      if (trigger == "update") {
+        console.log(user, token, "session");
       }
       const me = await fetch(`${BACKEND_URL}/client/me`, {
         method: "get",
         headers: {
           //@ts-ignore
-          "authorization": `Bearer ${token.jwt}`
+          authorization: `Bearer ${token.jwt}`,
         },
         cache: "force-cache",
-      }).then(res => res.json());
+      }).then((res) => res.json());
       /**
        * \Add the jwt from token to user
        */
@@ -210,9 +204,9 @@ export const authOptions: NextAuthOptions = {
           email: me.email,
           address: me.address,
           mobile: Number(me.mobile),
-          name: `${me.firstname} ${me.lastname}`
-        }
-      }
-    }
-  }
+          name: `${me.firstname} ${me.lastname}`,
+        },
+      };
+    },
+  },
 };

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 import {
   Form,
@@ -15,25 +15,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 
-import { toast } from "@/components/ui/use-toast"
-import { AddressFormPartial, AddressFormPartialType, BACKEND_URL, Network } from "@paybox/common"
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { addressAtom, clientAtom, loadingAtom } from "@paybox/recoil"
-import { useRecoilState, useSetRecoilState } from "recoil"
-import { Icons } from "@/components/ui/icons"
-import { useRouter } from "next/navigation"
-
-
-
+import { toast } from "@/components/ui/use-toast";
+import {
+  AddressFormPartial,
+  AddressFormPartialType,
+  BACKEND_URL,
+  Network,
+} from "@paybox/common";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { addressAtom, clientAtom, loadingAtom } from "@paybox/recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { Icons } from "@/components/ui/icons";
+import { useRouter } from "next/navigation";
 
 // This can come from your database or API.
 const defaultValues: Partial<AddressFormPartialType> = {
-  sol: ""
-}
+  sol: "",
+};
 
 export function AddressForm() {
   const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
@@ -49,9 +51,7 @@ export function AddressForm() {
     const newFieldKey = Network.Eth;
     setDynamicFields((prevFields) => [...prevFields, newFieldKey]);
     form.register(newFieldKey);
-  }
-
-
+  };
 
   const onSubmit = async (data: AddressFormPartialType) => {
     setIsLoading(true);
@@ -70,17 +70,17 @@ export function AddressForm() {
       body: JSON.stringify(data),
       headers: {
         "Content-type": "application/json",
-        "authorization": `Bearer ${client?.jwt}`
+        authorization: `Bearer ${client?.jwt}`,
       },
-    }).then(res => res.json());
+    }).then((res) => res.json());
     console.log(response);
     setAddress(data);
     toast({
       title: "Address Added",
-      description: `${JSON.stringify(data)}`
+      description: `${JSON.stringify(data)}`,
     });
     setIsLoading(false);
-  }
+  };
 
   return (
     <Form {...form}>
@@ -92,11 +92,17 @@ export function AddressForm() {
             <FormItem>
               <FormControl>
                 <div className="flex w-full items-center space-x-2">
-                  <Badge variant={"outline"} className="text-sm py-1 h-9 px-3">Solana</Badge>
+                  <Badge variant={"outline"} className="text-sm py-1 h-9 px-3">
+                    Solana
+                  </Badge>
                   <Input
                     id="sol"
                     type="text"
-                    placeholder={address?.sol ? address.sol : `Your Sol Address Goes here ...`}
+                    placeholder={
+                      address?.sol
+                        ? address.sol
+                        : `Your Sol Address Goes here ...`
+                    }
                     className={cn("w-11/12")}
                     autoComplete="sol"
                     autoCorrect="off"
@@ -117,11 +123,17 @@ export function AddressForm() {
             <FormItem>
               <FormControl>
                 <div className="flex w-full items-center space-x-2">
-                  <Badge variant={"outline"} className="text-sm py-1 h-9 px-3">Ethereum</Badge>
+                  <Badge variant={"outline"} className="text-sm py-1 h-9 px-3">
+                    Ethereum
+                  </Badge>
                   <Input
                     id="eth"
                     type="text"
-                    placeholder={address?.eth ? address?.eth : `Your Ethereum Address Goes here ...`}
+                    placeholder={
+                      address?.eth
+                        ? address?.eth
+                        : `Your Ethereum Address Goes here ...`
+                    }
                     className={cn("w-11/12")}
                     autoComplete="eth"
                     autoCorrect="off"
@@ -142,11 +154,17 @@ export function AddressForm() {
             <FormItem>
               <FormControl>
                 <div className="flex w-full items-center space-x-2">
-                  <Badge variant={"outline"} className="text-sm py-1 h-9 px-3">Bitcoin</Badge>
+                  <Badge variant={"outline"} className="text-sm py-1 h-9 px-3">
+                    Bitcoin
+                  </Badge>
                   <Input
                     id="bitcoin"
                     type="text"
-                    placeholder={address?.bitcoin ? address?.bitcoin : `Your Bitcoin Address Goes here(optional)  ...`}
+                    placeholder={
+                      address?.bitcoin
+                        ? address?.bitcoin
+                        : `Your Bitcoin Address Goes here(optional)  ...`
+                    }
                     className={cn("w-11/12")}
                     autoComplete="eth"
                     autoCorrect="off"
@@ -169,11 +187,17 @@ export function AddressForm() {
             <FormItem>
               <FormControl>
                 <div className="flex w-full items-center space-x-2">
-                  <Badge variant={"outline"} className="text-sm py-1 h-9 px-3">USDC</Badge>
+                  <Badge variant={"outline"} className="text-sm py-1 h-9 px-3">
+                    USDC
+                  </Badge>
                   <Input
                     id="eth"
                     type="text"
-                    placeholder={address?.usdc ? address?.usdc : `Your USDC Address Goes here(optional) ...`}
+                    placeholder={
+                      address?.usdc
+                        ? address?.usdc
+                        : `Your USDC Address Goes here(optional) ...`
+                    }
                     className={cn("w-11/12")}
                     autoComplete="eth"
                     autoCorrect="off"
@@ -189,12 +213,14 @@ export function AddressForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">{isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          "Update account"
-        )}{" "}</Button>
+        <Button type="submit">
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            "Update account"
+          )}{" "}
+        </Button>
       </form>
     </Form>
-  )
+  );
 }

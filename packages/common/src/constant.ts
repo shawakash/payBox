@@ -1,10 +1,10 @@
 import { Network } from "./types";
-import {Cluster} from "@solana/web3.js";
+import { Cluster } from "@solana/web3.js";
 
 export const PORT: number = 8080;
 export const SolanaRpcUrl = "https://api.devnet.solana.com";
 export const BACKEND_URL = "http://localhost:8080";
-export const HASURA_ADMIN_SERCRET = "myadminsecretkey"
+export const HASURA_ADMIN_SERCRET = "myadminsecretkey";
 export const REDIS_URL = "redis://localhost:6379";
 export const JWT_ALGO = "RS256";
 
@@ -20,11 +20,15 @@ export const CLIENT_URL = "http://localhost:3000";
 
 export const SALT_ROUNDS = 10;
 export const WEB_URL = "http://localhost:3000";
-export const isEthereumAddress = (value: string): boolean => /^0x[0-9a-fA-F]{40}$/.test(value);
-export const isEthereumPrivateKey = (value: string) => /^0x[0-9a-fA-F]{64}$/.test(value);
-export const isSolanaAddress = (value: string): boolean => /^[a-zA-Z0-9]{44}$/.test(value);
+export const isEthereumAddress = (value: string): boolean =>
+  /^0x[0-9a-fA-F]{40}$/.test(value);
+export const isEthereumPrivateKey = (value: string) =>
+  /^0x[0-9a-fA-F]{64}$/.test(value);
+export const isSolanaAddress = (value: string): boolean =>
+  /^[a-zA-Z0-9]{44}$/.test(value);
 
-export const KAFKA_CLIENT_ID = "83f59a2c6bc114d2ed9be33a353fce153f8a73313be585f2ae41fcebe4c8a18b";
+export const KAFKA_CLIENT_ID =
+  "83f59a2c6bc114d2ed9be33a353fce153f8a73313be585f2ae41fcebe4c8a18b";
 export const KAFKA_URL = "localhost:9092";
 
 export const HASURA_URL =
@@ -44,7 +48,7 @@ export const AddressSelectFramework = Object.keys(Network).map((key) => ({
 
 export enum EthCluster {
   Mainnet = "mainnet",
-  Ropsten = "ropsten",  
+  Ropsten = "ropsten",
   Rinkeby = "rinkeby",
   Goerli = "goerli",
   Kovan = "kovan",
@@ -52,15 +56,15 @@ export enum EthCluster {
 }
 
 export const SOLSCAN_TXN_URL = (txnId: string, cluster: Cluster): string => {
-  return `https://solscan.io/tx/${txnId}?cluster=${cluster}`
-}
+  return `https://solscan.io/tx/${txnId}?cluster=${cluster}`;
+};
 
 export const SOLSCAN_ACCOUNT_URL = (accountId: string): string => {
-  return `https://solscan.io/account/${accountId}`
-}
+  return `https://solscan.io/account/${accountId}`;
+};
 
 export const capitiliaze = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
 
 export const BTC_WS_URL = "wss://ws.blockchain.info/inv";

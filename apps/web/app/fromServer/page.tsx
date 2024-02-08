@@ -4,7 +4,7 @@ export default async function FromServer() {
   const res = await fetch("http://localhost:3000/api/whoami", {
     method: "GET",
     headers: headers(),
-  }).then(res => res.json());
+  }).then((res) => res.json());
   return (
     <div>
       <div>

@@ -1,96 +1,100 @@
 import { EthCluster, Network, TxnSolana } from "@paybox/common";
-import { kafkaClient } from ".."
+import { kafkaClient } from "..";
 import { ConfirmedTransactionMeta } from "@solana/web3.js";
-import {TransactionReceipt, TransactionResponse} from "ethers";
+import { TransactionReceipt, TransactionResponse } from "ethers";
 import { calculateGas } from "../utils/utils";
 
 /**
- * 
- * @param transaction 
- * @param blockTime 
- * @param meta 
- * @param slot 
- * @param amount 
- * @param clientId 
- * @param network 
+ *
+ * @param transaction
+ * @param blockTime
+ * @param meta
+ * @param slot
+ * @param amount
+ * @param clientId
+ * @param network
  * @returns boolean
  */
 export const publishSolTxn = async (
-    transaction: TxnSolana,
-    blockTime: number,
-    meta: ConfirmedTransactionMeta,
-    slot: number,
-    amount: number,
-    clientId: string,
-    network: Network,
+  transaction: TxnSolana,
+  blockTime: number,
+  meta: ConfirmedTransactionMeta,
+  slot: number,
+  amount: number,
+  clientId: string,
+  network: Network,
 ): Promise<boolean> => {
-    try {
-
-        //@ts-ignore
-        const sender = transaction.message?.accountKeys[0].toBase58();
-        //@ts-ignore
-        const receiver = transaction.message?.accountKeys[1].toBase58();
-        await kafkaClient.publishOne({
-            topic: "txn3",
-            message: [{
-                partition: 0,
-                key: transaction.signatures[0] || "",
-                value: JSON.stringify({
-                    signature: transaction.signatures,
-                    amount,
-                    blockTime,
-                    fee: meta.fee,
-                    clientId,
-                    from: sender, to: receiver,
-                    postBalances: meta.postBalances,
-                    preBalances: meta.preBalances,
-                    recentBlockhash: transaction.message.recentBlockhash,
-                    slot,
-                    network
-                })
-            }]
-        });
-        return true;
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-}
-
+  try {
+    //@ts-ignore
+    const sender = transaction.message?.accountKeys[0].toBase58();
+    //@ts-ignore
+    const receiver = transaction.message?.accountKeys[1].toBase58();
+    await kafkaClient.publishOne({
+      topic: "txn3",
+      message: [
+        {
+          partition: 0,
+          key: transaction.signatures[0] || "",
+          value: JSON.stringify({
+            signature: transaction.signatures,
+            amount,
+            blockTime,
+            fee: meta.fee,
+            clientId,
+            from: sender,
+            to: receiver,
+            postBalances: meta.postBalances,
+            preBalances: meta.preBalances,
+            recentBlockhash: transaction.message.recentBlockhash,
+            slot,
+            network,
+          }),
+        },
+      ],
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
 export const publishEthTxn = async (
-    transaction: TransactionResponse,
-    amount: number,
-    clientId: string,
-    network: Network,
-    cluster: EthCluster
+  transaction: TransactionResponse,
+  amount: number,
+  clientId: string,
+  network: Network,
+  cluster: EthCluster,
 ): Promise<boolean> => {
-    try {
-        await kafkaClient.publishOne({
-            topic: "txn3",
-            message: [{
-                partition: 1,
-                key: transaction.hash,
-                value: JSON.stringify({
-                    signature: [transaction.hash],
-                    amount,
-                    blockTime: Number(transaction.blockNumber),
-                    fee: calculateGas(transaction.gasLimit, transaction.gasPrice),
-                    clientId,
-                    from: transaction.from, to: transaction.to,
-                    recentBlockhash: transaction.blockHash,
-                    chianId: Number(transaction.chainId),
-                    network,
-                    cluster
-                })
-            }]
-        });
-        return true;
-    } catch (error) {
-        console.log(error);
-        return false;
-    }
-}
+  try {
+    await kafkaClient.publishOne({
+      topic: "txn3",
+      message: [
+        {
+          partition: 1,
+          key: transaction.hash,
+          value: JSON.stringify({
+            signature: [transaction.hash],
+            amount,
+            blockTime: Number(transaction.blockNumber),
+            fee: calculateGas(transaction.gasLimit, transaction.gasPrice),
+            clientId,
+            from: transaction.from,
+            to: transaction.to,
+            recentBlockhash: transaction.blockHash,
+            chianId: Number(transaction.chainId),
+            network,
+            cluster,
+          }),
+        },
+      ],
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
 /**
  * {

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useFieldArray, useForm } from "react-hook-form"
-import * as z from "zod"
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
@@ -14,25 +14,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/use-toast"
-import { Button } from "@/components/ui/button"
-import { useEffect } from "react"
-import { useRecoilState } from "recoil"
-import { addressAtom, clientAtom, loadingAtom } from "@paybox/recoil"
-import { ClientWithJwt, MetadataUpdateForm, MetadataUpdateFormType } from "@paybox/common"
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { addressAtom, clientAtom, loadingAtom } from "@paybox/recoil";
+import {
+  ClientWithJwt,
+  MetadataUpdateForm,
+  MetadataUpdateFormType,
+} from "@paybox/common";
 // import { Badge } from "@/components/ui/badge"
-
-
 
 export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
   const [client, setClient] = useRecoilState(clientAtom);
@@ -42,7 +44,7 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
   useEffect(() => {
     if (me) {
       setClient(me);
-      if(me.address) {
+      if (me.address) {
         setAddress(me.address);
       }
     }
@@ -58,13 +60,12 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
       // address: client?.address
     },
     mode: "onChange",
-  })
+  });
 
   // const { fields, append } = useFieldArray({
   //   name: "urls",
   //   control: form.control,
   // });
-
 
   function onSubmit(data: MetadataUpdateFormType) {
     toast({
@@ -99,9 +100,7 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  Keep it real.
-                </FormDescription>
+                <FormDescription>Keep it real.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -124,9 +123,7 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>
-                  Also this one.
-                </FormDescription>
+                <FormDescription>Also this one.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -150,8 +147,8 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
                   />
                 </FormControl>
                 <FormDescription>
-                  Provide a valid mobile number for otp validation.
-                  Should be similar to the wallet account.
+                  Provide a valid mobile number for otp validation. Should be
+                  similar to the wallet account.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -178,8 +175,7 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
                 </FormControl>
                 <FormDescription>
                   {/* You can <Badge variant="outline">@mention</Badge> */}
-                  other users and organizations to
-                  link to them.
+                  other users and organizations to link to them.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -216,5 +212,5 @@ export function ProfileForm({ me }: { me: ClientWithJwt | null }) {
         </form>
       </Form>
     </div>
-  )
+  );
 }

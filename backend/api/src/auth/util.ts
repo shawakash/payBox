@@ -6,10 +6,9 @@ import { Address, CLIENT_URL, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
 import * as qr from "qrcode";
 import fs from "fs";
 
-
 /**
- * @param jwt 
- * @returns 
+ * @param jwt
+ * @returns
  */
 export const validateJwt = async (jwt: string) => {
   const publicKey = await importSPKI(AUTH_JWT_PUBLIC_KEY, JWT_ALGO);
@@ -20,9 +19,9 @@ export const validateJwt = async (jwt: string) => {
 };
 
 /**
- * 
- * @param res 
- * @param cookieName 
+ *
+ * @param res
+ * @param cookieName
  */
 export const clearCookie = (res: Response, cookieName: string) => {
   res.clearCookie(cookieName);
@@ -31,7 +30,7 @@ export const clearCookie = (res: Response, cookieName: string) => {
 export const setJWTCookie = async (
   req: Request,
   res: Response,
-  userId: string
+  userId: string,
 ) => {
   const secret = await importPKCS8(AUTH_JWT_PRIVATE_KEY, JWT_ALGO);
 
@@ -53,7 +52,7 @@ export const setCookieOnResponse = (
   req: Request,
   res: Response,
   cookieName: string,
-  cookieValue: string
+  cookieValue: string,
 ) => {
   res.cookie(cookieName, cookieValue, {
     secure: true,
@@ -69,48 +68,48 @@ export const setCookieOnResponse = (
 
 /**
  * To create a hash password
- * @param password 
- * @returns 
+ * @param password
+ * @returns
  */
 export const setHashPassword = async (password: string): Promise<string> => {
   try {
     const hashedPassword = await bcryptjs.hash(password, SALT_ROUNDS);
     return hashedPassword;
   } catch (error) {
-    throw new Error('Error hashing password');
+    throw new Error("Error hashing password");
   }
 };
 
 /**
- * 
- * @param password 
- * @param hashPassword 
+ *
+ * @param password
+ * @param hashPassword
  * @returns Boolean if the above is matched
  */
 export const validatePassword = async (
   password: string,
-  hashPassword: string
+  hashPassword: string,
 ): Promise<boolean> => {
   try {
     const isMatch = await bcryptjs.compare(password, hashPassword);
     return isMatch;
   } catch (error) {
-    throw new Error('Error hashing password');
+    throw new Error("Error hashing password");
   }
-}
+};
 /**
- * 
- * @param payload 
- * @param path 
+ *
+ * @param payload
+ * @param path
  * @returns true if the qr code is generated successfully else false
  */
 export const generateQRCode = async (
   payload: Partial<Address> & { id: string },
-  id: string
+  id: string,
 ): Promise<null | string> => {
   try {
     const path = generateUniqueImageName(id);
-    const redirectUrl = `${CLIENT_URL}/txn/send?sol=${payload.sol}&eth=${payload.eth}&bitcoin=${payload.bitcoin}&usdc=${payload.usdc}`
+    const redirectUrl = `${CLIENT_URL}/txn/send?sol=${payload.sol}&eth=${payload.eth}&bitcoin=${payload.bitcoin}&usdc=${payload.usdc}`;
     // const qrCodeDataURL = await qr.toDataURL(redirectUrl);
     if (!fs.existsSync(path)) {
       await qr.toFile(path, redirectUrl);
@@ -123,13 +122,13 @@ export const generateQRCode = async (
       return uniquePath;
     }
   } catch (error) {
-    console.error('Error generating QR code:', error);
+    console.error("Error generating QR code:", error);
     return null;
   }
-}
+};
 
 export const generateUniqueImageName = (id: string): string => {
   const timestamp: number = Date.now();
   const imageName: string = `./codes/${id.slice(5)}_${timestamp.toString().slice(5)}.png`;
   return imageName;
-}
+};

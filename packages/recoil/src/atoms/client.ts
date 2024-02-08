@@ -1,24 +1,24 @@
-"use client"
-import { Address, Client, ClientWithJwt } from '@paybox/common';
-import { atom } from 'recoil';
+"use client";
+import { Address, Client, ClientWithJwt } from "@paybox/common";
+import { atom } from "recoil";
 
 // Create an atom to store user data
-export const clientAtom = atom<(ClientWithJwt) | null>({
-  key: 'clientAtom',
+export const clientAtom = atom<ClientWithJwt | null>({
+  key: "clientAtom",
   default: null,
 });
 
 export const loadingAtom = atom<boolean>({
   key: "loadingAtom",
-  default: false
+  default: false,
 });
 
 export const addressAtom = atom<Partial<Address> | null>({
-  key: 'addressAtom',
-  default: null
+  key: "addressAtom",
+  default: null,
 });
 
 export const payloadAtom = atom<Partial<Address> | null>({
-  key: 'payloadAtom',
+  key: "payloadAtom",
   default: null,
 });

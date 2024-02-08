@@ -5,7 +5,8 @@ import { server } from "./index";
 
 const cpuCount = os.cpus().length;
 
-if (cluster.isMaster) {   // isPrimary
+if (cluster.isMaster) {
+  // isPrimary
   // Create a worker for each CPU
   for (let i = 0; i < cpuCount; i++) {
     cluster.fork();
