@@ -75,33 +75,25 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/ReturnCreatedClient"
+                $ref: "#/components/schemas/ReturnCreatedClient"
         "409":
           description: Client already exists
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "500":
           description: Internal server error (jwt)
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
     
           
   /client/providerAuth:
@@ -122,33 +114,25 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/ReturnCreatedClient"
+                $ref: "#/components/schemas/ReturnCreatedClient"
         "302":
           description: Client Found from cache
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/ReturnCreatedClient"
+                $ref: "#/components/schemas/ReturnCreatedClient"
         "503":
           description: Database Service Unavailable
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "500":
           description: Internal server error (jwt)
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
           
   /client/login:
     post:
@@ -168,29 +152,31 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/ReturnCreatedClient"
+                $ref: "#/components/schemas/ReturnCreatedClient"
         "404":
           description: client not found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "401":
           description: Wrong password
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
           
   /client/me:
     get:
@@ -209,6 +195,7 @@ paths:
         #   name: Content-Type
         #   description: The content type of the request body
         #   required: true
+        #   name: Accept
         #   schema:
         #     type: string
         #     enum: [application/json, application/xml]
@@ -218,37 +205,37 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/ReturnCreatedClient"
+                $ref: "#/components/schemas/ReturnCreatedClient"
         "404":
           description: client not found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "403":
           description: Auth Error
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "401":
           description: Wrong password
           content:
             application/json:
               schema:
-                type: object
-                properties:
                   $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
   /client/{username}:
     get:
@@ -288,9 +275,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
           content:
@@ -349,9 +334,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
           content:
@@ -379,7 +362,6 @@ paths:
           schema:
             type: string
 
-
       responses:
         "200":
           description: OK
@@ -390,18 +372,16 @@ paths:
                 properties:
                   status:
                     type: string
-                    const: ok
+                    enum: [ok]
                   msg:
                     type: string
-                    const: client deleted
+                    enum: [client deleted]
         "403":
           description: Auth Error
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
           content:
@@ -431,6 +411,7 @@ paths:
 
         - in: query
           required: true
+          name: Transaction query object
           description: The Transaction query object
           schema:
             $ref: "#/components/schemas/TransactionSendQuery"
@@ -466,7 +447,6 @@ paths:
                     type: string
                     const: ok
                   signature:
-                    signature:
                       oneOf:
                         - $ref: "#/components/schemas/SolTransactionData"
                         - $ref: "#/components/schemas/EthTxnResponse"
@@ -515,6 +495,7 @@ paths:
           schema:
             type: string
         - in: query
+          name: txnHash
           required: true
           description: The Get Transaction query object
           schema:
@@ -525,8 +506,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
                   $ref: "#/components/schemas/TxnGetResponseByHash"      
         "200":
           description: Transaction from database
@@ -581,6 +560,7 @@ paths:
             type: string
         - in: query
           required: true
+          name: Transaction query object Netowrks and count
           description: Network/s and counts Transaction query object
           schema:
             type: object
@@ -605,7 +585,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    const: ok
+                    enum: [ok]
                   txns:
                     $ref: "#/components/schemas/TxnArray"
 
