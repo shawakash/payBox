@@ -20,7 +20,6 @@
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "husky": "^9.0.10",
     "prettier": "^3.1.1",
     "turbo": "latest"
   },
@@ -35,6 +34,7 @@
     "openapi"
   ],
   "dependencies": {
+    "husky": "^9.0.10",
     "anchor": "^1.4.1",
     "esbuild": "^0.19.11",
     "openapi-typescript-codegen": "^0.27.0"
