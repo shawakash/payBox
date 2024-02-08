@@ -11,9 +11,11 @@
     "gen": "npx openapi-typescript-codegen -i openapi.json -o ./src/spec-client -c fetch"
   },
   "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.9.0",
     "@paybox/kafka": "*",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
+    "global": "^4.4.0",
     "helpful-decorators": "^2.1.0",
     "js-yaml": "^4.1.0",
     "openapi-typescript-codegen": "^0.27.0",

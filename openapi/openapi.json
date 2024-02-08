@@ -68,7 +68,7 @@
           "Miscellaneous"
         ],
         "description": "homepage endpoint",
-        "operationId": "getHealthCheck",
+        "operationId": "home",
         "responses": {
           "200": {
             "description": "OK",
@@ -165,7 +165,7 @@
           "Client"
         ],
         "description": "Client creation or login endpoint for credentials from provider",
-        "operationId": "createClient",
+        "operationId": "providerAuth",
         "requestBody": {
           "description": "Client object that needs to be added",
           "content": {
@@ -238,7 +238,7 @@
           "Client"
         ],
         "description": "Client login endpoint",
-        "operationId": "loginClient",
+        "operationId": "login",
         "requestBody": {
           "description": "Login Data for client",
           "content": {
@@ -304,7 +304,7 @@
           "Client"
         ],
         "description": "Client jwt check endpoint",
-        "operationId": "checkClient",
+        "operationId": "me",
         "parameters": [
           {
             "in": "header",
@@ -638,7 +638,7 @@
             "Transaction"
           ],
           "description": "Transaction send endpoint",
-          "operationId": "sendTxn",
+          "operationId": "send",
           "parameters": [
             {
               "in": "header",
@@ -771,7 +771,7 @@
             "Transaction"
           ],
           "description": "Transaction get by hash endpoint",
-          "operationId": "getTxn",
+          "operationId": "get",
           "parameters": [
             {
               "in": "header",
@@ -974,7 +974,7 @@
             "Transaction"
           ],
           "description": "Get all Transaction for client endpoint",
-          "operationId": "getAllTxn",
+          "operationId": "getAll",
           "parameters": [
             {
               "in": "header",
@@ -1156,7 +1156,7 @@
             "Address"
           ],
           "description": "Address get endpoint",
-          "operationId": "getAddress",
+          "operationId": "get",
           "parameters": [
             {
               "in": "header",
@@ -1243,7 +1243,7 @@
             "Address"
           ],
           "description": "Address update endpoint",
-          "operationId": "updateAddress",
+          "operationId": "update",
           "parameters": [
             {
               "in": "header",

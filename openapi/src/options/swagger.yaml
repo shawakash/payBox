@@ -46,7 +46,7 @@ paths:
       tags:
         - Miscellaneous
       description: homepage endpoint
-      operationId: getHealthCheck
+      operationId: home
       responses:
         "200":
           description: OK
@@ -109,7 +109,7 @@ paths:
       tags:
         - Client
       description: Client creation or login endpoint for credentials from provider
-      operationId: createClient
+      operationId: providerAuth
       requestBody:
         description: Client object that needs to be added
         content:
@@ -155,7 +155,7 @@ paths:
       tags:
         - Client
       description: Client login endpoint
-      operationId: loginClient
+      operationId: login
       requestBody:
         description: Login Data for client
         content:
@@ -197,7 +197,7 @@ paths:
       tags:
         - Client
       description: Client jwt check endpoint
-      operationId: checkClient
+      operationId: me
       parameters:
         - in: header
           name: Authorization
@@ -415,456 +415,456 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 
-    /txn/send:
-      post:
-        tags:
-          - Transaction
-        description: Transaction send endpoint
-        operationId: sendTxn
-        parameters:
-          - in: header
-            name: Authorization
-            description: Access token for authentication
-            required: true
-            schema:
-              type: string
+  /txn/send:
+    post:
+      tags:
+        - Transaction
+      description: Transaction send endpoint
+      operationId: send
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
 
-          - in: query
-            required: true
-            description: The Transaction query object
-            schema:
-              $ref: "#/components/schemas/TransactionSendQuery"
+        - in: query
+          required: true
+          description: The Transaction query object
+          schema:
+            $ref: "#/components/schemas/TransactionSendQuery"
 
-        requestBody:
-          description: Transaction object that needs to be added
+      requestBody:
+        description: Transaction object that needs to be added
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                to:
+                  type: string
+                amount:
+                  type: number
+                currency:
+                  type: string
+                note:
+                  type: string
+              required:
+                - to
+                - amount
+                - currency
+      responses:
+        "200":
+          description: OK
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  to:
+                  status:
                     type: string
-                  amount:
-                    type: number
-                  currency:
-                    type: string
-                  note:
-                    type: string
-                required:
-                  - to
-                  - amount
-                  - currency
-        responses:
-          "200":
-            description: OK
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
-                      type: string
-                      const: ok
+                    const: ok
+                  signature:
                     signature:
-                      signature:
-                        oneOf:
-                          - $ref: "#/components/schemas/SolTransactionData"
-                          - $ref: "#/components/schemas/EthTxnResponse"
-                          
+                      oneOf:
+                        - $ref: "#/components/schemas/SolTransactionData"
+                        - $ref: "#/components/schemas/EthTxnResponse"
+                        
 
-          "403":
-            description: Auth Error or Address validation error
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "400":
-            description: Transaction failed error
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "503":
-            description: Database Service Unavailable
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "500":
-            description: Internal server error (jwt)
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-
-    /txn/get:
-      get:
-        tags: 
-          - Transaction
-        description: Transaction get by hash endpoint
-        operationId: getTxn
-        parameters:
-          - in: header
-            name: Authorization
-            description: Access token for authentication
-            required: true
-            schema:
-              type: string
-          - in: query
-            required: true
-            description: The Get Transaction query object
-            schema:
-              $ref: "#/components/schemas/TxnGetQueryByHash"
-        responses:
-          "302":
-            description: Get the transaction from cache
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/TxnGetResponseByHash"      
-          "200":
-            description: Transaction from database
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/TxnGetResponseByHash"
-                    
-          "404":
-            description: Transaction Not Found
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "403":
-            description: Auth Error
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "503":
-            description: Database Service Unavailable
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "500":
-            description: Internal server error (jwt)
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-
-    /txn/getMany:
-      get:
-        tags: 
-          - Transaction
-        description: Get Transactions based on networks and count endpoint
-        operationId: getMany
-        parameters:
-          - in: header
-            name: Authorization
-            description: Access token for authentication
-            required: true
-            schema:
-              type: string
-          - in: query
-            required: true
-            description: Network/s and counts Transaction query object
-            schema:
-              type: object
-              properties:
-                networks:
-                  oneOf:
-                    - $ref: "#/components/schemas/Network"
-                    - type: array
-                      items:
-                        $ref: "#/components/schemas/Network"
-                count:
-                  type: integer
-                  description: Count representing the number of transactions required
-
-        responses:
-          "200":
-            description: Some client transaction response
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
-                      type: string
-                      const: ok
-                    txns:
-                      $ref: "#/components/schemas/TxnArray"
-
-          "403":
-            description: Auth Error
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "503":
-            description: Database Service Unavailable
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "500":
-            description: Internal server error (jwt)
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-
-    /txn/getAll:
-      get:
-        tags: 
-          - Transaction
-        description: Get all Transaction for client endpoint
-        operationId: getAllTxn
-        parameters:
-          - in: header
-            name: Authorization
-            description: Access token for authentication
-            required: true
-            schema:
-              type: string
-        responses:
-          "200":
-            description: Get all the client transaction response
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
-                      type: string
-                      const: ok
-                    txns:
-                      $ref: "#/components/schemas/TxnArray"
-
-          "403":
-            description: Auth Error
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "503":
-            description: Database Service Unavailable
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "500":
-            description: Internal server error (jwt)
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-
-    /address/:
-      post:
-        tags:
-          - Address
-        description: Address creation endpoint
-        operationId: createAddress
-        parameters:
-          - in: header
-            name: Authorization
-            description: Access token for authentication
-            required: true
-            schema:
-              type: string
-        requestBody:
-          description: Address object that needs to be added
+        "403":
+          description: Auth Error or Address validation error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AddressType"
-        responses:
-          "200":
-            description: created address
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
-                      type: string
-                      const: ok
-                    id:
-                      type: string
-          
-          "403":
-            description: Address validation error response
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          
-          "400":
-            description: Incomplete request object
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-
-          "409":
-            description: Address already exists
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "503":
-            description: Database Service Unavailable
-            content:
-              application/json:
-                schema:
+                type: object
+                properties:
                   $ref: "#/components/schemas/Error"
-          "500":
-            description: Internal server error (jwt)
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-
-      get:
-        tags: 
-          - Address
-        description: Address get endpoint
-        operationId: getAddress
-        parameters:
-          - in: header
-            name: Authorization
-            description: Access token for authentication
-            required: true
-            schema:
-              type: string
-              
-        responses:
-          "302":
-            description: OK
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
-                        type: string
-                        const: ok
-                    address:
-                      $ref: "#/components/schemas/AddressType"
-          "404":
-            description: Address Not Found
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "403":
-            description: Auth Error
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "503":
-            description: Database Service Unavailable
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "500":
-            description: Internal server error (jwt)
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-
-    /address/update:
-      patch:
-        tags: 
-          - Address
-        description: Address update endpoint
-        operationId: updateAddress
-        parameters:
-          - in: header
-            name: Authorization
-            description: Access token for authentication
-            required: true
-            schema:
-              type: string
-        requestBody:
-          description: Address object that needs to be updated
+        "400":
+          description: Transaction failed error
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AddressType"
-        responses:
-          "200":
-            description: address updated
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    status:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /txn/get:
+    get:
+      tags: 
+        - Transaction
+      description: Transaction get by hash endpoint
+      operationId: get
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+        - in: query
+          required: true
+          description: The Get Transaction query object
+          schema:
+            $ref: "#/components/schemas/TxnGetQueryByHash"
+      responses:
+        "302":
+          description: Get the transaction from cache
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/TxnGetResponseByHash"      
+        "200":
+          description: Transaction from database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/TxnGetResponseByHash"
+                  
+        "404":
+          description: Transaction Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /txn/getMany:
+    get:
+      tags: 
+        - Transaction
+      description: Get Transactions based on networks and count endpoint
+      operationId: getMany
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+        - in: query
+          required: true
+          description: Network/s and counts Transaction query object
+          schema:
+            type: object
+            properties:
+              networks:
+                oneOf:
+                  - $ref: "#/components/schemas/Network"
+                  - type: array
+                    items:
+                      $ref: "#/components/schemas/Network"
+              count:
+                type: integer
+                description: Count representing the number of transactions required
+
+      responses:
+        "200":
+          description: Some client transaction response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  txns:
+                    $ref: "#/components/schemas/TxnArray"
+
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /txn/getAll:
+    get:
+      tags: 
+        - Transaction
+      description: Get all Transaction for client endpoint
+      operationId: getAll
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Get all the client transaction response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  txns:
+                    $ref: "#/components/schemas/TxnArray"
+
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /address/:
+    post:
+      tags:
+        - Address
+      description: Address creation endpoint
+      operationId: createAddress
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Address object that needs to be added
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddressType"
+      responses:
+        "200":
+          description: created address
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  id:
+                    type: string
+        
+        "403":
+          description: Address validation error response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        
+        "400":
+          description: Incomplete request object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+
+        "409":
+          description: Address already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    get:
+      tags: 
+        - Address
+      description: Address get endpoint
+      operationId: get
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            
+      responses:
+        "302":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
                       type: string
                       const: ok
-                    id:
-                      type: string
-          "409":
-            description: Address already exists
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "403":
-            description: Auth Error
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    $ref: "#/components/schemas/Error"
-          "503":
-            description: Database Service Unavailable
-            content:
-              application/json:
-                schema:
+                  address:
+                    $ref: "#/components/schemas/AddressType"
+        "404":
+          description: Address Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
                   $ref: "#/components/schemas/Error"
-          "500":
-            description: Internal server error (jwt)
-            content:
-              application/json:
-                schema:
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
                   $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /address/update:
+    patch:
+      tags: 
+        - Address
+      description: Address update endpoint
+      operationId: update
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Address object that needs to be updated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddressType"
+      responses:
+        "200":
+          description: address updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    const: ok
+                  id:
+                    type: string
+        "409":
+          description: Address already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "403":
+          description: Auth Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  $ref: "#/components/schemas/Error"
+        "503":
+          description: Database Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal server error (jwt)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 
 # paths:
 #   /example-path:
