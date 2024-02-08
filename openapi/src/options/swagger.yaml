@@ -445,29 +445,23 @@ paths:
                 properties:
                   status:
                     type: string
-                    const: ok
+                    enum: [ok]
                   signature:
                       oneOf:
                         - $ref: "#/components/schemas/SolTransactionData"
                         - $ref: "#/components/schemas/EthTxnResponse"
-                        
-
         "403":
           description: Auth Error or Address validation error
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "400":
           description: Transaction failed error
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
           content:
@@ -512,26 +506,20 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/TxnGetResponseByHash"
+                $ref: "#/components/schemas/TxnGetResponseByHash"
                   
         "404":
           description: Transaction Not Found
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "403":
           description: Auth Error
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
           content:
@@ -594,9 +582,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
           content:
@@ -633,7 +619,7 @@ paths:
                 properties:
                   status:
                     type: string
-                    const: ok
+                    enum: [ok]
                   txns:
                     $ref: "#/components/schemas/TxnArray"
 
@@ -642,9 +628,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  $ref: "#/components/schemas/Error"
+                $ref: "#/components/schemas/Error"
         "503":
           description: Database Service Unavailable
           content:
