@@ -51,10 +51,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/HealthCheck"
-                  }
+                  "$ref": "#/components/schemas/HealthCheck"
                 }
               }
             }
@@ -68,17 +65,14 @@
           "Miscellaneous"
         ],
         "description": "homepage endpoint",
-        "operationId": "getHealthCheck",
+        "operationId": "home",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/HealthCheck"
-                  }
+                  "$ref": "#/components/schemas/HealthCheck"
                 }
               }
             }
@@ -109,10 +103,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/ReturnCreatedClient"
-                  }
+                  "$ref": "#/components/schemas/ReturnCreatedClient"
                 }
               }
             }
@@ -122,10 +113,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -135,10 +123,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -148,10 +133,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -165,7 +147,7 @@
           "Client"
         ],
         "description": "Client creation or login endpoint for credentials from provider",
-        "operationId": "createClient",
+        "operationId": "providerAuth",
         "requestBody": {
           "description": "Client object that needs to be added",
           "content": {
@@ -182,10 +164,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/ReturnCreatedClient"
-                  }
+                  "$ref": "#/components/schemas/ReturnCreatedClient"
                 }
               }
             }
@@ -195,10 +174,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/ReturnCreatedClient"
-                  }
+                  "$ref": "#/components/schemas/ReturnCreatedClient"
                 }
               }
             }
@@ -208,10 +184,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -221,10 +194,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -238,7 +208,7 @@
           "Client"
         ],
         "description": "Client login endpoint",
-        "operationId": "loginClient",
+        "operationId": "login",
         "requestBody": {
           "description": "Login Data for client",
           "content": {
@@ -255,10 +225,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/ReturnCreatedClient"
-                  }
+                  "$ref": "#/components/schemas/ReturnCreatedClient"
                 }
               }
             }
@@ -268,10 +235,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -281,19 +245,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
           },
           "500": {
-            "description": "Internal server error (jwt)"
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           },
           "503": {
-            "description": "Database Service Unavailable"
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -304,7 +279,7 @@
           "Client"
         ],
         "description": "Client jwt check endpoint",
-        "operationId": "checkClient",
+        "operationId": "me",
         "parameters": [
           {
             "in": "header",
@@ -322,10 +297,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/ReturnCreatedClient"
-                  }
+                  "$ref": "#/components/schemas/ReturnCreatedClient"
                 }
               }
             }
@@ -335,10 +307,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -348,10 +317,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -361,19 +327,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
           },
           "500": {
-            "description": "Internal server error (jwt)"
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           },
           "503": {
-            "description": "Database Service Unavailable"
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
           }
         }
       }
@@ -401,7 +378,8 @@
             "description": "The username of the client to retrieve",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_]+$"
             }
           }
         ],
@@ -421,10 +399,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -526,10 +501,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -585,11 +557,15 @@
                   "properties": {
                     "status": {
                       "type": "string",
-                      "const": "ok"
+                      "enum": [
+                        "ok"
+                      ]
                     },
                     "msg": {
                       "type": "string",
-                      "const": "client deleted"
+                      "enum": [
+                        "client deleted"
+                      ]
                     }
                   }
                 }
@@ -601,10 +577,503 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/txn/send": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "description": "Transaction send endpoint",
+        "operationId": "send",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Access token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "required": true,
+            "name": "TransactionSend",
+            "description": "The Transaction query object",
+            "schema": {
+              "$ref": "#/components/schemas/TransactionSendQuery"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Transaction object that needs to be added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "to": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "currency": {
+                    "type": "string"
+                  },
+                  "note": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "to",
+                  "amount",
+                  "currency"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
                   "type": "object",
                   "properties": {
-                    "$ref": "#/components/schemas/Error"
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "signature": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/components/schemas/SolTransactionData"
+                        },
+                        {
+                          "$ref": "#/components/schemas/EthTxnResponse"
+                        }
+                      ]
+                    }
                   }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Transaction failed error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Auth Error or Address validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/txn/get": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "description": "Transaction get by hash endpoint",
+        "operationId": "getTxn",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Access token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "txnHash",
+            "required": true,
+            "description": "The Get Transaction query object",
+            "schema": {
+              "$ref": "#/components/schemas/TxnGetQueryByHash"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction from database",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TxnGetResponseByHash"
+                }
+              }
+            }
+          },
+          "302": {
+            "description": "Get the transaction from cache",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TxnGetResponseByHash"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Auth Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Transaction Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/txn/getMany": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "description": "Get Transactions based on networks and count endpoint",
+        "operationId": "getMany",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Access token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "required": true,
+            "name": "txnQuery",
+            "description": "Network/s and counts Transaction query object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "networks": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Network"
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Network"
+                      }
+                    }
+                  ]
+                },
+                "count": {
+                  "type": "integer",
+                  "description": "Count representing the number of transactions required"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Some client transaction response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "txns": {
+                      "$ref": "#/components/schemas/TxnArray"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Auth Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/txn/getAll": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "description": "Get all Transaction for client endpoint",
+        "operationId": "getAll",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Access token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all the client transaction response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "txns": {
+                      "$ref": "#/components/schemas/TxnArray"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Auth Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/address/": {
+      "post": {
+        "tags": [
+          "Address"
+        ],
+        "description": "Address creation endpoint",
+        "operationId": "createAddress",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Access token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Address object that needs to be added",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "created address",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incomplete request object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Address validation error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Address already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -631,133 +1100,174 @@
           }
         }
       },
-      "/txn/send": {
-        "post": {
-          "tags": [
-            "Transaction"
-          ],
-          "description": "Transaction send endpoint",
-          "operationId": "sendTxn",
-          "parameters": [
-            {
-              "in": "header",
-              "name": "Authorization",
-              "description": "Access token for authentication",
-              "required": true,
-              "schema": {
-                "type": "string"
-              }
-            },
-            {
-              "in": "query",
-              "required": true,
-              "description": "The Transaction query object",
-              "schema": {
-                "$ref": "#/components/schemas/TransactionQuery"
-              }
+      "get": {
+        "tags": [
+          "Address"
+        ],
+        "description": "Address get endpoint",
+        "operationId": "getAddress",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Access token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
-          ],
-          "requestBody": {
-            "description": "Transaction object that needs to be added",
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "to": {
-                      "type": "string"
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
                     },
-                    "amount": {
-                      "type": "number"
-                    },
-                    "currency": {
-                      "type": "string"
-                    },
-                    "note": {
-                      "type": "string"
+                    "address": {
+                      "$ref": "#/components/schemas/AddressType"
                     }
-                  },
-                  "required": [
-                    "to",
-                    "amount",
-                    "currency"
-                  ]
+                  }
                 }
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "status": {
-                        "type": "string",
-                        "const": "ok"
-                      },
-                      "signature": {
-                        "signature": {
-                          "oneOf": [
-                            {
-                              "$ref": "#/components/schemas/SolTransactionData"
-                            },
-                            {
-                              "$ref": "#/components/schemas/EthTxnResponse"
-                            }
-                          ]
-                        }
-                      }
+          "403": {
+            "description": "Auth Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Address Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/address/update": {
+      "patch": {
+        "tags": [
+          "Address"
+        ],
+        "description": "Address update endpoint",
+        "operationId": "update",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Access token for authentication",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Address object that needs to be updated",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddressType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "address updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "id": {
+                      "type": "string"
                     }
                   }
                 }
               }
-            },
-            "400": {
-              "description": "Transaction failed error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "$ref": "#/components/schemas/Error"
-                    }
-                  }
+            }
+          },
+          "403": {
+            "description": "Auth Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
-            },
-            "403": {
-              "description": "Auth Error or Address validation error",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "object",
-                    "properties": {
-                      "$ref": "#/components/schemas/Error"
-                    }
-                  }
+            }
+          },
+          "409": {
+            "description": "Address already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
-            },
-            "500": {
-              "description": "Internal server error (jwt)",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+            }
+          },
+          "500": {
+            "description": "Internal server error (jwt)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
-            },
-            "503": {
-              "description": "Database Service Unavailable",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Error"
-                  }
+            }
+          },
+          "503": {
+            "description": "Database Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -964,7 +1474,9 @@
         "properties": {
           "status": {
             "type": "string",
-            "const": "error"
+            "enum": [
+              "error"
+            ]
           },
           "msg": {
             "type": "string"
@@ -1205,7 +1717,7 @@
           "usdc"
         ]
       },
-      "AddressType": {
+      "RegexAddress": {
         "oneOf": [
           {
             "type": "string",
@@ -1221,14 +1733,14 @@
           }
         ]
       },
-      "TransactionQuery": {
+      "TransactionSendQuery": {
         "type": "object",
         "properties": {
           "from": {
-            "$ref": "#/components/schemas/AddressType"
+            "$ref": "#/components/schemas/RegexAddress"
           },
           "to": {
-            "$ref": "#/components/schemas/AddressType"
+            "$ref": "#/components/schemas/RegexAddress"
           },
           "amount": {
             "type": "string",
@@ -1236,6 +1748,147 @@
           },
           "network": {
             "$ref": "#/components/schemas/Network"
+          }
+        }
+      },
+      "TxnGetQueryByHash": {
+        "type": "object",
+        "properties": {
+          "network": {
+            "network": null,
+            "$ref": "#/components/schemas/Network"
+          },
+          "sign": {
+            "type": "string"
+          }
+        }
+      },
+      "TxnGetResponseByHash": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok"
+            ]
+          },
+          "txn": {
+            "$ref": "#/components/schemas/TxnType"
+          }
+        }
+      },
+      "TxnType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "blockTime": {
+            "type": "number"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "fee": {
+            "type": "number"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "postBalances": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "preBalances": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "recentBlockhash": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "network": {
+            "$ref": "#/components/schemas/Network"
+          },
+          "slot": {
+            "type": "number"
+          },
+          "chainId": {
+            "type": "number"
+          },
+          "cluster": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EthCluster"
+              },
+              {
+                "$ref": "#/components/schemas/Cluster"
+              }
+            ]
+          }
+        }
+      },
+      "EthCluster": {
+        "type": "string",
+        "enum": [
+          "mainnet",
+          "ropsten",
+          "rinkeby",
+          "goerli",
+          "kovan",
+          "sepolia"
+        ]
+      },
+      "Cluster": {
+        "type": "string",
+        "enum": [
+          "devnet",
+          "testnet",
+          "mainnet-beta"
+        ]
+      },
+      "TxnArray": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/TxnType"
+        }
+      },
+      "AddressType": {
+        "type": "object",
+        "properties": {
+          "eth": {
+            "type": "string",
+            "pattern": "^0x[0-9a-fA-F]{40}$"
+          },
+          "sol": {
+            "type": "string",
+            "pattern": "^[0-9a-zA-Z]{32}$"
+          },
+          "bitcoin": {
+            "type": "string",
+            "nullable": true
+          },
+          "usdc": {
+            "type": "string",
+            "nullable": true
           }
         }
       }

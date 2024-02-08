@@ -26,7 +26,7 @@ export const yamlFile = fs.readFileSync(yamlFilePath, 'utf8');
 export const swaggerYaml = load(yamlFile) as JsonObject;
 const swaggerJson = JSON.stringify(swaggerYaml, null, 2);
 
-const jsonFilePath = 'openapi.json';
+const jsonFilePath = './openapi.json';
 fs.writeFileSync(jsonFilePath, swaggerJson, 'utf8');
 
 

@@ -6,9 +6,9 @@
   "type": "commonjs",
   "license": "MIT",
   "scripts": {
-    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js & cp ./src/options/swagger.yaml ./dist/swagger.yaml & cp ./src/options/swagger.yaml ../backend/api/dist/swagger.yaml",
+    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js & cp ./src/swagger/swagger.yaml ./dist/swagger.yaml",
     "dev": "node dist/index.js --trace-warning",
-    "gen": "npx openapi-typescript-codegen -i openapi.json -o ./src/spec-client -c fetch"
+    "gen": "openapi-generator generate -i src/options/swagger.yaml -g typescript-axios -o ./src/spec-client"
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.9.0",
