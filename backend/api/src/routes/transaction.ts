@@ -126,7 +126,7 @@ txnRouter.get("/get", async (req, res) => {
        */
       const isTxn = await cache.cacheGetTxnBySign(sign);
       if (isTxn) {
-        return res.status(302).json({ ...isTxn, status: responseStatus.Ok });
+        return res.status(302).json({ txn: isTxn, status: responseStatus.Ok });
       }
       //Db query
       const txn = await getTxnByHash({ network, sign, clientId: id });
@@ -136,7 +136,7 @@ txnRouter.get("/get", async (req, res) => {
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
       await cache.cacheTxn(txn.id as string, txn.txn as TxnType);
-      return res.status(200).json({ ...txn, status: responseStatus.Ok });
+      return res.status(200).json({ txn, status: responseStatus.Ok });
     }
   } catch (error) {
     console.log(error);
