@@ -1118,6 +1118,27 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "address": {
+                      "$ref": "#/components/schemas/AddressType"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "302": {
             "description": "OK",
             "content": {
