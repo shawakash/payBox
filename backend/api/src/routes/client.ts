@@ -283,9 +283,9 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
     if (id) {
       const cachedClient = await cache.getClientCache(id);
       if (cachedClient) {
-        //@ts-ignore
         return res
-          .status(302)
+        .status(302)
+        //@ts-ignore
           .json({ ...cachedClient, status: responseStatus.Ok, jwt: req.jwt });
       }
       const query = await getClientById(id);
@@ -300,9 +300,9 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
           .json({ msg: "Not found", status: responseStatus.Error });
       }
       await cache.cacheClient(id, query.client[0] as Client);
-      //@ts-ignore
       return res
-        .status(302)
+      .status(302)
+      //@ts-ignore
         .json({ ...query.client[0], status: responseStatus.Ok, jwt: req.jwt });
     }
     return res
@@ -329,9 +329,9 @@ clientRouter.get("/:username", extractClientId, async (req, res) => {
        */
       const cachedUser = await cache.getClientCache(id);
       if (cachedUser) {
-        //@ts-ignore
         return res
-          .status(302)
+        .status(302)
+        //@ts-ignore
           .json({ ...cachedUser, status: responseStatus.Ok, jwt: req.jwt });
       }
 

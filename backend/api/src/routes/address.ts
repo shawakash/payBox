@@ -95,7 +95,7 @@ addressRouter.get("/", async (req, res) => {
     if (id) {
       const isCached = await cache.getAddressFromKey(id);
       if (isCached) {
-        return res.status(200).json({ status: responseStatus.Ok, ...isCached });
+        return res.status(302).json({ status: responseStatus.Ok, address: isCached });
       }
 
       const query = await getAddressByClientId(id);
@@ -118,8 +118,8 @@ addressRouter.get("/", async (req, res) => {
       );
 
       return res
-        .status(302)
-        .json({ ...query.address[0], status: responseStatus.Ok });
+        .status(200)
+        .json({ address: query.address[0], status: responseStatus.Ok });
     }
     return res
       .status(500)
