@@ -5,13 +5,12 @@ FROM node:21
 WORKDIR /app/backend/api
 
 # Copy package.json and yarn.lock to the working directory
-COPY package.json yarn.lock ./
+COPY . .
 
 # Install app dependencies using Yarn
 RUN yarn install
 
 # Copy the application code to the container
-COPY . .
 
 # Expose port 8080
 EXPOSE 8080
