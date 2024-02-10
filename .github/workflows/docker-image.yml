@@ -21,8 +21,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image
+      - name: Build @paybox/api Docker image
         run: docker build -t shawakash/paybox-api:latest -f ./docker/api/Dockerfile .
 
-      - name: Push Docker image
+      - name: Push @paybox/api Docker image
         run: docker push shawakash/paybox-api:latest
