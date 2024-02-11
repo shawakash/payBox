@@ -17,7 +17,7 @@ on:
   pull_request:
     branches: [ "dev" ]
   schedule:
-    - cron: '32 14 * * 3'
+    - cron: '19 16 * * 3'
 
 jobs:
   analyze:
@@ -78,7 +78,7 @@ jobs:
         echo "Run, Build Application using script"
         yarn install
         yarn build
-    #     ./location_of_script_within_repo/buildscript.sh
+        # ./location_of_script_within_repo/buildscript.sh
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
