@@ -1,6 +1,6 @@
 {
   "name": "@paybox/web",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -12,6 +12,9 @@
   "dependencies": {
     "@faker-js/faker": "^8.4.0",
     "@hookform/resolvers": "^3.3.4",
+    "@paybox/common": "^0.0.1",
+    "@paybox/openapi": "^0.0.1",
+    "@paybox/recoil": "^0.0.1",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -55,9 +58,6 @@
     "tailwindcss": "3.4.1",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.3.3",
-    "zod": "^3.22.4",
-    "@paybox/common": "*",
-    "@paybox/recoil": "*",
-    "@paybox/openapi": "*"
+    "zod": "^3.22.4"
   }
 }
