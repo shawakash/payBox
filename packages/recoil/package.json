@@ -1,6 +1,6 @@
 {
   "name": "@paybox/recoil",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
@@ -10,5 +10,6 @@
   "dependencies": {
     "common": "*",
     "recoil": "^0.7.7"
-  }
+  },
+  "gitHead": "13798e0efb4eb1131ee0041378cdb3c1b5ed0240"
 }

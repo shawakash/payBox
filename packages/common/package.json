@@ -1,13 +1,15 @@
 {
   "name": "@paybox/common",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "private": "false",
   "scripts": {
     "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js"
   },
   "license": "MIT",
   "dependencies": {
     "zod": "^3.22.4"
-  }
+  },
+  "gitHead": "13798e0efb4eb1131ee0041378cdb3c1b5ed0240"
 }
