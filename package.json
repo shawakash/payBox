@@ -20,13 +20,14 @@
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
+    "lerna": "^8.1.2",
     "prettier": "^3.1.1",
     "turbo": "latest"
   },
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "yarn@1.22.19",
+  "packageManager": "bun@1.0.11",
   "workspaces": [
     "apps/*",
     "packages/*",
@@ -34,9 +35,9 @@
     "openapi"
   ],
   "dependencies": {
-    "husky": "^9.0.10",
     "anchor": "^1.4.1",
     "esbuild": "^0.19.11",
+    "husky": "^9.0.10",
     "openapi-typescript-codegen": "^0.27.0"
   }
 }

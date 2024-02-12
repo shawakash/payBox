@@ -1,10 +1,11 @@
 {
   "name": "@paybox/openapi",
-  "version": "1.0.0",
+  "version": "0.0.6",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "type": "commonjs",
   "license": "MIT",
+  "private": "false",
   "scripts": {
     "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js & cp ./src/swagger/swagger.yaml ./dist/swagger.yaml",
     "dev": "node dist/index.js --trace-warning",
@@ -12,7 +13,7 @@
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.9.0",
-    "@paybox/kafka": "*",
+    "@paybox/kafka": "^0.0.6",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "global": "^4.4.0",
@@ -22,5 +23,6 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "tsoa": "^6.0.1"
-  }
+  },
+  "gitHead": "3753a6aca7d76d07a2999e1a19a271c73d7da1a8"
 }

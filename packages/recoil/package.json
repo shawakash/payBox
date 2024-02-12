@@ -1,15 +1,16 @@
 {
   "name": "@paybox/recoil",
-  "version": "1.0.0",
+  "version": "0.0.6",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "private": "false",
   "scripts": {
     "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js"
   },
   "license": "MIT",
   "dependencies": {
-    "recoil": "^0.7.7",
-    "common": "*"
+    "common": "*",
+    "recoil": "^0.7.7"
   },
-  "devDependencies": {}
+  "gitHead": "3bd6c7180a38ad8e8b5557751301ffaba6b2a5da"
 }

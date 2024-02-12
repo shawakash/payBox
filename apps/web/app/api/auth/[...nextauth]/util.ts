@@ -2,7 +2,6 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { use } from "react";
 import { BACKEND_URL, Client, responseStatus } from "@paybox/common";
 import { headers } from "next/headers";
 
