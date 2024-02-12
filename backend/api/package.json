@@ -1,6 +1,6 @@
 {
   "name": "@paybox/api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "type": "commonjs",
@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",
-    "@paybox/common": "^0.0.3",
-    "@paybox/kafka": "^0.0.3",
-    "@paybox/openapi": "^0.0.3",
+    "@paybox/common": "^0.0.4",
+    "@paybox/kafka": "^0.0.4",
+    "@paybox/openapi": "^0.0.4",
     "@solana/spl-token": "^0.3.11",
     "@solana/web3.js": "^1.89.0",
     "@types/bcryptjs": "^2.4.6",
