@@ -4,16 +4,11 @@ FROM node:21
 # Set the working directory in the container
 WORKDIR /app/packages/kafka
 
-# Copy package.json and yarn.lock to the working directory
-COPY package*.json ./
-COPY tsconfig.json ./
-COPY yarn.lock ./
+# Copy the application code to the container
+COPY .  .
 
 # Install app dependencies using Yarn
 RUN yarn install
-
-# Copy the application code to the container
-COPY .  .
 
 # Build the pacakge
 RUN yarn build
