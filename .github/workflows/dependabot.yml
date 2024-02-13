@@ -8,6 +8,14 @@ on:
     branches:
       - dev
 
+jobs:
+
+  openapi_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
 updates:
   - package-ecosystem: "npm"
     directory: "/"
