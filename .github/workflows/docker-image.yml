@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - docker_image
   pull_request:
     branches:
       - dev
