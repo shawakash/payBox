@@ -7,6 +7,7 @@ WORKDIR /app/backend/api
 # Copy package.json and yarn.lock to the working directory
 COPY package*.json ./
 COPY tsconfig.json ./
+COPY yarn.lock ./
 
 # Install app dependencies using Yarn
 RUN yarn install
