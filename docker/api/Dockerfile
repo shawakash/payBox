@@ -5,7 +5,8 @@ FROM node:21
 WORKDIR /app/backend/api
 
 # Copy package.json and yarn.lock to the working directory
-COPY ./package.json ./
+COPY package*.json ./
+COPY tsconfig.json ./
 
 # Install app dependencies using Yarn
 RUN yarn install
