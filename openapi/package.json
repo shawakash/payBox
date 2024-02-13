@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": "false",
   "scripts": {
-    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js & cp ./src/swagger/swagger.yaml ./dist/swagger.yaml",
+    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js && cp ./src/swagger/swagger.yaml ./dist/swagger.yaml",
     "dev": "node dist/index.js --trace-warning",
     "gen": "openapi-generator generate -i src/swagger/swagger.yaml -g typescript-axios -o ./src/spec-client"
   },
