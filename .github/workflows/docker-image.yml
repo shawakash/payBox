@@ -25,9 +25,6 @@ jobs:
       - name: Build @paybox/openapi Docker image
         run: docker build -t shawakash/paybox-openapi:${{ github.sha }} -f ./docker/openapi/Dockerfile .
 
-      - name: Generate the openapi client
-        run: docker run shawakash/paybox-openapi:${{ github.sha }} yarn gen
-
       - name: Push @paybox/openapi Docker image
         run: docker push shawakash/paybox-openapi:${{ github.sha }}
 

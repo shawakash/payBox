@@ -1,7 +1,0 @@
-on:
-  push:
-    branch:
-        - main
-
-jobs:
-  check:

@@ -12,12 +12,13 @@ RUN yarn install
 
 # Copy the application code to the container
 
-# Create the client
-RUN yarn zeus
-
-# Genaerate the client
-RUN yarn codegen
-
 # Build the package
 RUN yarn build
+
+# Command to Create the client
+CMD ["yarn", "zeus"]
+
+# Commad to Generate the client
+CMD ["yarn", "codegen"]
+
 
