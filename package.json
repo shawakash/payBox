@@ -24,9 +24,9 @@
     "turbo": "latest"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=21"
   },
-  "packageManager": "bun@1.0.11",
+  "packageManager": "yarn@1.22.19",
   "workspaces": [
     "apps/*",
     "packages/*",
