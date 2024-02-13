@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Build and Push Docker Images
 
 on:
   push:
@@ -24,10 +24,13 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/openapi Docker image
-        run: docker build -t shawakash/paybox-openapi:latest -f ./docker/openapi/Dockerfile .
+        run: docker build -t shawakash/paybox-openapi:${{ github.sha }} -f ./docker/openapi/Dockerfile .
+
+      - name: Generate the openapi client
+        run: docker run shawakash/paybox-openapi:${{ github.sha }} yarn gen
 
       - name: Push @paybox/openapi Docker image
-        run: docker push shawakash/paybox-openapi:latest
+        run: docker push shawakash/paybox-openapi:${{ github.sha }}
 
   kafka_image:
     runs-on: ubuntu-latest
@@ -42,10 +45,64 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/kafka Docker image
-        run: docker build -t shawakash/paybox-kafka:latest -f ./docker/kafka/Dockerfile .
+        run: docker build -t shawakash/paybox-kafka:${{ github.sha }} -f ./docker/kafka/Dockerfile .
 
       - name: Push @paybox/kafka Docker image
-        run: docker push shawakash/paybox-kafka:latest
+        run: docker push shawakash/paybox-kafka:${{ github.sha }}
+
+  zeus_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build @paybox/zeus Docker image
+        run: docker build -t shawakash/paybox-zeus:${{ github.sha }} -f ./docker/zeus/Dockerfile .
+
+      - name: Push @paybox/zeus Docker image
+        run: docker push shawakash/paybox-zeus:${{ github.sha }}
+
+  common_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build @paybox/common Docker image
+        run: docker build -t shawakash/paybox-common:${{ github.sha }} -f ./docker/common/Dockerfile .
+
+      - name: Push @paybox/common Docker image
+        run: docker push shawakash/paybox-common:${{ github.sha }}
+
+  recoil_image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build @paybox/recoil Docker image
+        run: docker build -t shawakash/paybox-recoil:${{ github.sha }} -f ./docker/recoil/Dockerfile .
+
+      - name: Push @paybox/recoil Docker image
+        run: docker push shawakash/paybox-recoil:${{ github.sha }}
 
   api_image:
     runs-on: ubuntu-latest
@@ -60,7 +117,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/api Docker image
-        run: docker build -t shawakash/paybox-api:latest -f ./docker/api/Dockerfile .
+        run: docker build -t shawakash/paybox-api:${{ github.sha }} -f ./docker/api/Dockerfile .
 
       - name: Push @paybox/api Docker image
-        run: docker push shawakash/paybox-api:latest
+        run: docker push shawakash/paybox-api:${{ github.sha }}
