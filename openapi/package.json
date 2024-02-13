@@ -5,7 +5,7 @@
   "types": "./src/index.ts",
   "type": "commonjs",
   "license": "MIT",
-  "private": "false",
+  "private": "true",
   "scripts": {
     "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js && cp ./src/swagger/swagger.yaml ./dist/swagger.yaml",
     "dev": "node dist/index.js --trace-warning",

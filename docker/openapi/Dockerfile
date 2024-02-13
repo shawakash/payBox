@@ -15,8 +15,8 @@ RUN yarn install
 # Build the pacakge
 RUN yarn build
 
-# Generate the openapi client
-RUN yarn gen
-
 # Command to run the application
 CMD ["yarn", "dev"]
+
+# Command to generate the OpenAPI client
+CMD ["yarn", "gen"]
