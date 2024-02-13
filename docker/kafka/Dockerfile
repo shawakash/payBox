@@ -2,7 +2,7 @@
 FROM node:21
 
 # Set the working directory in the container
-WORKDIR /app/backend/api
+WORKDIR /app/packages/kafka
 
 # Copy the application code to the container
 COPY .  .
@@ -14,7 +14,7 @@ RUN yarn install
 RUN yarn build
 
 # Expose port 8080
-EXPOSE 8080
+EXPOSE 8081
 
 # Command to run the application
 CMD ["yarn", "dev"]

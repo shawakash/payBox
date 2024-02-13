@@ -2,19 +2,21 @@
 FROM node:21
 
 # Set the working directory in the container
-WORKDIR /app/backend/api
+WORKDIR /app/openapi/
 
-# Copy the application code to the container
-COPY .  .
+# Copy package.json and yarn.lock to the working directory
+COPY . .
 
 # Install app dependencies using Yarn
 RUN yarn install
 
+# Copy the application code to the container
+
 # Build the pacakge
 RUN yarn build
 
-# Expose port 8080
-EXPOSE 8080
-
 # Command to run the application
 CMD ["yarn", "dev"]
+
+# Command to generate the OpenAPI client
+CMD ["yarn", "gen"]
