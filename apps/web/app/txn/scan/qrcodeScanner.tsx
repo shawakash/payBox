@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 import {
     Card,
     CardContent,
@@ -9,10 +9,13 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const QRScanner = () => {
+    const router = useRouter();
     const [result, setResult] = useState<string | null>(null);
-
+    
     useEffect(() => {
         const scanner = new Html5QrcodeScanner("qr-reader", {
             qrbox: {
@@ -21,15 +24,16 @@ const QRScanner = () => {
             },
             fps: 10,
         }, false);
-    
+
         const onSuccess = (decodedText: string) => {
             console.log(`QR code decoded: ${decodedText}`);
+            router.push(`${decodedText}`);
             setResult(decodedText);
         };
         const onError = (errorMessage: string) => {
-            console.error(`QR code error: ${errorMessage}`);
+            toast.error(errorMessage);
         };
-    
+
         scanner.render(onSuccess, onError);
     }, []);
 
@@ -42,7 +46,7 @@ const QRScanner = () => {
             </CardHeader>
             <CardContent>
                 {result ?
-                    <p>Result: {result}</p> :
+                    <div className="">Scan Success</div> :
                     <div id="qr-reader"></div>
                 }
             </CardContent>
