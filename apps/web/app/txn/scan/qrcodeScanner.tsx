@@ -20,7 +20,7 @@ const QRScanner = () => {
                 height: 250
             },
             fps: 10,
-        }, true);
+        }, false);
     
         const onSuccess = (decodedText: string) => {
             console.log(`QR code decoded: ${decodedText}`);
@@ -35,7 +35,7 @@ const QRScanner = () => {
 
 
     return (
-        <Card>
+        <Card className='w-2/5'>
             <CardHeader>
                 <CardTitle>Scan the Qrcode</CardTitle>
                 <CardDescription>Qrcode scanner for transaction</CardDescription>
