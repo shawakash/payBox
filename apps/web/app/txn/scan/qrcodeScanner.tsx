@@ -25,7 +25,7 @@ const QRScanner = () => {
             fps: 10,
         }, false);
 
-        const onSuccess = (decodedText: string) => {
+        const onSuccess = async (decodedText: string) => {
             console.log(`QR code decoded: ${decodedText}`);
             router.push(`${decodedText}`);
             setResult(decodedText);
@@ -35,6 +35,9 @@ const QRScanner = () => {
         };
 
         scanner.render(onSuccess, onError);
+        return () => {
+            scanner.clear();
+        }
     }, []);
 
 
