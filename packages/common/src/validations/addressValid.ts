@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { isEthereumAddress, isSolanaAddress } from "../constant";
+import { isEthereumPrivateKey, isSolanaAddress } from "../constant";
 
 export const AddressForm = z.object({
-  eth: z.string().refine(isEthereumAddress, {
+  eth: z.string().refine(isEthereumPrivateKey, {
     message: "Invalid Ethereum address",
   }),
   sol: z.string().refine(isSolanaAddress, {

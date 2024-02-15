@@ -90,7 +90,7 @@ export function PaymentCard({
     }).then((res) => res.json());
     toast({
       title: `Transaction Successful`,
-      description: `Transaction Hash: ${response.signature.transaction.signatures[0]}`,
+      description: network == Network.Sol ? `Transaction Hash: ${response.signature.transaction.signatures[0]}` : `Transaction Hash: ${response.hash}`,
     });
     setIsLoading(false);
   }
