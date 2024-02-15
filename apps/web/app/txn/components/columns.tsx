@@ -10,7 +10,7 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { format } from "date-fns";
 import { CalendarIcon, ClockIcon } from "@radix-ui/react-icons";
-import { SOLSCAN_ACCOUNT_URL, SOLSCAN_TXN_URL, TxnType, getTransactionUrl } from "@paybox/common";
+import { SOLSCAN_ACCOUNT_URL, SOLSCAN_TXN_URL, TxnType, getAccountUrl, getTransactionUrl } from "@paybox/common";
 import Link from "next/link";
 import { get } from "http";
 
@@ -74,7 +74,7 @@ export const columns: ColumnDef<TxnType>[] = [
           {label && <Badge variant="outline">{label.label}</Badge>}
           <Link
             target="_blank"
-            href={SOLSCAN_ACCOUNT_URL(row.getValue("from"))}
+            href={getAccountUrl(row.original.network, row.original.from, row.original.cluster)}
           >
             <span className="max-w-[500px] truncate font-medium">
               {row.getValue("from")}

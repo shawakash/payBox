@@ -121,6 +121,22 @@ export const getTransactionUrl = (network: Network, txnId: string, cluster: Clus
 
 }
 
+export const getAccountUrl = (network: Network, accountId: string, cluster: Cluster | EthCluster | BitcoinCluster | USDCCluster | undefined): string => {
+  switch (network) {
+    case Network.Sol:
+      return SOLSCAN_ACCOUNT_URL(accountId);
+    case Network.Eth:
+      return ETHERSCAN_ACCOUNT_URL(accountId, cluster as EthCluster);
+    case Network.Bitcoin:
+    return BLOCKEXPLORER_ADDRESS_URL(accountId, cluster as BitcoinCluster);
+    case Network.USDC:
+      return USDC_ETHERSCAN_ACCOUNT_URL(accountId, cluster as string);
+    default:
+      return '#';
+  }
+
+}
+
 export const capitiliaze = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
