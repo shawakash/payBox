@@ -60,6 +60,21 @@ export interface AddressType {
  * @enum {string}
  */
 
+export const BitcoinCluster = {
+    Mainnet: 'mainnet',
+    Testnet: 'testnet',
+    Regtest: 'regtest'
+} as const;
+
+export type BitcoinCluster = typeof BitcoinCluster[keyof typeof BitcoinCluster];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
 export const Cluster = {
     Devnet: 'devnet',
     Testnet: 'testnet',
@@ -1016,7 +1031,25 @@ export interface TxnType {
  * @type TxnTypeCluster
  * @export
  */
-export type TxnTypeCluster = Cluster | EthCluster;
+export type TxnTypeCluster = BitcoinCluster | Cluster | EthCluster | USDCCluster;
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const USDCCluster = {
+    EthereumMainnet: 'ethereum_mainnet',
+    EthereumRopsten: 'ethereum_ropsten',
+    EthereumRinkeby: 'ethereum_rinkeby',
+    EthereumTestnet: 'ethereum_testnet',
+    EthereumLocal: 'ethereum_local',
+    Other: 'other'
+} as const;
+
+export type USDCCluster = typeof USDCCluster[keyof typeof USDCCluster];
+
 
 /**
  * 

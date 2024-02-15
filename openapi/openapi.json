@@ -1862,6 +1862,12 @@
               },
               {
                 "$ref": "#/components/schemas/Cluster"
+              },
+              {
+                "$ref": "#/components/schemas/BitcoinCluster"
+              },
+              {
+                "$ref": "#/components/schemas/USDCCluster"
               }
             ]
           }
@@ -1884,6 +1890,25 @@
           "devnet",
           "testnet",
           "mainnet-beta"
+        ]
+      },
+      "BitcoinCluster": {
+        "type": "string",
+        "enum": [
+          "mainnet",
+          "testnet",
+          "regtest"
+        ]
+      },
+      "USDCCluster": {
+        "type": "string",
+        "enum": [
+          "ethereum_mainnet",
+          "ethereum_ropsten",
+          "ethereum_rinkeby",
+          "ethereum_testnet",
+          "ethereum_local",
+          "other"
         ]
       },
       "TxnArray": {
