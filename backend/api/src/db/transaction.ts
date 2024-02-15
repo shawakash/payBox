@@ -246,6 +246,7 @@ export const getAllTxn = async ({
           recentBlockhash: true,
           slot: true,
           to: true,
+          cluster: true,
         },
       ],
     },

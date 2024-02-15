@@ -55,6 +55,22 @@ export enum EthCluster {
   Sepolia = "sepolia",
 }
 
+export enum BitcoinCluster {
+  MAINNET = 'mainnet',
+  TESTNET = 'testnet',
+  REGTEST = 'regtest',
+}
+
+export enum USDCCluster {
+  ETHEREUM_MAINNET = 'ethereum_mainnet',
+  ETHEREUM_ROPSTEN = 'ethereum_ropsten',
+  ETHEREUM_RINKEBY = 'ethereum_rinkeby',
+  ETHEREUM_TESTNET = 'ethereum_testnet',
+  ETHEREUM_LOCAL = 'ethereum_local',
+  OTHER = 'other',
+}
+
+
 export const SOLSCAN_TXN_URL = (txnId: string, cluster: Cluster): string => {
   return `https://solscan.io/tx/${txnId}?cluster=${cluster}`;
 };
@@ -62,6 +78,64 @@ export const SOLSCAN_TXN_URL = (txnId: string, cluster: Cluster): string => {
 export const SOLSCAN_ACCOUNT_URL = (accountId: string): string => {
   return `https://solscan.io/account/${accountId}`;
 };
+
+export const ETHERSCAN_TXN_URL = (txnHash: string, network: EthCluster): string => {
+  return `https://${network === EthCluster.Mainnet ? '' : (network + '.')}etherscan.io/tx/${txnHash}`;
+};
+
+export const ETHERSCAN_ACCOUNT_URL = (address: string, network: EthCluster): string => {
+  return `https://${network === EthCluster.Mainnet ? '' : (network + '.')}etherscan.io/address/${address}`;
+};
+
+export const BLOCKEXPLORER_TXN_URL = (txnId: string, network: BitcoinCluster): string => {
+  return `https://blockexplorer.com/tx/${txnId}`;
+};
+
+export const BLOCKEXPLORER_ADDRESS_URL = (address: string, network: BitcoinCluster): string => {
+  return `https://blockexplorer.com/address/${address}`;
+};
+
+
+export const USDC_ETHERSCAN_TXN_URL = (txnHash: string, network: string): string => {
+  return `https://${network === USDCCluster.ETHEREUM_MAINNET ? '' : (network + '.')}etherscan.io/tx/${txnHash}`;
+};
+
+export const USDC_ETHERSCAN_ACCOUNT_URL = (address: string, network: string): string => {
+  return `https://${network === USDCCluster.ETHEREUM_MAINNET ? '' : (network + '.')}etherscan.io/address/${address}`;
+};
+
+
+export const getTransactionUrl = (network: Network, txnId: string, cluster: Cluster | EthCluster | BitcoinCluster | USDCCluster | undefined): string => {
+  switch (network) {
+    case Network.Sol:
+      return SOLSCAN_TXN_URL(txnId, cluster as Cluster);
+    case Network.Eth:
+      return ETHERSCAN_TXN_URL(txnId, cluster as EthCluster);
+    case Network.Bitcoin:
+      return BLOCKEXPLORER_TXN_URL(txnId, cluster as BitcoinCluster);
+    case Network.USDC:
+      return USDC_ETHERSCAN_TXN_URL(txnId, cluster as string);
+    default:
+      return '#';
+  }
+
+}
+
+export const getAccountUrl = (network: Network, accountId: string, cluster: Cluster | EthCluster | BitcoinCluster | USDCCluster | undefined): string => {
+  switch (network) {
+    case Network.Sol:
+      return SOLSCAN_ACCOUNT_URL(accountId);
+    case Network.Eth:
+      return ETHERSCAN_ACCOUNT_URL(accountId, cluster as EthCluster);
+    case Network.Bitcoin:
+    return BLOCKEXPLORER_ADDRESS_URL(accountId, cluster as BitcoinCluster);
+    case Network.USDC:
+      return USDC_ETHERSCAN_ACCOUNT_URL(accountId, cluster as string);
+    default:
+      return '#';
+  }
+
+}
 
 export const capitiliaze = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);

@@ -18,8 +18,6 @@ export const metadata: Metadata = {
 
 const getTxns = async (
   jwt: string,
-  count: number,
-  networks: Network[],
 ): Promise<TxnType[] | null> => {
   try {
     const apiUrl = `${BACKEND_URL}/txn/getAll`;
@@ -50,10 +48,7 @@ const getTxns = async (
 export default async function TxnPage() {
   const session = await getServerSession(authOptions);
   //@ts-ignore
-  const txns = await getTxns(session?.user?.jwt, 10, [
-    Network.Sol,
-    Network.Eth,
-  ]);
+  const txns = await getTxns(session?.user?.jwt as string);
   return (
     <>
       <div className="flex flex-col w-screen items-center">

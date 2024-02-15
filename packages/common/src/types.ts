@@ -12,7 +12,7 @@ import {
   TxnsQeury,
 } from "./validations";
 import { Message } from "@solana/web3.js";
-import { EthCluster } from "./constant";
+import { BitcoinCluster, EthCluster, USDCCluster } from "./constant";
 import { Cluster } from "@solana/web3.js";
 
 export enum Network {
@@ -77,14 +77,14 @@ export type InsertTxnType = {
   fee: number;
   from: string;
   to: string;
-  postBalances?: number[];
-  preBalances?: number[];
+  postBalances?: number[] | null;
+  preBalances?: number[] | null;
   recentBlockhash: string;
   signature: string[];
   network: Network;
-  slot?: number;
+  slot?: number | null;
   chainId?: number;
-  cluster?: EthCluster | Cluster;
+  cluster?: EthCluster | Cluster | BitcoinCluster | USDCCluster;
 };
 
 export type TxnType = InsertTxnType & {
