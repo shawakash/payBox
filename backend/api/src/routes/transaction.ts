@@ -13,6 +13,7 @@ import { cache, ethTxn, solTxn } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
 import { publishEthTxn, publishSolTxn } from "../../../../packages/kafka/src";
+import { Cluster } from "@solana/web3.js";
 
 export const txnRouter = Router();
 
@@ -61,6 +62,7 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
         /**
          * Publishing the txn payload for que based system
          */
+        const cluster = "devnet" as Cluster;
         await publishSolTxn(
           transaction,
           blockTime,
@@ -69,6 +71,7 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
           amount,
           id,
           network,
+          cluster
         );
         return res
           .status(200)

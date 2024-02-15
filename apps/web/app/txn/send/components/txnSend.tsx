@@ -49,6 +49,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export function PaymentCard({
   address,
@@ -57,6 +58,7 @@ export function PaymentCard({
   address: Partial<Address>;
   client: ClientWithJwt;
 }) {
+  const router = useRouter();
   const { theme } = useTheme();
   const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
   const [network, setNetwork] = useState<Network>(Network.Sol);
@@ -92,6 +94,7 @@ export function PaymentCard({
       title: `Transaction Successful`,
       description: network == Network.Sol ? `Transaction Hash: ${response.signature.transaction.signatures[0]}` : `Transaction Hash: ${response.hash}`,
     });
+    router.push("/txn");
     setIsLoading(false);
   }
 

@@ -3,7 +3,7 @@ import { kafkaClient } from "..";
 import { ConfirmedTransactionMeta } from "@solana/web3.js";
 import { TransactionReceipt, TransactionResponse } from "ethers";
 import { calculateGas } from "../utils/utils";
-
+import { Cluster } from "@solana/web3.js";
 /**
  *
  * @param transaction
@@ -23,6 +23,7 @@ export const publishSolTxn = async (
   amount: number,
   clientId: string,
   network: Network,
+  cluster: Cluster,
 ): Promise<boolean> => {
   try {
     //@ts-ignore
@@ -48,6 +49,7 @@ export const publishSolTxn = async (
             recentBlockhash: transaction.message.recentBlockhash,
             slot,
             network,
+            cluster
           }),
         },
       ],

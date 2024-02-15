@@ -38,7 +38,7 @@ export default async function SendTxn({
   }
   console.log(session.user, "from session");
   //@ts-ignore
-  const qrcode = await getCode(session?.user.id);
+  // const qrcode = await getCode(session?.user.id);
   return (
     <>
       <div className="flex justify-center items-center w-screen">
