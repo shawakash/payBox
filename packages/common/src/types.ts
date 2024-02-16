@@ -83,6 +83,7 @@ export type InsertTxnType = {
   signature: string[];
   network: Network;
   slot?: number | null;
+  nonce?: number | null;
   chainId?: number;
   cluster?: EthCluster | Cluster | BitcoinCluster | USDCCluster;
 };

@@ -70,6 +70,11 @@ export enum USDCCluster {
   OTHER = 'other',
 }
 
+export enum SolCluster {
+  Mainnet = "mainnet",
+  Devnet = "devnet",
+  Testnet = "testnet",
+}
 
 export const SOLSCAN_TXN_URL = (txnId: string, cluster: Cluster): string => {
   return `https://solscan.io/tx/${txnId}?cluster=${cluster}`;
@@ -128,7 +133,7 @@ export const getAccountUrl = (network: Network, accountId: string, cluster: Clus
     case Network.Eth:
       return ETHERSCAN_ACCOUNT_URL(accountId, cluster as EthCluster);
     case Network.Bitcoin:
-    return BLOCKEXPLORER_ADDRESS_URL(accountId, cluster as BitcoinCluster);
+      return BLOCKEXPLORER_ADDRESS_URL(accountId, cluster as BitcoinCluster);
     case Network.USDC:
       return USDC_ETHERSCAN_ACCOUNT_URL(accountId, cluster as string);
     default:
@@ -142,3 +147,20 @@ export const capitiliaze = (str: string): string => {
 };
 
 export const BTC_WS_URL = "wss://ws.blockchain.info/inv";
+
+
+export interface ClusterObject {
+  value: string;
+  label: string;
+}
+
+export const enumToClustersArray = (enumObject: any): ClusterObject[] => {
+  const clusters: ClusterObject[] = [];
+  for (const key in enumObject) {
+    if (Object.prototype.hasOwnProperty.call(enumObject, key)) {
+        const value = (enumObject as any)[key]; // Type assertion to any
+        clusters.push({ value, label: key });
+    }
+}
+  return clusters;
+}

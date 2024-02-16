@@ -1,10 +1,15 @@
 import { z } from "zod";
 import {
+  BitcoinCluster,
+  EthCluster,
+  SolCluster,
+  USDCCluster,
   isEthereumAddress,
   isEthereumPrivateKey,
   isSolanaAddress,
 } from "../constant";
 import { Network } from "../types";
+import { Cluster } from "@solana/web3.js";
 
 const AddressType = z.union([
   z.string().refine(isEthereumPrivateKey, {
@@ -35,6 +40,13 @@ export const TxnSendQuery = z.object({
     )
     .transform((value) => parseFloat(value as unknown as string)),
   network: z.nativeEnum(Network),
+  cluster: z
+    .union([
+      z.nativeEnum(SolCluster),
+      z.nativeEnum(EthCluster),
+      z.nativeEnum(BitcoinCluster),
+      z.nativeEnum(USDCCluster),
+  ]),
 });
 
 export const TxnsQeury = z.object({
