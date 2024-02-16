@@ -22,7 +22,7 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { from, amount, to, network } = TxnSendQuery.parse(req.query);
+      const { from, amount, to, network, cluster } = TxnSendQuery.parse(req.query);
       if (network == Network.Eth) {
         const transaction = await ethTxn.acceptTxn({ amount, to, from });
         if (!transaction) {
@@ -39,7 +39,7 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
           amount,
           id,
           network,
-          EthCluster.Sepolia,
+          cluster as EthCluster,
         );
         return res
           .status(200)
@@ -62,7 +62,6 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
         /**
          * Publishing the txn payload for que based system
          */
-        const cluster = "devnet" as Cluster;
         await publishSolTxn(
           transaction,
           blockTime,
@@ -71,7 +70,7 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
           amount,
           id,
           network,
-          cluster
+          cluster as Cluster,
         );
         return res
           .status(200)

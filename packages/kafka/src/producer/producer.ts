@@ -48,6 +48,7 @@ export const publishSolTxn = async (
             preBalances: meta.preBalances,
             recentBlockhash: transaction.message.recentBlockhash,
             slot,
+            nonce: slot,
             network,
             cluster
           }),
@@ -84,7 +85,9 @@ export const publishEthTxn = async (
             from: transaction.from,
             to: transaction.to,
             recentBlockhash: transaction.blockHash,
-            chianId: Number(transaction.chainId),
+            chainId: Number(transaction.chainId),
+            nonce: Number(transaction.nonce),
+            slot: Number(transaction.nonce),
             network,
             cluster,
           }),

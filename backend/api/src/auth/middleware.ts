@@ -92,7 +92,7 @@ export const txnCheckAddress = async (
     const id = req.id;
     if (id) {
       try {
-        const { network, from, to } = TxnSendQuery.parse(req.query);
+        const { network, from, to, cluster } = TxnSendQuery.parse(req.query);
         if (network == Network.Eth) {
           const sender = await ethTxn.checkAddress(from);
           const receiver = await ethTxn.checkAddress(to);

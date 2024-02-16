@@ -50,6 +50,7 @@ import {
 } from "@/components/ui/form";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { ClusterCombo } from "@/components/ui/cluster-combobox";
 
 export function PaymentCard({
   address,
@@ -82,7 +83,7 @@ export function PaymentCard({
         </pre>
       ),
     });
-    const url = `${BACKEND_URL}/txn/send?from=${values.from}&to=${values.to}&network=${values.network}&amount=${values.amount}`;
+    const url = `${BACKEND_URL}/txn/send?from=${values.from}&to=${values.to}&network=${values.network}&amount=${values.amount}&cluster=${values.cluster}`;
     const response = await fetch(url, {
       method: "post",
       headers: {
@@ -196,6 +197,7 @@ export function PaymentCard({
             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
               <Input id="name" placeholder={`${client.firstname}`} />
+
             </div>
             <div className="grid gap-2">
               <FormField
@@ -269,6 +271,25 @@ export function PaymentCard({
                   )}
                 />
               </div>
+              <FormField
+                control={form.control}
+                name="cluster"
+                render={({ field }) => (
+                  <FormItem className="grid mt-5">
+                    <FormControl>
+                      <ClusterCombo
+                        network={network}
+                        selectCluster={(cluster) => {
+                          console.log(cluster)
+                          form.setValue("cluster", cluster);
+                        }
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="network"
