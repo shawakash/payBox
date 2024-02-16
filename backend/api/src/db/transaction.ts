@@ -45,6 +45,9 @@ export const insertTxn = async ({
   signature,
   network,
   slot,
+  cluster,
+  nonce,
+  chainId,
 }: InsertTxnType): Promise<{
   status: dbResStatus;
   id?: unknown;
@@ -66,6 +69,9 @@ export const insertTxn = async ({
             preBalances,
             postBalances,
             recentBlockhash,
+            cluster,
+            nonce,
+            chainId,
           },
         },
         {
