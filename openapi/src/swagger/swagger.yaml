@@ -1156,6 +1156,12 @@ components:
           pattern: "^[0-9]+(\\.[0-9]+)?$"
         network:
           $ref: "#/components/schemas/Network"
+        cluster:
+          oneOf:
+            - $ref: "#/components/schemas/EthCluster"
+            - $ref: "#/components/schemas/Cluster"
+            - $ref: "#/components/schemas/BitcoinCluster"
+            - $ref: "#/components/schemas/USDCCluster"
 
     TxnGetQueryByHash:
       type: object
@@ -1196,10 +1202,12 @@ components:
           type: string
         postBalances:
           type: array
+          nullable: true
           items:
             type: number
         preBalances:
           type: array
+          nullable: true
           items:
             type: number
         recentBlockhash:
@@ -1212,6 +1220,10 @@ components:
           $ref: "#/components/schemas/Network"
         slot:
           type: number
+          nullable: true
+        nonce:
+          type: number
+          nullable: true
         chainId:
           type: number
         cluster:

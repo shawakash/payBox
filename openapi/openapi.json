@@ -1769,6 +1769,22 @@
           },
           "network": {
             "$ref": "#/components/schemas/Network"
+          },
+          "cluster": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/EthCluster"
+              },
+              {
+                "$ref": "#/components/schemas/Cluster"
+              },
+              {
+                "$ref": "#/components/schemas/BitcoinCluster"
+              },
+              {
+                "$ref": "#/components/schemas/USDCCluster"
+              }
+            ]
           }
         }
       },
@@ -1827,12 +1843,14 @@
           },
           "postBalances": {
             "type": "array",
+            "nullable": true,
             "items": {
               "type": "number"
             }
           },
           "preBalances": {
             "type": "array",
+            "nullable": true,
             "items": {
               "type": "number"
             }
@@ -1850,7 +1868,12 @@
             "$ref": "#/components/schemas/Network"
           },
           "slot": {
-            "type": "number"
+            "type": "number",
+            "nullable": true
+          },
+          "nonce": {
+            "type": "number",
+            "nullable": true
           },
           "chainId": {
             "type": "number"

@@ -872,8 +872,20 @@ export interface TransactionSendQuery {
      * @memberof TransactionSendQuery
      */
     'network'?: Network;
+    /**
+     * 
+     * @type {TransactionSendQueryCluster}
+     * @memberof TransactionSendQuery
+     */
+    'cluster'?: TransactionSendQueryCluster;
 }
 
+
+/**
+ * @type TransactionSendQueryCluster
+ * @export
+ */
+export type TransactionSendQueryCluster = BitcoinCluster | Cluster | EthCluster | USDCCluster;
 
 /**
  * 
@@ -981,13 +993,13 @@ export interface TxnType {
      * @type {Array<number>}
      * @memberof TxnType
      */
-    'postBalances'?: Array<number>;
+    'postBalances'?: Array<number> | null;
     /**
      * 
      * @type {Array<number>}
      * @memberof TxnType
      */
-    'preBalances'?: Array<number>;
+    'preBalances'?: Array<number> | null;
     /**
      * 
      * @type {string}
@@ -1011,7 +1023,13 @@ export interface TxnType {
      * @type {number}
      * @memberof TxnType
      */
-    'slot'?: number;
+    'slot'?: number | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof TxnType
+     */
+    'nonce'?: number | null;
     /**
      * 
      * @type {number}
@@ -1020,18 +1038,12 @@ export interface TxnType {
     'chainId'?: number;
     /**
      * 
-     * @type {TxnTypeCluster}
+     * @type {TransactionSendQueryCluster}
      * @memberof TxnType
      */
-    'cluster'?: TxnTypeCluster;
+    'cluster'?: TransactionSendQueryCluster;
 }
 
-
-/**
- * @type TxnTypeCluster
- * @export
- */
-export type TxnTypeCluster = BitcoinCluster | Cluster | EthCluster | USDCCluster;
 
 /**
  * 
