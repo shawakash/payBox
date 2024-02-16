@@ -46,8 +46,9 @@ export const insertTxn = async ({
   signature,
   network,
   slot,
-  chainId,
   cluster,
+  nonce,
+  chainId,
 }: InsertTxnType): Promise<{
   status: dbResStatus;
   id?: unknown;
@@ -69,9 +70,9 @@ export const insertTxn = async ({
             preBalances,
             postBalances,
             recentBlockhash,
-            chainId,
             cluster,
-            status: "confirmed",
+            nonce,
+            chainId,
           },
         },
         {
@@ -224,7 +225,7 @@ export const getAllTxn = async ({
   clientId: string;
 }): Promise<{
   status: dbResStatus;
-  txns?: unknown[];
+  txns?: TxnType[];
 }> => {
   const response = await chain("query")(
     {
@@ -252,6 +253,7 @@ export const getAllTxn = async ({
           recentBlockhash: true,
           slot: true,
           to: true,
+          cluster: true,
         },
       ],
     },
