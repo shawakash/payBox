@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paybox-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app:  paybox-api
+  template:
+    metadata:
+      labels:
+        app:  paybox-api
+    spec:
+      containers:
+      - name:  paybox-api
+        image: shawakash/paybox-api:c13f9fa66b6e29936b066ad211a17930e2a42e43
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: dockerhub-secret
