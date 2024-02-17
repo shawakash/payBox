@@ -44,3 +44,4 @@ yarn test
 ## Maintenance and Updates
 
 - Keep the smart contract and application updated with the latest releases, security patches, and improvements.
+
