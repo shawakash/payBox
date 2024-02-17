@@ -1,0 +1,10 @@
+table:
+  name: eth
+  schema: public
+object_relationships:
+  - name: client
+    using:
+      foreign_key_constraint_on: clientId
+  - name: wallet
+    using:
+      foreign_key_constraint_on: walletId

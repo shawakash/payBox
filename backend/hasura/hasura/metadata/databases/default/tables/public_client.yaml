@@ -9,6 +9,13 @@ object_relationships:
         table:
           name: address
           schema: public
+  - name: sol
+    using:
+      foreign_key_constraint_on:
+        column: clientId
+        table:
+          name: sol
+          schema: public
   - name: wallet
     using:
       foreign_key_constraint_on:

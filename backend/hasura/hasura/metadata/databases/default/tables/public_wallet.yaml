@@ -5,3 +5,10 @@ object_relationships:
   - name: client
     using:
       foreign_key_constraint_on: clientId
+  - name: solById
+    using:
+      foreign_key_constraint_on:
+        column: walletId
+        table:
+          name: sol
+          schema: public
