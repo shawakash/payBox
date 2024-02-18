@@ -75,6 +75,21 @@ clientRouter.post("/", async (req, res) => {
       password: hashPassword,
     });
 
+    if(client.walletId) {
+      await cache.cacheWallet(client.walletId as string, {
+        clientId: client.id as string,
+        id: client.walletId as string,
+        secretPhase: seed,
+        accounts: [{
+          clientId: client.id as string,
+          id: client.accountId as string,
+          sol: solKeys,
+          eth: ethKeys,
+        }]
+      })
+
+    }
+
     /**
      * Create a Jwt
      */
@@ -147,6 +162,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
         password: hashPassword || "",
       });
 
+      
+
       return res
         .status(200)
         .json({ ...getClient.client[0], jwt, status: responseStatus.Ok });
@@ -185,6 +202,21 @@ clientRouter.post("/providerAuth", async (req, res) => {
       //@ts-ignore
       password: hashPassword || "",
     });
+    
+    if(client.walletId) {
+      await cache.cacheWallet(client.walletId as string, {
+        clientId: client.id as string,
+        id: client.walletId as string,
+        secretPhase: seed,
+        accounts: [{
+          clientId: client.id as string,
+          id: client.accountId as string,
+          sol: solKeys,
+          eth: ethKeys,
+        }]
+      });
+
+    }
 
     /**
      * Create a Jwt

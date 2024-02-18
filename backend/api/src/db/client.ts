@@ -1,10 +1,9 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus, getClientId } from "../types/client";
-import { HASURA_ADMIN_SERCRET } from "@paybox/common";
+import { HASURA_ADMIN_SERCRET, WalletKeys } from "@paybox/common";
 import { Wallet, ethers } from "ethers";
 import { Keypair } from "@solana/web3.js";
-import { WalletKeys } from "../types/address";
 
 const chain = Chain(HASURA_URL, {
   headers: {

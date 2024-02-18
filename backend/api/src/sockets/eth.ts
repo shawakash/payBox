@@ -6,8 +6,8 @@ import {
   ethers,
 } from "ethers";
 import { WebSocket } from "ws";
-import { EthNetwok, WalletKeys } from "../types/address";
-import { AcceptEthTxn } from "@paybox/common";
+import { EthNetwok } from "../types/address";
+import { AcceptEthTxn, WalletKeys } from "@paybox/common";
 
 interface EthereumTransactionData {
   type: "transaction";
@@ -187,7 +187,7 @@ export class EthOps {
 
   createWallet(): WalletKeys {
       const wallet = ethers.Wallet.createRandom();
-      
+
       const keys: WalletKeys = {
         privateKey: wallet.privateKey,
         publicKey: wallet.address,

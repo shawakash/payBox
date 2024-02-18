@@ -13,10 +13,9 @@ import {
 } from "@solana/web3.js";
 import { WebSocket, WebSocketServer } from "ws";
 import { TransactionData } from "../types/sol";
-import { AcceptSolTxn } from "@paybox/common";
+import { AcceptSolTxn, WalletKeys } from "@paybox/common";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import baseX from "base-x";
-import { WalletKeys } from "../types/address";
 
 export class SolTxnLogs {
   private rpcUrl: string;
