@@ -1,3 +1,4 @@
+
 export enum EthNetwok {
   sepolia = "sepolia",
   mainnet = "mainnet",
@@ -10,7 +11,3 @@ export type Filter = {
 };
 
 
-export type WalletKeys = {
-  privateKey: string;
-  publicKey: string;
-};
