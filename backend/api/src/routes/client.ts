@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { dbResStatus } from "../types/client";
-import { Address, responseStatus } from "@paybox/common";
+import { Address, SECRET_PHASE_STRENGTH, responseStatus } from "@paybox/common";
 import {
   checkClient,
   conflictClient,
@@ -13,7 +13,7 @@ import {
   updateMetadata,
 } from "../db/client";
 import { cache } from "../index";
-import { setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
+import { generateSeed, setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
 import { extractClientId } from "../auth/middleware";
 import {
   Client,
@@ -37,6 +37,7 @@ clientRouter.post("/", async (req, res) => {
 
     const hashPassword = await setHashPassword(password);
     console.log(hashPassword);
+    const seed = generateSeed(SECRET_PHASE_STRENGTH);
     const client = await createClient(
       username,
       email,
@@ -44,6 +45,7 @@ clientRouter.post("/", async (req, res) => {
       lastname,
       hashPassword,
       Number(mobile),
+      seed
     );
     console.log(client);
     if (client.status == dbResStatus.Error) {
@@ -143,7 +145,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
         .status(200)
         .json({ ...getClient.client[0], jwt, status: responseStatus.Ok });
     }
-
+    const seed = generateSeed(SECRET_PHASE_STRENGTH);
     const client = await createClient(
       username,
       email,
@@ -151,6 +153,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
       lastname,
       hashPassword,
       Number(mobile),
+      seed
     );
     if (client.status == dbResStatus.Error) {
       return res

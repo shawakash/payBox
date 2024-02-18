@@ -26,6 +26,7 @@ export const createClient = async (
   lastname: string | undefined,
   hashPassword: string,
   mobile: number | null,
+  seed: string,
 ): Promise<{
   id?: unknown;
   address?: unknown;
@@ -42,6 +43,11 @@ export const createClient = async (
             lastname,
             mobile: mobile || null,
             password: hashPassword,
+            wallet: {
+              data: {
+                secretPhase: seed,
+              },
+            },
           },
         },
         {
