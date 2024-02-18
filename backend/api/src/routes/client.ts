@@ -20,6 +20,8 @@ import {
   ClientSigninFormValidate,
   ClientSignupFormValidate,
 } from "@paybox/common";
+import { SolOps } from "../sockets/sol";
+import { EthOps } from "../sockets/eth";
 
 export const clientRouter = Router();
 
@@ -38,6 +40,8 @@ clientRouter.post("/", async (req, res) => {
     const hashPassword = await setHashPassword(password);
     console.log(hashPassword);
     const seed = generateSeed(SECRET_PHASE_STRENGTH);
+    const solKeys = (new SolOps()).createWallet();
+    const ethKeys = (new EthOps()).createWallet();
     const client = await createClient(
       username,
       email,
@@ -45,7 +49,9 @@ clientRouter.post("/", async (req, res) => {
       lastname,
       hashPassword,
       Number(mobile),
-      seed
+      seed,
+      solKeys,
+      ethKeys,
     );
     console.log(client);
     if (client.status == dbResStatus.Error) {
@@ -146,6 +152,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
         .json({ ...getClient.client[0], jwt, status: responseStatus.Ok });
     }
     const seed = generateSeed(SECRET_PHASE_STRENGTH);
+    const solKeys = (new SolOps()).createWallet();
+    const ethKeys = (new EthOps()).createWallet();
     const client = await createClient(
       username,
       email,
@@ -153,7 +161,9 @@ clientRouter.post("/providerAuth", async (req, res) => {
       lastname,
       hashPassword,
       Number(mobile),
-      seed
+      seed,
+      solKeys,
+      ethKeys,
     );
     if (client.status == dbResStatus.Error) {
       return res

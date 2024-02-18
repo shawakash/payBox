@@ -8,3 +8,9 @@ export type Filter = {
   address: string;
   topics: [];
 };
+
+
+export type WalletKeys = {
+  privateKey: string;
+  publicKey: string;
+};

@@ -16,6 +16,7 @@ import { TransactionData } from "../types/sol";
 import { AcceptSolTxn } from "@paybox/common";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import baseX from "base-x";
+import { WalletKeys } from "../types/address";
 
 export class SolTxnLogs {
   private rpcUrl: string;
@@ -120,6 +121,19 @@ export class SolTxnLogs {
       console.log(error);
       return null;
     }
+  }
+
+}
+
+export class SolOps {
+
+  constructor() {
+  }
+
+  createWallet(): WalletKeys {
+    const keyPair = Keypair.generate();
+    console.log(keyPair);
+    return {publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey)};
   }
 }
 
