@@ -5,6 +5,7 @@ import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
 import { Address, CLIENT_URL, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
 import * as qr from "qrcode";
 import fs from "fs";
+import * as bip39 from 'bip39';
 
 /**
  * @param jwt
@@ -132,3 +133,9 @@ export const generateUniqueImageName = (id: string): string => {
   const imageName: string = `./codes/${id.slice(5)}_${timestamp.toString().slice(5)}.png`;
   return imageName;
 };
+
+export const generateSeed = (strength: number): string => {
+  const mnemonic: string = bip39.generateMnemonic();
+  console.log(mnemonic);
+  return mnemonic;
+}

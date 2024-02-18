@@ -13,7 +13,7 @@ import {
 } from "@solana/web3.js";
 import { WebSocket, WebSocketServer } from "ws";
 import { TransactionData } from "../types/sol";
-import { AcceptSolTxn } from "@paybox/common";
+import { AcceptSolTxn, WalletKeys } from "@paybox/common";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import baseX from "base-x";
 
@@ -120,6 +120,19 @@ export class SolTxnLogs {
       console.log(error);
       return null;
     }
+  }
+
+}
+
+export class SolOps {
+
+  constructor() {
+  }
+
+  createWallet(): WalletKeys {
+    const keyPair = Keypair.generate();
+    console.log(keyPair);
+    return {publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey)};
   }
 }
 

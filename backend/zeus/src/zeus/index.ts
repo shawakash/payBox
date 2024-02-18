@@ -1068,6 +1068,320 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null | Variable<any, string>;
   };
+  /** accounts in a wallet */
+  ["account"]: AliasType<{
+    /** An object relationship */
+    bitcoin?: ValueTypes["bitcoin"];
+    /** An object relationship */
+    client?: ValueTypes["client"];
+    clientId?: boolean | `@${string}`;
+    /** An object relationship */
+    eth?: ValueTypes["eth"];
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    sol?: ValueTypes["sol"];
+    /** An object relationship */
+    wallet?: ValueTypes["wallet"];
+    walletId?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "account" */
+  ["account_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["account_aggregate_fields"];
+    nodes?: ValueTypes["account"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["account_aggregate_bool_exp"]: {
+    count?:
+      | ValueTypes["account_aggregate_bool_exp_count"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  ["account_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ValueTypes["account_select_column"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["account_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>;
+  };
+  /** aggregate fields of "account" */
+  ["account_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["account_max_fields"];
+    min?: ValueTypes["account_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "account" */
+  ["account_aggregate_order_by"]: {
+    count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    max?:
+      | ValueTypes["account_max_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    min?:
+      | ValueTypes["account_min_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting array relation for remote table "account" */
+  ["account_arr_rel_insert_input"]: {
+    data: Array<ValueTypes["account_insert_input"]> | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["account_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Boolean expression to filter rows from the table "account". All fields are combined with a logical 'AND'. */
+  ["account_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["account_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["account_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["account_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    bitcoin?:
+      | ValueTypes["bitcoin_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    eth?: ValueTypes["eth_bool_exp"] | undefined | null | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sol?: ValueTypes["sol_bool_exp"] | undefined | null | Variable<any, string>;
+    wallet?:
+      | ValueTypes["wallet_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    walletId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "account" */
+  ["account_constraint"]: account_constraint;
+  /** input type for inserting data into table "account" */
+  ["account_insert_input"]: {
+    bitcoin?:
+      | ValueTypes["bitcoin_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    eth?:
+      | ValueTypes["eth_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    sol?:
+      | ValueTypes["sol_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    wallet?:
+      | ValueTypes["wallet_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    walletId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["account_max_fields"]: AliasType<{
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    walletId?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "account" */
+  ["account_max_order_by"]: {
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    walletId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate min on columns */
+  ["account_min_fields"]: AliasType<{
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    walletId?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "account" */
+  ["account_min_order_by"]: {
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    walletId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** response of any mutation on the table "account" */
+  ["account_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["account"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "account" */
+  ["account_obj_rel_insert_input"]: {
+    data: ValueTypes["account_insert_input"] | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["account_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** on_conflict condition type for table "account" */
+  ["account_on_conflict"]: {
+    constraint: ValueTypes["account_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["account_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["account_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "account". */
+  ["account_order_by"]: {
+    bitcoin?:
+      | ValueTypes["bitcoin_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    eth?: ValueTypes["eth_order_by"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    sol?: ValueTypes["sol_order_by"] | undefined | null | Variable<any, string>;
+    wallet?:
+      | ValueTypes["wallet_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    walletId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** primary key columns input for table: account */
+  ["account_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "account" */
+  ["account_select_column"]: account_select_column;
+  /** input type for updating data in table "account" */
+  ["account_set_input"]: {
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    walletId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+  };
+  /** Streaming cursor of the table "account" */
+  ["account_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["account_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["account_stream_cursor_value_input"]: {
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    walletId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+  };
+  /** update columns of table "account" */
+  ["account_update_column"]: account_update_column;
+  ["account_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["account_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["account_bool_exp"] | Variable<any, string>;
+  };
   /** different chain and there address */
   ["address"]: AliasType<{
     bitcoin?: boolean | `@${string}`;
@@ -1310,8 +1624,453 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
   };
+  /** bticoin address for client wallets */
+  ["bitcoin"]: AliasType<{
+    /** An object relationship */
+    account?: ValueTypes["account"];
+    accountId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetBtc?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "bitcoin" */
+  ["bitcoin_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["bitcoin_aggregate_fields"];
+    nodes?: ValueTypes["bitcoin"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "bitcoin" */
+  ["bitcoin_aggregate_fields"]: AliasType<{
+    avg?: ValueTypes["bitcoin_avg_fields"];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["bitcoin_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["bitcoin_max_fields"];
+    min?: ValueTypes["bitcoin_min_fields"];
+    stddev?: ValueTypes["bitcoin_stddev_fields"];
+    stddev_pop?: ValueTypes["bitcoin_stddev_pop_fields"];
+    stddev_samp?: ValueTypes["bitcoin_stddev_samp_fields"];
+    sum?: ValueTypes["bitcoin_sum_fields"];
+    var_pop?: ValueTypes["bitcoin_var_pop_fields"];
+    var_samp?: ValueTypes["bitcoin_var_samp_fields"];
+    variance?: ValueTypes["bitcoin_variance_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ["bitcoin_avg_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "bitcoin". All fields are combined with a logical 'AND'. */
+  ["bitcoin_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["bitcoin_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["bitcoin_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["bitcoin_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    account?:
+      | ValueTypes["account_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    mainnetBtc?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    publicKey?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    regtestBtc?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    textnetBtc?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "bitcoin" */
+  ["bitcoin_constraint"]: bitcoin_constraint;
+  /** input type for incrementing numeric columns in table "bitcoin" */
+  ["bitcoin_inc_input"]: {
+    mainnetBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    regtestBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    textnetBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting data into table "bitcoin" */
+  ["bitcoin_insert_input"]: {
+    account?:
+      | ValueTypes["account_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    mainnetBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    regtestBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    textnetBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["bitcoin_max_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetBtc?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["bitcoin_min_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetBtc?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "bitcoin" */
+  ["bitcoin_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["bitcoin"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "bitcoin" */
+  ["bitcoin_obj_rel_insert_input"]: {
+    data: ValueTypes["bitcoin_insert_input"] | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["bitcoin_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** on_conflict condition type for table "bitcoin" */
+  ["bitcoin_on_conflict"]: {
+    constraint: ValueTypes["bitcoin_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["bitcoin_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["bitcoin_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "bitcoin". */
+  ["bitcoin_order_by"]: {
+    account?:
+      | ValueTypes["account_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    mainnetBtc?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    publicKey?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    regtestBtc?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    textnetBtc?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** primary key columns input for table: bitcoin */
+  ["bitcoin_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "bitcoin" */
+  ["bitcoin_select_column"]: bitcoin_select_column;
+  /** input type for updating data in table "bitcoin" */
+  ["bitcoin_set_input"]: {
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    mainnetBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    regtestBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    textnetBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate stddev on columns */
+  ["bitcoin_stddev_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ["bitcoin_stddev_pop_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ["bitcoin_stddev_samp_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "bitcoin" */
+  ["bitcoin_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["bitcoin_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["bitcoin_stream_cursor_value_input"]: {
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    mainnetBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    regtestBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    textnetBtc?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate sum on columns */
+  ["bitcoin_sum_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "bitcoin" */
+  ["bitcoin_update_column"]: bitcoin_update_column;
+  ["bitcoin_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?:
+      | ValueTypes["bitcoin_inc_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["bitcoin_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["bitcoin_bool_exp"] | Variable<any, string>;
+  };
+  /** aggregate var_pop on columns */
+  ["bitcoin_var_pop_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ["bitcoin_var_samp_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ["bitcoin_variance_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** subscriber for paybox */
   ["client"]: AliasType<{
+    accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["account_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account"],
+    ];
+    accounts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["account_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account_aggregate"],
+    ];
     /** An object relationship */
     address?: ValueTypes["address"];
     email?: boolean | `@${string}`;
@@ -1389,6 +2148,8 @@ export type ValueTypes = {
       ValueTypes["transactions_aggregate"],
     ];
     username?: boolean | `@${string}`;
+    /** An object relationship */
+    wallet?: ValueTypes["wallet"];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "client" */
@@ -1444,6 +2205,16 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    accounts?:
+      | ValueTypes["account_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accounts_aggregate?:
+      | ValueTypes["account_aggregate_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
     address?:
       | ValueTypes["address_bool_exp"]
       | undefined
@@ -1494,6 +2265,11 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    wallet?:
+      | ValueTypes["wallet_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
   };
   /** unique or primary key constraints on table "client" */
   ["client_constraint"]: client_constraint;
@@ -1503,6 +2279,11 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
+    accounts?:
+      | ValueTypes["account_arr_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
     address?:
       | ValueTypes["address_obj_rel_insert_input"]
       | undefined
@@ -1520,6 +2301,11 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
+    wallet?:
+      | ValueTypes["wallet_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
   };
   /** aggregate max on columns */
   ["client_max_fields"]: AliasType<{
@@ -1575,6 +2361,11 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "client". */
   ["client_order_by"]: {
+    accounts_aggregate?:
+      | ValueTypes["account_aggregate_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
     address?:
       | ValueTypes["address_order_by"]
       | undefined
@@ -1605,6 +2396,11 @@ export type ValueTypes = {
       | Variable<any, string>;
     username?:
       | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    wallet?:
+      | ValueTypes["wallet_order_by"]
       | undefined
       | null
       | Variable<any, string>;
@@ -1716,6 +2512,474 @@ export type ValueTypes = {
     _neq?: ValueTypes["date"] | undefined | null | Variable<any, string>;
     _nin?: Array<ValueTypes["date"]> | undefined | null | Variable<any, string>;
   };
+  /** eth address and token for client wallets */
+  ["eth"]: AliasType<{
+    /** An object relationship */
+    account?: ValueTypes["account"];
+    accountId?: boolean | `@${string}`;
+    goerliEth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "eth" */
+  ["eth_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["eth_aggregate_fields"];
+    nodes?: ValueTypes["eth"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "eth" */
+  ["eth_aggregate_fields"]: AliasType<{
+    avg?: ValueTypes["eth_avg_fields"];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["eth_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["eth_max_fields"];
+    min?: ValueTypes["eth_min_fields"];
+    stddev?: ValueTypes["eth_stddev_fields"];
+    stddev_pop?: ValueTypes["eth_stddev_pop_fields"];
+    stddev_samp?: ValueTypes["eth_stddev_samp_fields"];
+    sum?: ValueTypes["eth_sum_fields"];
+    var_pop?: ValueTypes["eth_var_pop_fields"];
+    var_samp?: ValueTypes["eth_var_samp_fields"];
+    variance?: ValueTypes["eth_variance_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ["eth_avg_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "eth". All fields are combined with a logical 'AND'. */
+  ["eth_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["eth_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["eth_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["eth_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    account?:
+      | ValueTypes["account_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    goerliEth?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    kovanEth?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    mainnetEth?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    publicKey?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    rinkebyEth?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    ropstenEth?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sepoliaEth?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "eth" */
+  ["eth_constraint"]: eth_constraint;
+  /** input type for incrementing numeric columns in table "eth" */
+  ["eth_inc_input"]: {
+    goerliEth?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    kovanEth?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    mainnetEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    rinkebyEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    ropstenEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sepoliaEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting data into table "eth" */
+  ["eth_insert_input"]: {
+    account?:
+      | ValueTypes["account_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    goerliEth?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    kovanEth?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    mainnetEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    rinkebyEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    ropstenEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sepoliaEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["eth_max_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    goerliEth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["eth_min_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    goerliEth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "eth" */
+  ["eth_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["eth"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "eth" */
+  ["eth_obj_rel_insert_input"]: {
+    data: ValueTypes["eth_insert_input"] | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["eth_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** on_conflict condition type for table "eth" */
+  ["eth_on_conflict"]: {
+    constraint: ValueTypes["eth_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["eth_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["eth_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "eth". */
+  ["eth_order_by"]: {
+    account?:
+      | ValueTypes["account_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    goerliEth?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    kovanEth?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    mainnetEth?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    publicKey?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    rinkebyEth?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    ropstenEth?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sepoliaEth?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** primary key columns input for table: eth */
+  ["eth_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "eth" */
+  ["eth_select_column"]: eth_select_column;
+  /** input type for updating data in table "eth" */
+  ["eth_set_input"]: {
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    goerliEth?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    kovanEth?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    mainnetEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    rinkebyEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    ropstenEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sepoliaEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate stddev on columns */
+  ["eth_stddev_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ["eth_stddev_pop_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ["eth_stddev_samp_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "eth" */
+  ["eth_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["eth_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["eth_stream_cursor_value_input"]: {
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    goerliEth?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    kovanEth?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    mainnetEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    rinkebyEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    ropstenEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sepoliaEth?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate sum on columns */
+  ["eth_sum_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "eth" */
+  ["eth_update_column"]: eth_update_column;
+  ["eth_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?:
+      | ValueTypes["eth_inc_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["eth_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["eth_bool_exp"] | Variable<any, string>;
+  };
+  /** aggregate var_pop on columns */
+  ["eth_var_pop_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ["eth_var_samp_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ["eth_variance_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ["float8"]: unknown;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ["float8_comparison_exp"]: {
@@ -1782,6 +3046,17 @@ export type ValueTypes = {
   };
   /** mutation root */
   ["mutation_root"]: AliasType<{
+    delete_account?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["account_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["account_mutation_response"],
+    ];
+    delete_account_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["account"],
+    ];
     delete_address?: [
       {
         /** filter the rows which have to be deleted */
@@ -1792,6 +3067,17 @@ export type ValueTypes = {
     delete_address_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["address"],
+    ];
+    delete_bitcoin?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["bitcoin_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["bitcoin_mutation_response"],
+    ];
+    delete_bitcoin_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["bitcoin"],
     ];
     delete_client?: [
       {
@@ -1804,6 +3090,28 @@ export type ValueTypes = {
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["client"],
     ];
+    delete_eth?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["eth_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["eth_mutation_response"],
+    ];
+    delete_eth_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["eth"],
+    ];
+    delete_sol?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["sol_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["sol_mutation_response"],
+    ];
+    delete_sol_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["sol"],
+    ];
     delete_transactions?: [
       {
         /** filter the rows which have to be deleted */
@@ -1814,6 +3122,45 @@ export type ValueTypes = {
     delete_transactions_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["transactions"],
+    ];
+    delete_wallet?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["wallet_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["wallet_mutation_response"],
+    ];
+    delete_wallet_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["wallet"],
+    ];
+    insert_account?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["account_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["account_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account_mutation_response"],
+    ];
+    insert_account_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["account_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["account_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account"],
     ];
     insert_address?: [
       {
@@ -1843,6 +3190,34 @@ export type ValueTypes = {
       },
       ValueTypes["address"],
     ];
+    insert_bitcoin?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["bitcoin_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["bitcoin_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["bitcoin_mutation_response"],
+    ];
+    insert_bitcoin_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["bitcoin_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["bitcoin_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["bitcoin"],
+    ];
     insert_client?: [
       {
         /** the rows to be inserted */
@@ -1871,6 +3246,62 @@ export type ValueTypes = {
       },
       ValueTypes["client"],
     ];
+    insert_eth?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["eth_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["eth_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["eth_mutation_response"],
+    ];
+    insert_eth_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["eth_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["eth_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["eth"],
+    ];
+    insert_sol?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["sol_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["sol_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["sol_mutation_response"],
+    ];
+    insert_sol_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["sol_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["sol_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["sol"],
+    ];
     insert_transactions?: [
       {
         /** the rows to be inserted */
@@ -1898,6 +3329,70 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["transactions"],
+    ];
+    insert_wallet?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["wallet_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["wallet_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet_mutation_response"],
+    ];
+    insert_wallet_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["wallet_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["wallet_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet"],
+    ];
+    update_account?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["account_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["account_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["account_mutation_response"],
+    ];
+    update_account_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["account_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns:
+          | ValueTypes["account_pk_columns_input"]
+          | Variable<any, string>;
+      },
+      ValueTypes["account"],
+    ];
+    update_account_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes["account_updates"]> | Variable<any, string>;
+      },
+      ValueTypes["account_mutation_response"],
     ];
     update_address?: [
       {
@@ -1934,6 +3429,58 @@ export type ValueTypes = {
         updates: Array<ValueTypes["address_updates"]> | Variable<any, string>;
       },
       ValueTypes["address_mutation_response"],
+    ];
+    update_bitcoin?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes["bitcoin_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes["bitcoin_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["bitcoin_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["bitcoin_mutation_response"],
+    ];
+    update_bitcoin_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes["bitcoin_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes["bitcoin_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns:
+          | ValueTypes["bitcoin_pk_columns_input"]
+          | Variable<any, string>;
+      },
+      ValueTypes["bitcoin"],
+    ];
+    update_bitcoin_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes["bitcoin_updates"]> | Variable<any, string>;
+      },
+      ValueTypes["bitcoin_mutation_response"],
     ];
     update_client?: [
       {
@@ -1986,6 +3533,106 @@ export type ValueTypes = {
         updates: Array<ValueTypes["client_updates"]> | Variable<any, string>;
       },
       ValueTypes["client_mutation_response"],
+    ];
+    update_eth?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes["eth_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes["eth_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["eth_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["eth_mutation_response"],
+    ];
+    update_eth_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes["eth_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes["eth_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns: ValueTypes["eth_pk_columns_input"] | Variable<any, string>;
+      },
+      ValueTypes["eth"],
+    ];
+    update_eth_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes["eth_updates"]> | Variable<any, string>;
+      },
+      ValueTypes["eth_mutation_response"],
+    ];
+    update_sol?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes["sol_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes["sol_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["sol_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["sol_mutation_response"],
+    ];
+    update_sol_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes["sol_inc_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes["sol_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns: ValueTypes["sol_pk_columns_input"] | Variable<any, string>;
+      },
+      ValueTypes["sol"],
+    ];
+    update_sol_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes["sol_updates"]> | Variable<any, string>;
+      },
+      ValueTypes["sol_mutation_response"],
     ];
     update_transactions?: [
       {
@@ -2121,11 +3768,119 @@ export type ValueTypes = {
       },
       ValueTypes["transactions_mutation_response"],
     ];
+    update_wallet?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["wallet_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["wallet_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["wallet_mutation_response"],
+    ];
+    update_wallet_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["wallet_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns:
+          | ValueTypes["wallet_pk_columns_input"]
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet"],
+    ];
+    update_wallet_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes["wallet_updates"]> | Variable<any, string>;
+      },
+      ValueTypes["wallet_mutation_response"],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** column ordering options */
   ["order_by"]: order_by;
   ["query_root"]: AliasType<{
+    account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["account_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account"],
+    ];
+    account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["account_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account_aggregate"],
+    ];
+    account_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["account"],
+    ];
     address?: [
       {
         /** distinct select on columns */
@@ -2197,6 +3952,78 @@ export type ValueTypes = {
     address_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["address"],
+    ];
+    bitcoin?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["bitcoin_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["bitcoin_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["bitcoin_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["bitcoin"],
+    ];
+    bitcoin_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["bitcoin_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["bitcoin_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["bitcoin_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["bitcoin_aggregate"],
+    ];
+    bitcoin_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["bitcoin"],
     ];
     client?: [
       {
@@ -2270,6 +4097,150 @@ export type ValueTypes = {
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["client"],
     ];
+    eth?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["eth_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["eth_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["eth_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["eth"],
+    ];
+    eth_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["eth_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["eth_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["eth_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["eth_aggregate"],
+    ];
+    eth_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["eth"],
+    ];
+    sol?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["sol_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["sol_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["sol_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["sol"],
+    ];
+    sol_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["sol_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["sol_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["sol_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["sol_aggregate"],
+    ];
+    sol_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["sol"],
+    ];
     transactions?: [
       {
         /** distinct select on columns */
@@ -2342,9 +4313,534 @@ export type ValueTypes = {
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["transactions"],
     ];
+    wallet?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["wallet_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["wallet_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["wallet_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet"],
+    ];
+    wallet_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["wallet_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["wallet_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["wallet_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet_aggregate"],
+    ];
+    wallet_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["wallet"],
+    ];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** solana address for client wallets */
+  ["sol"]: AliasType<{
+    /** An object relationship */
+    account?: ValueTypes["account"];
+    accountId?: boolean | `@${string}`;
+    devnetSol?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "sol" */
+  ["sol_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["sol_aggregate_fields"];
+    nodes?: ValueTypes["sol"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "sol" */
+  ["sol_aggregate_fields"]: AliasType<{
+    avg?: ValueTypes["sol_avg_fields"];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["sol_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["sol_max_fields"];
+    min?: ValueTypes["sol_min_fields"];
+    stddev?: ValueTypes["sol_stddev_fields"];
+    stddev_pop?: ValueTypes["sol_stddev_pop_fields"];
+    stddev_samp?: ValueTypes["sol_stddev_samp_fields"];
+    sum?: ValueTypes["sol_sum_fields"];
+    var_pop?: ValueTypes["sol_var_pop_fields"];
+    var_samp?: ValueTypes["sol_var_samp_fields"];
+    variance?: ValueTypes["sol_variance_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ["sol_avg_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "sol". All fields are combined with a logical 'AND'. */
+  ["sol_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["sol_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["sol_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["sol_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    account?:
+      | ValueTypes["account_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    devnetSol?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    mainnetSol?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    publicKey?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    testnetSol?:
+      | ValueTypes["float8_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "sol" */
+  ["sol_constraint"]: sol_constraint;
+  /** input type for incrementing numeric columns in table "sol" */
+  ["sol_inc_input"]: {
+    devnetSol?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    mainnetSol?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    testnetSol?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting data into table "sol" */
+  ["sol_insert_input"]: {
+    account?:
+      | ValueTypes["account_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    devnetSol?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    mainnetSol?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    testnetSol?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["sol_max_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    devnetSol?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["sol_min_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    devnetSol?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "sol" */
+  ["sol_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["sol"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "sol" */
+  ["sol_obj_rel_insert_input"]: {
+    data: ValueTypes["sol_insert_input"] | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["sol_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** on_conflict condition type for table "sol" */
+  ["sol_on_conflict"]: {
+    constraint: ValueTypes["sol_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["sol_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["sol_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "sol". */
+  ["sol_order_by"]: {
+    account?:
+      | ValueTypes["account_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accountId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    devnetSol?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    mainnetSol?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    publicKey?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    testnetSol?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** primary key columns input for table: sol */
+  ["sol_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "sol" */
+  ["sol_select_column"]: sol_select_column;
+  /** input type for updating data in table "sol" */
+  ["sol_set_input"]: {
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    devnetSol?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    mainnetSol?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    testnetSol?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate stddev on columns */
+  ["sol_stddev_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ["sol_stddev_pop_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ["sol_stddev_samp_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "sol" */
+  ["sol_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["sol_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["sol_stream_cursor_value_input"]: {
+    accountId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    devnetSol?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    mainnetSol?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    privateKey?: string | undefined | null | Variable<any, string>;
+    publicKey?: string | undefined | null | Variable<any, string>;
+    testnetSol?:
+      | ValueTypes["float8"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate sum on columns */
+  ["sol_sum_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "sol" */
+  ["sol_update_column"]: sol_update_column;
+  ["sol_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?:
+      | ValueTypes["sol_inc_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["sol_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["sol_bool_exp"] | Variable<any, string>;
+  };
+  /** aggregate var_pop on columns */
+  ["sol_var_pop_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ["sol_var_samp_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ["sol_variance_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ["subscription_root"]: AliasType<{
+    account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["account_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account"],
+    ];
+    account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["account_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account_aggregate"],
+    ];
+    account_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["account"],
+    ];
+    account_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<ValueTypes["account_stream_cursor_input"] | undefined | null>
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account"],
+    ];
     address?: [
       {
         /** distinct select on columns */
@@ -2437,6 +4933,98 @@ export type ValueTypes = {
       },
       ValueTypes["address"],
     ];
+    bitcoin?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["bitcoin_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["bitcoin_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["bitcoin_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["bitcoin"],
+    ];
+    bitcoin_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["bitcoin_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["bitcoin_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["bitcoin_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["bitcoin_aggregate"],
+    ];
+    bitcoin_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["bitcoin"],
+    ];
+    bitcoin_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<ValueTypes["bitcoin_stream_cursor_input"] | undefined | null>
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["bitcoin_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["bitcoin"],
+    ];
     client?: [
       {
         /** distinct select on columns */
@@ -2528,6 +5116,190 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["client"],
+    ];
+    eth?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["eth_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["eth_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["eth_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["eth"],
+    ];
+    eth_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["eth_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["eth_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["eth_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["eth_aggregate"],
+    ];
+    eth_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["eth"],
+    ];
+    eth_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<ValueTypes["eth_stream_cursor_input"] | undefined | null>
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["eth_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["eth"],
+    ];
+    sol?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["sol_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["sol_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["sol_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["sol"],
+    ];
+    sol_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["sol_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["sol_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["sol_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["sol_aggregate"],
+    ];
+    sol_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["sol"],
+    ];
+    sol_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<ValueTypes["sol_stream_cursor_input"] | undefined | null>
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["sol_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["sol"],
     ];
     transactions?: [
       {
@@ -2622,6 +5394,98 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["transactions"],
+    ];
+    wallet?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["wallet_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["wallet_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["wallet_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet"],
+    ];
+    wallet_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["wallet_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["wallet_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["wallet_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet_aggregate"],
+    ];
+    wallet_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["wallet"],
+    ];
+    wallet_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<ValueTypes["wallet_stream_cursor_input"] | undefined | null>
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["wallet_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet"],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -3661,6 +6525,283 @@ export type ValueTypes = {
     _neq?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     _nin?: Array<ValueTypes["uuid"]> | undefined | null | Variable<any, string>;
   };
+  /** wallets info for clients */
+  ["wallet"]: AliasType<{
+    accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["account_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account"],
+    ];
+    accounts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["account_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["account_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["account_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["account_aggregate"],
+    ];
+    /** An object relationship */
+    client?: ValueTypes["client"];
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    secretPhase?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "wallet" */
+  ["wallet_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["wallet_aggregate_fields"];
+    nodes?: ValueTypes["wallet"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "wallet" */
+  ["wallet_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["wallet_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["wallet_max_fields"];
+    min?: ValueTypes["wallet_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
+  ["wallet_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["wallet_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["wallet_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["wallet_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    accounts?:
+      | ValueTypes["account_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    accounts_aggregate?:
+      | ValueTypes["account_aggregate_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    secretPhase?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "wallet" */
+  ["wallet_constraint"]: wallet_constraint;
+  /** input type for inserting data into table "wallet" */
+  ["wallet_insert_input"]: {
+    accounts?:
+      | ValueTypes["account_arr_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    secretPhase?: string | undefined | null | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["wallet_max_fields"]: AliasType<{
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    secretPhase?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["wallet_min_fields"]: AliasType<{
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    secretPhase?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "wallet" */
+  ["wallet_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["wallet"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "wallet" */
+  ["wallet_obj_rel_insert_input"]: {
+    data: ValueTypes["wallet_insert_input"] | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["wallet_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** on_conflict condition type for table "wallet" */
+  ["wallet_on_conflict"]: {
+    constraint: ValueTypes["wallet_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["wallet_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["wallet_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "wallet". */
+  ["wallet_order_by"]: {
+    accounts_aggregate?:
+      | ValueTypes["account_aggregate_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    secretPhase?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** primary key columns input for table: wallet */
+  ["wallet_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "wallet" */
+  ["wallet_select_column"]: wallet_select_column;
+  /** input type for updating data in table "wallet" */
+  ["wallet_set_input"]: {
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    secretPhase?: string | undefined | null | Variable<any, string>;
+  };
+  /** Streaming cursor of the table "wallet" */
+  ["wallet_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["wallet_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["wallet_stream_cursor_value_input"]: {
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    secretPhase?: string | undefined | null | Variable<any, string>;
+  };
+  /** update columns of table "wallet" */
+  ["wallet_update_column"]: wallet_update_column;
+  ["wallet_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["wallet_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["wallet_bool_exp"] | Variable<any, string>;
+  };
 };
 
 export type ResolverInputTypes = {
@@ -3713,6 +6854,198 @@ export type ResolverInputTypes = {
     _regex?: string | undefined | null;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null;
+  };
+  /** accounts in a wallet */
+  ["account"]: AliasType<{
+    /** An object relationship */
+    bitcoin?: ResolverInputTypes["bitcoin"];
+    /** An object relationship */
+    client?: ResolverInputTypes["client"];
+    clientId?: boolean | `@${string}`;
+    /** An object relationship */
+    eth?: ResolverInputTypes["eth"];
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    sol?: ResolverInputTypes["sol"];
+    /** An object relationship */
+    wallet?: ResolverInputTypes["wallet"];
+    walletId?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "account" */
+  ["account_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["account_aggregate_fields"];
+    nodes?: ResolverInputTypes["account"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["account_aggregate_bool_exp"]: {
+    count?:
+      | ResolverInputTypes["account_aggregate_bool_exp_count"]
+      | undefined
+      | null;
+  };
+  ["account_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ResolverInputTypes["account_select_column"]>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "account" */
+  ["account_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["account_max_fields"];
+    min?: ResolverInputTypes["account_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "account" */
+  ["account_aggregate_order_by"]: {
+    count?: ResolverInputTypes["order_by"] | undefined | null;
+    max?: ResolverInputTypes["account_max_order_by"] | undefined | null;
+    min?: ResolverInputTypes["account_min_order_by"] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "account" */
+  ["account_arr_rel_insert_input"]: {
+    data: Array<ResolverInputTypes["account_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["account_on_conflict"] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "account". All fields are combined with a logical 'AND'. */
+  ["account_bool_exp"]: {
+    _and?: Array<ResolverInputTypes["account_bool_exp"]> | undefined | null;
+    _not?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["account_bool_exp"]> | undefined | null;
+    bitcoin?: ResolverInputTypes["bitcoin_bool_exp"] | undefined | null;
+    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    clientId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    eth?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    sol?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
+    wallet?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+    walletId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "account" */
+  ["account_constraint"]: account_constraint;
+  /** input type for inserting data into table "account" */
+  ["account_insert_input"]: {
+    bitcoin?:
+      | ResolverInputTypes["bitcoin_obj_rel_insert_input"]
+      | undefined
+      | null;
+    client?:
+      | ResolverInputTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null;
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    eth?: ResolverInputTypes["eth_obj_rel_insert_input"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    sol?: ResolverInputTypes["sol_obj_rel_insert_input"] | undefined | null;
+    wallet?:
+      | ResolverInputTypes["wallet_obj_rel_insert_input"]
+      | undefined
+      | null;
+    walletId?: ResolverInputTypes["uuid"] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["account_max_fields"]: AliasType<{
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    walletId?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "account" */
+  ["account_max_order_by"]: {
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    walletId?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ["account_min_fields"]: AliasType<{
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    walletId?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "account" */
+  ["account_min_order_by"]: {
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    walletId?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** response of any mutation on the table "account" */
+  ["account_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["account"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "account" */
+  ["account_obj_rel_insert_input"]: {
+    data: ResolverInputTypes["account_insert_input"];
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["account_on_conflict"] | undefined | null;
+  };
+  /** on_conflict condition type for table "account" */
+  ["account_on_conflict"]: {
+    constraint: ResolverInputTypes["account_constraint"];
+    update_columns: Array<ResolverInputTypes["account_update_column"]>;
+    where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "account". */
+  ["account_order_by"]: {
+    bitcoin?: ResolverInputTypes["bitcoin_order_by"] | undefined | null;
+    client?: ResolverInputTypes["client_order_by"] | undefined | null;
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    eth?: ResolverInputTypes["eth_order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    sol?: ResolverInputTypes["sol_order_by"] | undefined | null;
+    wallet?: ResolverInputTypes["wallet_order_by"] | undefined | null;
+    walletId?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: account */
+  ["account_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "account" */
+  ["account_select_column"]: account_select_column;
+  /** input type for updating data in table "account" */
+  ["account_set_input"]: {
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    walletId?: ResolverInputTypes["uuid"] | undefined | null;
+  };
+  /** Streaming cursor of the table "account" */
+  ["account_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["account_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["account_stream_cursor_value_input"]: {
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    walletId?: ResolverInputTypes["uuid"] | undefined | null;
+  };
+  /** update columns of table "account" */
+  ["account_update_column"]: account_update_column;
+  ["account_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["account_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["account_bool_exp"];
   };
   /** different chain and there address */
   ["address"]: AliasType<{
@@ -3878,8 +7211,285 @@ export type ResolverInputTypes = {
     _neq?: ResolverInputTypes["bigint"] | undefined | null;
     _nin?: Array<ResolverInputTypes["bigint"]> | undefined | null;
   };
+  /** bticoin address for client wallets */
+  ["bitcoin"]: AliasType<{
+    /** An object relationship */
+    account?: ResolverInputTypes["account"];
+    accountId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetBtc?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "bitcoin" */
+  ["bitcoin_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["bitcoin_aggregate_fields"];
+    nodes?: ResolverInputTypes["bitcoin"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "bitcoin" */
+  ["bitcoin_aggregate_fields"]: AliasType<{
+    avg?: ResolverInputTypes["bitcoin_avg_fields"];
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["bitcoin_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["bitcoin_max_fields"];
+    min?: ResolverInputTypes["bitcoin_min_fields"];
+    stddev?: ResolverInputTypes["bitcoin_stddev_fields"];
+    stddev_pop?: ResolverInputTypes["bitcoin_stddev_pop_fields"];
+    stddev_samp?: ResolverInputTypes["bitcoin_stddev_samp_fields"];
+    sum?: ResolverInputTypes["bitcoin_sum_fields"];
+    var_pop?: ResolverInputTypes["bitcoin_var_pop_fields"];
+    var_samp?: ResolverInputTypes["bitcoin_var_samp_fields"];
+    variance?: ResolverInputTypes["bitcoin_variance_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ["bitcoin_avg_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "bitcoin". All fields are combined with a logical 'AND'. */
+  ["bitcoin_bool_exp"]: {
+    _and?: Array<ResolverInputTypes["bitcoin_bool_exp"]> | undefined | null;
+    _not?: ResolverInputTypes["bitcoin_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["bitcoin_bool_exp"]> | undefined | null;
+    account?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+    accountId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    mainnetBtc?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    privateKey?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    publicKey?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    regtestBtc?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    textnetBtc?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "bitcoin" */
+  ["bitcoin_constraint"]: bitcoin_constraint;
+  /** input type for incrementing numeric columns in table "bitcoin" */
+  ["bitcoin_inc_input"]: {
+    mainnetBtc?: ResolverInputTypes["float8"] | undefined | null;
+    regtestBtc?: ResolverInputTypes["float8"] | undefined | null;
+    textnetBtc?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** input type for inserting data into table "bitcoin" */
+  ["bitcoin_insert_input"]: {
+    account?:
+      | ResolverInputTypes["account_obj_rel_insert_input"]
+      | undefined
+      | null;
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    mainnetBtc?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    regtestBtc?: ResolverInputTypes["float8"] | undefined | null;
+    textnetBtc?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["bitcoin_max_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetBtc?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["bitcoin_min_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetBtc?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "bitcoin" */
+  ["bitcoin_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["bitcoin"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "bitcoin" */
+  ["bitcoin_obj_rel_insert_input"]: {
+    data: ResolverInputTypes["bitcoin_insert_input"];
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["bitcoin_on_conflict"] | undefined | null;
+  };
+  /** on_conflict condition type for table "bitcoin" */
+  ["bitcoin_on_conflict"]: {
+    constraint: ResolverInputTypes["bitcoin_constraint"];
+    update_columns: Array<ResolverInputTypes["bitcoin_update_column"]>;
+    where?: ResolverInputTypes["bitcoin_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "bitcoin". */
+  ["bitcoin_order_by"]: {
+    account?: ResolverInputTypes["account_order_by"] | undefined | null;
+    accountId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    mainnetBtc?: ResolverInputTypes["order_by"] | undefined | null;
+    privateKey?: ResolverInputTypes["order_by"] | undefined | null;
+    publicKey?: ResolverInputTypes["order_by"] | undefined | null;
+    regtestBtc?: ResolverInputTypes["order_by"] | undefined | null;
+    textnetBtc?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: bitcoin */
+  ["bitcoin_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "bitcoin" */
+  ["bitcoin_select_column"]: bitcoin_select_column;
+  /** input type for updating data in table "bitcoin" */
+  ["bitcoin_set_input"]: {
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    mainnetBtc?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    regtestBtc?: ResolverInputTypes["float8"] | undefined | null;
+    textnetBtc?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ["bitcoin_stddev_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ["bitcoin_stddev_pop_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ["bitcoin_stddev_samp_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "bitcoin" */
+  ["bitcoin_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["bitcoin_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["bitcoin_stream_cursor_value_input"]: {
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    mainnetBtc?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    regtestBtc?: ResolverInputTypes["float8"] | undefined | null;
+    textnetBtc?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ["bitcoin_sum_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "bitcoin" */
+  ["bitcoin_update_column"]: bitcoin_update_column;
+  ["bitcoin_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ResolverInputTypes["bitcoin_inc_input"] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["bitcoin_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["bitcoin_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["bitcoin_var_pop_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ["bitcoin_var_samp_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ["bitcoin_variance_fields"]: AliasType<{
+    mainnetBtc?: boolean | `@${string}`;
+    regtestBtc?: boolean | `@${string}`;
+    textnetBtc?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** subscriber for paybox */
   ["client"]: AliasType<{
+    accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["account_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account"],
+    ];
+    accounts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["account_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account_aggregate"],
+    ];
     /** An object relationship */
     address?: ResolverInputTypes["address"];
     email?: boolean | `@${string}`;
@@ -3935,6 +7545,8 @@ export type ResolverInputTypes = {
       ResolverInputTypes["transactions_aggregate"],
     ];
     username?: boolean | `@${string}`;
+    /** An object relationship */
+    wallet?: ResolverInputTypes["wallet"];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "client" */
@@ -3977,6 +7589,11 @@ export type ResolverInputTypes = {
     _and?: Array<ResolverInputTypes["client_bool_exp"]> | undefined | null;
     _not?: ResolverInputTypes["client_bool_exp"] | undefined | null;
     _or?: Array<ResolverInputTypes["client_bool_exp"]> | undefined | null;
+    accounts?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+    accounts_aggregate?:
+      | ResolverInputTypes["account_aggregate_bool_exp"]
+      | undefined
+      | null;
     address?: ResolverInputTypes["address_bool_exp"] | undefined | null;
     email?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     firstname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
@@ -3993,6 +7610,7 @@ export type ResolverInputTypes = {
       | undefined
       | null;
     username?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    wallet?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
   };
   /** unique or primary key constraints on table "client" */
   ["client_constraint"]: client_constraint;
@@ -4002,6 +7620,10 @@ export type ResolverInputTypes = {
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
+    accounts?:
+      | ResolverInputTypes["account_arr_rel_insert_input"]
+      | undefined
+      | null;
     address?:
       | ResolverInputTypes["address_obj_rel_insert_input"]
       | undefined
@@ -4017,6 +7639,10 @@ export type ResolverInputTypes = {
       | undefined
       | null;
     username?: string | undefined | null;
+    wallet?:
+      | ResolverInputTypes["wallet_obj_rel_insert_input"]
+      | undefined
+      | null;
   };
   /** aggregate max on columns */
   ["client_max_fields"]: AliasType<{
@@ -4062,6 +7688,10 @@ export type ResolverInputTypes = {
   };
   /** Ordering options when selecting data from "client". */
   ["client_order_by"]: {
+    accounts_aggregate?:
+      | ResolverInputTypes["account_aggregate_order_by"]
+      | undefined
+      | null;
     address?: ResolverInputTypes["address_order_by"] | undefined | null;
     email?: ResolverInputTypes["order_by"] | undefined | null;
     firstname?: ResolverInputTypes["order_by"] | undefined | null;
@@ -4074,6 +7704,7 @@ export type ResolverInputTypes = {
       | undefined
       | null;
     username?: ResolverInputTypes["order_by"] | undefined | null;
+    wallet?: ResolverInputTypes["wallet_order_by"] | undefined | null;
   };
   /** primary key columns input for table: client */
   ["client_pk_columns_input"]: {
@@ -4168,6 +7799,288 @@ export type ResolverInputTypes = {
     _neq?: ResolverInputTypes["date"] | undefined | null;
     _nin?: Array<ResolverInputTypes["date"]> | undefined | null;
   };
+  /** eth address and token for client wallets */
+  ["eth"]: AliasType<{
+    /** An object relationship */
+    account?: ResolverInputTypes["account"];
+    accountId?: boolean | `@${string}`;
+    goerliEth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "eth" */
+  ["eth_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["eth_aggregate_fields"];
+    nodes?: ResolverInputTypes["eth"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "eth" */
+  ["eth_aggregate_fields"]: AliasType<{
+    avg?: ResolverInputTypes["eth_avg_fields"];
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["eth_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["eth_max_fields"];
+    min?: ResolverInputTypes["eth_min_fields"];
+    stddev?: ResolverInputTypes["eth_stddev_fields"];
+    stddev_pop?: ResolverInputTypes["eth_stddev_pop_fields"];
+    stddev_samp?: ResolverInputTypes["eth_stddev_samp_fields"];
+    sum?: ResolverInputTypes["eth_sum_fields"];
+    var_pop?: ResolverInputTypes["eth_var_pop_fields"];
+    var_samp?: ResolverInputTypes["eth_var_samp_fields"];
+    variance?: ResolverInputTypes["eth_variance_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ["eth_avg_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "eth". All fields are combined with a logical 'AND'. */
+  ["eth_bool_exp"]: {
+    _and?: Array<ResolverInputTypes["eth_bool_exp"]> | undefined | null;
+    _not?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["eth_bool_exp"]> | undefined | null;
+    account?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+    accountId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    goerliEth?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    kovanEth?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    mainnetEth?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    privateKey?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    publicKey?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    rinkebyEth?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    ropstenEth?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    sepoliaEth?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "eth" */
+  ["eth_constraint"]: eth_constraint;
+  /** input type for incrementing numeric columns in table "eth" */
+  ["eth_inc_input"]: {
+    goerliEth?: ResolverInputTypes["float8"] | undefined | null;
+    kovanEth?: ResolverInputTypes["float8"] | undefined | null;
+    mainnetEth?: ResolverInputTypes["float8"] | undefined | null;
+    rinkebyEth?: ResolverInputTypes["float8"] | undefined | null;
+    ropstenEth?: ResolverInputTypes["float8"] | undefined | null;
+    sepoliaEth?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** input type for inserting data into table "eth" */
+  ["eth_insert_input"]: {
+    account?:
+      | ResolverInputTypes["account_obj_rel_insert_input"]
+      | undefined
+      | null;
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    goerliEth?: ResolverInputTypes["float8"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    kovanEth?: ResolverInputTypes["float8"] | undefined | null;
+    mainnetEth?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    rinkebyEth?: ResolverInputTypes["float8"] | undefined | null;
+    ropstenEth?: ResolverInputTypes["float8"] | undefined | null;
+    sepoliaEth?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["eth_max_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    goerliEth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["eth_min_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    goerliEth?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "eth" */
+  ["eth_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["eth"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "eth" */
+  ["eth_obj_rel_insert_input"]: {
+    data: ResolverInputTypes["eth_insert_input"];
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["eth_on_conflict"] | undefined | null;
+  };
+  /** on_conflict condition type for table "eth" */
+  ["eth_on_conflict"]: {
+    constraint: ResolverInputTypes["eth_constraint"];
+    update_columns: Array<ResolverInputTypes["eth_update_column"]>;
+    where?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "eth". */
+  ["eth_order_by"]: {
+    account?: ResolverInputTypes["account_order_by"] | undefined | null;
+    accountId?: ResolverInputTypes["order_by"] | undefined | null;
+    goerliEth?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    kovanEth?: ResolverInputTypes["order_by"] | undefined | null;
+    mainnetEth?: ResolverInputTypes["order_by"] | undefined | null;
+    privateKey?: ResolverInputTypes["order_by"] | undefined | null;
+    publicKey?: ResolverInputTypes["order_by"] | undefined | null;
+    rinkebyEth?: ResolverInputTypes["order_by"] | undefined | null;
+    ropstenEth?: ResolverInputTypes["order_by"] | undefined | null;
+    sepoliaEth?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: eth */
+  ["eth_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "eth" */
+  ["eth_select_column"]: eth_select_column;
+  /** input type for updating data in table "eth" */
+  ["eth_set_input"]: {
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    goerliEth?: ResolverInputTypes["float8"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    kovanEth?: ResolverInputTypes["float8"] | undefined | null;
+    mainnetEth?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    rinkebyEth?: ResolverInputTypes["float8"] | undefined | null;
+    ropstenEth?: ResolverInputTypes["float8"] | undefined | null;
+    sepoliaEth?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ["eth_stddev_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ["eth_stddev_pop_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ["eth_stddev_samp_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "eth" */
+  ["eth_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["eth_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["eth_stream_cursor_value_input"]: {
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    goerliEth?: ResolverInputTypes["float8"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    kovanEth?: ResolverInputTypes["float8"] | undefined | null;
+    mainnetEth?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    rinkebyEth?: ResolverInputTypes["float8"] | undefined | null;
+    ropstenEth?: ResolverInputTypes["float8"] | undefined | null;
+    sepoliaEth?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ["eth_sum_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "eth" */
+  ["eth_update_column"]: eth_update_column;
+  ["eth_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ResolverInputTypes["eth_inc_input"] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["eth_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["eth_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["eth_var_pop_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ["eth_var_samp_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ["eth_variance_fields"]: AliasType<{
+    goerliEth?: boolean | `@${string}`;
+    kovanEth?: boolean | `@${string}`;
+    mainnetEth?: boolean | `@${string}`;
+    rinkebyEth?: boolean | `@${string}`;
+    ropstenEth?: boolean | `@${string}`;
+    sepoliaEth?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ["float8"]: unknown;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ["float8_comparison_exp"]: {
@@ -4210,6 +8123,17 @@ export type ResolverInputTypes = {
   };
   /** mutation root */
   ["mutation_root"]: AliasType<{
+    delete_account?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["account_bool_exp"];
+      },
+      ResolverInputTypes["account_mutation_response"],
+    ];
+    delete_account_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["account"],
+    ];
     delete_address?: [
       {
         /** filter the rows which have to be deleted */
@@ -4220,6 +8144,17 @@ export type ResolverInputTypes = {
     delete_address_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["address"],
+    ];
+    delete_bitcoin?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["bitcoin_bool_exp"];
+      },
+      ResolverInputTypes["bitcoin_mutation_response"],
+    ];
+    delete_bitcoin_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["bitcoin"],
     ];
     delete_client?: [
       {
@@ -4232,6 +8167,28 @@ export type ResolverInputTypes = {
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["client"],
     ];
+    delete_eth?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["eth_bool_exp"];
+      },
+      ResolverInputTypes["eth_mutation_response"],
+    ];
+    delete_eth_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["eth"],
+    ];
+    delete_sol?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["sol_bool_exp"];
+      },
+      ResolverInputTypes["sol_mutation_response"],
+    ];
+    delete_sol_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["sol"],
+    ];
     delete_transactions?: [
       {
         /** filter the rows which have to be deleted */
@@ -4242,6 +8199,41 @@ export type ResolverInputTypes = {
     delete_transactions_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["transactions"],
+    ];
+    delete_wallet?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["wallet_bool_exp"];
+      },
+      ResolverInputTypes["wallet_mutation_response"],
+    ];
+    delete_wallet_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["wallet"],
+    ];
+    insert_account?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["account_insert_input"]
+        > /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["account_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["account_mutation_response"],
+    ];
+    insert_account_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["account_insert_input"] /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["account_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["account"],
     ];
     insert_address?: [
       {
@@ -4267,6 +8259,30 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["address"],
     ];
+    insert_bitcoin?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["bitcoin_insert_input"]
+        > /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["bitcoin_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["bitcoin_mutation_response"],
+    ];
+    insert_bitcoin_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["bitcoin_insert_input"] /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["bitcoin_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["bitcoin"],
+    ];
     insert_client?: [
       {
         /** the rows to be inserted */
@@ -4291,6 +8307,42 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["client"],
     ];
+    insert_eth?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["eth_insert_input"]
+        > /** upsert condition */;
+        on_conflict?: ResolverInputTypes["eth_on_conflict"] | undefined | null;
+      },
+      ResolverInputTypes["eth_mutation_response"],
+    ];
+    insert_eth_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["eth_insert_input"] /** upsert condition */;
+        on_conflict?: ResolverInputTypes["eth_on_conflict"] | undefined | null;
+      },
+      ResolverInputTypes["eth"],
+    ];
+    insert_sol?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["sol_insert_input"]
+        > /** upsert condition */;
+        on_conflict?: ResolverInputTypes["sol_on_conflict"] | undefined | null;
+      },
+      ResolverInputTypes["sol_mutation_response"],
+    ];
+    insert_sol_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["sol_insert_input"] /** upsert condition */;
+        on_conflict?: ResolverInputTypes["sol_on_conflict"] | undefined | null;
+      },
+      ResolverInputTypes["sol"],
+    ];
     insert_transactions?: [
       {
         /** the rows to be inserted */
@@ -4314,6 +8366,56 @@ export type ResolverInputTypes = {
           | null;
       },
       ResolverInputTypes["transactions"],
+    ];
+    insert_wallet?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["wallet_insert_input"]
+        > /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["wallet_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["wallet_mutation_response"],
+    ];
+    insert_wallet_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["wallet_insert_input"] /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["wallet_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["wallet"],
+    ];
+    update_account?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ResolverInputTypes["account_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["account_bool_exp"];
+      },
+      ResolverInputTypes["account_mutation_response"],
+    ];
+    update_account_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ResolverInputTypes["account_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["account_pk_columns_input"];
+      },
+      ResolverInputTypes["account"],
+    ];
+    update_account_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["account_updates"]>;
+      },
+      ResolverInputTypes["account_mutation_response"],
     ];
     update_address?: [
       {
@@ -4340,6 +8442,40 @@ export type ResolverInputTypes = {
         updates: Array<ResolverInputTypes["address_updates"]>;
       },
       ResolverInputTypes["address_mutation_response"],
+    ];
+    update_bitcoin?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ResolverInputTypes["bitcoin_inc_input"]
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ResolverInputTypes["bitcoin_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["bitcoin_bool_exp"];
+      },
+      ResolverInputTypes["bitcoin_mutation_response"],
+    ];
+    update_bitcoin_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ResolverInputTypes["bitcoin_inc_input"]
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ResolverInputTypes["bitcoin_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["bitcoin_pk_columns_input"];
+      },
+      ResolverInputTypes["bitcoin"],
+    ];
+    update_bitcoin_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["bitcoin_updates"]>;
+      },
+      ResolverInputTypes["bitcoin_mutation_response"],
     ];
     update_client?: [
       {
@@ -4374,6 +8510,74 @@ export type ResolverInputTypes = {
         updates: Array<ResolverInputTypes["client_updates"]>;
       },
       ResolverInputTypes["client_mutation_response"],
+    ];
+    update_eth?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ResolverInputTypes["eth_inc_input"]
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ResolverInputTypes["eth_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["eth_bool_exp"];
+      },
+      ResolverInputTypes["eth_mutation_response"],
+    ];
+    update_eth_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ResolverInputTypes["eth_inc_input"]
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ResolverInputTypes["eth_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["eth_pk_columns_input"];
+      },
+      ResolverInputTypes["eth"],
+    ];
+    update_eth_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["eth_updates"]>;
+      },
+      ResolverInputTypes["eth_mutation_response"],
+    ];
+    update_sol?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ResolverInputTypes["sol_inc_input"]
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ResolverInputTypes["sol_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["sol_bool_exp"];
+      },
+      ResolverInputTypes["sol_mutation_response"],
+    ];
+    update_sol_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ResolverInputTypes["sol_inc_input"]
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ResolverInputTypes["sol_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["sol_pk_columns_input"];
+      },
+      ResolverInputTypes["sol"],
+    ];
+    update_sol_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["sol_updates"]>;
+      },
+      ResolverInputTypes["sol_mutation_response"],
     ];
     update_transactions?: [
       {
@@ -4449,11 +8653,87 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["transactions_mutation_response"],
     ];
+    update_wallet?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ResolverInputTypes["wallet_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["wallet_bool_exp"];
+      },
+      ResolverInputTypes["wallet_mutation_response"],
+    ];
+    update_wallet_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ResolverInputTypes["wallet_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["wallet_pk_columns_input"];
+      },
+      ResolverInputTypes["wallet"],
+    ];
+    update_wallet_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["wallet_updates"]>;
+      },
+      ResolverInputTypes["wallet_mutation_response"],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** column ordering options */
   ["order_by"]: order_by;
   ["query_root"]: AliasType<{
+    account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["account_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account"],
+    ];
+    account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["account_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account_aggregate"],
+    ];
+    account_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["account"],
+    ];
     address?: [
       {
         /** distinct select on columns */
@@ -4503,6 +8783,56 @@ export type ResolverInputTypes = {
     address_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["address"],
+    ];
+    bitcoin?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["bitcoin_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["bitcoin_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["bitcoin_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["bitcoin"],
+    ];
+    bitcoin_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["bitcoin_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["bitcoin_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["bitcoin_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["bitcoin_aggregate"],
+    ];
+    bitcoin_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["bitcoin"],
     ];
     client?: [
       {
@@ -4554,6 +8884,100 @@ export type ResolverInputTypes = {
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["client"],
     ];
+    eth?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["eth_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["eth_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["eth"],
+    ];
+    eth_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["eth_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["eth_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["eth_aggregate"],
+    ];
+    eth_by_pk?: [{ id: ResolverInputTypes["uuid"] }, ResolverInputTypes["eth"]];
+    sol?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["sol_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["sol_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["sol"],
+    ];
+    sol_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["sol_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["sol_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["sol_aggregate"],
+    ];
+    sol_by_pk?: [{ id: ResolverInputTypes["uuid"] }, ResolverInputTypes["sol"]];
     transactions?: [
       {
         /** distinct select on columns */
@@ -4604,9 +9028,351 @@ export type ResolverInputTypes = {
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["transactions"],
     ];
+    wallet?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["wallet_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["wallet_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["wallet"],
+    ];
+    wallet_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["wallet_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["wallet_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["wallet_aggregate"],
+    ];
+    wallet_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["wallet"],
+    ];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** solana address for client wallets */
+  ["sol"]: AliasType<{
+    /** An object relationship */
+    account?: ResolverInputTypes["account"];
+    accountId?: boolean | `@${string}`;
+    devnetSol?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "sol" */
+  ["sol_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["sol_aggregate_fields"];
+    nodes?: ResolverInputTypes["sol"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "sol" */
+  ["sol_aggregate_fields"]: AliasType<{
+    avg?: ResolverInputTypes["sol_avg_fields"];
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["sol_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["sol_max_fields"];
+    min?: ResolverInputTypes["sol_min_fields"];
+    stddev?: ResolverInputTypes["sol_stddev_fields"];
+    stddev_pop?: ResolverInputTypes["sol_stddev_pop_fields"];
+    stddev_samp?: ResolverInputTypes["sol_stddev_samp_fields"];
+    sum?: ResolverInputTypes["sol_sum_fields"];
+    var_pop?: ResolverInputTypes["sol_var_pop_fields"];
+    var_samp?: ResolverInputTypes["sol_var_samp_fields"];
+    variance?: ResolverInputTypes["sol_variance_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ["sol_avg_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "sol". All fields are combined with a logical 'AND'. */
+  ["sol_bool_exp"]: {
+    _and?: Array<ResolverInputTypes["sol_bool_exp"]> | undefined | null;
+    _not?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["sol_bool_exp"]> | undefined | null;
+    account?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+    accountId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    devnetSol?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    mainnetSol?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+    privateKey?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    publicKey?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    testnetSol?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "sol" */
+  ["sol_constraint"]: sol_constraint;
+  /** input type for incrementing numeric columns in table "sol" */
+  ["sol_inc_input"]: {
+    devnetSol?: ResolverInputTypes["float8"] | undefined | null;
+    mainnetSol?: ResolverInputTypes["float8"] | undefined | null;
+    testnetSol?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** input type for inserting data into table "sol" */
+  ["sol_insert_input"]: {
+    account?:
+      | ResolverInputTypes["account_obj_rel_insert_input"]
+      | undefined
+      | null;
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    devnetSol?: ResolverInputTypes["float8"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    mainnetSol?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    testnetSol?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["sol_max_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    devnetSol?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["sol_min_fields"]: AliasType<{
+    accountId?: boolean | `@${string}`;
+    devnetSol?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    privateKey?: boolean | `@${string}`;
+    publicKey?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "sol" */
+  ["sol_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["sol"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "sol" */
+  ["sol_obj_rel_insert_input"]: {
+    data: ResolverInputTypes["sol_insert_input"];
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["sol_on_conflict"] | undefined | null;
+  };
+  /** on_conflict condition type for table "sol" */
+  ["sol_on_conflict"]: {
+    constraint: ResolverInputTypes["sol_constraint"];
+    update_columns: Array<ResolverInputTypes["sol_update_column"]>;
+    where?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "sol". */
+  ["sol_order_by"]: {
+    account?: ResolverInputTypes["account_order_by"] | undefined | null;
+    accountId?: ResolverInputTypes["order_by"] | undefined | null;
+    devnetSol?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    mainnetSol?: ResolverInputTypes["order_by"] | undefined | null;
+    privateKey?: ResolverInputTypes["order_by"] | undefined | null;
+    publicKey?: ResolverInputTypes["order_by"] | undefined | null;
+    testnetSol?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: sol */
+  ["sol_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "sol" */
+  ["sol_select_column"]: sol_select_column;
+  /** input type for updating data in table "sol" */
+  ["sol_set_input"]: {
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    devnetSol?: ResolverInputTypes["float8"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    mainnetSol?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    testnetSol?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ["sol_stddev_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ["sol_stddev_pop_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ["sol_stddev_samp_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "sol" */
+  ["sol_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["sol_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["sol_stream_cursor_value_input"]: {
+    accountId?: ResolverInputTypes["uuid"] | undefined | null;
+    devnetSol?: ResolverInputTypes["float8"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    mainnetSol?: ResolverInputTypes["float8"] | undefined | null;
+    privateKey?: string | undefined | null;
+    publicKey?: string | undefined | null;
+    testnetSol?: ResolverInputTypes["float8"] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ["sol_sum_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "sol" */
+  ["sol_update_column"]: sol_update_column;
+  ["sol_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ResolverInputTypes["sol_inc_input"] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["sol_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["sol_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["sol_var_pop_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ["sol_var_samp_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ["sol_variance_fields"]: AliasType<{
+    devnetSol?: boolean | `@${string}`;
+    mainnetSol?: boolean | `@${string}`;
+    testnetSol?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ["subscription_root"]: AliasType<{
+    account?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["account_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account"],
+    ];
+    account_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["account_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account_aggregate"],
+    ];
+    account_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["account"],
+    ];
+    account_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ResolverInputTypes["account_stream_cursor_input"] | undefined | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account"],
+    ];
     address?: [
       {
         /** distinct select on columns */
@@ -4668,6 +9434,67 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["address"],
     ];
+    bitcoin?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["bitcoin_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["bitcoin_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["bitcoin_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["bitcoin"],
+    ];
+    bitcoin_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["bitcoin_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["bitcoin_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["bitcoin_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["bitcoin_aggregate"],
+    ];
+    bitcoin_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["bitcoin"],
+    ];
+    bitcoin_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ResolverInputTypes["bitcoin_stream_cursor_input"] | undefined | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["bitcoin_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["bitcoin"],
+    ];
     client?: [
       {
         /** distinct select on columns */
@@ -4728,6 +9555,122 @@ export type ResolverInputTypes = {
         where?: ResolverInputTypes["client_bool_exp"] | undefined | null;
       },
       ResolverInputTypes["client"],
+    ];
+    eth?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["eth_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["eth_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["eth"],
+    ];
+    eth_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["eth_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["eth_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["eth_aggregate"],
+    ];
+    eth_by_pk?: [{ id: ResolverInputTypes["uuid"] }, ResolverInputTypes["eth"]];
+    eth_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ResolverInputTypes["eth_stream_cursor_input"] | undefined | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["eth"],
+    ];
+    sol?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["sol_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["sol_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["sol"],
+    ];
+    sol_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["sol_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["sol_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["sol_aggregate"],
+    ];
+    sol_by_pk?: [{ id: ResolverInputTypes["uuid"] }, ResolverInputTypes["sol"]];
+    sol_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ResolverInputTypes["sol_stream_cursor_input"] | undefined | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["sol"],
     ];
     transactions?: [
       {
@@ -4791,6 +9734,67 @@ export type ResolverInputTypes = {
         where?: ResolverInputTypes["transactions_bool_exp"] | undefined | null;
       },
       ResolverInputTypes["transactions"],
+    ];
+    wallet?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["wallet_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["wallet_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["wallet"],
+    ];
+    wallet_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["wallet_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["wallet_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["wallet_aggregate"],
+    ];
+    wallet_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["wallet"],
+    ];
+    wallet_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ResolverInputTypes["wallet_stream_cursor_input"] | undefined | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["wallet"],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -5498,6 +10502,195 @@ export type ResolverInputTypes = {
     _neq?: ResolverInputTypes["uuid"] | undefined | null;
     _nin?: Array<ResolverInputTypes["uuid"]> | undefined | null;
   };
+  /** wallets info for clients */
+  ["wallet"]: AliasType<{
+    accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["account_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account"],
+    ];
+    accounts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["account_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["account_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["account_aggregate"],
+    ];
+    /** An object relationship */
+    client?: ResolverInputTypes["client"];
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    secretPhase?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "wallet" */
+  ["wallet_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["wallet_aggregate_fields"];
+    nodes?: ResolverInputTypes["wallet"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "wallet" */
+  ["wallet_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["wallet_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["wallet_max_fields"];
+    min?: ResolverInputTypes["wallet_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
+  ["wallet_bool_exp"]: {
+    _and?: Array<ResolverInputTypes["wallet_bool_exp"]> | undefined | null;
+    _not?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["wallet_bool_exp"]> | undefined | null;
+    accounts?: ResolverInputTypes["account_bool_exp"] | undefined | null;
+    accounts_aggregate?:
+      | ResolverInputTypes["account_aggregate_bool_exp"]
+      | undefined
+      | null;
+    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    clientId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    secretPhase?:
+      | ResolverInputTypes["String_comparison_exp"]
+      | undefined
+      | null;
+  };
+  /** unique or primary key constraints on table "wallet" */
+  ["wallet_constraint"]: wallet_constraint;
+  /** input type for inserting data into table "wallet" */
+  ["wallet_insert_input"]: {
+    accounts?:
+      | ResolverInputTypes["account_arr_rel_insert_input"]
+      | undefined
+      | null;
+    client?:
+      | ResolverInputTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null;
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    secretPhase?: string | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["wallet_max_fields"]: AliasType<{
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    secretPhase?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["wallet_min_fields"]: AliasType<{
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    secretPhase?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "wallet" */
+  ["wallet_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["wallet"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "wallet" */
+  ["wallet_obj_rel_insert_input"]: {
+    data: ResolverInputTypes["wallet_insert_input"];
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["wallet_on_conflict"] | undefined | null;
+  };
+  /** on_conflict condition type for table "wallet" */
+  ["wallet_on_conflict"]: {
+    constraint: ResolverInputTypes["wallet_constraint"];
+    update_columns: Array<ResolverInputTypes["wallet_update_column"]>;
+    where?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "wallet". */
+  ["wallet_order_by"]: {
+    accounts_aggregate?:
+      | ResolverInputTypes["account_aggregate_order_by"]
+      | undefined
+      | null;
+    client?: ResolverInputTypes["client_order_by"] | undefined | null;
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    secretPhase?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: wallet */
+  ["wallet_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "wallet" */
+  ["wallet_select_column"]: wallet_select_column;
+  /** input type for updating data in table "wallet" */
+  ["wallet_set_input"]: {
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    secretPhase?: string | undefined | null;
+  };
+  /** Streaming cursor of the table "wallet" */
+  ["wallet_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["wallet_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["wallet_stream_cursor_value_input"]: {
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    secretPhase?: string | undefined | null;
+  };
+  /** update columns of table "wallet" */
+  ["wallet_update_column"]: wallet_update_column;
+  ["wallet_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["wallet_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["wallet_bool_exp"];
+  };
 };
 
 export type ModelTypes = {
@@ -5549,6 +10742,165 @@ export type ModelTypes = {
     _regex?: string | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
+  };
+  /** accounts in a wallet */
+  ["account"]: {
+    /** An object relationship */
+    bitcoin?: ModelTypes["bitcoin"] | undefined;
+    /** An object relationship */
+    client: ModelTypes["client"];
+    clientId: ModelTypes["uuid"];
+    /** An object relationship */
+    eth?: ModelTypes["eth"] | undefined;
+    id: ModelTypes["uuid"];
+    /** An object relationship */
+    sol?: ModelTypes["sol"] | undefined;
+    /** An object relationship */
+    wallet: ModelTypes["wallet"];
+    walletId: ModelTypes["uuid"];
+  };
+  /** aggregated selection of "account" */
+  ["account_aggregate"]: {
+    aggregate?: ModelTypes["account_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["account"]>;
+  };
+  ["account_aggregate_bool_exp"]: {
+    count?: ModelTypes["account_aggregate_bool_exp_count"] | undefined;
+  };
+  ["account_aggregate_bool_exp_count"]: {
+    arguments?: Array<ModelTypes["account_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["account_bool_exp"] | undefined;
+    predicate: ModelTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "account" */
+  ["account_aggregate_fields"]: {
+    count: number;
+    max?: ModelTypes["account_max_fields"] | undefined;
+    min?: ModelTypes["account_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "account" */
+  ["account_aggregate_order_by"]: {
+    count?: ModelTypes["order_by"] | undefined;
+    max?: ModelTypes["account_max_order_by"] | undefined;
+    min?: ModelTypes["account_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "account" */
+  ["account_arr_rel_insert_input"]: {
+    data: Array<ModelTypes["account_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ModelTypes["account_on_conflict"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "account". All fields are combined with a logical 'AND'. */
+  ["account_bool_exp"]: {
+    _and?: Array<ModelTypes["account_bool_exp"]> | undefined;
+    _not?: ModelTypes["account_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["account_bool_exp"]> | undefined;
+    bitcoin?: ModelTypes["bitcoin_bool_exp"] | undefined;
+    client?: ModelTypes["client_bool_exp"] | undefined;
+    clientId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    eth?: ModelTypes["eth_bool_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    sol?: ModelTypes["sol_bool_exp"] | undefined;
+    wallet?: ModelTypes["wallet_bool_exp"] | undefined;
+    walletId?: ModelTypes["uuid_comparison_exp"] | undefined;
+  };
+  ["account_constraint"]: account_constraint;
+  /** input type for inserting data into table "account" */
+  ["account_insert_input"]: {
+    bitcoin?: ModelTypes["bitcoin_obj_rel_insert_input"] | undefined;
+    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    eth?: ModelTypes["eth_obj_rel_insert_input"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    sol?: ModelTypes["sol_obj_rel_insert_input"] | undefined;
+    wallet?: ModelTypes["wallet_obj_rel_insert_input"] | undefined;
+    walletId?: ModelTypes["uuid"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["account_max_fields"]: {
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    walletId?: ModelTypes["uuid"] | undefined;
+  };
+  /** order by max() on columns of table "account" */
+  ["account_max_order_by"]: {
+    clientId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    walletId?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["account_min_fields"]: {
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    walletId?: ModelTypes["uuid"] | undefined;
+  };
+  /** order by min() on columns of table "account" */
+  ["account_min_order_by"]: {
+    clientId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    walletId?: ModelTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "account" */
+  ["account_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["account"]>;
+  };
+  /** input type for inserting object relation for remote table "account" */
+  ["account_obj_rel_insert_input"]: {
+    data: ModelTypes["account_insert_input"];
+    /** upsert condition */
+    on_conflict?: ModelTypes["account_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "account" */
+  ["account_on_conflict"]: {
+    constraint: ModelTypes["account_constraint"];
+    update_columns: Array<ModelTypes["account_update_column"]>;
+    where?: ModelTypes["account_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "account". */
+  ["account_order_by"]: {
+    bitcoin?: ModelTypes["bitcoin_order_by"] | undefined;
+    client?: ModelTypes["client_order_by"] | undefined;
+    clientId?: ModelTypes["order_by"] | undefined;
+    eth?: ModelTypes["eth_order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    sol?: ModelTypes["sol_order_by"] | undefined;
+    wallet?: ModelTypes["wallet_order_by"] | undefined;
+    walletId?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: account */
+  ["account_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["account_select_column"]: account_select_column;
+  /** input type for updating data in table "account" */
+  ["account_set_input"]: {
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    walletId?: ModelTypes["uuid"] | undefined;
+  };
+  /** Streaming cursor of the table "account" */
+  ["account_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["account_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["account_stream_cursor_value_input"]: {
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    walletId?: ModelTypes["uuid"] | undefined;
+  };
+  ["account_update_column"]: account_update_column;
+  ["account_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["account_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["account_bool_exp"];
   };
   /** different chain and there address */
   ["address"]: {
@@ -5693,8 +11045,214 @@ export type ModelTypes = {
     _neq?: ModelTypes["bigint"] | undefined;
     _nin?: Array<ModelTypes["bigint"]> | undefined;
   };
+  /** bticoin address for client wallets */
+  ["bitcoin"]: {
+    /** An object relationship */
+    account: ModelTypes["account"];
+    accountId: ModelTypes["uuid"];
+    id: ModelTypes["uuid"];
+    mainnetBtc: ModelTypes["float8"];
+    privateKey: string;
+    publicKey: string;
+    regtestBtc: ModelTypes["float8"];
+    textnetBtc: ModelTypes["float8"];
+  };
+  /** aggregated selection of "bitcoin" */
+  ["bitcoin_aggregate"]: {
+    aggregate?: ModelTypes["bitcoin_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["bitcoin"]>;
+  };
+  /** aggregate fields of "bitcoin" */
+  ["bitcoin_aggregate_fields"]: {
+    avg?: ModelTypes["bitcoin_avg_fields"] | undefined;
+    count: number;
+    max?: ModelTypes["bitcoin_max_fields"] | undefined;
+    min?: ModelTypes["bitcoin_min_fields"] | undefined;
+    stddev?: ModelTypes["bitcoin_stddev_fields"] | undefined;
+    stddev_pop?: ModelTypes["bitcoin_stddev_pop_fields"] | undefined;
+    stddev_samp?: ModelTypes["bitcoin_stddev_samp_fields"] | undefined;
+    sum?: ModelTypes["bitcoin_sum_fields"] | undefined;
+    var_pop?: ModelTypes["bitcoin_var_pop_fields"] | undefined;
+    var_samp?: ModelTypes["bitcoin_var_samp_fields"] | undefined;
+    variance?: ModelTypes["bitcoin_variance_fields"] | undefined;
+  };
+  /** aggregate avg on columns */
+  ["bitcoin_avg_fields"]: {
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "bitcoin". All fields are combined with a logical 'AND'. */
+  ["bitcoin_bool_exp"]: {
+    _and?: Array<ModelTypes["bitcoin_bool_exp"]> | undefined;
+    _not?: ModelTypes["bitcoin_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["bitcoin_bool_exp"]> | undefined;
+    account?: ModelTypes["account_bool_exp"] | undefined;
+    accountId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    mainnetBtc?: ModelTypes["float8_comparison_exp"] | undefined;
+    privateKey?: ModelTypes["String_comparison_exp"] | undefined;
+    publicKey?: ModelTypes["String_comparison_exp"] | undefined;
+    regtestBtc?: ModelTypes["float8_comparison_exp"] | undefined;
+    textnetBtc?: ModelTypes["float8_comparison_exp"] | undefined;
+  };
+  ["bitcoin_constraint"]: bitcoin_constraint;
+  /** input type for incrementing numeric columns in table "bitcoin" */
+  ["bitcoin_inc_input"]: {
+    mainnetBtc?: ModelTypes["float8"] | undefined;
+    regtestBtc?: ModelTypes["float8"] | undefined;
+    textnetBtc?: ModelTypes["float8"] | undefined;
+  };
+  /** input type for inserting data into table "bitcoin" */
+  ["bitcoin_insert_input"]: {
+    account?: ModelTypes["account_obj_rel_insert_input"] | undefined;
+    accountId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetBtc?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: ModelTypes["float8"] | undefined;
+    textnetBtc?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["bitcoin_max_fields"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetBtc?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: ModelTypes["float8"] | undefined;
+    textnetBtc?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["bitcoin_min_fields"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetBtc?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: ModelTypes["float8"] | undefined;
+    textnetBtc?: ModelTypes["float8"] | undefined;
+  };
+  /** response of any mutation on the table "bitcoin" */
+  ["bitcoin_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["bitcoin"]>;
+  };
+  /** input type for inserting object relation for remote table "bitcoin" */
+  ["bitcoin_obj_rel_insert_input"]: {
+    data: ModelTypes["bitcoin_insert_input"];
+    /** upsert condition */
+    on_conflict?: ModelTypes["bitcoin_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "bitcoin" */
+  ["bitcoin_on_conflict"]: {
+    constraint: ModelTypes["bitcoin_constraint"];
+    update_columns: Array<ModelTypes["bitcoin_update_column"]>;
+    where?: ModelTypes["bitcoin_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "bitcoin". */
+  ["bitcoin_order_by"]: {
+    account?: ModelTypes["account_order_by"] | undefined;
+    accountId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    mainnetBtc?: ModelTypes["order_by"] | undefined;
+    privateKey?: ModelTypes["order_by"] | undefined;
+    publicKey?: ModelTypes["order_by"] | undefined;
+    regtestBtc?: ModelTypes["order_by"] | undefined;
+    textnetBtc?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: bitcoin */
+  ["bitcoin_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["bitcoin_select_column"]: bitcoin_select_column;
+  /** input type for updating data in table "bitcoin" */
+  ["bitcoin_set_input"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetBtc?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: ModelTypes["float8"] | undefined;
+    textnetBtc?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ["bitcoin_stddev_fields"]: {
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ["bitcoin_stddev_pop_fields"]: {
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ["bitcoin_stddev_samp_fields"]: {
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** Streaming cursor of the table "bitcoin" */
+  ["bitcoin_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["bitcoin_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["bitcoin_stream_cursor_value_input"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetBtc?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: ModelTypes["float8"] | undefined;
+    textnetBtc?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate sum on columns */
+  ["bitcoin_sum_fields"]: {
+    mainnetBtc?: ModelTypes["float8"] | undefined;
+    regtestBtc?: ModelTypes["float8"] | undefined;
+    textnetBtc?: ModelTypes["float8"] | undefined;
+  };
+  ["bitcoin_update_column"]: bitcoin_update_column;
+  ["bitcoin_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ModelTypes["bitcoin_inc_input"] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["bitcoin_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["bitcoin_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["bitcoin_var_pop_fields"]: {
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ["bitcoin_var_samp_fields"]: {
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ["bitcoin_variance_fields"]: {
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
   /** subscriber for paybox */
   ["client"]: {
+    /** An array relationship */
+    accounts: Array<ModelTypes["account"]>;
+    /** An aggregate relationship */
+    accounts_aggregate: ModelTypes["account_aggregate"];
     /** An object relationship */
     address?: ModelTypes["address"] | undefined;
     email: string;
@@ -5708,6 +11266,8 @@ export type ModelTypes = {
     /** An aggregate relationship */
     transactions_aggregate: ModelTypes["transactions_aggregate"];
     username?: string | undefined;
+    /** An object relationship */
+    wallet?: ModelTypes["wallet"] | undefined;
   };
   /** aggregated selection of "client" */
   ["client_aggregate"]: {
@@ -5737,6 +11297,8 @@ export type ModelTypes = {
     _and?: Array<ModelTypes["client_bool_exp"]> | undefined;
     _not?: ModelTypes["client_bool_exp"] | undefined;
     _or?: Array<ModelTypes["client_bool_exp"]> | undefined;
+    accounts?: ModelTypes["account_bool_exp"] | undefined;
+    accounts_aggregate?: ModelTypes["account_aggregate_bool_exp"] | undefined;
     address?: ModelTypes["address_bool_exp"] | undefined;
     email?: ModelTypes["String_comparison_exp"] | undefined;
     firstname?: ModelTypes["String_comparison_exp"] | undefined;
@@ -5749,6 +11311,7 @@ export type ModelTypes = {
       | ModelTypes["transactions_aggregate_bool_exp"]
       | undefined;
     username?: ModelTypes["String_comparison_exp"] | undefined;
+    wallet?: ModelTypes["wallet_bool_exp"] | undefined;
   };
   ["client_constraint"]: client_constraint;
   /** input type for incrementing numeric columns in table "client" */
@@ -5757,6 +11320,7 @@ export type ModelTypes = {
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
+    accounts?: ModelTypes["account_arr_rel_insert_input"] | undefined;
     address?: ModelTypes["address_obj_rel_insert_input"] | undefined;
     email?: string | undefined;
     firstname?: string | undefined;
@@ -5766,6 +11330,7 @@ export type ModelTypes = {
     password?: string | undefined;
     transactions?: ModelTypes["transactions_arr_rel_insert_input"] | undefined;
     username?: string | undefined;
+    wallet?: ModelTypes["wallet_obj_rel_insert_input"] | undefined;
   };
   /** aggregate max on columns */
   ["client_max_fields"]: {
@@ -5808,6 +11373,7 @@ export type ModelTypes = {
   };
   /** Ordering options when selecting data from "client". */
   ["client_order_by"]: {
+    accounts_aggregate?: ModelTypes["account_aggregate_order_by"] | undefined;
     address?: ModelTypes["address_order_by"] | undefined;
     email?: ModelTypes["order_by"] | undefined;
     firstname?: ModelTypes["order_by"] | undefined;
@@ -5819,6 +11385,7 @@ export type ModelTypes = {
       | ModelTypes["transactions_aggregate_order_by"]
       | undefined;
     username?: ModelTypes["order_by"] | undefined;
+    wallet?: ModelTypes["wallet_order_by"] | undefined;
   };
   /** primary key columns input for table: client */
   ["client_pk_columns_input"]: {
@@ -5903,6 +11470,259 @@ export type ModelTypes = {
     _neq?: ModelTypes["date"] | undefined;
     _nin?: Array<ModelTypes["date"]> | undefined;
   };
+  /** eth address and token for client wallets */
+  ["eth"]: {
+    /** An object relationship */
+    account: ModelTypes["account"];
+    accountId: ModelTypes["uuid"];
+    goerliEth: ModelTypes["float8"];
+    id: ModelTypes["uuid"];
+    kovanEth: ModelTypes["float8"];
+    mainnetEth: ModelTypes["float8"];
+    privateKey: string;
+    publicKey: string;
+    rinkebyEth: ModelTypes["float8"];
+    ropstenEth: ModelTypes["float8"];
+    sepoliaEth: ModelTypes["float8"];
+  };
+  /** aggregated selection of "eth" */
+  ["eth_aggregate"]: {
+    aggregate?: ModelTypes["eth_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["eth"]>;
+  };
+  /** aggregate fields of "eth" */
+  ["eth_aggregate_fields"]: {
+    avg?: ModelTypes["eth_avg_fields"] | undefined;
+    count: number;
+    max?: ModelTypes["eth_max_fields"] | undefined;
+    min?: ModelTypes["eth_min_fields"] | undefined;
+    stddev?: ModelTypes["eth_stddev_fields"] | undefined;
+    stddev_pop?: ModelTypes["eth_stddev_pop_fields"] | undefined;
+    stddev_samp?: ModelTypes["eth_stddev_samp_fields"] | undefined;
+    sum?: ModelTypes["eth_sum_fields"] | undefined;
+    var_pop?: ModelTypes["eth_var_pop_fields"] | undefined;
+    var_samp?: ModelTypes["eth_var_samp_fields"] | undefined;
+    variance?: ModelTypes["eth_variance_fields"] | undefined;
+  };
+  /** aggregate avg on columns */
+  ["eth_avg_fields"]: {
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "eth". All fields are combined with a logical 'AND'. */
+  ["eth_bool_exp"]: {
+    _and?: Array<ModelTypes["eth_bool_exp"]> | undefined;
+    _not?: ModelTypes["eth_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["eth_bool_exp"]> | undefined;
+    account?: ModelTypes["account_bool_exp"] | undefined;
+    accountId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    goerliEth?: ModelTypes["float8_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    kovanEth?: ModelTypes["float8_comparison_exp"] | undefined;
+    mainnetEth?: ModelTypes["float8_comparison_exp"] | undefined;
+    privateKey?: ModelTypes["String_comparison_exp"] | undefined;
+    publicKey?: ModelTypes["String_comparison_exp"] | undefined;
+    rinkebyEth?: ModelTypes["float8_comparison_exp"] | undefined;
+    ropstenEth?: ModelTypes["float8_comparison_exp"] | undefined;
+    sepoliaEth?: ModelTypes["float8_comparison_exp"] | undefined;
+  };
+  ["eth_constraint"]: eth_constraint;
+  /** input type for incrementing numeric columns in table "eth" */
+  ["eth_inc_input"]: {
+    goerliEth?: ModelTypes["float8"] | undefined;
+    kovanEth?: ModelTypes["float8"] | undefined;
+    mainnetEth?: ModelTypes["float8"] | undefined;
+    rinkebyEth?: ModelTypes["float8"] | undefined;
+    ropstenEth?: ModelTypes["float8"] | undefined;
+    sepoliaEth?: ModelTypes["float8"] | undefined;
+  };
+  /** input type for inserting data into table "eth" */
+  ["eth_insert_input"]: {
+    account?: ModelTypes["account_obj_rel_insert_input"] | undefined;
+    accountId?: ModelTypes["uuid"] | undefined;
+    goerliEth?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    kovanEth?: ModelTypes["float8"] | undefined;
+    mainnetEth?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: ModelTypes["float8"] | undefined;
+    ropstenEth?: ModelTypes["float8"] | undefined;
+    sepoliaEth?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["eth_max_fields"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    goerliEth?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    kovanEth?: ModelTypes["float8"] | undefined;
+    mainnetEth?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: ModelTypes["float8"] | undefined;
+    ropstenEth?: ModelTypes["float8"] | undefined;
+    sepoliaEth?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["eth_min_fields"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    goerliEth?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    kovanEth?: ModelTypes["float8"] | undefined;
+    mainnetEth?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: ModelTypes["float8"] | undefined;
+    ropstenEth?: ModelTypes["float8"] | undefined;
+    sepoliaEth?: ModelTypes["float8"] | undefined;
+  };
+  /** response of any mutation on the table "eth" */
+  ["eth_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["eth"]>;
+  };
+  /** input type for inserting object relation for remote table "eth" */
+  ["eth_obj_rel_insert_input"]: {
+    data: ModelTypes["eth_insert_input"];
+    /** upsert condition */
+    on_conflict?: ModelTypes["eth_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "eth" */
+  ["eth_on_conflict"]: {
+    constraint: ModelTypes["eth_constraint"];
+    update_columns: Array<ModelTypes["eth_update_column"]>;
+    where?: ModelTypes["eth_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "eth". */
+  ["eth_order_by"]: {
+    account?: ModelTypes["account_order_by"] | undefined;
+    accountId?: ModelTypes["order_by"] | undefined;
+    goerliEth?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    kovanEth?: ModelTypes["order_by"] | undefined;
+    mainnetEth?: ModelTypes["order_by"] | undefined;
+    privateKey?: ModelTypes["order_by"] | undefined;
+    publicKey?: ModelTypes["order_by"] | undefined;
+    rinkebyEth?: ModelTypes["order_by"] | undefined;
+    ropstenEth?: ModelTypes["order_by"] | undefined;
+    sepoliaEth?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: eth */
+  ["eth_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["eth_select_column"]: eth_select_column;
+  /** input type for updating data in table "eth" */
+  ["eth_set_input"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    goerliEth?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    kovanEth?: ModelTypes["float8"] | undefined;
+    mainnetEth?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: ModelTypes["float8"] | undefined;
+    ropstenEth?: ModelTypes["float8"] | undefined;
+    sepoliaEth?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ["eth_stddev_fields"]: {
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ["eth_stddev_pop_fields"]: {
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ["eth_stddev_samp_fields"]: {
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** Streaming cursor of the table "eth" */
+  ["eth_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["eth_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["eth_stream_cursor_value_input"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    goerliEth?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    kovanEth?: ModelTypes["float8"] | undefined;
+    mainnetEth?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: ModelTypes["float8"] | undefined;
+    ropstenEth?: ModelTypes["float8"] | undefined;
+    sepoliaEth?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate sum on columns */
+  ["eth_sum_fields"]: {
+    goerliEth?: ModelTypes["float8"] | undefined;
+    kovanEth?: ModelTypes["float8"] | undefined;
+    mainnetEth?: ModelTypes["float8"] | undefined;
+    rinkebyEth?: ModelTypes["float8"] | undefined;
+    ropstenEth?: ModelTypes["float8"] | undefined;
+    sepoliaEth?: ModelTypes["float8"] | undefined;
+  };
+  ["eth_update_column"]: eth_update_column;
+  ["eth_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ModelTypes["eth_inc_input"] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["eth_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["eth_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["eth_var_pop_fields"]: {
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ["eth_var_samp_fields"]: {
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ["eth_variance_fields"]: {
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
   ["float8"]: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ["float8_comparison_exp"]: {
@@ -5945,34 +11765,82 @@ export type ModelTypes = {
   };
   /** mutation root */
   ["mutation_root"]: {
+    /** delete data from the table: "account" */
+    delete_account?: ModelTypes["account_mutation_response"] | undefined;
+    /** delete single row from the table: "account" */
+    delete_account_by_pk?: ModelTypes["account"] | undefined;
     /** delete data from the table: "address" */
     delete_address?: ModelTypes["address_mutation_response"] | undefined;
     /** delete single row from the table: "address" */
     delete_address_by_pk?: ModelTypes["address"] | undefined;
+    /** delete data from the table: "bitcoin" */
+    delete_bitcoin?: ModelTypes["bitcoin_mutation_response"] | undefined;
+    /** delete single row from the table: "bitcoin" */
+    delete_bitcoin_by_pk?: ModelTypes["bitcoin"] | undefined;
     /** delete data from the table: "client" */
     delete_client?: ModelTypes["client_mutation_response"] | undefined;
     /** delete single row from the table: "client" */
     delete_client_by_pk?: ModelTypes["client"] | undefined;
+    /** delete data from the table: "eth" */
+    delete_eth?: ModelTypes["eth_mutation_response"] | undefined;
+    /** delete single row from the table: "eth" */
+    delete_eth_by_pk?: ModelTypes["eth"] | undefined;
+    /** delete data from the table: "sol" */
+    delete_sol?: ModelTypes["sol_mutation_response"] | undefined;
+    /** delete single row from the table: "sol" */
+    delete_sol_by_pk?: ModelTypes["sol"] | undefined;
     /** delete data from the table: "transactions" */
     delete_transactions?:
       | ModelTypes["transactions_mutation_response"]
       | undefined;
     /** delete single row from the table: "transactions" */
     delete_transactions_by_pk?: ModelTypes["transactions"] | undefined;
+    /** delete data from the table: "wallet" */
+    delete_wallet?: ModelTypes["wallet_mutation_response"] | undefined;
+    /** delete single row from the table: "wallet" */
+    delete_wallet_by_pk?: ModelTypes["wallet"] | undefined;
+    /** insert data into the table: "account" */
+    insert_account?: ModelTypes["account_mutation_response"] | undefined;
+    /** insert a single row into the table: "account" */
+    insert_account_one?: ModelTypes["account"] | undefined;
     /** insert data into the table: "address" */
     insert_address?: ModelTypes["address_mutation_response"] | undefined;
     /** insert a single row into the table: "address" */
     insert_address_one?: ModelTypes["address"] | undefined;
+    /** insert data into the table: "bitcoin" */
+    insert_bitcoin?: ModelTypes["bitcoin_mutation_response"] | undefined;
+    /** insert a single row into the table: "bitcoin" */
+    insert_bitcoin_one?: ModelTypes["bitcoin"] | undefined;
     /** insert data into the table: "client" */
     insert_client?: ModelTypes["client_mutation_response"] | undefined;
     /** insert a single row into the table: "client" */
     insert_client_one?: ModelTypes["client"] | undefined;
+    /** insert data into the table: "eth" */
+    insert_eth?: ModelTypes["eth_mutation_response"] | undefined;
+    /** insert a single row into the table: "eth" */
+    insert_eth_one?: ModelTypes["eth"] | undefined;
+    /** insert data into the table: "sol" */
+    insert_sol?: ModelTypes["sol_mutation_response"] | undefined;
+    /** insert a single row into the table: "sol" */
+    insert_sol_one?: ModelTypes["sol"] | undefined;
     /** insert data into the table: "transactions" */
     insert_transactions?:
       | ModelTypes["transactions_mutation_response"]
       | undefined;
     /** insert a single row into the table: "transactions" */
     insert_transactions_one?: ModelTypes["transactions"] | undefined;
+    /** insert data into the table: "wallet" */
+    insert_wallet?: ModelTypes["wallet_mutation_response"] | undefined;
+    /** insert a single row into the table: "wallet" */
+    insert_wallet_one?: ModelTypes["wallet"] | undefined;
+    /** update data of the table: "account" */
+    update_account?: ModelTypes["account_mutation_response"] | undefined;
+    /** update single row of the table: "account" */
+    update_account_by_pk?: ModelTypes["account"] | undefined;
+    /** update multiples rows of table: "account" */
+    update_account_many?:
+      | Array<ModelTypes["account_mutation_response"] | undefined>
+      | undefined;
     /** update data of the table: "address" */
     update_address?: ModelTypes["address_mutation_response"] | undefined;
     /** update single row of the table: "address" */
@@ -5981,6 +11849,14 @@ export type ModelTypes = {
     update_address_many?:
       | Array<ModelTypes["address_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "bitcoin" */
+    update_bitcoin?: ModelTypes["bitcoin_mutation_response"] | undefined;
+    /** update single row of the table: "bitcoin" */
+    update_bitcoin_by_pk?: ModelTypes["bitcoin"] | undefined;
+    /** update multiples rows of table: "bitcoin" */
+    update_bitcoin_many?:
+      | Array<ModelTypes["bitcoin_mutation_response"] | undefined>
+      | undefined;
     /** update data of the table: "client" */
     update_client?: ModelTypes["client_mutation_response"] | undefined;
     /** update single row of the table: "client" */
@@ -5988,6 +11864,22 @@ export type ModelTypes = {
     /** update multiples rows of table: "client" */
     update_client_many?:
       | Array<ModelTypes["client_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "eth" */
+    update_eth?: ModelTypes["eth_mutation_response"] | undefined;
+    /** update single row of the table: "eth" */
+    update_eth_by_pk?: ModelTypes["eth"] | undefined;
+    /** update multiples rows of table: "eth" */
+    update_eth_many?:
+      | Array<ModelTypes["eth_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "sol" */
+    update_sol?: ModelTypes["sol_mutation_response"] | undefined;
+    /** update single row of the table: "sol" */
+    update_sol_by_pk?: ModelTypes["sol"] | undefined;
+    /** update multiples rows of table: "sol" */
+    update_sol_many?:
+      | Array<ModelTypes["sol_mutation_response"] | undefined>
       | undefined;
     /** update data of the table: "transactions" */
     update_transactions?:
@@ -5999,29 +11891,277 @@ export type ModelTypes = {
     update_transactions_many?:
       | Array<ModelTypes["transactions_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "wallet" */
+    update_wallet?: ModelTypes["wallet_mutation_response"] | undefined;
+    /** update single row of the table: "wallet" */
+    update_wallet_by_pk?: ModelTypes["wallet"] | undefined;
+    /** update multiples rows of table: "wallet" */
+    update_wallet_many?:
+      | Array<ModelTypes["wallet_mutation_response"] | undefined>
+      | undefined;
   };
   ["order_by"]: order_by;
   ["query_root"]: {
+    /** fetch data from the table: "account" */
+    account: Array<ModelTypes["account"]>;
+    /** fetch aggregated fields from the table: "account" */
+    account_aggregate: ModelTypes["account_aggregate"];
+    /** fetch data from the table: "account" using primary key columns */
+    account_by_pk?: ModelTypes["account"] | undefined;
     /** fetch data from the table: "address" */
     address: Array<ModelTypes["address"]>;
     /** fetch aggregated fields from the table: "address" */
     address_aggregate: ModelTypes["address_aggregate"];
     /** fetch data from the table: "address" using primary key columns */
     address_by_pk?: ModelTypes["address"] | undefined;
+    /** fetch data from the table: "bitcoin" */
+    bitcoin: Array<ModelTypes["bitcoin"]>;
+    /** fetch aggregated fields from the table: "bitcoin" */
+    bitcoin_aggregate: ModelTypes["bitcoin_aggregate"];
+    /** fetch data from the table: "bitcoin" using primary key columns */
+    bitcoin_by_pk?: ModelTypes["bitcoin"] | undefined;
     /** fetch data from the table: "client" */
     client: Array<ModelTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
     client_aggregate: ModelTypes["client_aggregate"];
     /** fetch data from the table: "client" using primary key columns */
     client_by_pk?: ModelTypes["client"] | undefined;
+    /** fetch data from the table: "eth" */
+    eth: Array<ModelTypes["eth"]>;
+    /** fetch aggregated fields from the table: "eth" */
+    eth_aggregate: ModelTypes["eth_aggregate"];
+    /** fetch data from the table: "eth" using primary key columns */
+    eth_by_pk?: ModelTypes["eth"] | undefined;
+    /** fetch data from the table: "sol" */
+    sol: Array<ModelTypes["sol"]>;
+    /** fetch aggregated fields from the table: "sol" */
+    sol_aggregate: ModelTypes["sol_aggregate"];
+    /** fetch data from the table: "sol" using primary key columns */
+    sol_by_pk?: ModelTypes["sol"] | undefined;
     /** An array relationship */
     transactions: Array<ModelTypes["transactions"]>;
     /** An aggregate relationship */
     transactions_aggregate: ModelTypes["transactions_aggregate"];
     /** fetch data from the table: "transactions" using primary key columns */
     transactions_by_pk?: ModelTypes["transactions"] | undefined;
+    /** fetch data from the table: "wallet" */
+    wallet: Array<ModelTypes["wallet"]>;
+    /** fetch aggregated fields from the table: "wallet" */
+    wallet_aggregate: ModelTypes["wallet_aggregate"];
+    /** fetch data from the table: "wallet" using primary key columns */
+    wallet_by_pk?: ModelTypes["wallet"] | undefined;
+  };
+  /** solana address for client wallets */
+  ["sol"]: {
+    /** An object relationship */
+    account: ModelTypes["account"];
+    accountId: ModelTypes["uuid"];
+    devnetSol: ModelTypes["float8"];
+    id: ModelTypes["uuid"];
+    mainnetSol: ModelTypes["float8"];
+    privateKey: string;
+    publicKey: string;
+    testnetSol: ModelTypes["float8"];
+  };
+  /** aggregated selection of "sol" */
+  ["sol_aggregate"]: {
+    aggregate?: ModelTypes["sol_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["sol"]>;
+  };
+  /** aggregate fields of "sol" */
+  ["sol_aggregate_fields"]: {
+    avg?: ModelTypes["sol_avg_fields"] | undefined;
+    count: number;
+    max?: ModelTypes["sol_max_fields"] | undefined;
+    min?: ModelTypes["sol_min_fields"] | undefined;
+    stddev?: ModelTypes["sol_stddev_fields"] | undefined;
+    stddev_pop?: ModelTypes["sol_stddev_pop_fields"] | undefined;
+    stddev_samp?: ModelTypes["sol_stddev_samp_fields"] | undefined;
+    sum?: ModelTypes["sol_sum_fields"] | undefined;
+    var_pop?: ModelTypes["sol_var_pop_fields"] | undefined;
+    var_samp?: ModelTypes["sol_var_samp_fields"] | undefined;
+    variance?: ModelTypes["sol_variance_fields"] | undefined;
+  };
+  /** aggregate avg on columns */
+  ["sol_avg_fields"]: {
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "sol". All fields are combined with a logical 'AND'. */
+  ["sol_bool_exp"]: {
+    _and?: Array<ModelTypes["sol_bool_exp"]> | undefined;
+    _not?: ModelTypes["sol_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["sol_bool_exp"]> | undefined;
+    account?: ModelTypes["account_bool_exp"] | undefined;
+    accountId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    devnetSol?: ModelTypes["float8_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    mainnetSol?: ModelTypes["float8_comparison_exp"] | undefined;
+    privateKey?: ModelTypes["String_comparison_exp"] | undefined;
+    publicKey?: ModelTypes["String_comparison_exp"] | undefined;
+    testnetSol?: ModelTypes["float8_comparison_exp"] | undefined;
+  };
+  ["sol_constraint"]: sol_constraint;
+  /** input type for incrementing numeric columns in table "sol" */
+  ["sol_inc_input"]: {
+    devnetSol?: ModelTypes["float8"] | undefined;
+    mainnetSol?: ModelTypes["float8"] | undefined;
+    testnetSol?: ModelTypes["float8"] | undefined;
+  };
+  /** input type for inserting data into table "sol" */
+  ["sol_insert_input"]: {
+    account?: ModelTypes["account_obj_rel_insert_input"] | undefined;
+    accountId?: ModelTypes["uuid"] | undefined;
+    devnetSol?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetSol?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["sol_max_fields"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    devnetSol?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetSol?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["sol_min_fields"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    devnetSol?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetSol?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: ModelTypes["float8"] | undefined;
+  };
+  /** response of any mutation on the table "sol" */
+  ["sol_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["sol"]>;
+  };
+  /** input type for inserting object relation for remote table "sol" */
+  ["sol_obj_rel_insert_input"]: {
+    data: ModelTypes["sol_insert_input"];
+    /** upsert condition */
+    on_conflict?: ModelTypes["sol_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "sol" */
+  ["sol_on_conflict"]: {
+    constraint: ModelTypes["sol_constraint"];
+    update_columns: Array<ModelTypes["sol_update_column"]>;
+    where?: ModelTypes["sol_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "sol". */
+  ["sol_order_by"]: {
+    account?: ModelTypes["account_order_by"] | undefined;
+    accountId?: ModelTypes["order_by"] | undefined;
+    devnetSol?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    mainnetSol?: ModelTypes["order_by"] | undefined;
+    privateKey?: ModelTypes["order_by"] | undefined;
+    publicKey?: ModelTypes["order_by"] | undefined;
+    testnetSol?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: sol */
+  ["sol_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["sol_select_column"]: sol_select_column;
+  /** input type for updating data in table "sol" */
+  ["sol_set_input"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    devnetSol?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetSol?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ["sol_stddev_fields"]: {
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ["sol_stddev_pop_fields"]: {
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ["sol_stddev_samp_fields"]: {
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** Streaming cursor of the table "sol" */
+  ["sol_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["sol_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["sol_stream_cursor_value_input"]: {
+    accountId?: ModelTypes["uuid"] | undefined;
+    devnetSol?: ModelTypes["float8"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    mainnetSol?: ModelTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: ModelTypes["float8"] | undefined;
+  };
+  /** aggregate sum on columns */
+  ["sol_sum_fields"]: {
+    devnetSol?: ModelTypes["float8"] | undefined;
+    mainnetSol?: ModelTypes["float8"] | undefined;
+    testnetSol?: ModelTypes["float8"] | undefined;
+  };
+  ["sol_update_column"]: sol_update_column;
+  ["sol_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ModelTypes["sol_inc_input"] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["sol_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["sol_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["sol_var_pop_fields"]: {
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ["sol_var_samp_fields"]: {
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ["sol_variance_fields"]: {
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
   };
   ["subscription_root"]: {
+    /** fetch data from the table: "account" */
+    account: Array<ModelTypes["account"]>;
+    /** fetch aggregated fields from the table: "account" */
+    account_aggregate: ModelTypes["account_aggregate"];
+    /** fetch data from the table: "account" using primary key columns */
+    account_by_pk?: ModelTypes["account"] | undefined;
+    /** fetch data from the table in a streaming manner: "account" */
+    account_stream: Array<ModelTypes["account"]>;
     /** fetch data from the table: "address" */
     address: Array<ModelTypes["address"]>;
     /** fetch aggregated fields from the table: "address" */
@@ -6030,6 +12170,14 @@ export type ModelTypes = {
     address_by_pk?: ModelTypes["address"] | undefined;
     /** fetch data from the table in a streaming manner: "address" */
     address_stream: Array<ModelTypes["address"]>;
+    /** fetch data from the table: "bitcoin" */
+    bitcoin: Array<ModelTypes["bitcoin"]>;
+    /** fetch aggregated fields from the table: "bitcoin" */
+    bitcoin_aggregate: ModelTypes["bitcoin_aggregate"];
+    /** fetch data from the table: "bitcoin" using primary key columns */
+    bitcoin_by_pk?: ModelTypes["bitcoin"] | undefined;
+    /** fetch data from the table in a streaming manner: "bitcoin" */
+    bitcoin_stream: Array<ModelTypes["bitcoin"]>;
     /** fetch data from the table: "client" */
     client: Array<ModelTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -6038,6 +12186,22 @@ export type ModelTypes = {
     client_by_pk?: ModelTypes["client"] | undefined;
     /** fetch data from the table in a streaming manner: "client" */
     client_stream: Array<ModelTypes["client"]>;
+    /** fetch data from the table: "eth" */
+    eth: Array<ModelTypes["eth"]>;
+    /** fetch aggregated fields from the table: "eth" */
+    eth_aggregate: ModelTypes["eth_aggregate"];
+    /** fetch data from the table: "eth" using primary key columns */
+    eth_by_pk?: ModelTypes["eth"] | undefined;
+    /** fetch data from the table in a streaming manner: "eth" */
+    eth_stream: Array<ModelTypes["eth"]>;
+    /** fetch data from the table: "sol" */
+    sol: Array<ModelTypes["sol"]>;
+    /** fetch aggregated fields from the table: "sol" */
+    sol_aggregate: ModelTypes["sol_aggregate"];
+    /** fetch data from the table: "sol" using primary key columns */
+    sol_by_pk?: ModelTypes["sol"] | undefined;
+    /** fetch data from the table in a streaming manner: "sol" */
+    sol_stream: Array<ModelTypes["sol"]>;
     /** An array relationship */
     transactions: Array<ModelTypes["transactions"]>;
     /** An aggregate relationship */
@@ -6046,6 +12210,14 @@ export type ModelTypes = {
     transactions_by_pk?: ModelTypes["transactions"] | undefined;
     /** fetch data from the table in a streaming manner: "transactions" */
     transactions_stream: Array<ModelTypes["transactions"]>;
+    /** fetch data from the table: "wallet" */
+    wallet: Array<ModelTypes["wallet"]>;
+    /** fetch aggregated fields from the table: "wallet" */
+    wallet_aggregate: ModelTypes["wallet_aggregate"];
+    /** fetch data from the table: "wallet" using primary key columns */
+    wallet_by_pk?: ModelTypes["wallet"] | undefined;
+    /** fetch data from the table in a streaming manner: "wallet" */
+    wallet_stream: Array<ModelTypes["wallet"]>;
   };
   /** transactions table  */
   ["transactions"]: {
@@ -6632,6 +12804,120 @@ export type ModelTypes = {
     _neq?: ModelTypes["uuid"] | undefined;
     _nin?: Array<ModelTypes["uuid"]> | undefined;
   };
+  /** wallets info for clients */
+  ["wallet"]: {
+    /** An array relationship */
+    accounts: Array<ModelTypes["account"]>;
+    /** An aggregate relationship */
+    accounts_aggregate: ModelTypes["account_aggregate"];
+    /** An object relationship */
+    client: ModelTypes["client"];
+    clientId: ModelTypes["uuid"];
+    id: ModelTypes["uuid"];
+    secretPhase: string;
+  };
+  /** aggregated selection of "wallet" */
+  ["wallet_aggregate"]: {
+    aggregate?: ModelTypes["wallet_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["wallet"]>;
+  };
+  /** aggregate fields of "wallet" */
+  ["wallet_aggregate_fields"]: {
+    count: number;
+    max?: ModelTypes["wallet_max_fields"] | undefined;
+    min?: ModelTypes["wallet_min_fields"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
+  ["wallet_bool_exp"]: {
+    _and?: Array<ModelTypes["wallet_bool_exp"]> | undefined;
+    _not?: ModelTypes["wallet_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["wallet_bool_exp"]> | undefined;
+    accounts?: ModelTypes["account_bool_exp"] | undefined;
+    accounts_aggregate?: ModelTypes["account_aggregate_bool_exp"] | undefined;
+    client?: ModelTypes["client_bool_exp"] | undefined;
+    clientId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    secretPhase?: ModelTypes["String_comparison_exp"] | undefined;
+  };
+  ["wallet_constraint"]: wallet_constraint;
+  /** input type for inserting data into table "wallet" */
+  ["wallet_insert_input"]: {
+    accounts?: ModelTypes["account_arr_rel_insert_input"] | undefined;
+    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ["wallet_max_fields"]: {
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ["wallet_min_fields"]: {
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** response of any mutation on the table "wallet" */
+  ["wallet_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["wallet"]>;
+  };
+  /** input type for inserting object relation for remote table "wallet" */
+  ["wallet_obj_rel_insert_input"]: {
+    data: ModelTypes["wallet_insert_input"];
+    /** upsert condition */
+    on_conflict?: ModelTypes["wallet_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "wallet" */
+  ["wallet_on_conflict"]: {
+    constraint: ModelTypes["wallet_constraint"];
+    update_columns: Array<ModelTypes["wallet_update_column"]>;
+    where?: ModelTypes["wallet_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "wallet". */
+  ["wallet_order_by"]: {
+    accounts_aggregate?: ModelTypes["account_aggregate_order_by"] | undefined;
+    client?: ModelTypes["client_order_by"] | undefined;
+    clientId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    secretPhase?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: wallet */
+  ["wallet_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["wallet_select_column"]: wallet_select_column;
+  /** input type for updating data in table "wallet" */
+  ["wallet_set_input"]: {
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** Streaming cursor of the table "wallet" */
+  ["wallet_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["wallet_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["wallet_stream_cursor_value_input"]: {
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  ["wallet_update_column"]: wallet_update_column;
+  ["wallet_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["wallet_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["wallet_bool_exp"];
+  };
 };
 
 export type GraphQLTypes = {
@@ -6678,6 +12964,174 @@ export type GraphQLTypes = {
     _regex?: string | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
+  };
+  /** accounts in a wallet */
+  ["account"]: {
+    __typename: "account";
+    /** An object relationship */
+    bitcoin?: GraphQLTypes["bitcoin"] | undefined;
+    /** An object relationship */
+    client: GraphQLTypes["client"];
+    clientId: GraphQLTypes["uuid"];
+    /** An object relationship */
+    eth?: GraphQLTypes["eth"] | undefined;
+    id: GraphQLTypes["uuid"];
+    /** An object relationship */
+    sol?: GraphQLTypes["sol"] | undefined;
+    /** An object relationship */
+    wallet: GraphQLTypes["wallet"];
+    walletId: GraphQLTypes["uuid"];
+  };
+  /** aggregated selection of "account" */
+  ["account_aggregate"]: {
+    __typename: "account_aggregate";
+    aggregate?: GraphQLTypes["account_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["account"]>;
+  };
+  ["account_aggregate_bool_exp"]: {
+    count?: GraphQLTypes["account_aggregate_bool_exp_count"] | undefined;
+  };
+  ["account_aggregate_bool_exp_count"]: {
+    arguments?: Array<GraphQLTypes["account_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["account_bool_exp"] | undefined;
+    predicate: GraphQLTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "account" */
+  ["account_aggregate_fields"]: {
+    __typename: "account_aggregate_fields";
+    count: number;
+    max?: GraphQLTypes["account_max_fields"] | undefined;
+    min?: GraphQLTypes["account_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "account" */
+  ["account_aggregate_order_by"]: {
+    count?: GraphQLTypes["order_by"] | undefined;
+    max?: GraphQLTypes["account_max_order_by"] | undefined;
+    min?: GraphQLTypes["account_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "account" */
+  ["account_arr_rel_insert_input"]: {
+    data: Array<GraphQLTypes["account_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["account_on_conflict"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "account". All fields are combined with a logical 'AND'. */
+  ["account_bool_exp"]: {
+    _and?: Array<GraphQLTypes["account_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["account_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["account_bool_exp"]> | undefined;
+    bitcoin?: GraphQLTypes["bitcoin_bool_exp"] | undefined;
+    client?: GraphQLTypes["client_bool_exp"] | undefined;
+    clientId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    eth?: GraphQLTypes["eth_bool_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    sol?: GraphQLTypes["sol_bool_exp"] | undefined;
+    wallet?: GraphQLTypes["wallet_bool_exp"] | undefined;
+    walletId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "account" */
+  ["account_constraint"]: account_constraint;
+  /** input type for inserting data into table "account" */
+  ["account_insert_input"]: {
+    bitcoin?: GraphQLTypes["bitcoin_obj_rel_insert_input"] | undefined;
+    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    eth?: GraphQLTypes["eth_obj_rel_insert_input"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    sol?: GraphQLTypes["sol_obj_rel_insert_input"] | undefined;
+    wallet?: GraphQLTypes["wallet_obj_rel_insert_input"] | undefined;
+    walletId?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["account_max_fields"]: {
+    __typename: "account_max_fields";
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    walletId?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** order by max() on columns of table "account" */
+  ["account_max_order_by"]: {
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    walletId?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["account_min_fields"]: {
+    __typename: "account_min_fields";
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    walletId?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** order by min() on columns of table "account" */
+  ["account_min_order_by"]: {
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    walletId?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "account" */
+  ["account_mutation_response"]: {
+    __typename: "account_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["account"]>;
+  };
+  /** input type for inserting object relation for remote table "account" */
+  ["account_obj_rel_insert_input"]: {
+    data: GraphQLTypes["account_insert_input"];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["account_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "account" */
+  ["account_on_conflict"]: {
+    constraint: GraphQLTypes["account_constraint"];
+    update_columns: Array<GraphQLTypes["account_update_column"]>;
+    where?: GraphQLTypes["account_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "account". */
+  ["account_order_by"]: {
+    bitcoin?: GraphQLTypes["bitcoin_order_by"] | undefined;
+    client?: GraphQLTypes["client_order_by"] | undefined;
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    eth?: GraphQLTypes["eth_order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    sol?: GraphQLTypes["sol_order_by"] | undefined;
+    wallet?: GraphQLTypes["wallet_order_by"] | undefined;
+    walletId?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: account */
+  ["account_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "account" */
+  ["account_select_column"]: account_select_column;
+  /** input type for updating data in table "account" */
+  ["account_set_input"]: {
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    walletId?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** Streaming cursor of the table "account" */
+  ["account_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["account_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["account_stream_cursor_value_input"]: {
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    walletId?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** update columns of table "account" */
+  ["account_update_column"]: account_update_column;
+  ["account_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["account_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["account_bool_exp"];
   };
   /** different chain and there address */
   ["address"]: {
@@ -6831,9 +13285,232 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes["bigint"] | undefined;
     _nin?: Array<GraphQLTypes["bigint"]> | undefined;
   };
+  /** bticoin address for client wallets */
+  ["bitcoin"]: {
+    __typename: "bitcoin";
+    /** An object relationship */
+    account: GraphQLTypes["account"];
+    accountId: GraphQLTypes["uuid"];
+    id: GraphQLTypes["uuid"];
+    mainnetBtc: GraphQLTypes["float8"];
+    privateKey: string;
+    publicKey: string;
+    regtestBtc: GraphQLTypes["float8"];
+    textnetBtc: GraphQLTypes["float8"];
+  };
+  /** aggregated selection of "bitcoin" */
+  ["bitcoin_aggregate"]: {
+    __typename: "bitcoin_aggregate";
+    aggregate?: GraphQLTypes["bitcoin_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["bitcoin"]>;
+  };
+  /** aggregate fields of "bitcoin" */
+  ["bitcoin_aggregate_fields"]: {
+    __typename: "bitcoin_aggregate_fields";
+    avg?: GraphQLTypes["bitcoin_avg_fields"] | undefined;
+    count: number;
+    max?: GraphQLTypes["bitcoin_max_fields"] | undefined;
+    min?: GraphQLTypes["bitcoin_min_fields"] | undefined;
+    stddev?: GraphQLTypes["bitcoin_stddev_fields"] | undefined;
+    stddev_pop?: GraphQLTypes["bitcoin_stddev_pop_fields"] | undefined;
+    stddev_samp?: GraphQLTypes["bitcoin_stddev_samp_fields"] | undefined;
+    sum?: GraphQLTypes["bitcoin_sum_fields"] | undefined;
+    var_pop?: GraphQLTypes["bitcoin_var_pop_fields"] | undefined;
+    var_samp?: GraphQLTypes["bitcoin_var_samp_fields"] | undefined;
+    variance?: GraphQLTypes["bitcoin_variance_fields"] | undefined;
+  };
+  /** aggregate avg on columns */
+  ["bitcoin_avg_fields"]: {
+    __typename: "bitcoin_avg_fields";
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "bitcoin". All fields are combined with a logical 'AND'. */
+  ["bitcoin_bool_exp"]: {
+    _and?: Array<GraphQLTypes["bitcoin_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["bitcoin_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["bitcoin_bool_exp"]> | undefined;
+    account?: GraphQLTypes["account_bool_exp"] | undefined;
+    accountId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    mainnetBtc?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    privateKey?: GraphQLTypes["String_comparison_exp"] | undefined;
+    publicKey?: GraphQLTypes["String_comparison_exp"] | undefined;
+    regtestBtc?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    textnetBtc?: GraphQLTypes["float8_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "bitcoin" */
+  ["bitcoin_constraint"]: bitcoin_constraint;
+  /** input type for incrementing numeric columns in table "bitcoin" */
+  ["bitcoin_inc_input"]: {
+    mainnetBtc?: GraphQLTypes["float8"] | undefined;
+    regtestBtc?: GraphQLTypes["float8"] | undefined;
+    textnetBtc?: GraphQLTypes["float8"] | undefined;
+  };
+  /** input type for inserting data into table "bitcoin" */
+  ["bitcoin_insert_input"]: {
+    account?: GraphQLTypes["account_obj_rel_insert_input"] | undefined;
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetBtc?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: GraphQLTypes["float8"] | undefined;
+    textnetBtc?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["bitcoin_max_fields"]: {
+    __typename: "bitcoin_max_fields";
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetBtc?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: GraphQLTypes["float8"] | undefined;
+    textnetBtc?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["bitcoin_min_fields"]: {
+    __typename: "bitcoin_min_fields";
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetBtc?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: GraphQLTypes["float8"] | undefined;
+    textnetBtc?: GraphQLTypes["float8"] | undefined;
+  };
+  /** response of any mutation on the table "bitcoin" */
+  ["bitcoin_mutation_response"]: {
+    __typename: "bitcoin_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["bitcoin"]>;
+  };
+  /** input type for inserting object relation for remote table "bitcoin" */
+  ["bitcoin_obj_rel_insert_input"]: {
+    data: GraphQLTypes["bitcoin_insert_input"];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["bitcoin_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "bitcoin" */
+  ["bitcoin_on_conflict"]: {
+    constraint: GraphQLTypes["bitcoin_constraint"];
+    update_columns: Array<GraphQLTypes["bitcoin_update_column"]>;
+    where?: GraphQLTypes["bitcoin_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "bitcoin". */
+  ["bitcoin_order_by"]: {
+    account?: GraphQLTypes["account_order_by"] | undefined;
+    accountId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    mainnetBtc?: GraphQLTypes["order_by"] | undefined;
+    privateKey?: GraphQLTypes["order_by"] | undefined;
+    publicKey?: GraphQLTypes["order_by"] | undefined;
+    regtestBtc?: GraphQLTypes["order_by"] | undefined;
+    textnetBtc?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: bitcoin */
+  ["bitcoin_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "bitcoin" */
+  ["bitcoin_select_column"]: bitcoin_select_column;
+  /** input type for updating data in table "bitcoin" */
+  ["bitcoin_set_input"]: {
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetBtc?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: GraphQLTypes["float8"] | undefined;
+    textnetBtc?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ["bitcoin_stddev_fields"]: {
+    __typename: "bitcoin_stddev_fields";
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ["bitcoin_stddev_pop_fields"]: {
+    __typename: "bitcoin_stddev_pop_fields";
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ["bitcoin_stddev_samp_fields"]: {
+    __typename: "bitcoin_stddev_samp_fields";
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** Streaming cursor of the table "bitcoin" */
+  ["bitcoin_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["bitcoin_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["bitcoin_stream_cursor_value_input"]: {
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetBtc?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    regtestBtc?: GraphQLTypes["float8"] | undefined;
+    textnetBtc?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate sum on columns */
+  ["bitcoin_sum_fields"]: {
+    __typename: "bitcoin_sum_fields";
+    mainnetBtc?: GraphQLTypes["float8"] | undefined;
+    regtestBtc?: GraphQLTypes["float8"] | undefined;
+    textnetBtc?: GraphQLTypes["float8"] | undefined;
+  };
+  /** update columns of table "bitcoin" */
+  ["bitcoin_update_column"]: bitcoin_update_column;
+  ["bitcoin_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes["bitcoin_inc_input"] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["bitcoin_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["bitcoin_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["bitcoin_var_pop_fields"]: {
+    __typename: "bitcoin_var_pop_fields";
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ["bitcoin_var_samp_fields"]: {
+    __typename: "bitcoin_var_samp_fields";
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ["bitcoin_variance_fields"]: {
+    __typename: "bitcoin_variance_fields";
+    mainnetBtc?: number | undefined;
+    regtestBtc?: number | undefined;
+    textnetBtc?: number | undefined;
+  };
   /** subscriber for paybox */
   ["client"]: {
     __typename: "client";
+    /** An array relationship */
+    accounts: Array<GraphQLTypes["account"]>;
+    /** An aggregate relationship */
+    accounts_aggregate: GraphQLTypes["account_aggregate"];
     /** An object relationship */
     address?: GraphQLTypes["address"] | undefined;
     email: string;
@@ -6847,6 +13524,8 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     transactions_aggregate: GraphQLTypes["transactions_aggregate"];
     username?: string | undefined;
+    /** An object relationship */
+    wallet?: GraphQLTypes["wallet"] | undefined;
   };
   /** aggregated selection of "client" */
   ["client_aggregate"]: {
@@ -6879,6 +13558,8 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes["client_bool_exp"]> | undefined;
     _not?: GraphQLTypes["client_bool_exp"] | undefined;
     _or?: Array<GraphQLTypes["client_bool_exp"]> | undefined;
+    accounts?: GraphQLTypes["account_bool_exp"] | undefined;
+    accounts_aggregate?: GraphQLTypes["account_aggregate_bool_exp"] | undefined;
     address?: GraphQLTypes["address_bool_exp"] | undefined;
     email?: GraphQLTypes["String_comparison_exp"] | undefined;
     firstname?: GraphQLTypes["String_comparison_exp"] | undefined;
@@ -6891,6 +13572,7 @@ export type GraphQLTypes = {
       | GraphQLTypes["transactions_aggregate_bool_exp"]
       | undefined;
     username?: GraphQLTypes["String_comparison_exp"] | undefined;
+    wallet?: GraphQLTypes["wallet_bool_exp"] | undefined;
   };
   /** unique or primary key constraints on table "client" */
   ["client_constraint"]: client_constraint;
@@ -6900,6 +13582,7 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "client" */
   ["client_insert_input"]: {
+    accounts?: GraphQLTypes["account_arr_rel_insert_input"] | undefined;
     address?: GraphQLTypes["address_obj_rel_insert_input"] | undefined;
     email?: string | undefined;
     firstname?: string | undefined;
@@ -6911,6 +13594,7 @@ export type GraphQLTypes = {
       | GraphQLTypes["transactions_arr_rel_insert_input"]
       | undefined;
     username?: string | undefined;
+    wallet?: GraphQLTypes["wallet_obj_rel_insert_input"] | undefined;
   };
   /** aggregate max on columns */
   ["client_max_fields"]: {
@@ -6956,6 +13640,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "client". */
   ["client_order_by"]: {
+    accounts_aggregate?: GraphQLTypes["account_aggregate_order_by"] | undefined;
     address?: GraphQLTypes["address_order_by"] | undefined;
     email?: GraphQLTypes["order_by"] | undefined;
     firstname?: GraphQLTypes["order_by"] | undefined;
@@ -6967,6 +13652,7 @@ export type GraphQLTypes = {
       | GraphQLTypes["transactions_aggregate_order_by"]
       | undefined;
     username?: GraphQLTypes["order_by"] | undefined;
+    wallet?: GraphQLTypes["wallet_order_by"] | undefined;
   };
   /** primary key columns input for table: client */
   ["client_pk_columns_input"]: {
@@ -7061,6 +13747,276 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes["date"] | undefined;
     _nin?: Array<GraphQLTypes["date"]> | undefined;
   };
+  /** eth address and token for client wallets */
+  ["eth"]: {
+    __typename: "eth";
+    /** An object relationship */
+    account: GraphQLTypes["account"];
+    accountId: GraphQLTypes["uuid"];
+    goerliEth: GraphQLTypes["float8"];
+    id: GraphQLTypes["uuid"];
+    kovanEth: GraphQLTypes["float8"];
+    mainnetEth: GraphQLTypes["float8"];
+    privateKey: string;
+    publicKey: string;
+    rinkebyEth: GraphQLTypes["float8"];
+    ropstenEth: GraphQLTypes["float8"];
+    sepoliaEth: GraphQLTypes["float8"];
+  };
+  /** aggregated selection of "eth" */
+  ["eth_aggregate"]: {
+    __typename: "eth_aggregate";
+    aggregate?: GraphQLTypes["eth_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["eth"]>;
+  };
+  /** aggregate fields of "eth" */
+  ["eth_aggregate_fields"]: {
+    __typename: "eth_aggregate_fields";
+    avg?: GraphQLTypes["eth_avg_fields"] | undefined;
+    count: number;
+    max?: GraphQLTypes["eth_max_fields"] | undefined;
+    min?: GraphQLTypes["eth_min_fields"] | undefined;
+    stddev?: GraphQLTypes["eth_stddev_fields"] | undefined;
+    stddev_pop?: GraphQLTypes["eth_stddev_pop_fields"] | undefined;
+    stddev_samp?: GraphQLTypes["eth_stddev_samp_fields"] | undefined;
+    sum?: GraphQLTypes["eth_sum_fields"] | undefined;
+    var_pop?: GraphQLTypes["eth_var_pop_fields"] | undefined;
+    var_samp?: GraphQLTypes["eth_var_samp_fields"] | undefined;
+    variance?: GraphQLTypes["eth_variance_fields"] | undefined;
+  };
+  /** aggregate avg on columns */
+  ["eth_avg_fields"]: {
+    __typename: "eth_avg_fields";
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "eth". All fields are combined with a logical 'AND'. */
+  ["eth_bool_exp"]: {
+    _and?: Array<GraphQLTypes["eth_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["eth_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["eth_bool_exp"]> | undefined;
+    account?: GraphQLTypes["account_bool_exp"] | undefined;
+    accountId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    goerliEth?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    kovanEth?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    mainnetEth?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    privateKey?: GraphQLTypes["String_comparison_exp"] | undefined;
+    publicKey?: GraphQLTypes["String_comparison_exp"] | undefined;
+    rinkebyEth?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    ropstenEth?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    sepoliaEth?: GraphQLTypes["float8_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "eth" */
+  ["eth_constraint"]: eth_constraint;
+  /** input type for incrementing numeric columns in table "eth" */
+  ["eth_inc_input"]: {
+    goerliEth?: GraphQLTypes["float8"] | undefined;
+    kovanEth?: GraphQLTypes["float8"] | undefined;
+    mainnetEth?: GraphQLTypes["float8"] | undefined;
+    rinkebyEth?: GraphQLTypes["float8"] | undefined;
+    ropstenEth?: GraphQLTypes["float8"] | undefined;
+    sepoliaEth?: GraphQLTypes["float8"] | undefined;
+  };
+  /** input type for inserting data into table "eth" */
+  ["eth_insert_input"]: {
+    account?: GraphQLTypes["account_obj_rel_insert_input"] | undefined;
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    goerliEth?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    kovanEth?: GraphQLTypes["float8"] | undefined;
+    mainnetEth?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: GraphQLTypes["float8"] | undefined;
+    ropstenEth?: GraphQLTypes["float8"] | undefined;
+    sepoliaEth?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["eth_max_fields"]: {
+    __typename: "eth_max_fields";
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    goerliEth?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    kovanEth?: GraphQLTypes["float8"] | undefined;
+    mainnetEth?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: GraphQLTypes["float8"] | undefined;
+    ropstenEth?: GraphQLTypes["float8"] | undefined;
+    sepoliaEth?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["eth_min_fields"]: {
+    __typename: "eth_min_fields";
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    goerliEth?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    kovanEth?: GraphQLTypes["float8"] | undefined;
+    mainnetEth?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: GraphQLTypes["float8"] | undefined;
+    ropstenEth?: GraphQLTypes["float8"] | undefined;
+    sepoliaEth?: GraphQLTypes["float8"] | undefined;
+  };
+  /** response of any mutation on the table "eth" */
+  ["eth_mutation_response"]: {
+    __typename: "eth_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["eth"]>;
+  };
+  /** input type for inserting object relation for remote table "eth" */
+  ["eth_obj_rel_insert_input"]: {
+    data: GraphQLTypes["eth_insert_input"];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["eth_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "eth" */
+  ["eth_on_conflict"]: {
+    constraint: GraphQLTypes["eth_constraint"];
+    update_columns: Array<GraphQLTypes["eth_update_column"]>;
+    where?: GraphQLTypes["eth_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "eth". */
+  ["eth_order_by"]: {
+    account?: GraphQLTypes["account_order_by"] | undefined;
+    accountId?: GraphQLTypes["order_by"] | undefined;
+    goerliEth?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    kovanEth?: GraphQLTypes["order_by"] | undefined;
+    mainnetEth?: GraphQLTypes["order_by"] | undefined;
+    privateKey?: GraphQLTypes["order_by"] | undefined;
+    publicKey?: GraphQLTypes["order_by"] | undefined;
+    rinkebyEth?: GraphQLTypes["order_by"] | undefined;
+    ropstenEth?: GraphQLTypes["order_by"] | undefined;
+    sepoliaEth?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: eth */
+  ["eth_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "eth" */
+  ["eth_select_column"]: eth_select_column;
+  /** input type for updating data in table "eth" */
+  ["eth_set_input"]: {
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    goerliEth?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    kovanEth?: GraphQLTypes["float8"] | undefined;
+    mainnetEth?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: GraphQLTypes["float8"] | undefined;
+    ropstenEth?: GraphQLTypes["float8"] | undefined;
+    sepoliaEth?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ["eth_stddev_fields"]: {
+    __typename: "eth_stddev_fields";
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ["eth_stddev_pop_fields"]: {
+    __typename: "eth_stddev_pop_fields";
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ["eth_stddev_samp_fields"]: {
+    __typename: "eth_stddev_samp_fields";
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** Streaming cursor of the table "eth" */
+  ["eth_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["eth_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["eth_stream_cursor_value_input"]: {
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    goerliEth?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    kovanEth?: GraphQLTypes["float8"] | undefined;
+    mainnetEth?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    rinkebyEth?: GraphQLTypes["float8"] | undefined;
+    ropstenEth?: GraphQLTypes["float8"] | undefined;
+    sepoliaEth?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate sum on columns */
+  ["eth_sum_fields"]: {
+    __typename: "eth_sum_fields";
+    goerliEth?: GraphQLTypes["float8"] | undefined;
+    kovanEth?: GraphQLTypes["float8"] | undefined;
+    mainnetEth?: GraphQLTypes["float8"] | undefined;
+    rinkebyEth?: GraphQLTypes["float8"] | undefined;
+    ropstenEth?: GraphQLTypes["float8"] | undefined;
+    sepoliaEth?: GraphQLTypes["float8"] | undefined;
+  };
+  /** update columns of table "eth" */
+  ["eth_update_column"]: eth_update_column;
+  ["eth_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes["eth_inc_input"] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["eth_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["eth_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["eth_var_pop_fields"]: {
+    __typename: "eth_var_pop_fields";
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ["eth_var_samp_fields"]: {
+    __typename: "eth_var_samp_fields";
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ["eth_variance_fields"]: {
+    __typename: "eth_variance_fields";
+    goerliEth?: number | undefined;
+    kovanEth?: number | undefined;
+    mainnetEth?: number | undefined;
+    rinkebyEth?: number | undefined;
+    ropstenEth?: number | undefined;
+    sepoliaEth?: number | undefined;
+  };
   ["float8"]: "scalar" & { name: "float8" };
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ["float8_comparison_exp"]: {
@@ -7104,34 +14060,82 @@ export type GraphQLTypes = {
   /** mutation root */
   ["mutation_root"]: {
     __typename: "mutation_root";
+    /** delete data from the table: "account" */
+    delete_account?: GraphQLTypes["account_mutation_response"] | undefined;
+    /** delete single row from the table: "account" */
+    delete_account_by_pk?: GraphQLTypes["account"] | undefined;
     /** delete data from the table: "address" */
     delete_address?: GraphQLTypes["address_mutation_response"] | undefined;
     /** delete single row from the table: "address" */
     delete_address_by_pk?: GraphQLTypes["address"] | undefined;
+    /** delete data from the table: "bitcoin" */
+    delete_bitcoin?: GraphQLTypes["bitcoin_mutation_response"] | undefined;
+    /** delete single row from the table: "bitcoin" */
+    delete_bitcoin_by_pk?: GraphQLTypes["bitcoin"] | undefined;
     /** delete data from the table: "client" */
     delete_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** delete single row from the table: "client" */
     delete_client_by_pk?: GraphQLTypes["client"] | undefined;
+    /** delete data from the table: "eth" */
+    delete_eth?: GraphQLTypes["eth_mutation_response"] | undefined;
+    /** delete single row from the table: "eth" */
+    delete_eth_by_pk?: GraphQLTypes["eth"] | undefined;
+    /** delete data from the table: "sol" */
+    delete_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
+    /** delete single row from the table: "sol" */
+    delete_sol_by_pk?: GraphQLTypes["sol"] | undefined;
     /** delete data from the table: "transactions" */
     delete_transactions?:
       | GraphQLTypes["transactions_mutation_response"]
       | undefined;
     /** delete single row from the table: "transactions" */
     delete_transactions_by_pk?: GraphQLTypes["transactions"] | undefined;
+    /** delete data from the table: "wallet" */
+    delete_wallet?: GraphQLTypes["wallet_mutation_response"] | undefined;
+    /** delete single row from the table: "wallet" */
+    delete_wallet_by_pk?: GraphQLTypes["wallet"] | undefined;
+    /** insert data into the table: "account" */
+    insert_account?: GraphQLTypes["account_mutation_response"] | undefined;
+    /** insert a single row into the table: "account" */
+    insert_account_one?: GraphQLTypes["account"] | undefined;
     /** insert data into the table: "address" */
     insert_address?: GraphQLTypes["address_mutation_response"] | undefined;
     /** insert a single row into the table: "address" */
     insert_address_one?: GraphQLTypes["address"] | undefined;
+    /** insert data into the table: "bitcoin" */
+    insert_bitcoin?: GraphQLTypes["bitcoin_mutation_response"] | undefined;
+    /** insert a single row into the table: "bitcoin" */
+    insert_bitcoin_one?: GraphQLTypes["bitcoin"] | undefined;
     /** insert data into the table: "client" */
     insert_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** insert a single row into the table: "client" */
     insert_client_one?: GraphQLTypes["client"] | undefined;
+    /** insert data into the table: "eth" */
+    insert_eth?: GraphQLTypes["eth_mutation_response"] | undefined;
+    /** insert a single row into the table: "eth" */
+    insert_eth_one?: GraphQLTypes["eth"] | undefined;
+    /** insert data into the table: "sol" */
+    insert_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
+    /** insert a single row into the table: "sol" */
+    insert_sol_one?: GraphQLTypes["sol"] | undefined;
     /** insert data into the table: "transactions" */
     insert_transactions?:
       | GraphQLTypes["transactions_mutation_response"]
       | undefined;
     /** insert a single row into the table: "transactions" */
     insert_transactions_one?: GraphQLTypes["transactions"] | undefined;
+    /** insert data into the table: "wallet" */
+    insert_wallet?: GraphQLTypes["wallet_mutation_response"] | undefined;
+    /** insert a single row into the table: "wallet" */
+    insert_wallet_one?: GraphQLTypes["wallet"] | undefined;
+    /** update data of the table: "account" */
+    update_account?: GraphQLTypes["account_mutation_response"] | undefined;
+    /** update single row of the table: "account" */
+    update_account_by_pk?: GraphQLTypes["account"] | undefined;
+    /** update multiples rows of table: "account" */
+    update_account_many?:
+      | Array<GraphQLTypes["account_mutation_response"] | undefined>
+      | undefined;
     /** update data of the table: "address" */
     update_address?: GraphQLTypes["address_mutation_response"] | undefined;
     /** update single row of the table: "address" */
@@ -7140,6 +14144,14 @@ export type GraphQLTypes = {
     update_address_many?:
       | Array<GraphQLTypes["address_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "bitcoin" */
+    update_bitcoin?: GraphQLTypes["bitcoin_mutation_response"] | undefined;
+    /** update single row of the table: "bitcoin" */
+    update_bitcoin_by_pk?: GraphQLTypes["bitcoin"] | undefined;
+    /** update multiples rows of table: "bitcoin" */
+    update_bitcoin_many?:
+      | Array<GraphQLTypes["bitcoin_mutation_response"] | undefined>
+      | undefined;
     /** update data of the table: "client" */
     update_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** update single row of the table: "client" */
@@ -7147,6 +14159,22 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "client" */
     update_client_many?:
       | Array<GraphQLTypes["client_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "eth" */
+    update_eth?: GraphQLTypes["eth_mutation_response"] | undefined;
+    /** update single row of the table: "eth" */
+    update_eth_by_pk?: GraphQLTypes["eth"] | undefined;
+    /** update multiples rows of table: "eth" */
+    update_eth_many?:
+      | Array<GraphQLTypes["eth_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "sol" */
+    update_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
+    /** update single row of the table: "sol" */
+    update_sol_by_pk?: GraphQLTypes["sol"] | undefined;
+    /** update multiples rows of table: "sol" */
+    update_sol_many?:
+      | Array<GraphQLTypes["sol_mutation_response"] | undefined>
       | undefined;
     /** update data of the table: "transactions" */
     update_transactions?:
@@ -7158,32 +14186,297 @@ export type GraphQLTypes = {
     update_transactions_many?:
       | Array<GraphQLTypes["transactions_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "wallet" */
+    update_wallet?: GraphQLTypes["wallet_mutation_response"] | undefined;
+    /** update single row of the table: "wallet" */
+    update_wallet_by_pk?: GraphQLTypes["wallet"] | undefined;
+    /** update multiples rows of table: "wallet" */
+    update_wallet_many?:
+      | Array<GraphQLTypes["wallet_mutation_response"] | undefined>
+      | undefined;
   };
   /** column ordering options */
   ["order_by"]: order_by;
   ["query_root"]: {
     __typename: "query_root";
+    /** fetch data from the table: "account" */
+    account: Array<GraphQLTypes["account"]>;
+    /** fetch aggregated fields from the table: "account" */
+    account_aggregate: GraphQLTypes["account_aggregate"];
+    /** fetch data from the table: "account" using primary key columns */
+    account_by_pk?: GraphQLTypes["account"] | undefined;
     /** fetch data from the table: "address" */
     address: Array<GraphQLTypes["address"]>;
     /** fetch aggregated fields from the table: "address" */
     address_aggregate: GraphQLTypes["address_aggregate"];
     /** fetch data from the table: "address" using primary key columns */
     address_by_pk?: GraphQLTypes["address"] | undefined;
+    /** fetch data from the table: "bitcoin" */
+    bitcoin: Array<GraphQLTypes["bitcoin"]>;
+    /** fetch aggregated fields from the table: "bitcoin" */
+    bitcoin_aggregate: GraphQLTypes["bitcoin_aggregate"];
+    /** fetch data from the table: "bitcoin" using primary key columns */
+    bitcoin_by_pk?: GraphQLTypes["bitcoin"] | undefined;
     /** fetch data from the table: "client" */
     client: Array<GraphQLTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
     client_aggregate: GraphQLTypes["client_aggregate"];
     /** fetch data from the table: "client" using primary key columns */
     client_by_pk?: GraphQLTypes["client"] | undefined;
+    /** fetch data from the table: "eth" */
+    eth: Array<GraphQLTypes["eth"]>;
+    /** fetch aggregated fields from the table: "eth" */
+    eth_aggregate: GraphQLTypes["eth_aggregate"];
+    /** fetch data from the table: "eth" using primary key columns */
+    eth_by_pk?: GraphQLTypes["eth"] | undefined;
+    /** fetch data from the table: "sol" */
+    sol: Array<GraphQLTypes["sol"]>;
+    /** fetch aggregated fields from the table: "sol" */
+    sol_aggregate: GraphQLTypes["sol_aggregate"];
+    /** fetch data from the table: "sol" using primary key columns */
+    sol_by_pk?: GraphQLTypes["sol"] | undefined;
     /** An array relationship */
     transactions: Array<GraphQLTypes["transactions"]>;
     /** An aggregate relationship */
     transactions_aggregate: GraphQLTypes["transactions_aggregate"];
     /** fetch data from the table: "transactions" using primary key columns */
     transactions_by_pk?: GraphQLTypes["transactions"] | undefined;
+    /** fetch data from the table: "wallet" */
+    wallet: Array<GraphQLTypes["wallet"]>;
+    /** fetch aggregated fields from the table: "wallet" */
+    wallet_aggregate: GraphQLTypes["wallet_aggregate"];
+    /** fetch data from the table: "wallet" using primary key columns */
+    wallet_by_pk?: GraphQLTypes["wallet"] | undefined;
+  };
+  /** solana address for client wallets */
+  ["sol"]: {
+    __typename: "sol";
+    /** An object relationship */
+    account: GraphQLTypes["account"];
+    accountId: GraphQLTypes["uuid"];
+    devnetSol: GraphQLTypes["float8"];
+    id: GraphQLTypes["uuid"];
+    mainnetSol: GraphQLTypes["float8"];
+    privateKey: string;
+    publicKey: string;
+    testnetSol: GraphQLTypes["float8"];
+  };
+  /** aggregated selection of "sol" */
+  ["sol_aggregate"]: {
+    __typename: "sol_aggregate";
+    aggregate?: GraphQLTypes["sol_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["sol"]>;
+  };
+  /** aggregate fields of "sol" */
+  ["sol_aggregate_fields"]: {
+    __typename: "sol_aggregate_fields";
+    avg?: GraphQLTypes["sol_avg_fields"] | undefined;
+    count: number;
+    max?: GraphQLTypes["sol_max_fields"] | undefined;
+    min?: GraphQLTypes["sol_min_fields"] | undefined;
+    stddev?: GraphQLTypes["sol_stddev_fields"] | undefined;
+    stddev_pop?: GraphQLTypes["sol_stddev_pop_fields"] | undefined;
+    stddev_samp?: GraphQLTypes["sol_stddev_samp_fields"] | undefined;
+    sum?: GraphQLTypes["sol_sum_fields"] | undefined;
+    var_pop?: GraphQLTypes["sol_var_pop_fields"] | undefined;
+    var_samp?: GraphQLTypes["sol_var_samp_fields"] | undefined;
+    variance?: GraphQLTypes["sol_variance_fields"] | undefined;
+  };
+  /** aggregate avg on columns */
+  ["sol_avg_fields"]: {
+    __typename: "sol_avg_fields";
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "sol". All fields are combined with a logical 'AND'. */
+  ["sol_bool_exp"]: {
+    _and?: Array<GraphQLTypes["sol_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["sol_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["sol_bool_exp"]> | undefined;
+    account?: GraphQLTypes["account_bool_exp"] | undefined;
+    accountId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    devnetSol?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    mainnetSol?: GraphQLTypes["float8_comparison_exp"] | undefined;
+    privateKey?: GraphQLTypes["String_comparison_exp"] | undefined;
+    publicKey?: GraphQLTypes["String_comparison_exp"] | undefined;
+    testnetSol?: GraphQLTypes["float8_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "sol" */
+  ["sol_constraint"]: sol_constraint;
+  /** input type for incrementing numeric columns in table "sol" */
+  ["sol_inc_input"]: {
+    devnetSol?: GraphQLTypes["float8"] | undefined;
+    mainnetSol?: GraphQLTypes["float8"] | undefined;
+    testnetSol?: GraphQLTypes["float8"] | undefined;
+  };
+  /** input type for inserting data into table "sol" */
+  ["sol_insert_input"]: {
+    account?: GraphQLTypes["account_obj_rel_insert_input"] | undefined;
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    devnetSol?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetSol?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["sol_max_fields"]: {
+    __typename: "sol_max_fields";
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    devnetSol?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetSol?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["sol_min_fields"]: {
+    __typename: "sol_min_fields";
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    devnetSol?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetSol?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: GraphQLTypes["float8"] | undefined;
+  };
+  /** response of any mutation on the table "sol" */
+  ["sol_mutation_response"]: {
+    __typename: "sol_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["sol"]>;
+  };
+  /** input type for inserting object relation for remote table "sol" */
+  ["sol_obj_rel_insert_input"]: {
+    data: GraphQLTypes["sol_insert_input"];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["sol_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "sol" */
+  ["sol_on_conflict"]: {
+    constraint: GraphQLTypes["sol_constraint"];
+    update_columns: Array<GraphQLTypes["sol_update_column"]>;
+    where?: GraphQLTypes["sol_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "sol". */
+  ["sol_order_by"]: {
+    account?: GraphQLTypes["account_order_by"] | undefined;
+    accountId?: GraphQLTypes["order_by"] | undefined;
+    devnetSol?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    mainnetSol?: GraphQLTypes["order_by"] | undefined;
+    privateKey?: GraphQLTypes["order_by"] | undefined;
+    publicKey?: GraphQLTypes["order_by"] | undefined;
+    testnetSol?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: sol */
+  ["sol_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "sol" */
+  ["sol_select_column"]: sol_select_column;
+  /** input type for updating data in table "sol" */
+  ["sol_set_input"]: {
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    devnetSol?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetSol?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ["sol_stddev_fields"]: {
+    __typename: "sol_stddev_fields";
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ["sol_stddev_pop_fields"]: {
+    __typename: "sol_stddev_pop_fields";
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ["sol_stddev_samp_fields"]: {
+    __typename: "sol_stddev_samp_fields";
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** Streaming cursor of the table "sol" */
+  ["sol_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["sol_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["sol_stream_cursor_value_input"]: {
+    accountId?: GraphQLTypes["uuid"] | undefined;
+    devnetSol?: GraphQLTypes["float8"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    mainnetSol?: GraphQLTypes["float8"] | undefined;
+    privateKey?: string | undefined;
+    publicKey?: string | undefined;
+    testnetSol?: GraphQLTypes["float8"] | undefined;
+  };
+  /** aggregate sum on columns */
+  ["sol_sum_fields"]: {
+    __typename: "sol_sum_fields";
+    devnetSol?: GraphQLTypes["float8"] | undefined;
+    mainnetSol?: GraphQLTypes["float8"] | undefined;
+    testnetSol?: GraphQLTypes["float8"] | undefined;
+  };
+  /** update columns of table "sol" */
+  ["sol_update_column"]: sol_update_column;
+  ["sol_updates"]: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes["sol_inc_input"] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["sol_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["sol_bool_exp"];
+  };
+  /** aggregate var_pop on columns */
+  ["sol_var_pop_fields"]: {
+    __typename: "sol_var_pop_fields";
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ["sol_var_samp_fields"]: {
+    __typename: "sol_var_samp_fields";
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ["sol_variance_fields"]: {
+    __typename: "sol_variance_fields";
+    devnetSol?: number | undefined;
+    mainnetSol?: number | undefined;
+    testnetSol?: number | undefined;
   };
   ["subscription_root"]: {
     __typename: "subscription_root";
+    /** fetch data from the table: "account" */
+    account: Array<GraphQLTypes["account"]>;
+    /** fetch aggregated fields from the table: "account" */
+    account_aggregate: GraphQLTypes["account_aggregate"];
+    /** fetch data from the table: "account" using primary key columns */
+    account_by_pk?: GraphQLTypes["account"] | undefined;
+    /** fetch data from the table in a streaming manner: "account" */
+    account_stream: Array<GraphQLTypes["account"]>;
     /** fetch data from the table: "address" */
     address: Array<GraphQLTypes["address"]>;
     /** fetch aggregated fields from the table: "address" */
@@ -7192,6 +14485,14 @@ export type GraphQLTypes = {
     address_by_pk?: GraphQLTypes["address"] | undefined;
     /** fetch data from the table in a streaming manner: "address" */
     address_stream: Array<GraphQLTypes["address"]>;
+    /** fetch data from the table: "bitcoin" */
+    bitcoin: Array<GraphQLTypes["bitcoin"]>;
+    /** fetch aggregated fields from the table: "bitcoin" */
+    bitcoin_aggregate: GraphQLTypes["bitcoin_aggregate"];
+    /** fetch data from the table: "bitcoin" using primary key columns */
+    bitcoin_by_pk?: GraphQLTypes["bitcoin"] | undefined;
+    /** fetch data from the table in a streaming manner: "bitcoin" */
+    bitcoin_stream: Array<GraphQLTypes["bitcoin"]>;
     /** fetch data from the table: "client" */
     client: Array<GraphQLTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -7200,6 +14501,22 @@ export type GraphQLTypes = {
     client_by_pk?: GraphQLTypes["client"] | undefined;
     /** fetch data from the table in a streaming manner: "client" */
     client_stream: Array<GraphQLTypes["client"]>;
+    /** fetch data from the table: "eth" */
+    eth: Array<GraphQLTypes["eth"]>;
+    /** fetch aggregated fields from the table: "eth" */
+    eth_aggregate: GraphQLTypes["eth_aggregate"];
+    /** fetch data from the table: "eth" using primary key columns */
+    eth_by_pk?: GraphQLTypes["eth"] | undefined;
+    /** fetch data from the table in a streaming manner: "eth" */
+    eth_stream: Array<GraphQLTypes["eth"]>;
+    /** fetch data from the table: "sol" */
+    sol: Array<GraphQLTypes["sol"]>;
+    /** fetch aggregated fields from the table: "sol" */
+    sol_aggregate: GraphQLTypes["sol_aggregate"];
+    /** fetch data from the table: "sol" using primary key columns */
+    sol_by_pk?: GraphQLTypes["sol"] | undefined;
+    /** fetch data from the table in a streaming manner: "sol" */
+    sol_stream: Array<GraphQLTypes["sol"]>;
     /** An array relationship */
     transactions: Array<GraphQLTypes["transactions"]>;
     /** An aggregate relationship */
@@ -7208,6 +14525,14 @@ export type GraphQLTypes = {
     transactions_by_pk?: GraphQLTypes["transactions"] | undefined;
     /** fetch data from the table in a streaming manner: "transactions" */
     transactions_stream: Array<GraphQLTypes["transactions"]>;
+    /** fetch data from the table: "wallet" */
+    wallet: Array<GraphQLTypes["wallet"]>;
+    /** fetch aggregated fields from the table: "wallet" */
+    wallet_aggregate: GraphQLTypes["wallet_aggregate"];
+    /** fetch data from the table: "wallet" using primary key columns */
+    wallet_by_pk?: GraphQLTypes["wallet"] | undefined;
+    /** fetch data from the table in a streaming manner: "wallet" */
+    wallet_stream: Array<GraphQLTypes["wallet"]>;
   };
   /** transactions table  */
   ["transactions"]: {
@@ -7819,7 +15144,146 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes["uuid"] | undefined;
     _nin?: Array<GraphQLTypes["uuid"]> | undefined;
   };
+  /** wallets info for clients */
+  ["wallet"]: {
+    __typename: "wallet";
+    /** An array relationship */
+    accounts: Array<GraphQLTypes["account"]>;
+    /** An aggregate relationship */
+    accounts_aggregate: GraphQLTypes["account_aggregate"];
+    /** An object relationship */
+    client: GraphQLTypes["client"];
+    clientId: GraphQLTypes["uuid"];
+    id: GraphQLTypes["uuid"];
+    secretPhase: string;
+  };
+  /** aggregated selection of "wallet" */
+  ["wallet_aggregate"]: {
+    __typename: "wallet_aggregate";
+    aggregate?: GraphQLTypes["wallet_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["wallet"]>;
+  };
+  /** aggregate fields of "wallet" */
+  ["wallet_aggregate_fields"]: {
+    __typename: "wallet_aggregate_fields";
+    count: number;
+    max?: GraphQLTypes["wallet_max_fields"] | undefined;
+    min?: GraphQLTypes["wallet_min_fields"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
+  ["wallet_bool_exp"]: {
+    _and?: Array<GraphQLTypes["wallet_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["wallet_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["wallet_bool_exp"]> | undefined;
+    accounts?: GraphQLTypes["account_bool_exp"] | undefined;
+    accounts_aggregate?: GraphQLTypes["account_aggregate_bool_exp"] | undefined;
+    client?: GraphQLTypes["client_bool_exp"] | undefined;
+    clientId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    secretPhase?: GraphQLTypes["String_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "wallet" */
+  ["wallet_constraint"]: wallet_constraint;
+  /** input type for inserting data into table "wallet" */
+  ["wallet_insert_input"]: {
+    accounts?: GraphQLTypes["account_arr_rel_insert_input"] | undefined;
+    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ["wallet_max_fields"]: {
+    __typename: "wallet_max_fields";
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ["wallet_min_fields"]: {
+    __typename: "wallet_min_fields";
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** response of any mutation on the table "wallet" */
+  ["wallet_mutation_response"]: {
+    __typename: "wallet_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["wallet"]>;
+  };
+  /** input type for inserting object relation for remote table "wallet" */
+  ["wallet_obj_rel_insert_input"]: {
+    data: GraphQLTypes["wallet_insert_input"];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["wallet_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "wallet" */
+  ["wallet_on_conflict"]: {
+    constraint: GraphQLTypes["wallet_constraint"];
+    update_columns: Array<GraphQLTypes["wallet_update_column"]>;
+    where?: GraphQLTypes["wallet_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "wallet". */
+  ["wallet_order_by"]: {
+    accounts_aggregate?: GraphQLTypes["account_aggregate_order_by"] | undefined;
+    client?: GraphQLTypes["client_order_by"] | undefined;
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    secretPhase?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: wallet */
+  ["wallet_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "wallet" */
+  ["wallet_select_column"]: wallet_select_column;
+  /** input type for updating data in table "wallet" */
+  ["wallet_set_input"]: {
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** Streaming cursor of the table "wallet" */
+  ["wallet_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["wallet_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["wallet_stream_cursor_value_input"]: {
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    secretPhase?: string | undefined;
+  };
+  /** update columns of table "wallet" */
+  ["wallet_update_column"]: wallet_update_column;
+  ["wallet_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["wallet_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["wallet_bool_exp"];
+  };
 };
+/** unique or primary key constraints on table "account" */
+export const enum account_constraint {
+  account_pkey = "account_pkey",
+}
+/** select columns of table "account" */
+export const enum account_select_column {
+  clientId = "clientId",
+  id = "id",
+  walletId = "walletId",
+}
+/** update columns of table "account" */
+export const enum account_update_column {
+  clientId = "clientId",
+  id = "id",
+  walletId = "walletId",
+}
 /** unique or primary key constraints on table "address" */
 export const enum address_constraint {
   address_id_key = "address_id_key",
@@ -7843,6 +15307,34 @@ export const enum address_update_column {
   id = "id",
   sol = "sol",
   usdc = "usdc",
+}
+/** unique or primary key constraints on table "bitcoin" */
+export const enum bitcoin_constraint {
+  bitcoin_id_key = "bitcoin_id_key",
+  bitcoin_pkey = "bitcoin_pkey",
+  bitcoin_privateKey_key = "bitcoin_privateKey_key",
+  bitcoin_publicKey_key = "bitcoin_publicKey_key",
+  bitcoin_walletId_key = "bitcoin_walletId_key",
+}
+/** select columns of table "bitcoin" */
+export const enum bitcoin_select_column {
+  accountId = "accountId",
+  id = "id",
+  mainnetBtc = "mainnetBtc",
+  privateKey = "privateKey",
+  publicKey = "publicKey",
+  regtestBtc = "regtestBtc",
+  textnetBtc = "textnetBtc",
+}
+/** update columns of table "bitcoin" */
+export const enum bitcoin_update_column {
+  accountId = "accountId",
+  id = "id",
+  mainnetBtc = "mainnetBtc",
+  privateKey = "privateKey",
+  publicKey = "publicKey",
+  regtestBtc = "regtestBtc",
+  textnetBtc = "textnetBtc",
 }
 /** unique or primary key constraints on table "client" */
 export const enum client_constraint {
@@ -7875,6 +15367,39 @@ export const enum cursor_ordering {
   ASC = "ASC",
   DESC = "DESC",
 }
+/** unique or primary key constraints on table "eth" */
+export const enum eth_constraint {
+  eth_pkey = "eth_pkey",
+  eth_privateKey_key = "eth_privateKey_key",
+  eth_publicKey_key = "eth_publicKey_key",
+  eth_walletId_key = "eth_walletId_key",
+}
+/** select columns of table "eth" */
+export const enum eth_select_column {
+  accountId = "accountId",
+  goerliEth = "goerliEth",
+  id = "id",
+  kovanEth = "kovanEth",
+  mainnetEth = "mainnetEth",
+  privateKey = "privateKey",
+  publicKey = "publicKey",
+  rinkebyEth = "rinkebyEth",
+  ropstenEth = "ropstenEth",
+  sepoliaEth = "sepoliaEth",
+}
+/** update columns of table "eth" */
+export const enum eth_update_column {
+  accountId = "accountId",
+  goerliEth = "goerliEth",
+  id = "id",
+  kovanEth = "kovanEth",
+  mainnetEth = "mainnetEth",
+  privateKey = "privateKey",
+  publicKey = "publicKey",
+  rinkebyEth = "rinkebyEth",
+  ropstenEth = "ropstenEth",
+  sepoliaEth = "sepoliaEth",
+}
 /** column ordering options */
 export const enum order_by {
   asc = "asc",
@@ -7883,6 +15408,34 @@ export const enum order_by {
   desc = "desc",
   desc_nulls_first = "desc_nulls_first",
   desc_nulls_last = "desc_nulls_last",
+}
+/** unique or primary key constraints on table "sol" */
+export const enum sol_constraint {
+  sol_accountId_key = "sol_accountId_key",
+  sol_id_key = "sol_id_key",
+  sol_pkey = "sol_pkey",
+  sol_privateKey_key = "sol_privateKey_key",
+  sol_publicKey_key = "sol_publicKey_key",
+}
+/** select columns of table "sol" */
+export const enum sol_select_column {
+  accountId = "accountId",
+  devnetSol = "devnetSol",
+  id = "id",
+  mainnetSol = "mainnetSol",
+  privateKey = "privateKey",
+  publicKey = "publicKey",
+  testnetSol = "testnetSol",
+}
+/** update columns of table "sol" */
+export const enum sol_update_column {
+  accountId = "accountId",
+  devnetSol = "devnetSol",
+  id = "id",
+  mainnetSol = "mainnetSol",
+  privateKey = "privateKey",
+  publicKey = "publicKey",
+  testnetSol = "testnetSol",
 }
 /** unique or primary key constraints on table "transactions" */
 export const enum transactions_constraint {
@@ -7973,10 +15526,48 @@ export const enum transactions_update_column {
   status = "status",
   to = "to",
 }
+/** unique or primary key constraints on table "wallet" */
+export const enum wallet_constraint {
+  wallet_clientId_key = "wallet_clientId_key",
+  wallet_id_key = "wallet_id_key",
+  wallet_pkey = "wallet_pkey",
+  wallet_secretPhase_key = "wallet_secretPhase_key",
+}
+/** select columns of table "wallet" */
+export const enum wallet_select_column {
+  clientId = "clientId",
+  id = "id",
+  secretPhase = "secretPhase",
+}
+/** update columns of table "wallet" */
+export const enum wallet_update_column {
+  clientId = "clientId",
+  id = "id",
+  secretPhase = "secretPhase",
+}
 
 type ZEUS_VARIABLES = {
   ["Int_comparison_exp"]: ValueTypes["Int_comparison_exp"];
   ["String_comparison_exp"]: ValueTypes["String_comparison_exp"];
+  ["account_aggregate_bool_exp"]: ValueTypes["account_aggregate_bool_exp"];
+  ["account_aggregate_bool_exp_count"]: ValueTypes["account_aggregate_bool_exp_count"];
+  ["account_aggregate_order_by"]: ValueTypes["account_aggregate_order_by"];
+  ["account_arr_rel_insert_input"]: ValueTypes["account_arr_rel_insert_input"];
+  ["account_bool_exp"]: ValueTypes["account_bool_exp"];
+  ["account_constraint"]: ValueTypes["account_constraint"];
+  ["account_insert_input"]: ValueTypes["account_insert_input"];
+  ["account_max_order_by"]: ValueTypes["account_max_order_by"];
+  ["account_min_order_by"]: ValueTypes["account_min_order_by"];
+  ["account_obj_rel_insert_input"]: ValueTypes["account_obj_rel_insert_input"];
+  ["account_on_conflict"]: ValueTypes["account_on_conflict"];
+  ["account_order_by"]: ValueTypes["account_order_by"];
+  ["account_pk_columns_input"]: ValueTypes["account_pk_columns_input"];
+  ["account_select_column"]: ValueTypes["account_select_column"];
+  ["account_set_input"]: ValueTypes["account_set_input"];
+  ["account_stream_cursor_input"]: ValueTypes["account_stream_cursor_input"];
+  ["account_stream_cursor_value_input"]: ValueTypes["account_stream_cursor_value_input"];
+  ["account_update_column"]: ValueTypes["account_update_column"];
+  ["account_updates"]: ValueTypes["account_updates"];
   ["address_bool_exp"]: ValueTypes["address_bool_exp"];
   ["address_constraint"]: ValueTypes["address_constraint"];
   ["address_insert_input"]: ValueTypes["address_insert_input"];
@@ -7992,6 +15583,20 @@ type ZEUS_VARIABLES = {
   ["address_updates"]: ValueTypes["address_updates"];
   ["bigint"]: ValueTypes["bigint"];
   ["bigint_comparison_exp"]: ValueTypes["bigint_comparison_exp"];
+  ["bitcoin_bool_exp"]: ValueTypes["bitcoin_bool_exp"];
+  ["bitcoin_constraint"]: ValueTypes["bitcoin_constraint"];
+  ["bitcoin_inc_input"]: ValueTypes["bitcoin_inc_input"];
+  ["bitcoin_insert_input"]: ValueTypes["bitcoin_insert_input"];
+  ["bitcoin_obj_rel_insert_input"]: ValueTypes["bitcoin_obj_rel_insert_input"];
+  ["bitcoin_on_conflict"]: ValueTypes["bitcoin_on_conflict"];
+  ["bitcoin_order_by"]: ValueTypes["bitcoin_order_by"];
+  ["bitcoin_pk_columns_input"]: ValueTypes["bitcoin_pk_columns_input"];
+  ["bitcoin_select_column"]: ValueTypes["bitcoin_select_column"];
+  ["bitcoin_set_input"]: ValueTypes["bitcoin_set_input"];
+  ["bitcoin_stream_cursor_input"]: ValueTypes["bitcoin_stream_cursor_input"];
+  ["bitcoin_stream_cursor_value_input"]: ValueTypes["bitcoin_stream_cursor_value_input"];
+  ["bitcoin_update_column"]: ValueTypes["bitcoin_update_column"];
+  ["bitcoin_updates"]: ValueTypes["bitcoin_updates"];
   ["client_bool_exp"]: ValueTypes["client_bool_exp"];
   ["client_constraint"]: ValueTypes["client_constraint"];
   ["client_inc_input"]: ValueTypes["client_inc_input"];
@@ -8009,12 +15614,40 @@ type ZEUS_VARIABLES = {
   ["cursor_ordering"]: ValueTypes["cursor_ordering"];
   ["date"]: ValueTypes["date"];
   ["date_comparison_exp"]: ValueTypes["date_comparison_exp"];
+  ["eth_bool_exp"]: ValueTypes["eth_bool_exp"];
+  ["eth_constraint"]: ValueTypes["eth_constraint"];
+  ["eth_inc_input"]: ValueTypes["eth_inc_input"];
+  ["eth_insert_input"]: ValueTypes["eth_insert_input"];
+  ["eth_obj_rel_insert_input"]: ValueTypes["eth_obj_rel_insert_input"];
+  ["eth_on_conflict"]: ValueTypes["eth_on_conflict"];
+  ["eth_order_by"]: ValueTypes["eth_order_by"];
+  ["eth_pk_columns_input"]: ValueTypes["eth_pk_columns_input"];
+  ["eth_select_column"]: ValueTypes["eth_select_column"];
+  ["eth_set_input"]: ValueTypes["eth_set_input"];
+  ["eth_stream_cursor_input"]: ValueTypes["eth_stream_cursor_input"];
+  ["eth_stream_cursor_value_input"]: ValueTypes["eth_stream_cursor_value_input"];
+  ["eth_update_column"]: ValueTypes["eth_update_column"];
+  ["eth_updates"]: ValueTypes["eth_updates"];
   ["float8"]: ValueTypes["float8"];
   ["float8_comparison_exp"]: ValueTypes["float8_comparison_exp"];
   ["jsonb"]: ValueTypes["jsonb"];
   ["jsonb_cast_exp"]: ValueTypes["jsonb_cast_exp"];
   ["jsonb_comparison_exp"]: ValueTypes["jsonb_comparison_exp"];
   ["order_by"]: ValueTypes["order_by"];
+  ["sol_bool_exp"]: ValueTypes["sol_bool_exp"];
+  ["sol_constraint"]: ValueTypes["sol_constraint"];
+  ["sol_inc_input"]: ValueTypes["sol_inc_input"];
+  ["sol_insert_input"]: ValueTypes["sol_insert_input"];
+  ["sol_obj_rel_insert_input"]: ValueTypes["sol_obj_rel_insert_input"];
+  ["sol_on_conflict"]: ValueTypes["sol_on_conflict"];
+  ["sol_order_by"]: ValueTypes["sol_order_by"];
+  ["sol_pk_columns_input"]: ValueTypes["sol_pk_columns_input"];
+  ["sol_select_column"]: ValueTypes["sol_select_column"];
+  ["sol_set_input"]: ValueTypes["sol_set_input"];
+  ["sol_stream_cursor_input"]: ValueTypes["sol_stream_cursor_input"];
+  ["sol_stream_cursor_value_input"]: ValueTypes["sol_stream_cursor_value_input"];
+  ["sol_update_column"]: ValueTypes["sol_update_column"];
+  ["sol_updates"]: ValueTypes["sol_updates"];
   ["transactions_aggregate_bool_exp"]: ValueTypes["transactions_aggregate_bool_exp"];
   ["transactions_aggregate_bool_exp_avg"]: ValueTypes["transactions_aggregate_bool_exp_avg"];
   ["transactions_aggregate_bool_exp_corr"]: ValueTypes["transactions_aggregate_bool_exp_corr"];
@@ -8067,4 +15700,17 @@ type ZEUS_VARIABLES = {
   ["transactions_variance_order_by"]: ValueTypes["transactions_variance_order_by"];
   ["uuid"]: ValueTypes["uuid"];
   ["uuid_comparison_exp"]: ValueTypes["uuid_comparison_exp"];
+  ["wallet_bool_exp"]: ValueTypes["wallet_bool_exp"];
+  ["wallet_constraint"]: ValueTypes["wallet_constraint"];
+  ["wallet_insert_input"]: ValueTypes["wallet_insert_input"];
+  ["wallet_obj_rel_insert_input"]: ValueTypes["wallet_obj_rel_insert_input"];
+  ["wallet_on_conflict"]: ValueTypes["wallet_on_conflict"];
+  ["wallet_order_by"]: ValueTypes["wallet_order_by"];
+  ["wallet_pk_columns_input"]: ValueTypes["wallet_pk_columns_input"];
+  ["wallet_select_column"]: ValueTypes["wallet_select_column"];
+  ["wallet_set_input"]: ValueTypes["wallet_set_input"];
+  ["wallet_stream_cursor_input"]: ValueTypes["wallet_stream_cursor_input"];
+  ["wallet_stream_cursor_value_input"]: ValueTypes["wallet_stream_cursor_value_input"];
+  ["wallet_update_column"]: ValueTypes["wallet_update_column"];
+  ["wallet_updates"]: ValueTypes["wallet_updates"];
 };

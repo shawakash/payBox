@@ -151,3 +151,25 @@ export enum BitcoinToken {
 export type Token = SolToken | EthToken | BitcoinToken;
 
 export type GetQrQuerySchemaType = z.infer<typeof GetQrQuerySchema>;
+
+
+export type WalletKeys = {
+  privateKey: string;
+  publicKey: string;
+};
+
+export type WalletType = {
+  secretPhase?: string;
+  id: string;
+  clientId: string;
+  accounts?: AccountType[];
+}
+
+export type AccountType = {
+  clientId: string;
+  sol: WalletKeys;
+  eth: WalletKeys;
+  usdc?: WalletKeys;
+  bitcoin?: WalletKeys;
+  id: string;
+}

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { dbResStatus } from "../types/client";
-import { Address, responseStatus } from "@paybox/common";
+import { Address, SECRET_PHASE_STRENGTH, responseStatus } from "@paybox/common";
 import {
   checkClient,
   conflictClient,
@@ -13,13 +13,15 @@ import {
   updateMetadata,
 } from "../db/client";
 import { cache } from "../index";
-import { setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
+import { generateSeed, setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
 import { extractClientId } from "../auth/middleware";
 import {
   Client,
   ClientSigninFormValidate,
   ClientSignupFormValidate,
 } from "@paybox/common";
+import { SolOps } from "../sockets/sol";
+import { EthOps } from "../sockets/eth";
 
 export const clientRouter = Router();
 
@@ -37,6 +39,9 @@ clientRouter.post("/", async (req, res) => {
 
     const hashPassword = await setHashPassword(password);
     console.log(hashPassword);
+    const seed = generateSeed(SECRET_PHASE_STRENGTH);
+    const solKeys = (new SolOps()).createWallet();
+    const ethKeys = (new EthOps()).createWallet();
     const client = await createClient(
       username,
       email,
@@ -44,6 +49,9 @@ clientRouter.post("/", async (req, res) => {
       lastname,
       hashPassword,
       Number(mobile),
+      seed,
+      solKeys,
+      ethKeys,
     );
     console.log(client);
     if (client.status == dbResStatus.Error) {
@@ -66,6 +74,21 @@ clientRouter.post("/", async (req, res) => {
       address: client.address,
       password: hashPassword,
     });
+
+    if(client.walletId) {
+      await cache.cacheWallet(client.walletId as string, {
+        clientId: client.id as string,
+        id: client.walletId as string,
+        secretPhase: seed,
+        accounts: [{
+          clientId: client.id as string,
+          id: client.accountId as string,
+          sol: solKeys,
+          eth: ethKeys,
+        }]
+      })
+
+    }
 
     /**
      * Create a Jwt
@@ -139,11 +162,15 @@ clientRouter.post("/providerAuth", async (req, res) => {
         password: hashPassword || "",
       });
 
+      
+
       return res
         .status(200)
         .json({ ...getClient.client[0], jwt, status: responseStatus.Ok });
     }
-
+    const seed = generateSeed(SECRET_PHASE_STRENGTH);
+    const solKeys = (new SolOps()).createWallet();
+    const ethKeys = (new EthOps()).createWallet();
     const client = await createClient(
       username,
       email,
@@ -151,6 +178,9 @@ clientRouter.post("/providerAuth", async (req, res) => {
       lastname,
       hashPassword,
       Number(mobile),
+      seed,
+      solKeys,
+      ethKeys,
     );
     if (client.status == dbResStatus.Error) {
       return res
@@ -172,6 +202,21 @@ clientRouter.post("/providerAuth", async (req, res) => {
       //@ts-ignore
       password: hashPassword || "",
     });
+    
+    if(client.walletId) {
+      await cache.cacheWallet(client.walletId as string, {
+        clientId: client.id as string,
+        id: client.walletId as string,
+        secretPhase: seed,
+        accounts: [{
+          clientId: client.id as string,
+          id: client.accountId as string,
+          sol: solKeys,
+          eth: ethKeys,
+        }]
+      });
+
+    }
 
     /**
      * Create a Jwt

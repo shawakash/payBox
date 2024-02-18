@@ -164,3 +164,6 @@ export const enumToClustersArray = (enumObject: any): ClusterObject[] => {
 }
   return clusters;
 }
+
+// for 12 word seed
+export const SECRET_PHASE_STRENGTH = 128;

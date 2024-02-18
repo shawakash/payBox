@@ -1,3 +1,8 @@
+- "!include public_account.yaml"
 - "!include public_address.yaml"
+- "!include public_bitcoin.yaml"
 - "!include public_client.yaml"
+- "!include public_eth.yaml"
+- "!include public_sol.yaml"
 - "!include public_transactions.yaml"
+- "!include public_wallet.yaml"
