@@ -1,5 +1,5 @@
 table:
-  name: eth
+  name: bitcoin
   schema: public
 object_relationships:
   - name: account

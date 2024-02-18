@@ -2,9 +2,6 @@ table:
   name: sol
   schema: public
 object_relationships:
-  - name: client
+  - name: account
     using:
-      foreign_key_constraint_on: clientId
-  - name: wallet
-    using:
-      foreign_key_constraint_on: walletId
+      foreign_key_constraint_on: accountId
