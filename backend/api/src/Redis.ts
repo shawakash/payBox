@@ -6,6 +6,7 @@ import {
   Client,
   Network,
   TxnType,
+  WalletType,
 } from "@paybox/common";
 
 export class Redis {
@@ -291,6 +292,31 @@ export class Redis {
     }
 
     return { ...txn };
+  }
+
+  async cacheWallet(key: string, items: WalletType): Promise<void> {
+    const data = await this.client.hSet(key, {
+      id: items.id,
+      clientId: items.clientId,
+      secretPhase: items.secretPhase as string,
+      accounts: JSON.stringify(items.accounts),
+    });
+
+    console.log(`Wallet Cached ${data}`);
+    return;
+  }
+
+  async getWallet(key: string): Promise<WalletType | null> {
+    const wallet = await this.client.hGetAll(key);
+    if (!wallet) {
+      return null;
+    }
+    return {
+      id: wallet.id,
+      clientId: wallet.clientId,
+      secretPhase: wallet.secretPhase,
+      accounts: JSON.parse(wallet.accounts),
+    };
   }
 
   // TODO: debounce here
