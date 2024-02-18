@@ -131,7 +131,6 @@ export class SolOps {
 
   createWallet(): WalletKeys {
     const keyPair = Keypair.generate();
-    console.log(keyPair);
     return {publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey)};
   }
 }
