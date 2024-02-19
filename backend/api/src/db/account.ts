@@ -166,3 +166,35 @@ export const getPrivate = async (
         status: dbResStatus.Error
     }
 }
+
+/**
+ * Remove Account
+ * 
+ * @param accountId 
+ * @returns 
+ */
+export const deleteAccount = async (
+    accountId: string
+): Promise<{
+    status: dbResStatus
+}> => {
+    const response = await chain("mutation")({
+        delete_account: [{
+            where: {
+                id: {_eq: accountId}
+            }
+        }, {
+            returning: {
+                walletId: true
+            }
+        }]
+    }, {operationName: "deleteAccount"});
+    if(response.delete_account?.returning[0].walletId) {
+        return {
+            status: dbResStatus.Ok
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }    
+}

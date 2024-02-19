@@ -1,8 +1,8 @@
-import { AccountCreateQuery, AccountGetPrivateKey, AccountNameQuery, dbResStatus, responseStatus } from "@paybox/common";
+import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountNameQuery, dbResStatus, responseStatus } from "@paybox/common";
 import { Router } from "express";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { createAccount, getPrivate, updateAccountName } from "../db/account";
+import { createAccount, deleteAccount, getPrivate, updateAccountName } from "../db/account";
 import { cache } from "..";
 import { validatePassword } from "../auth/util";
 import { getPassword } from "../db/client";
@@ -156,4 +156,42 @@ accountRouter.post('/privateKey', async (req, res) => {
                 error: error,
             });
     }
-})
+});
+
+accountRouter.delete('/', async (req, res) => {
+    try {
+        //@ts-ignore
+        const id = req.id;
+        if (id) {
+            const { accountId } = AccountDelete.parse(req.query);
+            const mutation = await deleteAccount(accountId);
+            if (mutation.status == dbResStatus.Error) {
+                return res
+                    .status(503)
+                    .json({ msg: "Database Error", status: responseStatus.Error });
+            }
+            
+            //Cache delete
+            await cache.deleteHash(accountId);
+
+            return res
+                .status(200)
+                .json({
+                    msg: "Account deleted",
+                    status: responseStatus.Ok
+                });
+        }
+        return res
+            .status(500)
+            .json({ status: responseStatus.Error, msg: "Jwt error" });
+    } catch (error) {
+        console.log(error);
+        return res
+            .status(500)
+            .json({
+                status: responseStatus.Error,
+                msg: "Internal error",
+                error: error,
+            });
+    }
+});
