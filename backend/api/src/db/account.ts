@@ -1,7 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus, getClientId } from "../types/client";
-import { AccountType, HASURA_ADMIN_SERCRET, WalletKeys } from "@paybox/common";
+import { AccountType, HASURA_ADMIN_SERCRET, Network, WalletKeys } from "@paybox/common";
 
 
 const chain = Chain(HASURA_URL, {
@@ -127,4 +127,42 @@ export const updateAccountName = async (
     return {
         status: dbResStatus.Error
     }    
+}
+
+/**
+ * 
+ * @param accountId 
+ * @param network 
+ * @returns 
+ */
+export const getPrivate = async (
+    accountId: string,
+    network: Network
+): Promise<{
+    status: dbResStatus,
+    privateKey?: string
+}> => {
+    const returning = {
+        [network]: {
+            privateKey: true
+        }
+    }
+    const response = await chain("query")({
+        account: [{
+            where: {
+                id: {_eq: accountId}
+            }           
+        }, returning], 
+    }, {operationName: "getPrivate"});
+    //@ts-ignore
+    if(response.account[0][network]?.privateKey) {
+        return {
+            status: dbResStatus.Ok,
+            //@ts-ignore
+            privateKey: response.account[0][network]?.privateKey
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
 }
