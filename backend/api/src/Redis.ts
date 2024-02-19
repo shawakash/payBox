@@ -332,7 +332,7 @@ export class Redis {
       usdc: JSON.stringify(items.usdc || {}),
     });
 
-    console.log(`Wallet Cached ${data}`);
+    console.log(`Account Cached ${data}`);
     return;
   }
 
