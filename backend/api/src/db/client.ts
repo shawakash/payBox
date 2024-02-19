@@ -495,3 +495,35 @@ export const deleteClient = async (
 };
 
 // And continue
+
+/**
+ * 
+ * @param id 
+ * @returns 
+ */
+export const getPassword = async (
+  id: string,
+): Promise<{
+  status: dbResStatus,
+  hashPassword?: string
+}> => {
+  const response = await chain("query")({
+    client: [{
+      limit: 1,
+      where: {
+        id: {_eq: id}
+      }
+    }, {
+      password: true
+    }]
+  }, {operationName: "getPassword"});
+  if(response.client[0].password) {
+    return {
+      status: dbResStatus.Ok,
+      hashPassword: response.client[0].password
+    }
+  }
+  return {
+    status: dbResStatus.Error
+  }
+}
