@@ -173,6 +173,8 @@ export const getPrivate = async (
  * @param accountId 
  * @returns 
  */
+
+// Delete the sol eth and bitcoin first before deleting the account
 export const deleteAccount = async (
     accountId: string
 ): Promise<{
