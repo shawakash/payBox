@@ -76,6 +76,7 @@ export type Account = {
   /** An object relationship */
   eth?: Maybe<Eth>;
   id: Scalars['uuid']['output'];
+  name: Scalars['String']['output'];
   /** An object relationship */
   sol?: Maybe<Sol>;
   /** An object relationship */
@@ -140,6 +141,7 @@ export type Account_Bool_Exp = {
   clientId?: InputMaybe<Uuid_Comparison_Exp>;
   eth?: InputMaybe<Eth_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
   sol?: InputMaybe<Sol_Bool_Exp>;
   wallet?: InputMaybe<Wallet_Bool_Exp>;
   walletId?: InputMaybe<Uuid_Comparison_Exp>;
@@ -158,6 +160,7 @@ export type Account_Insert_Input = {
   clientId?: InputMaybe<Scalars['uuid']['input']>;
   eth?: InputMaybe<Eth_Obj_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   sol?: InputMaybe<Sol_Obj_Rel_Insert_Input>;
   wallet?: InputMaybe<Wallet_Obj_Rel_Insert_Input>;
   walletId?: InputMaybe<Scalars['uuid']['input']>;
@@ -168,6 +171,7 @@ export type Account_Max_Fields = {
   __typename?: 'account_max_fields';
   clientId?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   walletId?: Maybe<Scalars['uuid']['output']>;
 };
 
@@ -175,6 +179,7 @@ export type Account_Max_Fields = {
 export type Account_Max_Order_By = {
   clientId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
   walletId?: InputMaybe<Order_By>;
 };
 
@@ -183,6 +188,7 @@ export type Account_Min_Fields = {
   __typename?: 'account_min_fields';
   clientId?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
   walletId?: Maybe<Scalars['uuid']['output']>;
 };
 
@@ -190,6 +196,7 @@ export type Account_Min_Fields = {
 export type Account_Min_Order_By = {
   clientId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
   walletId?: InputMaybe<Order_By>;
 };
 
@@ -223,6 +230,7 @@ export type Account_Order_By = {
   clientId?: InputMaybe<Order_By>;
   eth?: InputMaybe<Eth_Order_By>;
   id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
   sol?: InputMaybe<Sol_Order_By>;
   wallet?: InputMaybe<Wallet_Order_By>;
   walletId?: InputMaybe<Order_By>;
@@ -240,6 +248,8 @@ export enum Account_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Name = 'name',
+  /** column name */
   WalletId = 'walletId'
 }
 
@@ -247,6 +257,7 @@ export enum Account_Select_Column {
 export type Account_Set_Input = {
   clientId?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   walletId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -262,6 +273,7 @@ export type Account_Stream_Cursor_Input = {
 export type Account_Stream_Cursor_Value_Input = {
   clientId?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
   walletId?: InputMaybe<Scalars['uuid']['input']>;
 };
 
@@ -271,6 +283,8 @@ export enum Account_Update_Column {
   ClientId = 'clientId',
   /** column name */
   Id = 'id',
+  /** column name */
+  Name = 'name',
   /** column name */
   WalletId = 'walletId'
 }
