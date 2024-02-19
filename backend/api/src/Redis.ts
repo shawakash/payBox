@@ -1,6 +1,7 @@
 import { RedisClientType, createClient } from "redis";
 import { REDIS_URL } from "./config";
 import {
+  AccountType,
   Address,
   AddressPartial,
   Client,
@@ -316,6 +317,39 @@ export class Redis {
       clientId: wallet.clientId,
       secretPhase: wallet.secretPhase,
       accounts: JSON.parse(wallet.accounts),
+    };
+  }
+
+  async cacheAccount(key: string, items: AccountType): Promise<void> {
+    const data = await this.client.hSet(key, {
+      id: items.id,
+      clientId: items.clientId,
+      walletId: items.walletId,
+      name: items.name,
+      sol: JSON.stringify(items.sol),
+      eth: JSON.stringify(items.eth),
+      bitcoin: JSON.stringify(items.bitcoin || {}),
+      usdc: JSON.stringify(items.usdc || {}),
+    });
+
+    console.log(`Account Cached ${data}`);
+    return;
+  }
+
+  async getAccount(key: string): Promise<AccountType | null> {
+    const account = await this.client.hGetAll(key);
+    if (!account) {
+      return null;
+    }
+    return {
+      id: account.id,
+      clientId: account.clientId,
+      walletId: account.walletId,
+      name: account.name,
+      sol: JSON.parse(account.sol),
+      eth: JSON.parse(account.eth),
+      bitcoin: JSON.parse(account.bitcoin),
+      usdc: JSON.parse(account.usdc),
     };
   }
 

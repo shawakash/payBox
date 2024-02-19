@@ -1078,6 +1078,7 @@ export type ValueTypes = {
     /** An object relationship */
     eth?: ValueTypes["eth"];
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     /** An object relationship */
     sol?: ValueTypes["sol"];
     /** An object relationship */
@@ -1191,6 +1192,11 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    name?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
     sol?: ValueTypes["sol_bool_exp"] | undefined | null | Variable<any, string>;
     wallet?:
       | ValueTypes["wallet_bool_exp"]
@@ -1224,6 +1230,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    name?: string | undefined | null | Variable<any, string>;
     sol?:
       | ValueTypes["sol_obj_rel_insert_input"]
       | undefined
@@ -1240,6 +1247,7 @@ export type ValueTypes = {
   ["account_max_fields"]: AliasType<{
     clientId?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     walletId?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1251,6 +1259,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     walletId?:
       | ValueTypes["order_by"]
       | undefined
@@ -1261,6 +1270,7 @@ export type ValueTypes = {
   ["account_min_fields"]: AliasType<{
     clientId?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     walletId?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1272,6 +1282,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     walletId?:
       | ValueTypes["order_by"]
       | undefined
@@ -1327,6 +1338,7 @@ export type ValueTypes = {
       | Variable<any, string>;
     eth?: ValueTypes["eth_order_by"] | undefined | null | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     sol?: ValueTypes["sol_order_by"] | undefined | null | Variable<any, string>;
     wallet?:
       | ValueTypes["wallet_order_by"]
@@ -1349,6 +1361,7 @@ export type ValueTypes = {
   ["account_set_input"]: {
     clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    name?: string | undefined | null | Variable<any, string>;
     walletId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
   };
   /** Streaming cursor of the table "account" */
@@ -1368,6 +1381,7 @@ export type ValueTypes = {
   ["account_stream_cursor_value_input"]: {
     clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    name?: string | undefined | null | Variable<any, string>;
     walletId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
   };
   /** update columns of table "account" */
@@ -6865,6 +6879,7 @@ export type ResolverInputTypes = {
     /** An object relationship */
     eth?: ResolverInputTypes["eth"];
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     /** An object relationship */
     sol?: ResolverInputTypes["sol"];
     /** An object relationship */
@@ -6931,6 +6946,7 @@ export type ResolverInputTypes = {
     clientId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     eth?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
     id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    name?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     sol?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
     wallet?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
     walletId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
@@ -6950,6 +6966,7 @@ export type ResolverInputTypes = {
     clientId?: ResolverInputTypes["uuid"] | undefined | null;
     eth?: ResolverInputTypes["eth_obj_rel_insert_input"] | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
+    name?: string | undefined | null;
     sol?: ResolverInputTypes["sol_obj_rel_insert_input"] | undefined | null;
     wallet?:
       | ResolverInputTypes["wallet_obj_rel_insert_input"]
@@ -6961,6 +6978,7 @@ export type ResolverInputTypes = {
   ["account_max_fields"]: AliasType<{
     clientId?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     walletId?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -6968,12 +6986,14 @@ export type ResolverInputTypes = {
   ["account_max_order_by"]: {
     clientId?: ResolverInputTypes["order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
+    name?: ResolverInputTypes["order_by"] | undefined | null;
     walletId?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** aggregate min on columns */
   ["account_min_fields"]: AliasType<{
     clientId?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
     walletId?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -6981,6 +7001,7 @@ export type ResolverInputTypes = {
   ["account_min_order_by"]: {
     clientId?: ResolverInputTypes["order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
+    name?: ResolverInputTypes["order_by"] | undefined | null;
     walletId?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** response of any mutation on the table "account" */
@@ -7010,6 +7031,7 @@ export type ResolverInputTypes = {
     clientId?: ResolverInputTypes["order_by"] | undefined | null;
     eth?: ResolverInputTypes["eth_order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
+    name?: ResolverInputTypes["order_by"] | undefined | null;
     sol?: ResolverInputTypes["sol_order_by"] | undefined | null;
     wallet?: ResolverInputTypes["wallet_order_by"] | undefined | null;
     walletId?: ResolverInputTypes["order_by"] | undefined | null;
@@ -7024,6 +7046,7 @@ export type ResolverInputTypes = {
   ["account_set_input"]: {
     clientId?: ResolverInputTypes["uuid"] | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
+    name?: string | undefined | null;
     walletId?: ResolverInputTypes["uuid"] | undefined | null;
   };
   /** Streaming cursor of the table "account" */
@@ -7037,6 +7060,7 @@ export type ResolverInputTypes = {
   ["account_stream_cursor_value_input"]: {
     clientId?: ResolverInputTypes["uuid"] | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
+    name?: string | undefined | null;
     walletId?: ResolverInputTypes["uuid"] | undefined | null;
   };
   /** update columns of table "account" */
@@ -10753,6 +10777,7 @@ export type ModelTypes = {
     /** An object relationship */
     eth?: ModelTypes["eth"] | undefined;
     id: ModelTypes["uuid"];
+    name: string;
     /** An object relationship */
     sol?: ModelTypes["sol"] | undefined;
     /** An object relationship */
@@ -10801,6 +10826,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["uuid_comparison_exp"] | undefined;
     eth?: ModelTypes["eth_bool_exp"] | undefined;
     id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    name?: ModelTypes["String_comparison_exp"] | undefined;
     sol?: ModelTypes["sol_bool_exp"] | undefined;
     wallet?: ModelTypes["wallet_bool_exp"] | undefined;
     walletId?: ModelTypes["uuid_comparison_exp"] | undefined;
@@ -10813,6 +10839,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["uuid"] | undefined;
     eth?: ModelTypes["eth_obj_rel_insert_input"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    name?: string | undefined;
     sol?: ModelTypes["sol_obj_rel_insert_input"] | undefined;
     wallet?: ModelTypes["wallet_obj_rel_insert_input"] | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
@@ -10821,24 +10848,28 @@ export type ModelTypes = {
   ["account_max_fields"]: {
     clientId?: ModelTypes["uuid"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    name?: string | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
   };
   /** order by max() on columns of table "account" */
   ["account_max_order_by"]: {
     clientId?: ModelTypes["order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
+    name?: ModelTypes["order_by"] | undefined;
     walletId?: ModelTypes["order_by"] | undefined;
   };
   /** aggregate min on columns */
   ["account_min_fields"]: {
     clientId?: ModelTypes["uuid"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    name?: string | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
   };
   /** order by min() on columns of table "account" */
   ["account_min_order_by"]: {
     clientId?: ModelTypes["order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
+    name?: ModelTypes["order_by"] | undefined;
     walletId?: ModelTypes["order_by"] | undefined;
   };
   /** response of any mutation on the table "account" */
@@ -10867,6 +10898,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["order_by"] | undefined;
     eth?: ModelTypes["eth_order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
+    name?: ModelTypes["order_by"] | undefined;
     sol?: ModelTypes["sol_order_by"] | undefined;
     wallet?: ModelTypes["wallet_order_by"] | undefined;
     walletId?: ModelTypes["order_by"] | undefined;
@@ -10880,6 +10912,7 @@ export type ModelTypes = {
   ["account_set_input"]: {
     clientId?: ModelTypes["uuid"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    name?: string | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
   };
   /** Streaming cursor of the table "account" */
@@ -10893,6 +10926,7 @@ export type ModelTypes = {
   ["account_stream_cursor_value_input"]: {
     clientId?: ModelTypes["uuid"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    name?: string | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
   };
   ["account_update_column"]: account_update_column;
@@ -12976,6 +13010,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     eth?: GraphQLTypes["eth"] | undefined;
     id: GraphQLTypes["uuid"];
+    name: string;
     /** An object relationship */
     sol?: GraphQLTypes["sol"] | undefined;
     /** An object relationship */
@@ -13026,6 +13061,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     eth?: GraphQLTypes["eth_bool_exp"] | undefined;
     id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    name?: GraphQLTypes["String_comparison_exp"] | undefined;
     sol?: GraphQLTypes["sol_bool_exp"] | undefined;
     wallet?: GraphQLTypes["wallet_bool_exp"] | undefined;
     walletId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
@@ -13039,6 +13075,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["uuid"] | undefined;
     eth?: GraphQLTypes["eth_obj_rel_insert_input"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    name?: string | undefined;
     sol?: GraphQLTypes["sol_obj_rel_insert_input"] | undefined;
     wallet?: GraphQLTypes["wallet_obj_rel_insert_input"] | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
@@ -13048,12 +13085,14 @@ export type GraphQLTypes = {
     __typename: "account_max_fields";
     clientId?: GraphQLTypes["uuid"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    name?: string | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
   };
   /** order by max() on columns of table "account" */
   ["account_max_order_by"]: {
     clientId?: GraphQLTypes["order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
+    name?: GraphQLTypes["order_by"] | undefined;
     walletId?: GraphQLTypes["order_by"] | undefined;
   };
   /** aggregate min on columns */
@@ -13061,12 +13100,14 @@ export type GraphQLTypes = {
     __typename: "account_min_fields";
     clientId?: GraphQLTypes["uuid"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    name?: string | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
   };
   /** order by min() on columns of table "account" */
   ["account_min_order_by"]: {
     clientId?: GraphQLTypes["order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
+    name?: GraphQLTypes["order_by"] | undefined;
     walletId?: GraphQLTypes["order_by"] | undefined;
   };
   /** response of any mutation on the table "account" */
@@ -13096,6 +13137,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["order_by"] | undefined;
     eth?: GraphQLTypes["eth_order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
+    name?: GraphQLTypes["order_by"] | undefined;
     sol?: GraphQLTypes["sol_order_by"] | undefined;
     wallet?: GraphQLTypes["wallet_order_by"] | undefined;
     walletId?: GraphQLTypes["order_by"] | undefined;
@@ -13110,6 +13152,7 @@ export type GraphQLTypes = {
   ["account_set_input"]: {
     clientId?: GraphQLTypes["uuid"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    name?: string | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
   };
   /** Streaming cursor of the table "account" */
@@ -13123,6 +13166,7 @@ export type GraphQLTypes = {
   ["account_stream_cursor_value_input"]: {
     clientId?: GraphQLTypes["uuid"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    name?: string | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
   };
   /** update columns of table "account" */
@@ -15276,12 +15320,14 @@ export const enum account_constraint {
 export const enum account_select_column {
   clientId = "clientId",
   id = "id",
+  name = "name",
   walletId = "walletId",
 }
 /** update columns of table "account" */
 export const enum account_update_column {
   clientId = "clientId",
   id = "id",
+  name = "name",
   walletId = "walletId",
 }
 /** unique or primary key constraints on table "address" */

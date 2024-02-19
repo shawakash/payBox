@@ -171,5 +171,7 @@ export type AccountType = {
   eth: WalletKeys;
   usdc?: WalletKeys;
   bitcoin?: WalletKeys;
+  walletId: string
   id: string;
+  name: string
 }

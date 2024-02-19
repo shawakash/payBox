@@ -34,6 +34,7 @@ export const AllTypesProps: Record<string, any> = {
     clientId: "uuid_comparison_exp",
     eth: "eth_bool_exp",
     id: "uuid_comparison_exp",
+    name: "String_comparison_exp",
     sol: "sol_bool_exp",
     wallet: "wallet_bool_exp",
     walletId: "uuid_comparison_exp",
@@ -52,11 +53,13 @@ export const AllTypesProps: Record<string, any> = {
   account_max_order_by: {
     clientId: "order_by",
     id: "order_by",
+    name: "order_by",
     walletId: "order_by",
   },
   account_min_order_by: {
     clientId: "order_by",
     id: "order_by",
+    name: "order_by",
     walletId: "order_by",
   },
   account_obj_rel_insert_input: {
@@ -74,6 +77,7 @@ export const AllTypesProps: Record<string, any> = {
     clientId: "order_by",
     eth: "eth_order_by",
     id: "order_by",
+    name: "order_by",
     sol: "sol_order_by",
     wallet: "wallet_order_by",
     walletId: "order_by",
@@ -1478,6 +1482,7 @@ export const ReturnTypes: Record<string, any> = {
     clientId: "uuid",
     eth: "eth",
     id: "uuid",
+    name: "String",
     sol: "sol",
     wallet: "wallet",
     walletId: "uuid",
@@ -1494,11 +1499,13 @@ export const ReturnTypes: Record<string, any> = {
   account_max_fields: {
     clientId: "uuid",
     id: "uuid",
+    name: "String",
     walletId: "uuid",
   },
   account_min_fields: {
     clientId: "uuid",
     id: "uuid",
+    name: "String",
     walletId: "uuid",
   },
   account_mutation_response: {

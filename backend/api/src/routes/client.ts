@@ -85,6 +85,8 @@ clientRouter.post("/", async (req, res) => {
           id: client.accountId as string,
           sol: solKeys,
           eth: ethKeys,
+          walletId: client.walletId as string,
+          name: "Account 1"
         }]
       })
 
@@ -213,6 +215,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
           id: client.accountId as string,
           sol: solKeys,
           eth: ethKeys,
+          walletId: client.walletId as string,
+          name: "Account 1"
         }]
       });
 
