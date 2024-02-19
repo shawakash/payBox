@@ -93,6 +93,7 @@ export const createClient = async (
                       privateKey: ethKeys.privateKey,
                     }
                   },
+                  name: "Account 1"
                 }
               ]
             }
