@@ -296,11 +296,10 @@ export class Redis {
     return { ...txn };
   }
 
-  async cacheWallet(key: string, items: WalletType): Promise<void> {
+  async cacheWallet(key: string, items: Partial<WalletType>): Promise<void> {
     const data = await this.client.hSet(key, {
-      id: items.id,
-      clientId: items.clientId,
-      secretPhase: items.secretPhase as string,
+      id: items.id as string,
+      clientId: items.clientId as string,
       accounts: JSON.stringify(items.accounts),
     });
 
@@ -308,7 +307,7 @@ export class Redis {
     return;
   }
 
-  async getWallet(key: string): Promise<WalletType | null> {
+  async getWallet(key: string): Promise<Partial<WalletType> | null> {
     const wallet = await this.client.hGetAll(key);
     if (!wallet) {
       return null;
@@ -316,7 +315,6 @@ export class Redis {
     return {
       id: wallet.id,
       clientId: wallet.clientId,
-      secretPhase: wallet.secretPhase,
       accounts: JSON.parse(wallet.accounts),
     };
   }
@@ -332,6 +330,20 @@ export class Redis {
       bitcoin: JSON.stringify(items.bitcoin || {}),
       usdc: JSON.stringify(items.usdc || {}),
     });
+
+    const getWallet = await this.client.hGetAll(items.walletId);
+    await this.client.hSet(items.walletId, {
+      id: items.walletId,
+      clientId: items.clientId,
+      accounts: JSON.stringify([
+        ...(getWallet?.accounts ? JSON.parse(getWallet.accounts) : []),
+        items,
+      ]),
+    });
+    console.log([
+      ...(getWallet?.accounts ? JSON.parse(getWallet.accounts) : []),
+      items,
+    ])
 
     console.log(`Account Cached ${data}`);
     return;
@@ -352,6 +364,27 @@ export class Redis {
       bitcoin: JSON.parse(account.bitcoin),
       usdc: JSON.parse(account.usdc),
     };
+  }
+
+  async cacheAccounts(key: string, items: AccountType[]): Promise<void> {
+    const promises = items.map(async (item) => {
+      const data = await this.client.hSet(key, {
+        id: item.id,
+        clientId: item.clientId,
+        walletId: item.walletId,
+        name: item.name,
+        sol: JSON.stringify(item.sol),
+        eth: JSON.stringify(item.eth),
+        bitcoin: JSON.stringify(item.bitcoin || {}),
+        usdc: JSON.stringify(item.usdc || {}),
+      });
+
+      console.log(`Account Cached ${data}`);
+    });
+
+    await Promise.all(promises);
+
+    return;
   }
 
   // TODO: debounce here

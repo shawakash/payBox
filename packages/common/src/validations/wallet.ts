@@ -8,3 +8,5 @@ export const SecretValid = z.object({
             "should be a valid UUID.",
         ),
 });
+
+export const WalletAccountGet = SecretValid;
