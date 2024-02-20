@@ -6,6 +6,7 @@ import { createAccount, deleteAccount, getPrivate, updateAccountName } from "../
 import { cache } from "..";
 import { validatePassword } from "../auth/util";
 import { getPassword } from "../db/client";
+import { checkPassword } from "../auth/middleware";
 
 export const accountRouter = Router();
 
@@ -107,29 +108,12 @@ accountRouter.patch('/updateName', async (req, res) => {
     }
 });
 
-accountRouter.post('/privateKey', async (req, res) => {
+accountRouter.post('/privateKey', checkPassword, async (req, res) => {
     try {
         //@ts-ignore
         const id = req.id;
         if (id) {
-            const { password, network, accountId } = AccountGetPrivateKey.parse(req.body);
-
-            // Password Check
-            const { status, hashPassword } = await getPassword(id);
-            if (status == dbResStatus.Error || hashPassword == undefined) {
-                return res
-                    .status(503)
-                    .json({ msg: "Database Error", status: responseStatus.Error });
-            }
-            const isCorrectPass = await validatePassword(
-                password,
-                hashPassword
-            );
-            if (!isCorrectPass) {
-                return res
-                    .status(401)
-                    .json({ msg: "Wrong Password", status: responseStatus.Error });
-            }
+            const { network, accountId } = AccountGetPrivateKey.parse(req.body);
 
             const query = await getPrivate(accountId, network);
             if (query.status == dbResStatus.Error || query.privateKey == undefined) {
