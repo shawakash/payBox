@@ -5,6 +5,7 @@ import {
   AddressFormPartial,
   GetQrQuerySchema,
   Network,
+  PasswordValid,
   TxnSendQuery,
   dbResStatus,
   responseStatus,
@@ -282,7 +283,7 @@ export const checkPassword = async (
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { password } = AccountGetPrivateKey.parse(req.body);
+      const { password } = PasswordValid.parse(req.body);
       // Password Check
       const { status, hashPassword } = await getPassword(id);
       if (status == dbResStatus.Error || hashPassword == undefined) {
