@@ -27,6 +27,7 @@ import path from "path";
 import { swaggerSpec, swaggerYaml } from "@paybox/openapi";
 import swaggerUi, { JsonObject } from "swagger-ui-express";
 import { accountRouter } from "./routes/account";
+import { walletRouter } from "./routes/wallet";
 
 export const app = express();
 export const server = http.createServer(app);
@@ -97,6 +98,7 @@ app.use("/address", extractClientId, addressRouter);
 app.use("/qrcode", qrcodeRouter);
 app.use("/txn", extractClientId, txnRouter);
 app.use('/account', extractClientId, accountRouter);
+app.use('/wallet', extractClientId, walletRouter);
 
 wss.on("connection", async (ws) => {
   solTxn.connectWebSocket(ws);
