@@ -283,7 +283,6 @@ export const checkPassword = async (
     const id = req.id;
     if (id) {
       const { password } = AccountGetPrivateKey.parse(req.body);
-
       // Password Check
       const { status, hashPassword } = await getPassword(id);
       if (status == dbResStatus.Error || hashPassword == undefined) {
@@ -300,13 +299,12 @@ export const checkPassword = async (
           .status(401)
           .json({ msg: "Wrong Password", status: responseStatus.Error });
       }
-
-      next();
-
+    } else {
+      return res
+        .status(500)
+        .json({ status: responseStatus.Error, msg: "Jwt error" });
     }
-    return res
-      .status(500)
-      .json({ status: responseStatus.Error, msg: "Jwt error" });
+    next();
   } catch (error) {
     console.log(error);
     return res
