@@ -1,15 +1,18 @@
 import { NextFunction, Request, Response } from "express";
-import { clearCookie, setJWTCookie, validateJwt } from "./util";
+import { clearCookie, setJWTCookie, validateJwt, validatePassword } from "./util";
 import {
+  AccountGetPrivateKey,
   AddressFormPartial,
   GetQrQuerySchema,
   Network,
   TxnSendQuery,
+  dbResStatus,
   responseStatus,
 } from "@paybox/common";
 import { cache, ethTxn, solTxn } from "..";
 import { getAddressByClient } from "../db/qrcode";
 import { Address } from "web3";
+import { getPassword } from "../db/client";
 
 /**
  *
@@ -251,6 +254,59 @@ export const hasAddress = async (
         .status(500)
         .json({ status: responseStatus.Error, msg: "Jwt error" });
     }
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({
+        status: responseStatus.Error,
+        msg: "Internal error",
+        error: error,
+      });
+  }
+};
+
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
+export const checkPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+    if (id) {
+      const { password } = AccountGetPrivateKey.parse(req.body);
+
+      // Password Check
+      const { status, hashPassword } = await getPassword(id);
+      if (status == dbResStatus.Error || hashPassword == undefined) {
+        return res
+          .status(503)
+          .json({ msg: "Database Error", status: responseStatus.Error });
+      }
+      const isCorrectPass = await validatePassword(
+        password,
+        hashPassword
+      );
+      if (!isCorrectPass) {
+        return res
+          .status(401)
+          .json({ msg: "Wrong Password", status: responseStatus.Error });
+      }
+
+      next();
+
+    }
+    return res
+      .status(500)
+      .json({ status: responseStatus.Error, msg: "Jwt error" });
   } catch (error) {
     console.log(error);
     return res
