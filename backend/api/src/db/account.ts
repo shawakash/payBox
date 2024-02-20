@@ -1,7 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus, getClientId } from "../types/client";
-import { AccountType, HASURA_ADMIN_SERCRET, Network, WalletKeys } from "@paybox/common";
+import { AccountType, BitcoinKey, EthKey, HASURA_ADMIN_SERCRET, Network, SolKey, WalletKeys } from "@paybox/common";
 
 
 const chain = Chain(HASURA_URL, {
@@ -32,7 +32,7 @@ export const createAccount = async (
     ethKeys: WalletKeys,
 ): Promise<{
     status: dbResStatus,
-    id?: string
+    account?: AccountType
 }> => {
     const response = await chain("mutation")({
         insert_account_one: [{
@@ -54,13 +54,37 @@ export const createAccount = async (
                 }
             }
         }, {
-            id: true
+            id: true,
+            eth: {
+                publicKey: true,
+                goerliEth: true,
+                kovanEth: true,
+                mainnetEth: true,
+                rinkebyEth: true,
+                ropstenEth: true,
+                sepoliaEth: true,
+            },
+            sol: {
+                publicKey: true,
+                devnetSol: true,
+                mainnetSol: true,
+                testnetSol: true,
+            },
+            walletId: true,
+            bitcoin: {
+                publicKey: true,
+                mainnetBtc: true,
+                regtestBtc: true,
+                textnetBtc: true,
+            },
+            name: true,
+            clientId: true
         }]
     }, { operationName: "createAccount" });
     if (response.insert_account_one?.id) {
         return {
             status: dbResStatus.Ok,
-            id: response.insert_account_one.id as string
+            account: response.insert_account_one as AccountType
         }
     }
     return {
@@ -95,17 +119,26 @@ export const updateAccountName = async (
                 clientId: true,
                 name: true,
                 walletId: true,
-                sol: {
-                    publicKey: true,
-                    privateKey: true
-                },
                 eth: {
                     publicKey: true,
-                    privateKey: true
+                    goerliEth: true,
+                    kovanEth: true,
+                    mainnetEth: true,
+                    rinkebyEth: true,
+                    ropstenEth: true,
+                    sepoliaEth: true,
+                },
+                sol: {
+                    publicKey: true,
+                    devnetSol: true,
+                    mainnetSol: true,
+                    testnetSol: true,
                 },
                 bitcoin: {
                     publicKey: true,
-                    privateKey: true
+                    mainnetBtc: true,
+                    regtestBtc: true,
+                    textnetBtc: true,
                 },
             }
         }]
@@ -113,15 +146,7 @@ export const updateAccountName = async (
     if(response.update_account?.returning[0]?.id) {
         return {
             status: dbResStatus.Ok,
-            account: {
-                id: response.update_account?.returning[0]?.id as string,
-                clientId: response.update_account?.returning[0]?.clientId as string,
-                name: response.update_account?.returning[0]?.name as string,
-                walletId: response.update_account?.returning[0]?.walletId as string,
-                sol: response.update_account?.returning[0]?.sol as WalletKeys,
-                eth: response.update_account?.returning[0]?.eth as WalletKeys,
-                bitcoin: response.update_account?.returning[0]?.bitcoin as WalletKeys,
-            }
+            account: response.update_account.returning[0] as AccountType
         }
     }
     return {
@@ -208,4 +233,60 @@ export const deleteAccount = async (
     return {
         status: dbResStatus.Error
     }    
+}
+
+/**
+ * 
+ * @param accountId 
+ * @returns 
+ */
+export const getAccount = async (
+    accountId: string
+): Promise<{
+    status: dbResStatus,
+    account?: AccountType
+}> => {
+    const response = await chain("query")({
+        account: [{
+            limit: 1,
+            where: {
+                id: {_eq: accountId}
+            }
+        }, {
+            id: true,
+            eth: {
+                publicKey: true,
+                goerliEth: true,
+                kovanEth: true,
+                mainnetEth: true,
+                rinkebyEth: true,
+                ropstenEth: true,
+                sepoliaEth: true,
+            },
+            sol: {
+                publicKey: true,
+                devnetSol: true,
+                mainnetSol: true,
+                testnetSol: true,
+            },
+            walletId: true,
+            bitcoin: {
+                publicKey: true,
+                mainnetBtc: true,
+                regtestBtc: true,
+                textnetBtc: true,
+            },
+            name: true,
+            clientId: true
+        }]
+    }, {operationName: "getAccount"});
+    if(response.account[0].id) {
+        return {
+            status: dbResStatus.Ok,
+            account: response.account[0] as AccountType
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
 }
