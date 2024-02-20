@@ -167,11 +167,42 @@ export type WalletType = {
 
 export type AccountType = {
   clientId: string;
-  sol: WalletKeys;
-  eth: WalletKeys;
-  usdc?: WalletKeys;
-  bitcoin?: WalletKeys;
+  sol: SolKey;
+  eth: EthKey;
+  usdc?: UsdcKey;
+  bitcoin?: BitcoinKey;
   walletId: string
   id: string;
   name: string
+}
+
+export type SolKey = {
+  publicKey: string,
+  devnetSol: number,
+  mainnetSol: number,
+  testnetSol: number,
+}
+
+export type EthKey = {
+  publicKey: string,
+  goerliEth: number,
+  kovanEth: number,
+  mainnetEth: number,
+  rinkebyEth: number,
+  ropstenEth: number,
+  sepoliaEth: number,
+}
+
+export type BitcoinKey = {
+  publicKey: string,
+  mainnetBtc: number,
+  regtestBtc: number,
+  textnetBtc: number,
+}
+
+export type UsdcKey = {
+  publicKey: string,
+  mainnetUsdc: number,
+  regtestUsdc: number,
+  textnetUsdc: number,
 }

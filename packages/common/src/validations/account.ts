@@ -55,3 +55,12 @@ export const AccountDelete = z.object({
             "should be a valid UUID.",
         ),
 });
+
+export const AccountGetQuery = z.object({
+    accountId: z
+        .string()
+        .regex(
+            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
+            "should be a valid UUID.",
+        ),
+});
