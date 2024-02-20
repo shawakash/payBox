@@ -183,7 +183,16 @@ export const deleteAccount = async (
     const response = await chain("mutation")({
         delete_account: [{
             where: {
-                id: {_eq: accountId}
+                id: {_eq: accountId},
+                eth: {
+                    accountId: {_eq: accountId}
+                },
+                sol: {
+                    accountId: {_eq: accountId}
+                },
+                bitcoin: {
+                    accountId: {_eq: accountId}
+                }
             }
         }, {
             returning: {
@@ -191,7 +200,7 @@ export const deleteAccount = async (
             }
         }]
     }, {operationName: "deleteAccount"});
-    if(response.delete_account?.returning[0].walletId) {
+    if(Array.isArray(response.delete_account?.returning)) {
         return {
             status: dbResStatus.Ok
         }
