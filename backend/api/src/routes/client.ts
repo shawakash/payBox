@@ -54,7 +54,7 @@ clientRouter.post("/", async (req, res) => {
       ethKeys,
     );
     console.log(client);
-    if (client.status == dbResStatus.Error) {
+    if (client.status == dbResStatus.Error || client.sol == undefined || client.eth == undefined) {
       return res
         .status(503)
         .json({ msg: "Database Error", status: responseStatus.Error });
@@ -83,8 +83,8 @@ clientRouter.post("/", async (req, res) => {
         accounts: [{
           clientId: client.id as string,
           id: client.accountId as string,
-          sol: solKeys,
-          eth: ethKeys,
+          sol: client.sol,
+          eth: client.eth,
           walletId: client.walletId as string,
           name: "Account 1"
         }]
@@ -184,7 +184,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
       solKeys,
       ethKeys,
     );
-    if (client.status == dbResStatus.Error) {
+    if (client.status == dbResStatus.Error || client.sol == undefined || client.eth == undefined) {
       return res
         .status(503)
         .json({ msg: "Database Error", status: responseStatus.Error });
@@ -213,8 +213,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
         accounts: [{
           clientId: client.id as string,
           id: client.accountId as string,
-          sol: solKeys,
-          eth: ethKeys,
+          sol: client.sol,
+          eth: client.eth,
           walletId: client.walletId as string,
           name: "Account 1"
         }]

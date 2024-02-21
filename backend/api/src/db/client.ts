@@ -1,7 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus, getClientId } from "../types/client";
-import { HASURA_ADMIN_SERCRET, WalletKeys } from "@paybox/common";
+import { BitcoinKey, EthKey, HASURA_ADMIN_SERCRET, SolKey, WalletKeys } from "@paybox/common";
 import { Wallet, ethers } from "ethers";
 import { Keypair } from "@solana/web3.js";
 
@@ -40,6 +40,10 @@ export const createClient = async (
   address?: unknown;
   walletId?: unknown;
   accountId?: unknown;
+  sol?: SolKey;
+  eth?: EthKey;
+  bitcoin?: BitcoinKey;
+  usdc?: EthKey;
   status: dbResStatus;
 }> => {
   const clientResponse = await chain("mutation")(
@@ -106,7 +110,28 @@ export const createClient = async (
 
           }, {
             id: true,
-
+            eth: {
+              publicKey: true,
+              goerliEth: true,
+              kovanEth: true,
+              mainnetEth: true,
+              rinkebyEth: true,
+              ropstenEth: true,
+              sepoliaEth: true,
+            },
+            sol: {
+              publicKey: true,
+              devnetSol: true,
+              mainnetSol: true,
+              testnetSol: true,
+            },
+            walletId: true,
+            bitcoin: {
+              publicKey: true,
+              mainnetBtc: true,
+              regtestBtc: true,
+              textnetBtc: true,
+            },
           }]
         },
       ],
@@ -117,6 +142,9 @@ export const createClient = async (
       return {
         ...clientResponse.insert_client_one,
         walletId: createWallet.insert_wallet_one.id,
+        sol: createWallet.insert_wallet_one.accounts[0].sol as SolKey,
+        eth: createWallet.insert_wallet_one.accounts[0].eth as EthKey,
+        bitcoin: createWallet.insert_wallet_one.accounts[0].bitcoin as BitcoinKey,
         accountId: createWallet.insert_wallet_one.accounts[0].id,
         status: dbResStatus.Ok
       };
@@ -511,13 +539,13 @@ export const getPassword = async (
     client: [{
       limit: 1,
       where: {
-        id: {_eq: id}
+        id: { _eq: id }
       }
     }, {
       password: true
     }]
-  }, {operationName: "getPassword"});
-  if(response.client[0].password) {
+  }, { operationName: "getPassword" });
+  if (response.client[0].password) {
     return {
       status: dbResStatus.Ok,
       hashPassword: response.client[0].password
