@@ -185,8 +185,8 @@ export class EthOps {
   constructor() {
   }
 
-  createWallet(): WalletKeys {
-      const wallet = ethers.Wallet.createRandom();
+  createWallet(secretPhrase: string): WalletKeys {
+      const wallet = ethers.Wallet.fromPhrase(secretPhrase);
 
       const keys: WalletKeys = {
         privateKey: wallet.privateKey,
