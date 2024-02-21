@@ -2,10 +2,13 @@ import type { Request, Response } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
 import bcryptjs from "bcryptjs";
 import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
-import { Address, CLIENT_URL, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
+import { Address, CLIENT_URL, CoinType, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
 import * as qr from "qrcode";
 import fs from "fs";
 import * as bip39 from 'bip39';
+// import ed from "ed25519-hd-key";
+// import * as ed25519 from 'ed25519';
+
 
 /**
  * @param jwt
@@ -139,3 +142,13 @@ export const generateSeed = (strength: number): string => {
   console.log(mnemonic);
   return mnemonic;
 }
+
+
+// export const deriveSeed = (
+//   seed: string,
+//   coinType: CoinType,
+//   accountIndex: number
+// ): Buffer => {
+//   const path44Change = `m/44'/${coinType}'/${0}'/${accountIndex}'`;
+//   return ed25519.derivePath(path44Change, seed).key;
+// };

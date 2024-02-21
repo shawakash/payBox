@@ -206,3 +206,9 @@ export type UsdcKey = {
   regtestUsdc: number,
   textnetUsdc: number,
 }
+
+export enum CoinType {
+  Sol = "501",
+  Eth = "60",
+  Bitcoin = "0"
+}

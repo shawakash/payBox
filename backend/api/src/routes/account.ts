@@ -26,8 +26,8 @@ accountRouter.post("/", async (req, res) => {
                     .status(503)
                     .json({ msg: "Database Error", status: responseStatus.Error });
             }
-            const solKeys = await (new SolOps()).createWallet(query.secret);
-            const ethKeys = (new EthOps()).createWallet(query.secret);
+            const solKeys = await (new SolOps()).createAccount(query.secret);
+            const ethKeys = (new EthOps()).createAccount(query.secret);
             const mutation = await createAccount(id, walletId, name, solKeys, ethKeys);
             if (mutation.status == dbResStatus.Error || mutation.account == undefined) {
                 return res
