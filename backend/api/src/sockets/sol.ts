@@ -18,6 +18,8 @@ import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import baseX from "base-x";
 
 import * as bip39 from 'bip39';
+import * as bip32 from 'bip32';
+import { derivePath } from 'ed25519-hd-key';
 
 export class SolTxnLogs {
   private rpcUrl: string;
@@ -135,6 +137,14 @@ export class SolOps {
     const seedBuffer = await bip39.mnemonicToSeed(secretPhrase);
     const seedKeyArray = Uint8Array.from(seedBuffer.subarray(0, 32));
     const keyPair = Keypair.fromSeed(seedKeyArray);
+    return { publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey) };
+  }
+
+  async createAccount(secretPhrase: string): Promise<WalletKeys> {
+    const accountIndex = Math.round(Date.now() / 1000);
+    const path = `m/44'/501'/${accountIndex}'/0'`;
+    const derivedSeed = derivePath(path, secretPhrase).key;
+    const keyPair = Keypair.fromSeed(derivedSeed);
     return { publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey) };
   }
 }

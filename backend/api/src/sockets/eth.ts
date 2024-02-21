@@ -195,6 +195,18 @@ export class EthOps {
     return keys;
   }
 
+  createAccount(secretPhrase: string, ): WalletKeys {
+    const accountIndex = Math.round(Date.now() / 1000);
+    const path = `m/44'/60'/${accountIndex}'/0/0`;
+    const wallet = ethers.HDNodeWallet.fromPhrase(secretPhrase, undefined, path);
+
+    const keys: WalletKeys = {
+      privateKey: wallet.privateKey,
+      publicKey: wallet.address,
+    };
+    return keys;
+  }
+
 }
 
 export default EthTxnLogs;
