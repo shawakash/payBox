@@ -38,7 +38,6 @@ clientRouter.post("/", async (req, res) => {
     }
 
     const hashPassword = await setHashPassword(password);
-    console.log(hashPassword);
     const seed = generateSeed(SECRET_PHASE_STRENGTH);
     const solKeys = await (new SolOps()).createWallet(seed);
     const ethKeys = (new EthOps()).createWallet(seed);

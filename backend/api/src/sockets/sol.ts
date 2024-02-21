@@ -132,9 +132,9 @@ export class SolOps {
   }
 
   async createWallet(secretPhrase: string): Promise<WalletKeys> {
-    const privateKeyBuffer = await bip39.mnemonicToSeed(secretPhrase);
-    const privateKeyArray = Uint8Array.from(privateKeyBuffer);
-    const keyPair = Keypair.fromSeed(privateKeyArray);
+    const seedBuffer = await bip39.mnemonicToSeed(secretPhrase);
+    const seedKeyArray = Uint8Array.from(seedBuffer.subarray(0, 32));
+    const keyPair = Keypair.fromSeed(seedKeyArray);
     return { publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey) };
   }
 }

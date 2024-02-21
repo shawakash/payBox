@@ -136,6 +136,5 @@ export const generateUniqueImageName = (id: string): string => {
 
 export const generateSeed = (strength: number): string => {
   const mnemonic: string = bip39.generateMnemonic();
-  console.log(mnemonic);
   return mnemonic;
 }
