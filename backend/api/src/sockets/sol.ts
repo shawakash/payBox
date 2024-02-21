@@ -16,7 +16,6 @@ import { TransactionData } from "../types/sol";
 import { AcceptSolTxn, WalletKeys } from "@paybox/common";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import baseX from "base-x";
-import * as bip39 from 'bip39';
 
 export class SolTxnLogs {
   private rpcUrl: string;
@@ -130,10 +129,8 @@ export class SolOps {
   constructor() {
   }
 
-  async createWallet(secretPhrase: string): Promise<WalletKeys> {
-    const privateKeyBuffer = await bip39.mnemonicToSeed(secretPhrase);
-    const privateKeyArray = Uint8Array.from(privateKeyBuffer);
-    const keyPair = Keypair.fromSeed(privateKeyArray);
+  createWallet(): WalletKeys {
+    const keyPair = Keypair.generate();
     return {publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey)};
   }
 }
