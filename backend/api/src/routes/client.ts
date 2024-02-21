@@ -40,8 +40,8 @@ clientRouter.post("/", async (req, res) => {
     const hashPassword = await setHashPassword(password);
     console.log(hashPassword);
     const seed = generateSeed(SECRET_PHASE_STRENGTH);
-    const solKeys = await (new SolOps()).createWallet(seed);
-    const ethKeys = (new EthOps()).createWallet(seed);
+    const solKeys = (new SolOps()).createWallet();
+    const ethKeys = (new EthOps()).createWallet();
     const client = await createClient(
       username,
       email,
@@ -171,8 +171,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
         .json({ ...getClient.client[0], jwt, status: responseStatus.Ok });
     }
     const seed = generateSeed(SECRET_PHASE_STRENGTH);
-    const solKeys = await (new SolOps()).createWallet(seed);
-    const ethKeys = (new EthOps()).createWallet(seed);
+    const solKeys = (new SolOps()).createWallet();
+    const ethKeys = (new EthOps()).createWallet();
     const client = await createClient(
       username,
       email,
