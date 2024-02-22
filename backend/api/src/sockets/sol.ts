@@ -21,6 +21,7 @@ import * as base58 from 'bs58';
 import * as bip39 from 'bip39';
 import bip32 from 'bip32';
 import { ec as EC } from 'elliptic';
+import bs58 from 'bs58';
 
 export const ec = new EC('secp256k1');
 import { derivePath } from 'ed25519-hd-key';
@@ -159,8 +160,12 @@ export class SolOps {
     return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
   }
 
-  accountFromSecret(secretKey: string): WalletKeys {
-    const keyPair = Keypair.fromSecretKey(baseX("base58").decode(secretKey));
+  async accountFromSecret(secretKey: string): Promise<WalletKeys> {
+    const decodedBytes = bs58.decode(secretKey);
+    console.log(decodedBytes)
+    const privateKeyArray = new Uint8Array(decodedBytes);
+    console.log(privateKeyArray)
+    const keyPair = Keypair.fromSecretKey(decodedBytes);
     return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
   }
 
