@@ -19,11 +19,9 @@ import baseX from "base-x";
 import * as base58 from 'bs58';
 
 import * as bip39 from 'bip39';
-import bip32 from 'bip32';
 import { ec as EC } from 'elliptic';
 import bs58 from 'bs58';
-
-export const ec = new EC('secp256k1');
+import * as bip32 from 'bip32';
 import { derivePath } from 'ed25519-hd-key';
 
 export class SolTxnLogs {
