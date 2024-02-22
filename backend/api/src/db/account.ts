@@ -290,3 +290,38 @@ export const getAccount = async (
         status: dbResStatus.Error
     }
 }
+
+export const importAccountSecret = async (
+    clientId: string,
+    walletId: string,
+    network: Network,
+    name: string,
+    keys: SolKey | EthKey | BitcoinKey,
+): Promise<{
+    status: dbResStatus,
+    id?: string
+}> => {
+    const response = await chain("mutation")({
+        insert_account_one: [{
+            object: {
+                clientId,
+                walletId,
+                name,
+                [network]: {
+                    data: keys
+                }
+            }
+        }, {
+            id: true
+        }]
+    }, {operationName: "importAccountSecret"});
+    if(response.insert_account_one?.id) {
+        return {
+            status: dbResStatus.Ok,
+            id: response.insert_account_one.id as string
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
