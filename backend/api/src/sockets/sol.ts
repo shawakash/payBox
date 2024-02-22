@@ -19,6 +19,7 @@ import baseX from "base-x";
 
 import * as bip39 from 'bip39';
 import * as bip32 from 'bip32';
+import * as base58 from 'bs58';
 import { derivePath } from 'ed25519-hd-key';
 
 export class SolTxnLogs {
@@ -137,7 +138,7 @@ export class SolOps {
     const seedBuffer = await bip39.mnemonicToSeed(secretPhrase);
     const seedKeyArray = Uint8Array.from(seedBuffer.subarray(0, 32));
     const keyPair = Keypair.fromSeed(seedKeyArray);
-    return { publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey) };
+    return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
   }
 
   async createAccount(secretPhrase: string): Promise<WalletKeys> {
@@ -145,7 +146,7 @@ export class SolOps {
     const path = `m/44'/501'/${accountIndex}'/0'`;
     const derivedSeed = derivePath(path, secretPhrase).key;
     const keyPair = Keypair.fromSeed(derivedSeed);
-    return { publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey) };
+    return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
   }
 }
 
