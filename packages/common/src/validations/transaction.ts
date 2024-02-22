@@ -4,7 +4,7 @@ import {
   EthCluster,
   SolCluster,
   USDCCluster,
-  isEthereumAddress,
+  isEthereumPublicKey,
   isEthereumPrivateKey,
   isSolanaAddress,
 } from "../constant";
@@ -18,7 +18,7 @@ const AddressType = z.union([
   z.string().refine(isSolanaAddress, {
     message: "Invalid Solana address",
   }),
-  z.string().refine(isEthereumAddress, {
+  z.string().refine(isEthereumPublicKey, {
     message: "Invalid Ethereum address",
   }),
 ]);
