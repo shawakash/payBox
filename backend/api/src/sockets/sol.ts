@@ -16,9 +16,13 @@ import { TransactionData } from "../types/sol";
 import { AcceptSolTxn, WalletKeys } from "@paybox/common";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import baseX from "base-x";
+import * as base58 from 'bs58';
 
 import * as bip39 from 'bip39';
-import * as bip32 from 'bip32';
+import bip32 from 'bip32';
+import { ec as EC } from 'elliptic';
+
+export const ec = new EC('secp256k1');
 import { derivePath } from 'ed25519-hd-key';
 
 export class SolTxnLogs {
@@ -137,7 +141,7 @@ export class SolOps {
     const seedBuffer = await bip39.mnemonicToSeed(secretPhrase);
     const seedKeyArray = Uint8Array.from(seedBuffer.subarray(0, 32));
     const keyPair = Keypair.fromSeed(seedKeyArray);
-    return { publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey) };
+    return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
   }
 
   async createAccount(secretPhrase: string): Promise<WalletKeys> {
@@ -145,7 +149,31 @@ export class SolOps {
     const path = `m/44'/501'/${accountIndex}'/0'`;
     const derivedSeed = derivePath(path, secretPhrase).key;
     const keyPair = Keypair.fromSeed(derivedSeed);
-    return { publicKey: keyPair.publicKey.toBase58(), privateKey: baseX("base58").encode(keyPair.secretKey) };
+    return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
+  }
+
+  async importAccount(mnemonic: string): Promise<WalletKeys> {
+    const seedBuffer = await bip39.mnemonicToSeed(mnemonic);
+    const seedKeyArray = Uint8Array.from(seedBuffer.subarray(0, 32));
+    const keyPair = Keypair.fromSeed(seedKeyArray);
+    return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
+  }
+
+  accountFromSecret(secretKey: string): WalletKeys {
+    const keyPair = Keypair.fromSecretKey(baseX("base58").decode(secretKey));
+    return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
+  }
+
+  isValidSecretKey(secretKey: string): boolean {
+    try {
+      const key = Buffer.from(secretKey, 'hex');
+      if (key.length !== 64) {
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
   }
 }
 
