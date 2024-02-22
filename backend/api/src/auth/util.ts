@@ -138,16 +138,6 @@ export const generateUniqueImageName = (id: string): string => {
 };
 
 export const generateSeed = (strength: number): string => {
-  const mnemonic: string = bip39.generateMnemonic();
+  const mnemonic: string = bip39.generateMnemonic(strength);
   return mnemonic;
 }
-
-
-// export const deriveSeed = (
-//   seed: string,
-//   coinType: CoinType,
-//   accountIndex: number
-// ): Buffer => {
-//   const path44Change = `m/44'/${coinType}'/${0}'/${accountIndex}'`;
-//   return ed25519.derivePath(path44Change, seed).key;
-// };
