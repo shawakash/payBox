@@ -1,8 +1,8 @@
-import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountGetQuery, AccountNameQuery, dbResStatus, responseStatus, AccountType } from "@paybox/common";
+import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountGetQuery, AccountNameQuery, dbResStatus, responseStatus, AccountType, ImportAccountSecret, Network, WalletKeys } from "@paybox/common";
 import { Router } from "express";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount } from "../db/account";
+import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount, importAccountSecret } from "../db/account";
 import { cache } from "..";
 import { validatePassword } from "../auth/util";
 import { getPassword } from "../db/client";
@@ -147,7 +147,7 @@ accountRouter.delete('/', async (req, res) => {
                     .status(503)
                     .json({ msg: "Database Error", status: responseStatus.Error });
             }
-            
+
             //Cache delete
             await cache.deleteHash(accountId);
 
@@ -177,14 +177,14 @@ accountRouter.get('/', async (req, res) => {
     try {
         //@ts-ignore
         const id = req.id;
-        if(id) {
-            const {accountId} = AccountGetQuery.parse(req.query);
+        if (id) {
+            const { accountId } = AccountGetQuery.parse(req.query);
 
             /**
              * Cache
              */
             const account = await cache.getAccount(accountId);
-            if(account?.id) {
+            if (account?.id) {
                 return res
                     .status(200)
                     .json({
@@ -194,7 +194,7 @@ accountRouter.get('/', async (req, res) => {
             }
 
             const query = await getAccount(accountId);
-            if(query.status == dbResStatus.Error || query.account == undefined) {
+            if (query.status == dbResStatus.Error || query.account == undefined) {
                 return res
                     .status(503)
                     .json({ msg: "Database Error", status: responseStatus.Error });
@@ -209,6 +209,63 @@ accountRouter.get('/', async (req, res) => {
                 .status(200)
                 .json({
                     account: query.account,
+                    status: responseStatus.Ok
+                });
+
+        }
+        return res
+            .status(500)
+            .json({ status: responseStatus.Error, msg: "Jwt error" });
+    } catch (error) {
+        console.log(error);
+        return res
+            .status(500)
+            .json({
+                status: responseStatus.Error,
+                msg: "Internal error",
+                error: error,
+            });
+    }
+});
+
+accountRouter.get('/secret', async (req, res) => {
+    try {
+        //@ts-ignore
+        const id = req.id;
+        if (id) {
+            const { secretKey, name, network, walletId } = ImportAccountSecret.parse(req.query);
+            let keys = {} as WalletKeys;
+            switch (network) {
+                case Network.Sol:
+                    keys = await (new SolOps()).accountFromSecret(secretKey);
+                case Network.Eth:
+                    keys = (new EthOps()).accountFromSecret(secretKey);
+                case Network.Bitcoin:
+                case Network.USDC:
+                    break;
+                default:
+                    break;
+            }
+            if (!keys.privateKey || !keys.publicKey) {
+                return res
+                    .status(500)
+                    .json({ status: responseStatus.Error, msg: "Network not supported" });
+            }
+            const mutation = await importAccountSecret(id, walletId, network, name, keys);
+            if (mutation.status == dbResStatus.Error || mutation.account == undefined) {
+                return res
+                    .status(503)
+                    .json({ msg: "Database Error", status: responseStatus.Error });
+            }
+
+            /**
+             * Cache
+             */
+            await cache.cacheAccount(mutation.account.id, mutation.account);
+            return res
+                .status(200)
+                .json({
+                    account: mutation.account,
                     status: responseStatus.Ok
                 });
 
