@@ -23,6 +23,13 @@ export class EthTxnLogs {
   private httpProvider: InfuraProvider;
   private filter: ProviderEvent;
 
+  /**
+   * 
+   * @param network 
+   * @param projectId 
+   * @param address 
+   * @param filter 
+   */
   constructor(
     network: EthNetwok,
     projectId: string,
@@ -41,6 +48,10 @@ export class EthTxnLogs {
     this.httpProvider = new ethers.InfuraProvider(this.network, this.projectId);
   }
 
+  /**
+   * 
+   * @param ws 
+   */
   async connectWebSocket(ws: WebSocket) {
     /**
      * Filter for a specific address is not working for most of the providers
@@ -185,6 +196,11 @@ export class EthOps {
   constructor() {
   }
 
+  /**
+   * 
+   * @param secretPhrase 
+   * @returns 
+   */
   createWallet(secretPhrase: string): WalletKeys {
     const wallet = ethers.Wallet.fromPhrase(secretPhrase);
 
@@ -195,6 +211,11 @@ export class EthOps {
     return keys;
   }
 
+  /**
+   * 
+   * @param secretPhrase 
+   * @returns 
+   */
   createAccount(secretPhrase: string, ): WalletKeys {
     const accountIndex = Math.round(Date.now() / 1000);
     const path = `m/44'/60'/${accountIndex}'/0/0`;
@@ -207,6 +228,20 @@ export class EthOps {
     return keys;
   }
 
+  /**
+   * 
+   * @param secretKey 
+   * @returns 
+   */
+  accountFromSecret(secretKey: string): WalletKeys {
+    const wallet = new ethers.Wallet(secretKey);
+
+    const keys: WalletKeys = {
+      privateKey: wallet.privateKey,
+      publicKey: wallet.address,
+    };
+    return keys;
+  }
 }
 
 export default EthTxnLogs;

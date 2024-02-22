@@ -20,12 +20,20 @@ export const CLIENT_URL = "http://localhost:3000";
 
 export const SALT_ROUNDS = 10;
 export const WEB_URL = "http://localhost:3000";
-export const isEthereumAddress = (value: string): boolean =>
+export const isEthereumPublicKey = (value: string): boolean =>
   /^0x[0-9a-fA-F]{40}$/.test(value);
 export const isEthereumPrivateKey = (value: string) =>
   /^0x[0-9a-fA-F]{64}$/.test(value);
 export const isSolanaAddress = (value: string): boolean =>
   /^[a-zA-Z0-9]{44}$/.test(value);
+export const isSolanaPrivateKey = (value: string) =>
+  /^[0-9a-fA-F]{64}$/.test(value);
+export const isBitcoinPrivateKey = (value: string) =>
+  /^[0-9a-fA-F]{64}$/.test(value);
+export const isBitcoinPublicKey = (value: string) =>
+  /^[0-9a-fA-F]{130}$/.test(value) || /^[0-9a-zA-Z]{27,34}$/.test(value);
+
+
 
 export const KAFKA_CLIENT_ID =
   "83f59a2c6bc114d2ed9be33a353fce153f8a73313be585f2ae41fcebe4c8a18b";
@@ -158,12 +166,12 @@ export const enumToClustersArray = (enumObject: any): ClusterObject[] => {
   const clusters: ClusterObject[] = [];
   for (const key in enumObject) {
     if (Object.prototype.hasOwnProperty.call(enumObject, key)) {
-        const value = (enumObject as any)[key]; // Type assertion to any
-        clusters.push({ value, label: key });
+      const value = (enumObject as any)[key]; // Type assertion to any
+      clusters.push({ value, label: key });
     }
-}
+  }
   return clusters;
 }
 
 // for 12 word seed
-export const SECRET_PHASE_STRENGTH = 128;
+export const SECRET_PHASE_STRENGTH = 256;

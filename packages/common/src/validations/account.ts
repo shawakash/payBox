@@ -1,5 +1,6 @@
 import z from "zod";
 import { Network } from "../types";
+import { isBitcoinPrivateKey, isEthereumPrivateKey, isSolanaPrivateKey } from "../constant";
 
 export const AccountCreateQuery = z.object({
     name: z
@@ -63,4 +64,28 @@ export const AccountGetQuery = z.object({
             /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
             "should be a valid UUID.",
         ),
+});
+
+export const secretKeyType = z.union([
+    z.string().refine(isSolanaPrivateKey, {
+        message: "Invalid Solana address",
+    }),
+    z.string().refine(isEthereumPrivateKey, {
+        message: "Invalid Ethereum address",
+    }),
+    z.string().refine(isBitcoinPrivateKey, {
+        message: "Invalid Ethereum address",
+    }),
+]);
+
+export const ImportAccountSecret = z.object({
+    secretKey: z.string(),
+    network: z.nativeEnum(Network),
+    walletId: z
+        .string()
+        .regex(
+            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
+            "should be a valid UUID.",
+        ),
+    name: z.string()
 });
