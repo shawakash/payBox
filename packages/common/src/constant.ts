@@ -27,7 +27,7 @@ export const isEthereumPrivateKey = (value: string) =>
 export const isSolanaAddress = (value: string): boolean =>
   /^[a-zA-Z0-9]{44}$/.test(value);
 export const isSolanaPrivateKey = (value: string) =>
-  /^[a-zA-Z0-9]{64}$/.test(value);
+  /^[0-9a-fA-F]{64}$/.test(value);
 export const isBitcoinPrivateKey = (value: string) =>
   /^[0-9a-fA-F]{64}$/.test(value);
 export const isBitcoinPublicKey = (value: string) =>
