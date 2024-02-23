@@ -1,6 +1,6 @@
 import z from "zod";
 import { Network } from "../types";
-import { isBitcoinPrivateKey, isEthereumPrivateKey, isSolanaPrivateKey, secretPhraseRefine } from "../constant";
+import { isBitcoinPrivateKey, isBitcoinPublicKey, isEthereumPrivateKey, isEthereumPublicKey, isSolanaAddress, isSolanaPrivateKey, secretPhraseRefine } from "../constant";
 
 export const AccountCreateQuery = z.object({
     name: z
@@ -78,6 +78,18 @@ export const secretKeyType = z.union([
     }),
 ]);
 
+export const publicKeyType = z.union([
+    z.string().refine(isSolanaAddress, {
+        message: "Invalid Solana address",
+    }),
+    z.string().refine(isEthereumPublicKey, {
+        message: "Invalid Ethereum address",
+    }),
+    z.string().refine(isBitcoinPublicKey, {
+        message: "Invalid Ethereum address",
+    }),
+]);
+
 export const ImportAccountSecret = z.object({
     secretKey: z.string(),
     network: z.nativeEnum(Network),
@@ -90,9 +102,21 @@ export const ImportAccountSecret = z.object({
     name: z.string()
 });
 
-export const ImportAccountPhrase = z.object({
+export const GetAccount = z.object({
     secretPhrase: z.string().refine(secretPhraseRefine(), {
         message: 'Seed should be either 12 or 24 words',
     }),
     count: z.number().default(21),
 })
+
+export const ImportAccount = z.object({
+    network: z.nativeEnum(Network),
+    walletId: z
+        .string()
+        .regex(
+            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
+            "should be a valid UUID.",
+        ),
+    name: z.string(),
+    publicKey: publicKeyType,
+});

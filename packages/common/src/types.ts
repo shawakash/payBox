@@ -256,3 +256,5 @@ export type ChainAccount = {
   chain: EthChain | SolChain | BitcoinChain;
   publicKey: string;
 }
+
+export type ChainAccountPrivate = ChainAccount & WalletKeys;
