@@ -4,9 +4,11 @@ import {
   AccountType,
   Address,
   AddressPartial,
+  ChainAccountPrivate,
   Client,
   Network,
   TxnType,
+  WalletKeys,
   WalletType,
 } from "@paybox/common";
 
@@ -385,6 +387,28 @@ export class Redis {
     await Promise.all(promises);
 
     return;
+  }
+
+  async fromPhrase(key: string, items: ChainAccountPrivate[]): Promise<void> {
+    items.map(({privateKey, publicKey}) => {
+      const data = this.client.hSet(publicKey, {
+        privateKey,
+        publicKey
+      })
+    });
+    console.log(`From Phrase Cached ${key}`);
+    return;
+  }
+
+  async getFromPhrase(key: string): Promise<WalletKeys | null> {
+    const data = await this.client.hGetAll(key);
+    if (!data) {
+      return null;
+    }
+    return {
+      publicKey: data.publicKey,
+      privateKey: data.privateKey,
+    }
   }
 
   // TODO: debounce here
