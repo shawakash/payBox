@@ -7,6 +7,7 @@ import {
   ChainAccountPrivate,
   Client,
   Network,
+  NetworkPublicKeyType,
   TxnType,
   WalletKeys,
   WalletType,
@@ -390,7 +391,7 @@ export class Redis {
   }
 
   async fromPhrase(key: string, items: ChainAccountPrivate[]): Promise<void> {
-    items.map(({privateKey, publicKey}) => {
+    items.map(({ privateKey, publicKey }) => {
       const data = this.client.hSet(publicKey, {
         privateKey,
         publicKey
@@ -400,15 +401,20 @@ export class Redis {
     return;
   }
 
-  async getFromPhrase(key: string): Promise<WalletKeys | null> {
-    const data = await this.client.hGetAll(key);
-    if (!data) {
-      return null;
-    }
-    return {
-      publicKey: data.publicKey,
-      privateKey: data.privateKey,
-    }
+  async getFromPhrase(key: NetworkPublicKeyType[]): Promise<(WalletKeys & {network: Network})[] | null> {
+    const keys: (WalletKeys & {network: Network})[] = [];
+    key.map(async ({ network, publicKey }) => {
+      const data = await this.client.hGetAll(publicKey);
+      if (!data) {
+        return null;
+      }
+      keys.push({
+        publicKey: data.publicKey,
+        privateKey: data.privateKey,
+        network
+      })
+    });
+    return keys;
   }
 
   // TODO: debounce here
