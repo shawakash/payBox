@@ -173,5 +173,16 @@ export const enumToClustersArray = (enumObject: any): ClusterObject[] => {
   return clusters;
 }
 
+export const secretPhraseRefine = () => {
+  return (value: string) => {
+    const words = value.split(' ');
+    if (words.length === 12 || words.length === 24) {
+      return value;
+    } else {
+      throw new Error('Seed should be either 12 or 24 words');
+    }
+  };
+}
+
 // for 12 word seed
 export const SECRET_PHASE_STRENGTH = 256;

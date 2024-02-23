@@ -212,3 +212,47 @@ export enum CoinType {
   Eth = "60",
   Bitcoin = "0"
 }
+
+export enum EthChainId {
+  Mainnet = "epi155:1",
+  Goerli = "epi155:5",
+  Kovan = "epi155:42",
+  Rinkeby = "epi155:4",
+  Ropsten = "epi155:3",
+  Sepolia = "epi155:1337",
+}
+
+export enum BitcoinChainId {
+  Mainnet = "bip122:000000000019d6689c085ae165831e93",
+  Testnet = "bip122:000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943"
+}
+
+export enum SolChainId {
+  Mainnet = "solana:101",
+  Devnet = "solana:101",
+  Testnet = "solana:101"
+}
+
+export type EthChain = {
+  chainId: EthChainId,
+  name: "Ethereum",
+  network: Network.Eth
+}
+
+export type SolChain = {
+  chainId: SolChainId,
+  name: "Solana",
+  network: Network.Sol
+}
+
+export type BitcoinChain = {
+  chainId: BitcoinChainId,
+  name: "Bitcoin",
+  network: Network.Bitcoin
+}
+
+
+export type ChainAccount = {
+  chain: EthChain | SolChain | BitcoinChain;
+  publicKey: string;
+}
