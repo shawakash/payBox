@@ -300,7 +300,7 @@ export const getAccount = async (
  * @param keys 
  * @returns 
  */
-export const importAccountSecret = async (
+export const importAccount = async (
     clientId: string,
     walletId: string,
     network: Network,

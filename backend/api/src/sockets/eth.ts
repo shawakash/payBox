@@ -7,7 +7,7 @@ import {
 } from "ethers";
 import { WebSocket } from "ws";
 import { EthNetwok } from "../types/address";
-import { AcceptEthTxn, ChainAccount, EthChainId, Network, WalletKeys } from "@paybox/common";
+import { AcceptEthTxn, ChainAccount, ChainAccountPrivate, EthChainId, Network, WalletKeys } from "@paybox/common";
 
 interface EthereumTransactionData {
   type: "transaction";
@@ -233,8 +233,8 @@ export class EthOps {
    * @param mnemonic 
    * @returns 
    */
-  fromPhrase(mnemonic: string, count: number = 1): ChainAccount[] {
-    const accounts: ChainAccount[] = [];
+  fromPhrase(mnemonic: string, count: number = 1): ChainAccountPrivate[] {
+    const accounts: ChainAccountPrivate[] = [];
 
     for (let i = 0; i < count; i++) {
       const path = `m/44'/60'/${i}'/0/0`;
@@ -246,6 +246,7 @@ export class EthOps {
           network: Network.Eth,
         },
         publicKey: wallet.address,
+        privateKey: wallet.privateKey
       });
     }
     return accounts;

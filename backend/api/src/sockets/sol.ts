@@ -13,7 +13,7 @@ import {
 } from "@solana/web3.js";
 import { WebSocket, WebSocketServer } from "ws";
 import { TransactionData } from "../types/sol";
-import { AcceptSolTxn, ChainAccount, Network, SolChainId, WalletKeys } from "@paybox/common";
+import { AcceptSolTxn, ChainAccount, ChainAccountPrivate, Network, SolChainId, WalletKeys } from "@paybox/common";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import baseX from "base-x";
 import * as base58 from 'bs58';
@@ -152,8 +152,8 @@ export class SolOps {
     return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
   }
 
-  async fromPhrase(mnemonic: string, count: number = 1): Promise<ChainAccount[]> {
-    const accounts: ChainAccount[] = [];
+  async fromPhrase(mnemonic: string, count: number = 1): Promise<ChainAccountPrivate[]> {
+    const accounts: ChainAccountPrivate[] = [];
     for (let i = 0; i < count; i++) {
       const derivedSeed = derivePath(`m/44'/501'/${i}'/0'`, mnemonic).key;
       const keyPair = Keypair.fromSeed(derivedSeed);
@@ -164,6 +164,7 @@ export class SolOps {
           network: Network.Sol,
         },
         publicKey: keyPair.publicKey.toBase58(),
+        privateKey: base58.encode(keyPair.secretKey)
       });
     }
     return accounts;

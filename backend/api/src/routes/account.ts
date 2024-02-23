@@ -1,8 +1,8 @@
-import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountGetQuery, AccountNameQuery, dbResStatus, responseStatus, AccountType, ImportAccountSecret, Network, WalletKeys, ImportAccountPhrase } from "@paybox/common";
+import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountGetQuery, AccountNameQuery, dbResStatus, responseStatus, AccountType, ImportAccountSecret, Network, WalletKeys, GetAccount, ImportAccount, ChainAccount } from "@paybox/common";
 import { Router } from "express";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount, importAccountSecret } from "../db/account";
+import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount, importAccount } from "../db/account";
 import { cache } from "..";
 import { getAccountOnPhrase, validatePassword } from "../auth/util";
 import { getPassword } from "../db/client";
@@ -251,7 +251,7 @@ accountRouter.get('/secret', async (req, res) => {
                     .status(500)
                     .json({ status: responseStatus.Error, msg: "Network not supported" });
             }
-            const mutation = await importAccountSecret(id, walletId, network, name, keys);
+            const mutation = await importAccount(id, walletId, network, name, keys);
             if (mutation.status == dbResStatus.Error || mutation.account == undefined) {
                 return res
                     .status(503)
@@ -289,18 +289,73 @@ accountRouter.get('/fromPhrase', async (req, res) => {
     try {
         //@ts-ignore
         const id = req.id;
-        if(id) {
-            const {secretPhrase, count} = ImportAccountPhrase.parse(req.body);
+        if (id) {
+            const { secretPhrase, count } = GetAccount.parse(req.body);
             const accounts = await getAccountOnPhrase(secretPhrase, count);
-            if(!accounts) {
+            if (!accounts) {
                 return res
                     .status(500)
                     .json({ status: responseStatus.Error, msg: "Invalid phrase" });
             }
+            // cache
+            await cache.fromPhrase(secretPhrase, accounts);
             return res.status(200).json({
-                accounts,
+                //@ts-ignore
+                accounts: accounts.map(({ privateKey, ...account }) => account),
                 status: responseStatus.Ok
             });
+
+        }
+        return res
+            .status(500)
+            .json({ status: responseStatus.Error, msg: "Jwt error" });
+    } catch (error) {
+        console.log(error);
+        return res
+            .status(500)
+            .json({
+                status: responseStatus.Error,
+                msg: "Internal error",
+                error: error,
+            });
+    }
+});
+
+accountRouter.post('/import', async (req, res) => {
+    try {
+        //@ts-ignore
+        const id = req.id;
+        if (id) {
+            const { name, network, publicKey, walletId } = ImportAccount.parse(req.query);
+            /**
+             * Cache
+             */
+            const cacheAccount = await cache.getFromPhrase(publicKey);
+            if (cacheAccount == null) {
+                return res
+                    .status(500)
+                    .json({
+                        status: responseStatus.Error,
+                        msg: "Internal Error in Caching",
+                    });
+            }
+            const mutation = await importAccount(id, walletId, network, name, cacheAccount);
+            if (mutation.status == dbResStatus.Error || mutation.account == undefined) {
+                return res
+                    .status(503)
+                    .json({ msg: "Database Error", status: responseStatus.Error });
+            }
+
+            /**
+             * Cache
+             */
+            await cache.cacheAccount(mutation.account.id, mutation.account);
+            return res
+                .status(200)
+                .json({
+                    account: mutation.account,
+                    status: responseStatus.Ok
+                });
 
         }
         return res

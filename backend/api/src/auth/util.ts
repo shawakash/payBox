@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
 import bcryptjs from "bcryptjs";
 import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
-import { Address, CLIENT_URL, ChainAccount, CoinType, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
+import { Address, CLIENT_URL, ChainAccount, ChainAccountPrivate, CoinType, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
 import * as qr from "qrcode";
 import fs from "fs";
 import * as bip39 from 'bip39';
@@ -145,7 +145,7 @@ export const generateSeed = (strength: number): string => {
 }
 
 
-export const getAccountOnPhrase = async (secretPhrase: string, count: number): Promise<ChainAccount[]> => {
+export const getAccountOnPhrase = async (secretPhrase: string, count: number): Promise<ChainAccountPrivate[]> => {
   try {
     const solAccounts = await new SolOps().fromPhrase(secretPhrase, count);
     const ethAccounts = new EthOps().fromPhrase(secretPhrase, count);
