@@ -10,6 +10,7 @@ import {
   TxnQeuryByHash,
   TxnSendQuery,
   TxnsQeury,
+  networkPublicKey,
 } from "./validations";
 import { Message } from "@solana/web3.js";
 import { BitcoinCluster, EthCluster, USDCCluster } from "./constant";
@@ -258,3 +259,5 @@ export type ChainAccount = {
 }
 
 export type ChainAccountPrivate = ChainAccount & WalletKeys;
+
+export type NetworkPublicKeyType = z.infer<typeof networkPublicKey>;

@@ -107,10 +107,14 @@ export const GetAccount = z.object({
         message: 'Seed should be either 12 or 24 words',
     }),
     count: z.number().default(21),
-})
+});
+
+export const networkPublicKey = z.object({
+    network: z.nativeEnum(Network),
+    publicKey: publicKeyType,
+});
 
 export const ImportAccount = z.object({
-    network: z.nativeEnum(Network),
     walletId: z
         .string()
         .regex(
@@ -118,5 +122,5 @@ export const ImportAccount = z.object({
             "should be a valid UUID.",
         ),
     name: z.string(),
-    publicKey: publicKeyType,
+    keys: z.array(networkPublicKey)
 });
