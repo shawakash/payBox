@@ -16,6 +16,7 @@
     "@paybox/kafka": "^0.0.6",
     "@paybox/openapi": "^0.0.6",
     "@solana/spl-token": "^0.3.11",
+    "@solana/wallet-adapter-wallets": "^0.19.26",
     "@solana/web3.js": "^1.89.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
