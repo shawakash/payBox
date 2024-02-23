@@ -13,10 +13,11 @@ import {
 } from "@solana/web3.js";
 import { WebSocket, WebSocketServer } from "ws";
 import { TransactionData } from "../types/sol";
-import { AcceptSolTxn, WalletKeys } from "@paybox/common";
+import { AcceptSolTxn, ChainAccount, Network, SolChainId, WalletKeys } from "@paybox/common";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import baseX from "base-x";
 import * as base58 from 'bs58';
+
 
 import * as bip39 from 'bip39';
 import { ec as EC } from 'elliptic';
@@ -151,14 +152,24 @@ export class SolOps {
     return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
   }
 
-  async importAccount(mnemonic: string): Promise<WalletKeys> {
-    const seedBuffer = await bip39.mnemonicToSeed(mnemonic);
-    const seedKeyArray = Uint8Array.from(seedBuffer.subarray(0, 32));
-    const keyPair = Keypair.fromSeed(seedKeyArray);
-    return { publicKey: keyPair.publicKey.toBase58(), privateKey: base58.encode(keyPair.secretKey) };
+  async fromPhrase(mnemonic: string, count: number = 1): Promise<ChainAccount[]> {
+    const accounts: ChainAccount[] = [];
+    for (let i = 0; i < count; i++) {
+      const derivedSeed = derivePath(`m/44'/501'/${i}'/0'`, mnemonic).key;
+      const keyPair = Keypair.fromSeed(derivedSeed);
+      accounts.push({
+        chain: {
+          chainId: SolChainId.Mainnet,
+          name: "Solana",
+          network: Network.Sol,
+        },
+        publicKey: keyPair.publicKey.toBase58(),
+      });
+    }
+    return accounts;
   }
 
-  async accountFromSecret(secretKey: string): Promise<WalletKeys> {
+  async fromSecret(secretKey: string): Promise<WalletKeys> {
     const decodedBytes = bs58.decode(secretKey);
     console.log(decodedBytes)
     const privateKeyArray = new Uint8Array(decodedBytes);

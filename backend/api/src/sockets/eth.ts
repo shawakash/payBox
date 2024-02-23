@@ -7,7 +7,7 @@ import {
 } from "ethers";
 import { WebSocket } from "ws";
 import { EthNetwok } from "../types/address";
-import { AcceptEthTxn, WalletKeys } from "@paybox/common";
+import { AcceptEthTxn, ChainAccount, EthChainId, Network, WalletKeys } from "@paybox/common";
 
 interface EthereumTransactionData {
   type: "transaction";
@@ -216,7 +216,7 @@ export class EthOps {
    * @param secretPhrase 
    * @returns 
    */
-  createAccount(secretPhrase: string, ): WalletKeys {
+  createAccount(secretPhrase: string): WalletKeys {
     const accountIndex = Math.round(Date.now() / 1000);
     const path = `m/44'/60'/${accountIndex}'/0/0`;
     const wallet = ethers.HDNodeWallet.fromPhrase(secretPhrase, undefined, path);
@@ -230,10 +230,33 @@ export class EthOps {
 
   /**
    * 
+   * @param mnemonic 
+   * @returns 
+   */
+  fromPhrase(mnemonic: string, count: number = 1): ChainAccount[] {
+    const accounts: ChainAccount[] = [];
+
+    for (let i = 0; i < count; i++) {
+      const path = `m/44'/60'/${i}'/0/0`;
+      const wallet = ethers.HDNodeWallet.fromPhrase(mnemonic, undefined, path);
+      accounts.push({
+        chain: {
+          chainId: EthChainId.Mainnet,
+          name: "Ethereum",
+          network: Network.Eth,
+        },
+        publicKey: wallet.address,
+      });
+    }
+    return accounts;
+  }
+
+  /**
+   * 
    * @param secretKey 
    * @returns 
    */
-  accountFromSecret(secretKey: string): WalletKeys {
+  fromSecret(secretKey: string): WalletKeys {
     const wallet = new ethers.Wallet(secretKey);
 
     const keys: WalletKeys = {
