@@ -2,7 +2,7 @@ import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountGetQuer
 import { Router } from "express";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount, importAccount } from "../db/account";
+import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount, importAccount, addAccountPhrase } from "../db/account";
 import { cache } from "..";
 import { getAccountOnPhrase, validatePassword } from "../auth/util";
 import { getPassword } from "../db/client";
@@ -326,11 +326,11 @@ accountRouter.post('/import', async (req, res) => {
         //@ts-ignore
         const id = req.id;
         if (id) {
-            const { name, network, publicKey, walletId } = ImportAccount.parse(req.query);
+            const { name, keys, walletId } = ImportAccount.parse(req.body);
             /**
              * Cache
              */
-            const cacheAccount = await cache.getFromPhrase(publicKey);
+            const cacheAccount = await cache.getFromPhrase(keys);
             if (cacheAccount == null) {
                 return res
                     .status(500)
@@ -339,7 +339,7 @@ accountRouter.post('/import', async (req, res) => {
                         msg: "Internal Error in Caching",
                     });
             }
-            const mutation = await importAccount(id, walletId, network, name, cacheAccount);
+            const mutation = await addAccountPhrase(id, walletId, name, cacheAccount);
             if (mutation.status == dbResStatus.Error || mutation.account == undefined) {
                 return res
                     .status(503)

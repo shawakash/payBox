@@ -108,7 +108,7 @@ export const updateAccountName = async (
     const response = await chain("mutation")({
         update_account: [{
             where: {
-                id: {_eq: id}
+                id: { _eq: id }
             },
             _set: {
                 name
@@ -142,8 +142,8 @@ export const updateAccountName = async (
                 },
             }
         }]
-    }, {operationName: "updateName"});
-    if(response.update_account?.returning[0]?.id) {
+    }, { operationName: "updateName" });
+    if (response.update_account?.returning[0]?.id) {
         return {
             status: dbResStatus.Ok,
             account: response.update_account.returning[0] as AccountType
@@ -151,7 +151,7 @@ export const updateAccountName = async (
     }
     return {
         status: dbResStatus.Error
-    }    
+    }
 }
 
 /**
@@ -175,12 +175,12 @@ export const getPrivate = async (
     const response = await chain("query")({
         account: [{
             where: {
-                id: {_eq: accountId}
-            }           
-        }, returning], 
-    }, {operationName: "getPrivate"});
+                id: { _eq: accountId }
+            }
+        }, returning],
+    }, { operationName: "getPrivate" });
     //@ts-ignore
-    if(response.account[0][network]?.privateKey) {
+    if (response.account[0][network]?.privateKey) {
         return {
             status: dbResStatus.Ok,
             //@ts-ignore
@@ -208,15 +208,15 @@ export const deleteAccount = async (
     const response = await chain("mutation")({
         delete_account: [{
             where: {
-                id: {_eq: accountId},
+                id: { _eq: accountId },
                 eth: {
-                    accountId: {_eq: accountId}
+                    accountId: { _eq: accountId }
                 },
                 sol: {
-                    accountId: {_eq: accountId}
+                    accountId: { _eq: accountId }
                 },
                 bitcoin: {
-                    accountId: {_eq: accountId}
+                    accountId: { _eq: accountId }
                 }
             }
         }, {
@@ -224,15 +224,15 @@ export const deleteAccount = async (
                 walletId: true
             }
         }]
-    }, {operationName: "deleteAccount"});
-    if(Array.isArray(response.delete_account?.returning)) {
+    }, { operationName: "deleteAccount" });
+    if (Array.isArray(response.delete_account?.returning)) {
         return {
             status: dbResStatus.Ok
         }
     }
     return {
         status: dbResStatus.Error
-    }    
+    }
 }
 
 /**
@@ -250,7 +250,7 @@ export const getAccount = async (
         account: [{
             limit: 1,
             where: {
-                id: {_eq: accountId}
+                id: { _eq: accountId }
             }
         }, {
             id: true,
@@ -279,8 +279,8 @@ export const getAccount = async (
             name: true,
             clientId: true
         }]
-    }, {operationName: "getAccount"});
-    if(response.account[0].id) {
+    }, { operationName: "getAccount" });
+    if (response.account[0].id) {
         return {
             status: dbResStatus.Ok,
             account: response.account[0] as AccountType
@@ -347,8 +347,87 @@ export const importAccount = async (
             name: true,
             clientId: true
         }]
-    }, {operationName: "importAccountSecret"});
-    if(response.insert_account_one?.id) {
+    }, { operationName: "importAccountSecret" });
+    if (response.insert_account_one?.id) {
+        return {
+            status: dbResStatus.Ok,
+            account: response.insert_account_one as AccountType
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
+
+/**
+ * 
+ * @param clientId 
+ * @param walletId 
+ * @param name 
+ * @param keys 
+ * @returns 
+ */
+export const addAccountPhrase = async (
+    clientId: string,
+    walletId: string,
+    name: string,
+    keys: (WalletKeys & { network: Network })[]
+): Promise<{
+    status: dbResStatus,
+    account?: AccountType
+}> => {
+    let solKeys = keys.filter(({ network }) => network == Network.Sol);
+    let ethKeys = keys.filter(({ network }) => network == Network.Eth);
+    let solData = {}
+    let ethData = {}
+    if(solKeys.length > 0) {
+        solData = {privateKey: solKeys[0].privateKey, publicKey: solKeys[0].publicKey}
+    }
+    if(ethKeys.length == 0) {
+        ethData = {privateKey: ethKeys[0].privateKey, publicKey: ethKeys[0].publicKey}
+    }
+    const response = await chain("mutation")({
+        insert_account_one: [{
+            object: {
+                clientId,
+                name,
+                walletId,
+                sol: {
+                    data: solData
+                },
+                eth: {
+                    data: ethData
+                }
+            }
+        }, {
+            id: true,
+            eth: {
+                publicKey: true,
+                goerliEth: true,
+                kovanEth: true,
+                mainnetEth: true,
+                rinkebyEth: true,
+                ropstenEth: true,
+                sepoliaEth: true,
+            },
+            sol: {
+                publicKey: true,
+                devnetSol: true,
+                mainnetSol: true,
+                testnetSol: true,
+            },
+            walletId: true,
+            bitcoin: {
+                publicKey: true,
+                mainnetBtc: true,
+                regtestBtc: true,
+                textnetBtc: true,
+            },
+            name: true,
+            clientId: true
+        }]
+    }, {operationName: "addAccountPhrase"});
+    if (response.insert_account_one?.id) {
         return {
             status: dbResStatus.Ok,
             account: response.insert_account_one as AccountType
