@@ -278,6 +278,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: "transactions_order_by",
       where: "transactions_bool_exp",
     },
+    wallets: {
+      distinct_on: "wallet_select_column",
+      order_by: "wallet_order_by",
+      where: "wallet_bool_exp",
+    },
+    wallets_aggregate: {
+      distinct_on: "wallet_select_column",
+      order_by: "wallet_order_by",
+      where: "wallet_bool_exp",
+    },
   },
   client_aggregate_fields: {
     count: {
@@ -301,6 +311,8 @@ export const AllTypesProps: Record<string, any> = {
     transactions_aggregate: "transactions_aggregate_bool_exp",
     username: "String_comparison_exp",
     wallet: "wallet_bool_exp",
+    wallets: "wallet_bool_exp",
+    wallets_aggregate: "wallet_aggregate_bool_exp",
   },
   client_constraint: "enum" as const,
   client_inc_input: {
@@ -313,6 +325,7 @@ export const AllTypesProps: Record<string, any> = {
     mobile: "bigint",
     transactions: "transactions_arr_rel_insert_input",
     wallet: "wallet_obj_rel_insert_input",
+    wallets: "wallet_arr_rel_insert_input",
   },
   client_obj_rel_insert_input: {
     data: "client_insert_input",
@@ -335,6 +348,7 @@ export const AllTypesProps: Record<string, any> = {
     transactions_aggregate: "transactions_aggregate_order_by",
     username: "order_by",
     wallet: "wallet_order_by",
+    wallets_aggregate: "wallet_aggregate_order_by",
   },
   client_pk_columns_input: {
     id: "uuid",
@@ -1409,10 +1423,27 @@ export const AllTypesProps: Record<string, any> = {
       where: "account_bool_exp",
     },
   },
+  wallet_aggregate_bool_exp: {
+    count: "wallet_aggregate_bool_exp_count",
+  },
+  wallet_aggregate_bool_exp_count: {
+    arguments: "wallet_select_column",
+    filter: "wallet_bool_exp",
+    predicate: "Int_comparison_exp",
+  },
   wallet_aggregate_fields: {
     count: {
       columns: "wallet_select_column",
     },
+  },
+  wallet_aggregate_order_by: {
+    count: "order_by",
+    max: "wallet_max_order_by",
+    min: "wallet_min_order_by",
+  },
+  wallet_arr_rel_insert_input: {
+    data: "wallet_insert_input",
+    on_conflict: "wallet_on_conflict",
   },
   wallet_bool_exp: {
     _and: "wallet_bool_exp",
@@ -1431,6 +1462,16 @@ export const AllTypesProps: Record<string, any> = {
     client: "client_obj_rel_insert_input",
     clientId: "uuid",
     id: "uuid",
+  },
+  wallet_max_order_by: {
+    clientId: "order_by",
+    id: "order_by",
+    secretPhase: "order_by",
+  },
+  wallet_min_order_by: {
+    clientId: "order_by",
+    id: "order_by",
+    secretPhase: "order_by",
   },
   wallet_obj_rel_insert_input: {
     data: "wallet_insert_input",
@@ -1654,6 +1695,8 @@ export const ReturnTypes: Record<string, any> = {
     transactions_aggregate: "transactions_aggregate",
     username: "String",
     wallet: "wallet",
+    wallets: "wallet",
+    wallets_aggregate: "wallet_aggregate",
   },
   client_aggregate: {
     aggregate: "client_aggregate_fields",
