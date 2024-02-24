@@ -1,8 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
-import { dbResStatus, getClientId } from "../types/client";
-import { AccountType, BitcoinKey, EthKey, HASURA_ADMIN_SERCRET, Network, SolKey, WalletKeys, WalletType } from "@paybox/common";
-import { accounts } from "web3/lib/commonjs/eth.exports";
+import { dbResStatus } from "../types/client";
+import { AccountType, HASURA_ADMIN_SERCRET, Network, WalletKeys, WalletType } from "@paybox/common";
 
 
 const chain = Chain(HASURA_URL, {
