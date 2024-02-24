@@ -2,7 +2,8 @@ import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountGetQuer
 import { Router } from "express";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount, importFromPrivate, addAccountPhrase } from "../db/account";
+import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount } from "../db/account";
+import { importFromPrivate, addAccountPhrase } from "../db/wallet";
 import { cache } from "..";
 import { generateSeed, getAccountOnPhrase, validatePassword } from "../auth/util";
 import { getPassword } from "../db/client";
@@ -327,7 +328,7 @@ accountRouter.post('/import', async (req, res) => {
         //@ts-ignore
         const id = req.id;
         if (id) {
-            const { name, keys, walletId } = ImportAccount.parse(req.body);
+            const { name, keys } = ImportAccount.parse(req.body);
             /**
              * Cache
              */
@@ -340,8 +341,23 @@ accountRouter.post('/import', async (req, res) => {
                         msg: "Internal Error in Caching",
                     });
             }
-            const mutation = await addAccountPhrase(id, walletId, name, cacheAccount);
-            if (mutation.status == dbResStatus.Error || mutation.account == undefined) {
+            const solCount = cacheAccount.filter(({ network }) => network === Network.Sol).length;
+            const ethCount = cacheAccount.filter(({ network }) => network === Network.Eth).length;
+            if (solCount > 1 || ethCount > 1) {
+                return res
+                    .status(500)
+                    .json({
+                        status: responseStatus.Error,
+                        msg: "Account should contain only one eth and one sol",
+                    });
+            }
+
+            /**
+             * Mutation
+             */
+            const seed = generateSeed(SECRET_PHASE_STRENGTH);
+            const mutation = await addAccountPhrase(id, name, seed, cacheAccount);
+            if (mutation.status == dbResStatus.Error || mutation.wallet?.id == undefined) {
                 return res
                     .status(503)
                     .json({ msg: "Database Error", status: responseStatus.Error });
@@ -350,11 +366,11 @@ accountRouter.post('/import', async (req, res) => {
             /**
              * Cache
              */
-            await cache.cacheAccount(mutation.account.id, mutation.account);
+            await cache.cacheWallet(mutation.wallet.id, mutation.wallet);
             return res
                 .status(200)
                 .json({
-                    account: mutation.account,
+                    wallet: mutation.wallet,
                     status: responseStatus.Ok
                 });
 
