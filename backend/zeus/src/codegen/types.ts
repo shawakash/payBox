@@ -824,6 +824,10 @@ export type Client = {
   username?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   wallet?: Maybe<Wallet>;
+  /** An array relationship */
+  wallets: Array<Wallet>;
+  /** An aggregate relationship */
+  wallets_aggregate: Wallet_Aggregate;
 };
 
 
@@ -864,6 +868,26 @@ export type ClientTransactions_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Transactions_Order_By>>;
   where?: InputMaybe<Transactions_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientWalletsArgs = {
+  distinct_on?: InputMaybe<Array<Wallet_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Wallet_Order_By>>;
+  where?: InputMaybe<Wallet_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientWallets_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Wallet_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Wallet_Order_By>>;
+  where?: InputMaybe<Wallet_Bool_Exp>;
 };
 
 /** aggregated selection of "client" */
@@ -920,6 +944,8 @@ export type Client_Bool_Exp = {
   transactions_aggregate?: InputMaybe<Transactions_Aggregate_Bool_Exp>;
   username?: InputMaybe<String_Comparison_Exp>;
   wallet?: InputMaybe<Wallet_Bool_Exp>;
+  wallets?: InputMaybe<Wallet_Bool_Exp>;
+  wallets_aggregate?: InputMaybe<Wallet_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "client" */
@@ -950,6 +976,7 @@ export type Client_Insert_Input = {
   transactions?: InputMaybe<Transactions_Arr_Rel_Insert_Input>;
   username?: InputMaybe<Scalars['String']['input']>;
   wallet?: InputMaybe<Wallet_Obj_Rel_Insert_Input>;
+  wallets?: InputMaybe<Wallet_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1012,6 +1039,7 @@ export type Client_Order_By = {
   transactions_aggregate?: InputMaybe<Transactions_Aggregate_Order_By>;
   username?: InputMaybe<Order_By>;
   wallet?: InputMaybe<Wallet_Order_By>;
+  wallets_aggregate?: InputMaybe<Wallet_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: client */
@@ -3769,6 +3797,17 @@ export type Wallet_Aggregate = {
   nodes: Array<Wallet>;
 };
 
+export type Wallet_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Wallet_Aggregate_Bool_Exp_Count>;
+};
+
+export type Wallet_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Wallet_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Wallet_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "wallet" */
 export type Wallet_Aggregate_Fields = {
   __typename?: 'wallet_aggregate_fields';
@@ -3782,6 +3821,20 @@ export type Wallet_Aggregate_Fields = {
 export type Wallet_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Wallet_Select_Column>>;
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "wallet" */
+export type Wallet_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Wallet_Max_Order_By>;
+  min?: InputMaybe<Wallet_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "wallet" */
+export type Wallet_Arr_Rel_Insert_Input = {
+  data: Array<Wallet_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Wallet_On_Conflict>;
 };
 
 /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
@@ -3799,8 +3852,6 @@ export type Wallet_Bool_Exp = {
 
 /** unique or primary key constraints on table "wallet" */
 export enum Wallet_Constraint {
-  /** unique or primary key constraint on columns "clientId" */
-  WalletClientIdKey = 'wallet_clientId_key',
   /** unique or primary key constraint on columns "id" */
   WalletIdKey = 'wallet_id_key',
   /** unique or primary key constraint on columns "id" */
@@ -3826,12 +3877,26 @@ export type Wallet_Max_Fields = {
   secretPhase?: Maybe<Scalars['String']['output']>;
 };
 
+/** order by max() on columns of table "wallet" */
+export type Wallet_Max_Order_By = {
+  clientId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  secretPhase?: InputMaybe<Order_By>;
+};
+
 /** aggregate min on columns */
 export type Wallet_Min_Fields = {
   __typename?: 'wallet_min_fields';
   clientId?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   secretPhase?: Maybe<Scalars['String']['output']>;
+};
+
+/** order by min() on columns of table "wallet" */
+export type Wallet_Min_Order_By = {
+  clientId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  secretPhase?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "wallet" */

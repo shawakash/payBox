@@ -93,12 +93,6 @@ export const publicKeyType = z.union([
 export const ImportAccountSecret = z.object({
     secretKey: z.string(),
     network: z.nativeEnum(Network),
-    walletId: z
-        .string()
-        .regex(
-            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
-            "should be a valid UUID.",
-        ),
     name: z.string()
 });
 
@@ -115,12 +109,6 @@ export const networkPublicKey = z.object({
 });
 
 export const ImportAccount = z.object({
-    walletId: z
-        .string()
-        .regex(
-            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
-            "should be a valid UUID.",
-        ),
     name: z.string(),
     keys: z.array(networkPublicKey)
 });

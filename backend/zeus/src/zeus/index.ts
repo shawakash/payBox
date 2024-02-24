@@ -2164,6 +2164,74 @@ export type ValueTypes = {
     username?: boolean | `@${string}`;
     /** An object relationship */
     wallet?: ValueTypes["wallet"];
+    wallets?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["wallet_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["wallet_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["wallet_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet"],
+    ];
+    wallets_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["wallet_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["wallet_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["wallet_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["wallet_aggregate"],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "client" */
@@ -2284,6 +2352,16 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    wallets?:
+      | ValueTypes["wallet_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    wallets_aggregate?:
+      | ValueTypes["wallet_aggregate_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
   };
   /** unique or primary key constraints on table "client" */
   ["client_constraint"]: client_constraint;
@@ -2317,6 +2395,11 @@ export type ValueTypes = {
     username?: string | undefined | null | Variable<any, string>;
     wallet?:
       | ValueTypes["wallet_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    wallets?:
+      | ValueTypes["wallet_arr_rel_insert_input"]
       | undefined
       | null
       | Variable<any, string>;
@@ -2415,6 +2498,11 @@ export type ValueTypes = {
       | Variable<any, string>;
     wallet?:
       | ValueTypes["wallet_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    wallets_aggregate?:
+      | ValueTypes["wallet_aggregate_order_by"]
       | undefined
       | null
       | Variable<any, string>;
@@ -6622,6 +6710,27 @@ export type ValueTypes = {
     nodes?: ValueTypes["wallet"];
     __typename?: boolean | `@${string}`;
   }>;
+  ["wallet_aggregate_bool_exp"]: {
+    count?:
+      | ValueTypes["wallet_aggregate_bool_exp_count"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  ["wallet_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ValueTypes["wallet_select_column"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["wallet_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>;
+  };
   /** aggregate fields of "wallet" */
   ["wallet_aggregate_fields"]: AliasType<{
     count?: [
@@ -6639,6 +6748,30 @@ export type ValueTypes = {
     min?: ValueTypes["wallet_min_fields"];
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "wallet" */
+  ["wallet_aggregate_order_by"]: {
+    count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    max?:
+      | ValueTypes["wallet_max_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    min?:
+      | ValueTypes["wallet_min_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting array relation for remote table "wallet" */
+  ["wallet_arr_rel_insert_input"]: {
+    data: Array<ValueTypes["wallet_insert_input"]> | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["wallet_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
   /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
   ["wallet_bool_exp"]: {
     _and?:
@@ -6712,6 +6845,20 @@ export type ValueTypes = {
     secretPhase?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by max() on columns of table "wallet" */
+  ["wallet_max_order_by"]: {
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    secretPhase?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
   /** aggregate min on columns */
   ["wallet_min_fields"]: AliasType<{
     clientId?: boolean | `@${string}`;
@@ -6719,6 +6866,20 @@ export type ValueTypes = {
     secretPhase?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by min() on columns of table "wallet" */
+  ["wallet_min_order_by"]: {
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    secretPhase?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
   /** response of any mutation on the table "wallet" */
   ["wallet_mutation_response"]: AliasType<{
     /** number of rows affected by the mutation */
@@ -7571,6 +7732,52 @@ export type ResolverInputTypes = {
     username?: boolean | `@${string}`;
     /** An object relationship */
     wallet?: ResolverInputTypes["wallet"];
+    wallets?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["wallet_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["wallet_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["wallet"],
+    ];
+    wallets_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["wallet_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["wallet_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["wallet_aggregate"],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "client" */
@@ -7635,6 +7842,11 @@ export type ResolverInputTypes = {
       | null;
     username?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     wallet?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+    wallets?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+    wallets_aggregate?:
+      | ResolverInputTypes["wallet_aggregate_bool_exp"]
+      | undefined
+      | null;
   };
   /** unique or primary key constraints on table "client" */
   ["client_constraint"]: client_constraint;
@@ -7665,6 +7877,10 @@ export type ResolverInputTypes = {
     username?: string | undefined | null;
     wallet?:
       | ResolverInputTypes["wallet_obj_rel_insert_input"]
+      | undefined
+      | null;
+    wallets?:
+      | ResolverInputTypes["wallet_arr_rel_insert_input"]
       | undefined
       | null;
   };
@@ -7729,6 +7945,10 @@ export type ResolverInputTypes = {
       | null;
     username?: ResolverInputTypes["order_by"] | undefined | null;
     wallet?: ResolverInputTypes["wallet_order_by"] | undefined | null;
+    wallets_aggregate?:
+      | ResolverInputTypes["wallet_aggregate_order_by"]
+      | undefined
+      | null;
   };
   /** primary key columns input for table: client */
   ["client_pk_columns_input"]: {
@@ -10587,6 +10807,21 @@ export type ResolverInputTypes = {
     nodes?: ResolverInputTypes["wallet"];
     __typename?: boolean | `@${string}`;
   }>;
+  ["wallet_aggregate_bool_exp"]: {
+    count?:
+      | ResolverInputTypes["wallet_aggregate_bool_exp_count"]
+      | undefined
+      | null;
+  };
+  ["wallet_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ResolverInputTypes["wallet_select_column"]>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["Int_comparison_exp"];
+  };
   /** aggregate fields of "wallet" */
   ["wallet_aggregate_fields"]: AliasType<{
     count?: [
@@ -10603,6 +10838,18 @@ export type ResolverInputTypes = {
     min?: ResolverInputTypes["wallet_min_fields"];
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "wallet" */
+  ["wallet_aggregate_order_by"]: {
+    count?: ResolverInputTypes["order_by"] | undefined | null;
+    max?: ResolverInputTypes["wallet_max_order_by"] | undefined | null;
+    min?: ResolverInputTypes["wallet_min_order_by"] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "wallet" */
+  ["wallet_arr_rel_insert_input"]: {
+    data: Array<ResolverInputTypes["wallet_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["wallet_on_conflict"] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
   ["wallet_bool_exp"]: {
     _and?: Array<ResolverInputTypes["wallet_bool_exp"]> | undefined | null;
@@ -10644,6 +10891,12 @@ export type ResolverInputTypes = {
     secretPhase?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by max() on columns of table "wallet" */
+  ["wallet_max_order_by"]: {
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    secretPhase?: ResolverInputTypes["order_by"] | undefined | null;
+  };
   /** aggregate min on columns */
   ["wallet_min_fields"]: AliasType<{
     clientId?: boolean | `@${string}`;
@@ -10651,6 +10904,12 @@ export type ResolverInputTypes = {
     secretPhase?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by min() on columns of table "wallet" */
+  ["wallet_min_order_by"]: {
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    secretPhase?: ResolverInputTypes["order_by"] | undefined | null;
+  };
   /** response of any mutation on the table "wallet" */
   ["wallet_mutation_response"]: AliasType<{
     /** number of rows affected by the mutation */
@@ -11302,6 +11561,10 @@ export type ModelTypes = {
     username?: string | undefined;
     /** An object relationship */
     wallet?: ModelTypes["wallet"] | undefined;
+    /** An array relationship */
+    wallets: Array<ModelTypes["wallet"]>;
+    /** An aggregate relationship */
+    wallets_aggregate: ModelTypes["wallet_aggregate"];
   };
   /** aggregated selection of "client" */
   ["client_aggregate"]: {
@@ -11346,6 +11609,8 @@ export type ModelTypes = {
       | undefined;
     username?: ModelTypes["String_comparison_exp"] | undefined;
     wallet?: ModelTypes["wallet_bool_exp"] | undefined;
+    wallets?: ModelTypes["wallet_bool_exp"] | undefined;
+    wallets_aggregate?: ModelTypes["wallet_aggregate_bool_exp"] | undefined;
   };
   ["client_constraint"]: client_constraint;
   /** input type for incrementing numeric columns in table "client" */
@@ -11365,6 +11630,7 @@ export type ModelTypes = {
     transactions?: ModelTypes["transactions_arr_rel_insert_input"] | undefined;
     username?: string | undefined;
     wallet?: ModelTypes["wallet_obj_rel_insert_input"] | undefined;
+    wallets?: ModelTypes["wallet_arr_rel_insert_input"] | undefined;
   };
   /** aggregate max on columns */
   ["client_max_fields"]: {
@@ -11420,6 +11686,7 @@ export type ModelTypes = {
       | undefined;
     username?: ModelTypes["order_by"] | undefined;
     wallet?: ModelTypes["wallet_order_by"] | undefined;
+    wallets_aggregate?: ModelTypes["wallet_aggregate_order_by"] | undefined;
   };
   /** primary key columns input for table: client */
   ["client_pk_columns_input"]: {
@@ -12855,11 +13122,32 @@ export type ModelTypes = {
     aggregate?: ModelTypes["wallet_aggregate_fields"] | undefined;
     nodes: Array<ModelTypes["wallet"]>;
   };
+  ["wallet_aggregate_bool_exp"]: {
+    count?: ModelTypes["wallet_aggregate_bool_exp_count"] | undefined;
+  };
+  ["wallet_aggregate_bool_exp_count"]: {
+    arguments?: Array<ModelTypes["wallet_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["wallet_bool_exp"] | undefined;
+    predicate: ModelTypes["Int_comparison_exp"];
+  };
   /** aggregate fields of "wallet" */
   ["wallet_aggregate_fields"]: {
     count: number;
     max?: ModelTypes["wallet_max_fields"] | undefined;
     min?: ModelTypes["wallet_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "wallet" */
+  ["wallet_aggregate_order_by"]: {
+    count?: ModelTypes["order_by"] | undefined;
+    max?: ModelTypes["wallet_max_order_by"] | undefined;
+    min?: ModelTypes["wallet_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "wallet" */
+  ["wallet_arr_rel_insert_input"]: {
+    data: Array<ModelTypes["wallet_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ModelTypes["wallet_on_conflict"] | undefined;
   };
   /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
   ["wallet_bool_exp"]: {
@@ -12888,11 +13176,23 @@ export type ModelTypes = {
     id?: ModelTypes["uuid"] | undefined;
     secretPhase?: string | undefined;
   };
+  /** order by max() on columns of table "wallet" */
+  ["wallet_max_order_by"]: {
+    clientId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    secretPhase?: ModelTypes["order_by"] | undefined;
+  };
   /** aggregate min on columns */
   ["wallet_min_fields"]: {
     clientId?: ModelTypes["uuid"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
     secretPhase?: string | undefined;
+  };
+  /** order by min() on columns of table "wallet" */
+  ["wallet_min_order_by"]: {
+    clientId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    secretPhase?: ModelTypes["order_by"] | undefined;
   };
   /** response of any mutation on the table "wallet" */
   ["wallet_mutation_response"]: {
@@ -13570,6 +13870,10 @@ export type GraphQLTypes = {
     username?: string | undefined;
     /** An object relationship */
     wallet?: GraphQLTypes["wallet"] | undefined;
+    /** An array relationship */
+    wallets: Array<GraphQLTypes["wallet"]>;
+    /** An aggregate relationship */
+    wallets_aggregate: GraphQLTypes["wallet_aggregate"];
   };
   /** aggregated selection of "client" */
   ["client_aggregate"]: {
@@ -13617,6 +13921,8 @@ export type GraphQLTypes = {
       | undefined;
     username?: GraphQLTypes["String_comparison_exp"] | undefined;
     wallet?: GraphQLTypes["wallet_bool_exp"] | undefined;
+    wallets?: GraphQLTypes["wallet_bool_exp"] | undefined;
+    wallets_aggregate?: GraphQLTypes["wallet_aggregate_bool_exp"] | undefined;
   };
   /** unique or primary key constraints on table "client" */
   ["client_constraint"]: client_constraint;
@@ -13639,6 +13945,7 @@ export type GraphQLTypes = {
       | undefined;
     username?: string | undefined;
     wallet?: GraphQLTypes["wallet_obj_rel_insert_input"] | undefined;
+    wallets?: GraphQLTypes["wallet_arr_rel_insert_input"] | undefined;
   };
   /** aggregate max on columns */
   ["client_max_fields"]: {
@@ -13697,6 +14004,7 @@ export type GraphQLTypes = {
       | undefined;
     username?: GraphQLTypes["order_by"] | undefined;
     wallet?: GraphQLTypes["wallet_order_by"] | undefined;
+    wallets_aggregate?: GraphQLTypes["wallet_aggregate_order_by"] | undefined;
   };
   /** primary key columns input for table: client */
   ["client_pk_columns_input"]: {
@@ -15207,12 +15515,33 @@ export type GraphQLTypes = {
     aggregate?: GraphQLTypes["wallet_aggregate_fields"] | undefined;
     nodes: Array<GraphQLTypes["wallet"]>;
   };
+  ["wallet_aggregate_bool_exp"]: {
+    count?: GraphQLTypes["wallet_aggregate_bool_exp_count"] | undefined;
+  };
+  ["wallet_aggregate_bool_exp_count"]: {
+    arguments?: Array<GraphQLTypes["wallet_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["wallet_bool_exp"] | undefined;
+    predicate: GraphQLTypes["Int_comparison_exp"];
+  };
   /** aggregate fields of "wallet" */
   ["wallet_aggregate_fields"]: {
     __typename: "wallet_aggregate_fields";
     count: number;
     max?: GraphQLTypes["wallet_max_fields"] | undefined;
     min?: GraphQLTypes["wallet_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "wallet" */
+  ["wallet_aggregate_order_by"]: {
+    count?: GraphQLTypes["order_by"] | undefined;
+    max?: GraphQLTypes["wallet_max_order_by"] | undefined;
+    min?: GraphQLTypes["wallet_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "wallet" */
+  ["wallet_arr_rel_insert_input"]: {
+    data: Array<GraphQLTypes["wallet_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["wallet_on_conflict"] | undefined;
   };
   /** Boolean expression to filter rows from the table "wallet". All fields are combined with a logical 'AND'. */
   ["wallet_bool_exp"]: {
@@ -15243,12 +15572,24 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid"] | undefined;
     secretPhase?: string | undefined;
   };
+  /** order by max() on columns of table "wallet" */
+  ["wallet_max_order_by"]: {
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    secretPhase?: GraphQLTypes["order_by"] | undefined;
+  };
   /** aggregate min on columns */
   ["wallet_min_fields"]: {
     __typename: "wallet_min_fields";
     clientId?: GraphQLTypes["uuid"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
     secretPhase?: string | undefined;
+  };
+  /** order by min() on columns of table "wallet" */
+  ["wallet_min_order_by"]: {
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    secretPhase?: GraphQLTypes["order_by"] | undefined;
   };
   /** response of any mutation on the table "wallet" */
   ["wallet_mutation_response"]: {
@@ -15574,7 +15915,6 @@ export const enum transactions_update_column {
 }
 /** unique or primary key constraints on table "wallet" */
 export const enum wallet_constraint {
-  wallet_clientId_key = "wallet_clientId_key",
   wallet_id_key = "wallet_id_key",
   wallet_pkey = "wallet_pkey",
   wallet_secretPhase_key = "wallet_secretPhase_key",
@@ -15746,9 +16086,15 @@ type ZEUS_VARIABLES = {
   ["transactions_variance_order_by"]: ValueTypes["transactions_variance_order_by"];
   ["uuid"]: ValueTypes["uuid"];
   ["uuid_comparison_exp"]: ValueTypes["uuid_comparison_exp"];
+  ["wallet_aggregate_bool_exp"]: ValueTypes["wallet_aggregate_bool_exp"];
+  ["wallet_aggregate_bool_exp_count"]: ValueTypes["wallet_aggregate_bool_exp_count"];
+  ["wallet_aggregate_order_by"]: ValueTypes["wallet_aggregate_order_by"];
+  ["wallet_arr_rel_insert_input"]: ValueTypes["wallet_arr_rel_insert_input"];
   ["wallet_bool_exp"]: ValueTypes["wallet_bool_exp"];
   ["wallet_constraint"]: ValueTypes["wallet_constraint"];
   ["wallet_insert_input"]: ValueTypes["wallet_insert_input"];
+  ["wallet_max_order_by"]: ValueTypes["wallet_max_order_by"];
+  ["wallet_min_order_by"]: ValueTypes["wallet_min_order_by"];
   ["wallet_obj_rel_insert_input"]: ValueTypes["wallet_obj_rel_insert_input"];
   ["wallet_on_conflict"]: ValueTypes["wallet_on_conflict"];
   ["wallet_order_by"]: ValueTypes["wallet_order_by"];
