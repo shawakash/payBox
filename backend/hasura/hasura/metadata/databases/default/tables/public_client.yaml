@@ -9,13 +9,6 @@ object_relationships:
         table:
           name: address
           schema: public
-  - name: wallet
-    using:
-      foreign_key_constraint_on:
-        column: clientId
-        table:
-          name: wallet
-          schema: public
 array_relationships:
   - name: accounts
     using:
@@ -30,4 +23,11 @@ array_relationships:
         column: clientId
         table:
           name: transactions
+          schema: public
+  - name: wallets
+    using:
+      foreign_key_constraint_on:
+        column: clientId
+        table:
+          name: wallet
           schema: public
