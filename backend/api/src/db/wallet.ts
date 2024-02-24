@@ -30,14 +30,14 @@ export const getSecretPhase = async (
         wallet: [{
             limit: 1,
             where: {
-                id: {_eq: walletId},
-                clientId: {_eq: clientId}
+                id: { _eq: walletId },
+                clientId: { _eq: clientId }
             }
         }, {
             secretPhase: true
         }]
     });
-    if(response.wallet[0].secretPhase) {
+    if (response.wallet[0].secretPhase) {
         return {
             status: dbResStatus.Ok,
             secret: response.wallet[0].secretPhase as string
@@ -62,7 +62,7 @@ export const getAccounts = async (
     const response = await chain("query")({
         account: [{
             where: {
-                walletId: {_eq: walletId}
+                walletId: { _eq: walletId }
             },
         }, {
             id: true,
@@ -91,8 +91,8 @@ export const getAccounts = async (
             name: true,
             clientId: true
         }]
-    }, {operationName: "getAccounts"});
-    if(response.account[0].id) {
+    }, { operationName: "getAccounts" });
+    if (response.account[0].id) {
         return {
             status: dbResStatus.Ok,
             accounts: response.account as AccountType[]
@@ -100,5 +100,95 @@ export const getAccounts = async (
     }
     return {
         status: dbResStatus.Error
+    }
+}
+
+/**
+ * 
+ * @param walletId 
+ * @param clientId 
+ * @returns 
+ */
+export const delWallet = async (
+    walletId: string,
+    clientId: string
+): Promise<{
+    status: dbResStatus,
+}> => {
+    const response = await chain("mutation")({
+        delete_wallet: [{
+            where: {
+                id: { _eq: walletId },
+                clientId: { _eq: clientId },
+                accounts: {
+                    walletId: { _eq: walletId },
+                    sol: {
+                        account: {
+                            walletId: { _eq: walletId }
+                        }
+                    },
+                    eth: {
+                        account: {
+                            walletId: { _eq: walletId }
+                        }
+                    },
+                }
+            }
+        }, {
+            returning: {
+
+            }
+        }]
+    });
+    if (Array.isArray(response.delete_wallet?.returning)) {
+        return {
+            status: dbResStatus.Ok
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
+
+export const createWallet = async (
+    clientId: string,
+    secretPhase: string,
+    name: string,
+    solKeys: WalletKeys,
+    ethKeys: WalletKeys,
+): Promise<{
+    status: dbResStatus,
+    id?: string
+}> => {
+    const response = await chain("mutation")({
+        insert_wallet_one: [{
+            object: {
+                clientId,
+                secretPhase,
+                accounts: {
+                    data: [{
+                        name,
+                        sol: {
+                            data: solKeys
+                        },
+                        eth: {
+                            data: ethKeys
+                        },
+                        clientId
+                    }]
+                }               
+            }
+        }, {
+            id: true
+        }]
+    });
+    if(response.insert_wallet_one?.id) {
+        return {
+            status: dbResStatus.Ok,
+            id: response.insert_wallet_one.id as string
+        }
+    }
+    return {
+        status: dbResStatus.Error,
     }
 }

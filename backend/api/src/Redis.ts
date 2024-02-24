@@ -306,6 +306,10 @@ export class Redis {
       accounts: JSON.stringify(items.accounts),
     });
 
+    if(items.accounts && items.accounts.length == 0) {
+      await this.cacheAccount(items.accounts[0].id as string, items.accounts[0] as AccountType);
+    }
+
     console.log(`Wallet Cached ${data}`);
     return;
   }
