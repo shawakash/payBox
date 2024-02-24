@@ -1,7 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus, getClientId } from "../types/client";
-import { AccountType, BitcoinKey, EthKey, HASURA_ADMIN_SERCRET, Network, SolKey, WalletKeys } from "@paybox/common";
+import { AccountType, BitcoinKey, EthKey, HASURA_ADMIN_SERCRET, Network, SolKey, WalletKeys, WalletType } from "@paybox/common";
 
 
 const chain = Chain(HASURA_URL, {
@@ -294,64 +294,76 @@ export const getAccount = async (
 /**
  * 
  * @param clientId 
- * @param walletId 
+ * @param seed 
  * @param network 
  * @param name 
  * @param keys 
  * @returns 
  */
-export const importAccount = async (
+export const importFromPrivate = async (
     clientId: string,
-    walletId: string,
+    seed: string,
     network: Network,
     name: string,
     keys: WalletKeys,
 ): Promise<{
     status: dbResStatus,
-    account?: AccountType
+    wallet?: WalletType
 }> => {
     const response = await chain("mutation")({
-        insert_account_one: [{
+        insert_wallet_one: [{
             object: {
                 clientId,
-                walletId,
-                name,
-                [network]: {
-                    data: keys
+                secretPhase: seed,
+                accounts: {
+                    data: [{
+                        name,
+                        [network]: {
+                            data: keys
+                        }
+                    }]
                 }
             }
         }, {
             id: true,
-            eth: {
-                publicKey: true,
-                goerliEth: true,
-                kovanEth: true,
-                mainnetEth: true,
-                rinkebyEth: true,
-                ropstenEth: true,
-                sepoliaEth: true,
-            },
-            sol: {
-                publicKey: true,
-                devnetSol: true,
-                mainnetSol: true,
-                testnetSol: true,
-            },
-            walletId: true,
-            bitcoin: {
-                publicKey: true,
-                mainnetBtc: true,
-                regtestBtc: true,
-                textnetBtc: true,
-            },
-            name: true,
-            clientId: true
+            accounts: [{
+                limit: 1,
+            }, {
+                id: true,
+                eth: {
+                    publicKey: true,
+                    goerliEth: true,
+                    kovanEth: true,
+                    mainnetEth: true,
+                    rinkebyEth: true,
+                    ropstenEth: true,
+                    sepoliaEth: true,
+                },
+                sol: {
+                    publicKey: true,
+                    devnetSol: true,
+                    mainnetSol: true,
+                    testnetSol: true,
+                },
+                walletId: true,
+                bitcoin: {
+                    publicKey: true,
+                    mainnetBtc: true,
+                    regtestBtc: true,
+                    textnetBtc: true,
+                },
+            }]
         }]
-    }, { operationName: "importAccountSecret" });
-    if (response.insert_account_one?.id) {
+    });
+    if (response.insert_wallet_one?.id) {
         return {
             status: dbResStatus.Ok,
-            account: response.insert_account_one as AccountType
+            wallet: {
+                clientId,
+                id: response.insert_wallet_one.id as string,
+                accounts: response.insert_wallet_one.accounts as AccountType[],
+                secretPhase: seed
+            }
         }
     }
     return {
@@ -380,11 +392,11 @@ export const addAccountPhrase = async (
     let ethKeys = keys.filter(({ network }) => network == Network.Eth);
     let solData = {}
     let ethData = {}
-    if(solKeys.length > 0) {
-        solData = {privateKey: solKeys[0].privateKey, publicKey: solKeys[0].publicKey}
+    if (solKeys.length > 0) {
+        solData = { privateKey: solKeys[0].privateKey, publicKey: solKeys[0].publicKey }
     }
-    if(ethKeys.length == 0) {
-        ethData = {privateKey: ethKeys[0].privateKey, publicKey: ethKeys[0].publicKey}
+    if (ethKeys.length == 0) {
+        ethData = { privateKey: ethKeys[0].privateKey, publicKey: ethKeys[0].publicKey }
     }
     const response = await chain("mutation")({
         insert_account_one: [{
@@ -426,7 +438,7 @@ export const addAccountPhrase = async (
             name: true,
             clientId: true
         }]
-    }, {operationName: "addAccountPhrase"});
+    }, { operationName: "addAccountPhrase" });
     if (response.insert_account_one?.id) {
         return {
             status: dbResStatus.Ok,

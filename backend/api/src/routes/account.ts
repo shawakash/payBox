@@ -1,10 +1,10 @@
-import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountGetQuery, AccountNameQuery, dbResStatus, responseStatus, AccountType, ImportAccountSecret, Network, WalletKeys, GetAccount, ImportAccount, ChainAccount } from "@paybox/common";
+import { AccountCreateQuery, AccountDelete, AccountGetPrivateKey, AccountGetQuery, AccountNameQuery, dbResStatus, responseStatus, AccountType, ImportAccountSecret, Network, WalletKeys, GetAccount, ImportAccount, ChainAccount, SECRET_PHASE_STRENGTH } from "@paybox/common";
 import { Router } from "express";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount, importAccount, addAccountPhrase } from "../db/account";
+import { createAccount, deleteAccount, getPrivate, updateAccountName, getAccount, importFromPrivate, addAccountPhrase } from "../db/account";
 import { cache } from "..";
-import { getAccountOnPhrase, validatePassword } from "../auth/util";
+import { generateSeed, getAccountOnPhrase, validatePassword } from "../auth/util";
 import { getPassword } from "../db/client";
 import { checkPassword } from "../auth/middleware";
 import { getSecretPhase } from "../db/wallet";
@@ -228,12 +228,12 @@ accountRouter.get('/', async (req, res) => {
     }
 });
 
-accountRouter.get('/secret', async (req, res) => {
+accountRouter.post('/private', async (req, res) => {
     try {
         //@ts-ignore
         const id = req.id;
         if (id) {
-            const { secretKey, name, network, walletId } = ImportAccountSecret.parse(req.query);
+            const { secretKey, name, network } = ImportAccountSecret.parse(req.query);
             let keys = {} as WalletKeys;
             switch (network) {
                 case Network.Sol:
@@ -251,8 +251,9 @@ accountRouter.get('/secret', async (req, res) => {
                     .status(500)
                     .json({ status: responseStatus.Error, msg: "Network not supported" });
             }
-            const mutation = await importAccount(id, walletId, network, name, keys);
-            if (mutation.status == dbResStatus.Error || mutation.account == undefined) {
+            const seed = generateSeed(SECRET_PHASE_STRENGTH);
+            const mutation = await importFromPrivate(id, seed, network, name, keys);
+            if (mutation.status == dbResStatus.Error || mutation.wallet?.id == undefined) {
                 return res
                     .status(503)
                     .json({ msg: "Database Error", status: responseStatus.Error });
@@ -261,11 +262,11 @@ accountRouter.get('/secret', async (req, res) => {
             /**
              * Cache
              */
-            await cache.cacheAccount(mutation.account.id, mutation.account);
+            await cache.cacheWallet(mutation.wallet.id, mutation.wallet);
             return res
                 .status(200)
                 .json({
-                    account: mutation.account,
+                    wallet: mutation.wallet,
                     status: responseStatus.Ok
                 });
 
