@@ -1,7 +1,7 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus, getClientId } from "../types/client";
-import { AccountType, BitcoinKey, EthKey, HASURA_ADMIN_SERCRET, Network, SolKey, WalletKeys } from "@paybox/common";
+import { AccountType, BitcoinKey, EthKey, HASURA_ADMIN_SERCRET, Network, SolKey, WalletKeys, WalletType } from "@paybox/common";
 import { accounts } from "web3/lib/commonjs/eth.exports";
 
 
@@ -190,5 +190,173 @@ export const createWallet = async (
     }
     return {
         status: dbResStatus.Error,
+    }
+}
+
+
+/**
+ * 
+ * @param clientId 
+ * @param seed 
+ * @param network 
+ * @param name 
+ * @param keys 
+ * @returns 
+ */
+export const importFromPrivate = async (
+    clientId: string,
+    seed: string,
+    network: Network,
+    name: string,
+    keys: WalletKeys,
+): Promise<{
+    status: dbResStatus,
+    wallet?: WalletType
+}> => {
+    const response = await chain("mutation")({
+        insert_wallet_one: [{
+            object: {
+                clientId,
+                secretPhase: seed,
+                accounts: {
+                    data: [{
+                        name,
+                        [network]: {
+                            data: keys
+                        },
+                        clientId,
+                    }]
+                }
+            }
+        }, {
+            id: true,
+            accounts: [{
+                limit: 1,
+            }, {
+                id: true,
+                eth: {
+                    publicKey: true,
+                    goerliEth: true,
+                    kovanEth: true,
+                    mainnetEth: true,
+                    rinkebyEth: true,
+                    ropstenEth: true,
+                    sepoliaEth: true,
+                },
+                sol: {
+                    publicKey: true,
+                    devnetSol: true,
+                    mainnetSol: true,
+                    testnetSol: true,
+                },
+                walletId: true,
+                bitcoin: {
+                    publicKey: true,
+                    mainnetBtc: true,
+                    regtestBtc: true,
+                    textnetBtc: true,
+                },
+            }]
+        }]
+    });
+    if (response.insert_wallet_one?.id) {
+        return {
+            status: dbResStatus.Ok,
+            wallet: {
+                clientId,
+                id: response.insert_wallet_one.id as string,
+                accounts: response.insert_wallet_one.accounts as AccountType[],
+            }
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
+
+/**
+ * 
+ * @param clientId 
+ * @param name 
+ * @param secretPhase 
+ * @param keys 
+ * @returns 
+ */
+export const addAccountPhrase = async (
+    clientId: string,
+    name: string,
+    secretPhase: string,
+    keys: (WalletKeys & { network: Network })[]
+): Promise<{
+    status: dbResStatus,
+    wallet?: WalletType
+}> => {
+    
+    const accountsData = keys.reduce((acc, { network, privateKey, publicKey }) => {
+        if (network === Network.Sol || network === Network.Eth) {
+            acc[network] = {
+                data: { privateKey, publicKey }
+            };
+        }
+        return acc;
+    }, {} as Record<string, any>);
+
+    const response = await chain("mutation")({
+        insert_wallet_one: [{
+            object: {
+                clientId,
+                secretPhase,
+                accounts: {
+                    data: [{
+                        name,
+                        ...accountsData,
+                        clientId
+                    }]
+                }
+            }
+        }, {
+            id: true,
+            accounts: [{
+                limit: 1
+            }, {
+                id: true,
+                eth: {
+                    publicKey: true,
+                    goerliEth: true,
+                    kovanEth: true,
+                    mainnetEth: true,
+                    rinkebyEth: true,
+                    ropstenEth: true,
+                    sepoliaEth: true,
+                },
+                sol: {
+                    publicKey: true,
+                    devnetSol: true,
+                    mainnetSol: true,
+                    testnetSol: true,
+                },
+                walletId: true,
+                clientId: true,
+                bitcoin: {
+                    publicKey: true,
+                    mainnetBtc: true,
+                    regtestBtc: true,
+                    textnetBtc: true,
+                },
+            }]
+        }]
+    });
+    if (response.insert_wallet_one?.id) {
+        return {
+            status: dbResStatus.Ok,
+            wallet: {
+                clientId,
+                id: response.insert_wallet_one.id as string,
+                accounts: response.insert_wallet_one.accounts as AccountType[],
+            }
+        }
+    }
+    return {
+        status: dbResStatus.Error
     }
 }
