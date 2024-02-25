@@ -11,9 +11,9 @@ export class AddressCache {
         this.redis = redis;
     }
 
-    async cacheAddress(
+    async cacheAddress<T extends Address>(
         key: string,
-        items: Partial<Address> & { id: string; clientId: string },
+        items: Partial<T> & { id: string; clientId: string },
       ) {
         const client = await this.client.hGetAll(items.clientId);
         if (!client) {
@@ -47,9 +47,9 @@ export class AddressCache {
         return;
       }
     
-      async getAddress(
+      async getAddress<T>(
         key: string,
-      ): Promise<Partial<Address & { id: string; clientId: string }> | null> {
+      ): Promise<Partial<T> | null> {
         const address = await this.client.hGetAll(key);
     
         if (!address) {
@@ -63,19 +63,20 @@ export class AddressCache {
           sol: address.sol,
           bitcoin: address.bitcoin,
           usdc: address.usdc,
-        };
+        } as T;
       }
     
-      async patchAddress(key: string, items: Partial<Address>) {
+      async patchAddress<T>(key: string, items: Partial<T>): Promise<void> {
         for (const [field, value] of Object.entries(items)) {
+            //@ts-ignore
           await this.client.hSet(key, field, value.toString());
         }
         return;
       }
     
-      async getAddressFromKey(
+      async getAddressFromKey<T>(
         key: string,
-      ): Promise<Partial<Address & { id: string; clientId: string }> | null> {
+      ): Promise<Partial<T> | null> {
         const addressId = await this.client.get(key);
         if (!addressId) {
           return null;

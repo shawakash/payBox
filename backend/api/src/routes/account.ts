@@ -40,7 +40,7 @@ accountRouter.post("/", async (req, res) => {
             /**
              * Cache
              */
-            await cache.account.cacheAccount(mutation.account.id, mutation.account);
+            await cache.account.cacheAccount<AccountType>(mutation.account.id, mutation.account);
 
             return res.status(200).json({
                 account: mutation.account,
@@ -80,7 +80,7 @@ accountRouter.patch('/updateName', async (req, res) => {
             /**
              * Cache
              */
-            await cache.account.cacheAccount(mutation.account.id, mutation.account);
+            await cache.account.cacheAccount<AccountType>(mutation.account.id, mutation.account);
 
             return res.status(200).json({
                 msg: "Name updated 😊",
@@ -184,7 +184,7 @@ accountRouter.get('/', async (req, res) => {
             /**
              * Cache
              */
-            const account = await cache.account.getAccount(accountId);
+            const account = await cache.account.getAccount<AccountType>(accountId);
             if (account?.id) {
                 return res
                     .status(200)
@@ -204,7 +204,7 @@ accountRouter.get('/', async (req, res) => {
             /**
              * Cache
              */
-            await cache.account.cacheAccount(accountId, query.account);
+            await cache.account.cacheAccount<AccountType>(accountId, query.account);
 
             return res
                 .status(200)
