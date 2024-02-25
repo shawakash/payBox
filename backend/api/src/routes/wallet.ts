@@ -42,7 +42,7 @@ walletRouter.get('/accounts', async (req, res) => {
             const { walletId } = WalletAccountGet.parse(req.query);
 
             // Cache
-            const cacheWallet = await cache.getWallet(walletId);
+            const cacheWallet = await cache.wallet.getWallet(walletId);
             if (cacheWallet?.accounts) {
                 return res
                     .status(200)
@@ -58,7 +58,7 @@ walletRouter.get('/accounts', async (req, res) => {
                     .json({ msg: "Database Error", status: responseStatus.Error });
             }
             // Cache
-            await cache.cacheWallet(walletId, {
+            await cache.wallet.cacheWallet(walletId, {
                 clientId: id,
                 id: walletId,
                 accounts: query.accounts

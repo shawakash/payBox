@@ -1,9 +1,7 @@
 import { Router } from "express";
 import { createReadStream } from "fs";
 import { Address, responseStatus } from "@paybox/common";
-import { getAddressByClientId } from "../db/address";
-import { dbResStatus } from "../types/client";
-import { generateQRCode, generateUniqueImageName } from "../auth/util";
+import { generateQRCode } from "../auth/util";
 import { hasAddress } from "../auth/middleware";
 
 export const qrcodeRouter = Router();
