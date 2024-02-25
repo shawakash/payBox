@@ -52,7 +52,7 @@ addressRouter.post("/", checkAddress, async (req, res) => {
          * Cache
          */
 
-        await cache.address.cacheAddress(mutateAddress.id as string, {
+        await cache.address.cacheAddress<Address>(mutateAddress.id as string, {
           eth,
           sol,
           bitcoin: bitcoin || "",
@@ -93,7 +93,7 @@ addressRouter.get("/", async (req, res) => {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const isCached = await cache.address.getAddressFromKey(id);
+      const isCached = await cache.address.getAddressFromKey<Address & { id: string; clientId: string }>(id);
       if (isCached) {
         return res.status(302).json({ status: responseStatus.Ok, address: isCached });
       }
@@ -109,7 +109,7 @@ addressRouter.get("/", async (req, res) => {
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.address.cacheAddress(
+      await cache.address.cacheAddress<Address & { id: string; clientId: string }>(
         id,
         query.address[0] as unknown as Partial<Address> & {
           id: string;
@@ -161,7 +161,7 @@ addressRouter.patch("/update", checkAddress, async (req, res) => {
        * Cache
        */
 
-      await cache.address.patchAddress(mutateAddress.id as string, {
+      await cache.address.patchAddress<Address>(mutateAddress.id as string, {
         eth,
         sol,
         bitcoin,
