@@ -62,7 +62,7 @@ clientRouter.post("/", async (req, res) => {
     /**
      * Cache
      */
-    await cache.cacheClient(client.id as string, {
+    await cache.clientCache.cacheClient(client.id as string, {
       firstname,
       email,
       username,
@@ -75,7 +75,7 @@ clientRouter.post("/", async (req, res) => {
     });
 
     if(client.walletId) {
-      await cache.cacheWallet(client.walletId as string, {
+      await cache.wallet.cacheWallet(client.walletId as string, {
         clientId: client.id as string,
         id: client.walletId as string,
         secretPhase: seed,
@@ -125,8 +125,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
      * Cache
      */
     const cachedClient =
-      (await cache.getClientFromKey(username)) ||
-      (await cache.getClientFromKey(email));
+      (await cache.clientCache.getClientFromKey(username)) ||
+      (await cache.clientCache.getClientFromKey(email));
     if (cachedClient) {
       let jwt;
       if (cachedClient.id) {
@@ -151,7 +151,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
             status: responseStatus.Error,
           });
       }
-      await cache.cacheClient(getClient.client[0].id as string, {
+      await cache.clientCache.cacheClient(getClient.client[0].id as string, {
         firstname,
         email,
         username,
@@ -192,7 +192,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
     /**
      * Cache
      */
-    await cache.cacheClient(client?.id as string, {
+    await cache.clientCache.cacheClient(client?.id as string, {
       firstname,
       email,
       username,
@@ -205,7 +205,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
     });
     
     if(client.walletId) {
-      await cache.cacheWallet(client.walletId as string, {
+      await cache.wallet.cacheWallet(client.walletId as string, {
         clientId: client.id as string,
         id: client.walletId as string,
         secretPhase: seed,
@@ -253,7 +253,7 @@ clientRouter.post("/login", async (req, res) => {
     /**
      * Cache
      */
-    const cachedClient = await cache.getClientFromKey(email);
+    const cachedClient = await cache.clientCache.getClientFromKey(email);
     if (cachedClient) {
       let jwt;
       if (cachedClient.id) {
@@ -296,7 +296,7 @@ clientRouter.post("/login", async (req, res) => {
     /**
      * Cache
      */
-    await cache.cacheClient(
+    await cache.clientCache.cacheClient(
       query.client[0].id as string,
       query.client[0] as Client,
     );
@@ -329,7 +329,7 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
     //@ts-ignore for first-time
     const id = req.id;
     if (id) {
-      const cachedClient = await cache.getClientCache(id);
+      const cachedClient = await cache.clientCache.getClientCache(id);
       if (cachedClient) {
         return res
         .status(302)
@@ -347,7 +347,7 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.cacheClient(id, query.client[0] as Client);
+      await cache.clientCache.cacheClient(id, query.client[0] as Client);
       return res
       .status(302)
       //@ts-ignore
@@ -375,7 +375,7 @@ clientRouter.get("/:username", extractClientId, async (req, res) => {
       /**
        * Cache
        */
-      const cachedUser = await cache.getClientCache(id);
+      const cachedUser = await cache.clientCache.getClientCache(id);
       if (cachedUser) {
         return res
         .status(302)
@@ -395,7 +395,7 @@ clientRouter.get("/:username", extractClientId, async (req, res) => {
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.cacheClient(id, query.client[0] as Client);
+      await cache.clientCache.cacheClient(id, query.client[0] as Client);
       return res
         .status(302)
         .json({ ...query.client[0], status: responseStatus.Ok });

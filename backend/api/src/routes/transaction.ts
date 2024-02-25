@@ -101,7 +101,7 @@ txnRouter.get("/getMany", async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      await cache.cacheTxns(
+      await cache.txn.cacheTxns(
         `${id}_txns_${count}_${Date.now()}`,
         txns.txns as TxnType[],
       );
@@ -126,7 +126,7 @@ txnRouter.get("/get", async (req, res) => {
       /**
        * Cache
        */
-      const isTxn = await cache.cacheGetTxnBySign(sign);
+      const isTxn = await cache.txn.cacheGetTxnBySign(sign);
       if (isTxn) {
         return res.status(302).json({ txn: isTxn, status: responseStatus.Ok });
       }
@@ -137,7 +137,7 @@ txnRouter.get("/get", async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      await cache.cacheTxn(txn.id as string, txn.txn as TxnType);
+      await cache.txn.cacheTxn(txn.id as string, txn.txn as TxnType);
       return res.status(200).json({ txn, status: responseStatus.Ok });
     }
   } catch (error) {

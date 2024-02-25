@@ -40,7 +40,7 @@ accountRouter.post("/", async (req, res) => {
             /**
              * Cache
              */
-            await cache.cacheAccount(mutation.account.id, mutation.account);
+            await cache.account.cacheAccount(mutation.account.id, mutation.account);
 
             return res.status(200).json({
                 account: mutation.account,
@@ -80,7 +80,7 @@ accountRouter.patch('/updateName', async (req, res) => {
             /**
              * Cache
              */
-            await cache.cacheAccount(mutation.account.id, mutation.account);
+            await cache.account.cacheAccount(mutation.account.id, mutation.account);
 
             return res.status(200).json({
                 msg: "Name updated 😊",
@@ -184,7 +184,7 @@ accountRouter.get('/', async (req, res) => {
             /**
              * Cache
              */
-            const account = await cache.getAccount(accountId);
+            const account = await cache.account.getAccount(accountId);
             if (account?.id) {
                 return res
                     .status(200)
@@ -204,7 +204,7 @@ accountRouter.get('/', async (req, res) => {
             /**
              * Cache
              */
-            await cache.cacheAccount(accountId, query.account);
+            await cache.account.cacheAccount(accountId, query.account);
 
             return res
                 .status(200)
@@ -263,7 +263,7 @@ accountRouter.post('/private', async (req, res) => {
             /**
              * Cache
              */
-            await cache.cacheWallet(mutation.wallet.id, mutation.wallet);
+            await cache.wallet.cacheWallet(mutation.wallet.id, mutation.wallet);
             return res
                 .status(200)
                 .json({
@@ -300,7 +300,7 @@ accountRouter.get('/fromPhrase', async (req, res) => {
                     .json({ status: responseStatus.Error, msg: "Invalid phrase" });
             }
             // cache
-            await cache.fromPhrase(secretPhrase, accounts);
+            await cache.wallet.fromPhrase(secretPhrase, accounts);
             return res.status(200).json({
                 //@ts-ignore
                 accounts: accounts.map(({ privateKey, ...account }) => account),
@@ -332,7 +332,7 @@ accountRouter.post('/import', async (req, res) => {
             /**
              * Cache
              */
-            const cacheAccount = await cache.getFromPhrase(keys);
+            const cacheAccount = await cache.wallet.getFromPhrase(keys);
             if (cacheAccount == null) {
                 return res
                     .status(500)
@@ -341,8 +341,8 @@ accountRouter.post('/import', async (req, res) => {
                         msg: "Internal Error in Caching",
                     });
             }
-            const solCount = cacheAccount.filter(({ network }) => network === Network.Sol).length;
-            const ethCount = cacheAccount.filter(({ network }) => network === Network.Eth).length;
+            const solCount = cacheAccount.filter(({ network }: {network: Network}) => network === Network.Sol).length;
+            const ethCount = cacheAccount.filter(({ network }: {network: Network}) => network === Network.Eth).length;
             if (solCount > 1 || ethCount > 1) {
                 return res
                     .status(500)
@@ -366,7 +366,7 @@ accountRouter.post('/import', async (req, res) => {
             /**
              * Cache
              */
-            await cache.cacheWallet(mutation.wallet.id, mutation.wallet);
+            await cache.wallet.cacheWallet(mutation.wallet.id, mutation.wallet);
             return res
                 .status(200)
                 .json({
