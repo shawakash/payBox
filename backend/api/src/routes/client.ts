@@ -1,7 +1,13 @@
 import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { dbResStatus } from "../types/client";
-import { Address, SECRET_PHASE_STRENGTH, responseStatus } from "@paybox/common";
+import {
+  Address,
+  ChangePasswordValid,
+  PasswordValid,
+  SECRET_PHASE_STRENGTH,
+  responseStatus,
+} from "@paybox/common";
 import {
   checkClient,
   conflictClient,
@@ -11,10 +17,16 @@ import {
   getClientById,
   getClientMetaData,
   updateMetadata,
+  updatePassword,
 } from "../db/client";
 import { cache } from "../index";
-import { generateSeed, setHashPassword, setJWTCookie, validatePassword } from "../auth/util";
-import { extractClientId } from "../auth/middleware";
+import {
+  generateSeed,
+  setHashPassword,
+  setJWTCookie,
+  validatePassword,
+} from "../auth/util";
+import { checkPassword, extractClientId } from "../auth/middleware";
 import {
   Client,
   ClientSigninFormValidate,
@@ -39,8 +51,8 @@ clientRouter.post("/", async (req, res) => {
 
     const hashPassword = await setHashPassword(password);
     const seed = generateSeed(SECRET_PHASE_STRENGTH);
-    const solKeys = await (new SolOps()).createWallet(seed);
-    const ethKeys = (new EthOps()).createWallet(seed);
+    const solKeys = await new SolOps().createWallet(seed);
+    const ethKeys = new EthOps().createWallet(seed);
     const client = await createClient(
       username,
       email,
@@ -53,7 +65,11 @@ clientRouter.post("/", async (req, res) => {
       ethKeys,
     );
     console.log(client);
-    if (client.status == dbResStatus.Error || client.sol == undefined || client.eth == undefined) {
+    if (
+      client.status == dbResStatus.Error ||
+      client.sol == undefined ||
+      client.eth == undefined
+    ) {
       return res
         .status(503)
         .json({ msg: "Database Error", status: responseStatus.Error });
@@ -74,21 +90,22 @@ clientRouter.post("/", async (req, res) => {
       password: hashPassword,
     });
 
-    if(client.walletId) {
+    if (client.walletId) {
       await cache.wallet.cacheWallet(client.walletId as string, {
         clientId: client.id as string,
         id: client.walletId as string,
         secretPhase: seed,
-        accounts: [{
-          clientId: client.id as string,
-          id: client.accountId as string,
-          sol: client.sol,
-          eth: client.eth,
-          walletId: client.walletId as string,
-          name: "Account 1"
-        }]
-      })
-
+        accounts: [
+          {
+            clientId: client.id as string,
+            id: client.accountId as string,
+            sol: client.sol,
+            eth: client.eth,
+            walletId: client.walletId as string,
+            name: "Account 1",
+          },
+        ],
+      });
     }
 
     /**
@@ -98,12 +115,10 @@ clientRouter.post("/", async (req, res) => {
     if (client.id) {
       jwt = await setJWTCookie(req, res, client.id as string);
     } else {
-      return res
-        .status(500)
-        .json({
-          msg: "Error creating user account",
-          status: responseStatus.Error,
-        });
+      return res.status(500).json({
+        msg: "Error creating user account",
+        status: responseStatus.Error,
+      });
     }
 
     return res.status(200).json({ ...client, jwt, status: responseStatus.Ok });
@@ -144,12 +159,10 @@ clientRouter.post("/providerAuth", async (req, res) => {
       if (getClient.client[0].id) {
         jwt = await setJWTCookie(req, res, getClient.client[0].id as string);
       } else {
-        return res
-          .status(500)
-          .json({
-            msg: "Error creating user account",
-            status: responseStatus.Error,
-          });
+        return res.status(500).json({
+          msg: "Error creating user account",
+          status: responseStatus.Error,
+        });
       }
       await cache.clientCache.cacheClient(getClient.client[0].id as string, {
         firstname,
@@ -163,15 +176,13 @@ clientRouter.post("/providerAuth", async (req, res) => {
         password: hashPassword || "",
       });
 
-      
-
       return res
         .status(200)
         .json({ ...getClient.client[0], jwt, status: responseStatus.Ok });
     }
     const seed = generateSeed(SECRET_PHASE_STRENGTH);
-    const solKeys = await (new SolOps()).createWallet(seed);
-    const ethKeys = (new EthOps()).createWallet(seed);
+    const solKeys = await new SolOps().createWallet(seed);
+    const ethKeys = new EthOps().createWallet(seed);
     const client = await createClient(
       username,
       email,
@@ -183,7 +194,11 @@ clientRouter.post("/providerAuth", async (req, res) => {
       solKeys,
       ethKeys,
     );
-    if (client.status == dbResStatus.Error || client.sol == undefined || client.eth == undefined) {
+    if (
+      client.status == dbResStatus.Error ||
+      client.sol == undefined ||
+      client.eth == undefined
+    ) {
       return res
         .status(503)
         .json({ msg: "Database Error", status: responseStatus.Error });
@@ -203,22 +218,23 @@ clientRouter.post("/providerAuth", async (req, res) => {
       //@ts-ignore
       password: hashPassword || "",
     });
-    
-    if(client.walletId) {
+
+    if (client.walletId) {
       await cache.wallet.cacheWallet(client.walletId as string, {
         clientId: client.id as string,
         id: client.walletId as string,
         secretPhase: seed,
-        accounts: [{
-          clientId: client.id as string,
-          id: client.accountId as string,
-          sol: client.sol,
-          eth: client.eth,
-          walletId: client.walletId as string,
-          name: "Account 1"
-        }]
+        accounts: [
+          {
+            clientId: client.id as string,
+            id: client.accountId as string,
+            sol: client.sol,
+            eth: client.eth,
+            walletId: client.walletId as string,
+            name: "Account 1",
+          },
+        ],
       });
-
     }
 
     /**
@@ -228,12 +244,10 @@ clientRouter.post("/providerAuth", async (req, res) => {
     if (client?.id) {
       jwt = await setJWTCookie(req, res, client.id as string);
     } else {
-      return res
-        .status(500)
-        .json({
-          msg: "Error creating user account",
-          status: responseStatus.Error,
-        });
+      return res.status(500).json({
+        msg: "Error creating user account",
+        status: responseStatus.Error,
+      });
     }
 
     return res.status(200).json({ ...client, jwt, status: responseStatus.Ok });
@@ -331,10 +345,12 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
     if (id) {
       const cachedClient = await cache.clientCache.getClientCache(id);
       if (cachedClient) {
-        return res
-        .status(302)
-        //@ts-ignore
-          .json({ ...cachedClient, status: responseStatus.Ok, jwt: req.jwt });
+        return (
+          res
+            .status(302)
+            //@ts-ignore
+            .json({ ...cachedClient, status: responseStatus.Ok, jwt: req.jwt })
+        );
       }
       const query = await getClientById(id);
       if (query.status == dbResStatus.Error) {
@@ -348,10 +364,12 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
           .json({ msg: "Not found", status: responseStatus.Error });
       }
       await cache.clientCache.cacheClient(id, query.client[0] as Client);
-      return res
-      .status(302)
-      //@ts-ignore
-        .json({ ...query.client[0], status: responseStatus.Ok, jwt: req.jwt });
+      return (
+        res
+          .status(302)
+          //@ts-ignore
+          .json({ ...query.client[0], status: responseStatus.Ok, jwt: req.jwt })
+      );
     }
     return res
       .status(500)
@@ -377,10 +395,12 @@ clientRouter.get("/:username", extractClientId, async (req, res) => {
        */
       const cachedUser = await cache.clientCache.getClientCache(id);
       if (cachedUser) {
-        return res
-        .status(302)
-        //@ts-ignore
-          .json({ ...cachedUser, status: responseStatus.Ok, jwt: req.jwt });
+        return (
+          res
+            .status(302)
+            //@ts-ignore
+            .json({ ...cachedUser, status: responseStatus.Ok, jwt: req.jwt })
+        );
       }
 
       const query = await getClientMetaData(username);
@@ -457,3 +477,31 @@ clientRouter.delete("/delete", extractClientId, async (req, res) => {
     return res.status(500).json({ error, status: responseStatus.Error });
   }
 });
+
+clientRouter.patch(
+  "/password",
+  extractClientId,
+  checkPassword,
+  async (req, res) => {
+    try {
+      //@ts-ignore
+      const id = req.id;
+      if (id) {
+        const { newPassword } = ChangePasswordValid.parse(req.body);
+        const hashNewPassord = await setHashPassword(newPassword);
+        const updatePass = await updatePassword(id, hashNewPassord);
+        if (updatePass.status == dbResStatus.Error) {
+          return res
+            .status(503)
+            .json({ status: responseStatus.Error, msg: "Database Error" });
+        }
+        return res
+          .status(200)
+          .json({ status: responseStatus.Ok, msg: "Password Updated" });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error, status: responseStatus.Error });
+    }
+  },
+);

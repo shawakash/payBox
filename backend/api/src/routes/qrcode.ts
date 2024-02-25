@@ -16,12 +16,10 @@ qrcodeRouter.get("/get", hasAddress, async (req, res) => {
         address.id,
       );
       if (!isGenerated) {
-        return res
-          .status(500)
-          .json({
-            status: responseStatus.Error,
-            msg: "Error in generating qr code",
-          });
+        return res.status(500).json({
+          status: responseStatus.Error,
+          msg: "Error in generating qr code",
+        });
       }
       res.setHeader("Content-Type", "image/png");
       const stream = createReadStream(isGenerated);

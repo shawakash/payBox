@@ -22,7 +22,9 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { from, amount, to, network, cluster } = TxnSendQuery.parse(req.query);
+      const { from, amount, to, network, cluster } = TxnSendQuery.parse(
+        req.query,
+      );
       if (network == Network.Eth) {
         const transaction = await ethTxn.acceptTxn({ amount, to, from });
         if (!transaction) {

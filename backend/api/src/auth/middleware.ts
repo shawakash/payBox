@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { clearCookie, setJWTCookie, validateJwt, validatePassword } from "./util";
+import {
+  clearCookie,
+  setJWTCookie,
+  validateJwt,
+  validatePassword,
+} from "./util";
 import {
   AccountGetPrivateKey,
   AddressFormPartial,
@@ -59,12 +64,10 @@ export const extractClientId = async (
         .json({ msg: "Auth error", status: responseStatus.Error });
     }
   } else {
-    return res
-      .status(403)
-      .json({
-        msg: "No authentication token found",
-        status: responseStatus.Error,
-      });
+    return res.status(403).json({
+      msg: "No authentication token found",
+      status: responseStatus.Error,
+    });
   }
   next();
 };
@@ -101,34 +104,28 @@ export const txnCheckAddress = async (
           const sender = await ethTxn.checkAddress(from);
           const receiver = await ethTxn.checkAddress(to);
           if (!sender && !receiver) {
-            return res
-              .status(400)
-              .json({
-                status: responseStatus.Error,
-                msg: "No such eth address",
-              });
+            return res.status(400).json({
+              status: responseStatus.Error,
+              msg: "No such eth address",
+            });
           }
         }
         if (network == Network.Sol) {
           const sender = await solTxn.checkAddress(from);
           const receiver = await solTxn.checkAddress(to);
           if (!sender && !receiver) {
-            return res
-              .status(400)
-              .json({
-                status: responseStatus.Error,
-                msg: "No such solana address",
-              });
+            return res.status(400).json({
+              status: responseStatus.Error,
+              msg: "No such solana address",
+            });
           }
         }
       } catch (error) {
         console.log(error);
-        return res
-          .status(403)
-          .json({
-            msg: "Address Validation error",
-            status: responseStatus.Error,
-          });
+        return res.status(403).json({
+          msg: "Address Validation error",
+          status: responseStatus.Error,
+        });
       }
     } else {
       return res
@@ -138,13 +135,11 @@ export const txnCheckAddress = async (
     next();
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({
-        status: responseStatus.Error,
-        msg: "Internal error",
-        error: error,
-      });
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
   }
 };
 
@@ -170,22 +165,18 @@ export const checkAddress = async (
         if (sol != undefined) {
           const isAddress = await solTxn.checkAddress(sol);
           if (!isAddress) {
-            return res
-              .status(400)
-              .json({
-                status: responseStatus.Error,
-                msg: "No such solana address",
-              });
+            return res.status(400).json({
+              status: responseStatus.Error,
+              msg: "No such solana address",
+            });
           }
         }
       } catch (error) {
         console.log(error);
-        return res
-          .status(403)
-          .json({
-            msg: "Address Validation error",
-            status: responseStatus.Error,
-          });
+        return res.status(403).json({
+          msg: "Address Validation error",
+          status: responseStatus.Error,
+        });
       }
     } else {
       return res
@@ -195,13 +186,11 @@ export const checkAddress = async (
     next();
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({
-        status: responseStatus.Error,
-        msg: "Internal error",
-        error: error,
-      });
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
   }
 };
 
@@ -215,18 +204,16 @@ export const hasAddress = async (
     const { id } = GetQrQuerySchema.parse(req.query);
     if (id) {
       try {
-        const isCached = await cache.getClientCache(id);
+        const isCached = await cache.clientCache.getClientCache(id);
         if (!isCached?.address) {
           const getAddress = await getAddressByClient(id);
           if (!getAddress.address?.id) {
-            return res
-              .status(400)
-              .json({
-                msg: "Please add your address first",
-                status: responseStatus.Error,
-              });
+            return res.status(400).json({
+              msg: "Please add your address first",
+              status: responseStatus.Error,
+            });
           }
-          await cache.cacheAddress(
+          await cache.address.cacheAddress(
             id,
             getAddress.address as Partial<Address> & {
               id: string;
@@ -243,12 +230,10 @@ export const hasAddress = async (
         next();
       } catch (error) {
         console.log(error);
-        return res
-          .status(403)
-          .json({
-            msg: "Please add address first",
-            status: responseStatus.Error,
-          });
+        return res.status(403).json({
+          msg: "Please add address first",
+          status: responseStatus.Error,
+        });
       }
     } else {
       return res
@@ -257,27 +242,25 @@ export const hasAddress = async (
     }
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({
-        status: responseStatus.Error,
-        msg: "Internal error",
-        error: error,
-      });
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
   }
 };
 
 /**
- * 
- * @param req 
- * @param res 
- * @param next 
- * @returns 
+ *
+ * @param req
+ * @param res
+ * @param next
+ * @returns
  */
 export const checkPassword = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     //@ts-ignore
@@ -291,10 +274,7 @@ export const checkPassword = async (
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
-      const isCorrectPass = await validatePassword(
-        password,
-        hashPassword
-      );
+      const isCorrectPass = await validatePassword(password, hashPassword);
       if (!isCorrectPass) {
         return res
           .status(401)
@@ -308,12 +288,10 @@ export const checkPassword = async (
     next();
   } catch (error) {
     console.log(error);
-    return res
-      .status(500)
-      .json({
-        status: responseStatus.Error,
-        msg: "Internal error",
-        error: error,
-      });
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
   }
 };

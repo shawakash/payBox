@@ -97,8 +97,8 @@ app.use("/client", clientRouter);
 app.use("/address", extractClientId, addressRouter);
 app.use("/qrcode", qrcodeRouter);
 app.use("/txn", extractClientId, txnRouter);
-app.use('/account', extractClientId, accountRouter);
-app.use('/wallet', extractClientId, walletRouter);
+app.use("/account", extractClientId, accountRouter);
+app.use("/wallet", extractClientId, walletRouter);
 
 wss.on("connection", async (ws) => {
   solTxn.connectWebSocket(ws);
