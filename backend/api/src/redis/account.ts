@@ -11,7 +11,7 @@ export class AccountCache {
         this.redis = redis;
     }
 
-    async cacheAccount(key: string, items: AccountType): Promise<void> {
+    async cacheAccount<T extends AccountType>(key: string, items: T): Promise<void> {
         const data = await this.client.hSet(key, {
           id: items.id,
           clientId: items.clientId,
@@ -41,7 +41,7 @@ export class AccountCache {
         return;
       }
     
-      async getAccount(key: string): Promise<AccountType | null> {
+      async getAccount<T>(key: string): Promise<T | null> {
         const account = await this.client.hGetAll(key);
         if (!account) {
           return null;
@@ -55,7 +55,7 @@ export class AccountCache {
           eth: JSON.parse(account.eth),
           bitcoin: JSON.parse(account.bitcoin),
           usdc: JSON.parse(account.usdc),
-        };
+        } as T;
       }
     
       async cacheAccounts(key: string, items: AccountType[]): Promise<void> {
