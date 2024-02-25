@@ -215,7 +215,7 @@ export const hasAddress = async (
     const { id } = GetQrQuerySchema.parse(req.query);
     if (id) {
       try {
-        const isCached = await cache.getClientCache(id);
+        const isCached = await cache.clientCache.getClientCache(id);
         if (!isCached?.address) {
           const getAddress = await getAddressByClient(id);
           if (!getAddress.address?.id) {
@@ -226,7 +226,7 @@ export const hasAddress = async (
                 status: responseStatus.Error,
               });
           }
-          await cache.cacheAddress(
+          await cache.address.cacheAddress(
             id,
             getAddress.address as Partial<Address> & {
               id: string;
