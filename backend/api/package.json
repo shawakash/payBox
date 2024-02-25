@@ -8,7 +8,9 @@
   "private": "true",
   "scripts": {
     "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js",
-    "dev": "node dist/index.js --trace-warning"
+    "dev": "node dist/index.js --trace-warning",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",

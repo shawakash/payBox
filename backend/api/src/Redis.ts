@@ -37,7 +37,7 @@ export class Redis {
 
   async deleteHash(key: string) {
     const deletedKeys = await this.client.del(key);
-    console.log(`Deleted hash with ${key} key`)
+    console.log(`Deleted hash with ${key} key`);
     return deletedKeys;
   }
 
@@ -46,7 +46,6 @@ export class Redis {
     console.log(`${item} is cached with ${key}`);
     return;
   }
-
 
   // TODO: debounce here
   async send(message: string) {

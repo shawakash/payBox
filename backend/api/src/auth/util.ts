@@ -2,15 +2,22 @@ import type { Request, Response } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
 import bcryptjs from "bcryptjs";
 import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
-import { Address, CLIENT_URL, ChainAccount, ChainAccountPrivate, CoinType, JWT_ALGO, SALT_ROUNDS } from "@paybox/common";
+import {
+  Address,
+  CLIENT_URL,
+  ChainAccount,
+  ChainAccountPrivate,
+  CoinType,
+  JWT_ALGO,
+  SALT_ROUNDS,
+} from "@paybox/common";
 import * as qr from "qrcode";
 import fs from "fs";
-import * as bip39 from 'bip39';
+import * as bip39 from "bip39";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
 // import ed from "ed25519-hd-key";
 // import * as ed25519 from 'ed25519';
-
 
 /**
  * @param jwt
@@ -135,17 +142,21 @@ export const generateQRCode = async (
 
 export const generateUniqueImageName = (id: string): string => {
   const timestamp: number = Date.now();
-  const imageName: string = `./codes/${id.slice(5)}_${timestamp.toString().slice(5)}.png`;
+  const imageName: string = `./codes/${id.slice(5)}_${timestamp
+    .toString()
+    .slice(5)}.png`;
   return imageName;
 };
 
 export const generateSeed = (strength: number): string => {
   const mnemonic: string = bip39.generateMnemonic(strength);
   return mnemonic;
-}
+};
 
-
-export const getAccountOnPhrase = async (secretPhrase: string, count: number): Promise<ChainAccountPrivate[]> => {
+export const getAccountOnPhrase = async (
+  secretPhrase: string,
+  count: number,
+): Promise<ChainAccountPrivate[]> => {
   try {
     const solAccounts = await new SolOps().fromPhrase(secretPhrase, count);
     const ethAccounts = new EthOps().fromPhrase(secretPhrase, count);
@@ -154,4 +165,4 @@ export const getAccountOnPhrase = async (secretPhrase: string, count: number): P
     console.log(error);
     return [];
   }
-}
+};

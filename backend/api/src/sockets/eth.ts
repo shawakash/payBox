@@ -7,7 +7,14 @@ import {
 } from "ethers";
 import { WebSocket } from "ws";
 import { EthNetwok } from "../types/address";
-import { AcceptEthTxn, ChainAccount, ChainAccountPrivate, EthChainId, Network, WalletKeys } from "@paybox/common";
+import {
+  AcceptEthTxn,
+  ChainAccount,
+  ChainAccountPrivate,
+  EthChainId,
+  Network,
+  WalletKeys,
+} from "@paybox/common";
 
 interface EthereumTransactionData {
   type: "transaction";
@@ -24,11 +31,11 @@ export class EthTxnLogs {
   private filter: ProviderEvent;
 
   /**
-   * 
-   * @param network 
-   * @param projectId 
-   * @param address 
-   * @param filter 
+   *
+   * @param network
+   * @param projectId
+   * @param address
+   * @param filter
    */
   constructor(
     network: EthNetwok,
@@ -49,8 +56,8 @@ export class EthTxnLogs {
   }
 
   /**
-   * 
-   * @param ws 
+   *
+   * @param ws
    */
   async connectWebSocket(ws: WebSocket) {
     /**
@@ -193,13 +200,12 @@ export class EthTxnLogs {
 }
 
 export class EthOps {
-  constructor() {
-  }
+  constructor() {}
 
   /**
-   * 
-   * @param secretPhrase 
-   * @returns 
+   *
+   * @param secretPhrase
+   * @returns
    */
   createWallet(secretPhrase: string): WalletKeys {
     const wallet = ethers.Wallet.fromPhrase(secretPhrase);
@@ -212,14 +218,18 @@ export class EthOps {
   }
 
   /**
-   * 
-   * @param secretPhrase 
-   * @returns 
+   *
+   * @param secretPhrase
+   * @returns
    */
   createAccount(secretPhrase: string): WalletKeys {
     const accountIndex = Math.round(Date.now() / 1000);
     const path = `m/44'/60'/${accountIndex}'/0/0`;
-    const wallet = ethers.HDNodeWallet.fromPhrase(secretPhrase, undefined, path);
+    const wallet = ethers.HDNodeWallet.fromPhrase(
+      secretPhrase,
+      undefined,
+      path,
+    );
 
     const keys: WalletKeys = {
       privateKey: wallet.privateKey,
@@ -229,9 +239,9 @@ export class EthOps {
   }
 
   /**
-   * 
-   * @param mnemonic 
-   * @returns 
+   *
+   * @param mnemonic
+   * @returns
    */
   fromPhrase(mnemonic: string, count: number = 1): ChainAccountPrivate[] {
     const accounts: ChainAccountPrivate[] = [];
@@ -246,16 +256,16 @@ export class EthOps {
           network: Network.Eth,
         },
         publicKey: wallet.address,
-        privateKey: wallet.privateKey
+        privateKey: wallet.privateKey,
       });
     }
     return accounts;
   }
 
   /**
-   * 
-   * @param secretKey 
-   * @returns 
+   *
+   * @param secretKey
+   * @returns
    */
   fromSecret(secretKey: string): WalletKeys {
     const wallet = new ethers.Wallet(secretKey);
