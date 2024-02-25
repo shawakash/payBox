@@ -555,3 +555,39 @@ export const getPassword = async (
     status: dbResStatus.Error
   }
 }
+
+/**
+ * 
+ * @param id 
+ * @param password 
+ * @returns 
+ */
+export const updatePassword = async (
+  id: string,
+  password: string
+): Promise<{
+  status: dbResStatus,
+}> => {
+  const response = await chain("mutation")({
+    update_client: [{
+      where: {
+        id: { _eq: id }
+      },
+      _set: {
+        password
+      }
+    }, {
+      returning: {
+        id: true
+      }
+    }]
+  }, { operationName: "updatePassword" });
+  if (response.update_client?.returning[0].id) {
+    return {
+      status: dbResStatus.Ok
+    }
+  }
+  return {
+    status: dbResStatus.Error
+  }
+}
