@@ -119,3 +119,9 @@ export const ChangePasswordValid = z.object({
       "should be between 3-15 characters and can only contain numbers, letters, and underscores.",
     ),
 }).passthrough();
+
+export const OtpValid = z.object({
+  otp: z.union([z.string(), z.number()]).refine((value) => /^\d{6}$/.test(value.toString()), {
+    message: "Invalid OTP. It should be a 6-digit number.",
+  }),
+});
