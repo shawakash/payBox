@@ -100,33 +100,5 @@ export class ClientCache {
     return;
   }
 
-  async tempCache(key: string, items: ClientForm & { otp: string }): Promise<void> {
-    await this.client.hSet(key, {
-      firstname: items.firstname || "",
-      lastname: items.lastname || "",
-      email: items.email,
-      mobile: items.mobile || "",
-      username: items.username,
-      password: items.password,
-      otp: items.otp,
-    });
-    return;
-  }
-
-  async getTempCache<T extends ClientForm & { otp: string }>(key: string): Promise<T | null> {
-    const client = await this.client.hGetAll(key);
-    if (!client) {
-      return null;
-    }
-    return {
-      firstname: client.firstname,
-      lastname: client.lastname,
-      email: client.email,
-      mobile: client.mobile,
-      username: client.username,
-      password: client.password,
-      otp: client.otp,
-    } as T;
-  };
 }
 
