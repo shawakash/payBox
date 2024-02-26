@@ -186,3 +186,5 @@ export const secretPhraseRefine = () => {
 
 // for 12 word seed
 export const SECRET_PHASE_STRENGTH = 256;
+export const TOTP_TIME = 120;
+export const TOTP_DIGITS = 6;
