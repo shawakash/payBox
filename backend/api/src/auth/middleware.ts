@@ -18,7 +18,7 @@ import {
 import { cache, ethTxn, solTxn } from "..";
 import { getAddressByClient } from "../db/qrcode";
 import { Address } from "web3";
-import { getPassword } from "../db/client";
+import { getPassword, queryValid } from "../db/client";
 
 /**
  *
@@ -295,3 +295,48 @@ export const checkPassword = async (
     });
   }
 };
+
+
+export const isValidated = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+    if (id) {
+
+      const validCache = await cache.getIdFromKey(`valid:${id}`);
+      if (validCache === 'true') {
+        return res
+          .status(200)
+          .json({ msg: "Client Phone Number is validated 😊", status: responseStatus.Ok });
+      }
+
+      const {status, valid} = await queryValid(id);
+      if (status == dbResStatus.Error) {
+        return res
+          .status(503)
+          .json({ msg: "Database Error", status: responseStatus.Error });
+      }
+      if (valid) {
+        return res
+          .status(200)
+          .json({ msg: "Client Phone Number is validated 😊", status: responseStatus.Ok });
+      }
+    } else {
+      return res
+        .status(500)
+        .json({ status: responseStatus.Error, msg: "Jwt error" });
+    }
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
+  }
+}
