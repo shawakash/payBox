@@ -1,6 +1,6 @@
 import { RedisClientType } from "redis";
 import { Redis } from "../Redis";
-import { Address, Client } from "@paybox/common";
+import { Address, Client, ClientForm } from "@paybox/common";
 
 export class ClientCache {
   private client: RedisClientType;
@@ -11,7 +11,7 @@ export class ClientCache {
     this.redis = redis;
   }
 
-  async cacheClient(key: string, items: Client) {
+  async cacheClient<T extends Client>(key: string, items: T) {
     const data = await this.client.hSet(key, {
       id: items.id,
       firstname: items.firstname || "",
@@ -99,4 +99,6 @@ export class ClientCache {
 
     return;
   }
+
 }
+

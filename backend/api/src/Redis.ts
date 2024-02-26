@@ -41,10 +41,19 @@ export class Redis {
     return deletedKeys;
   }
 
-  async cacheIdUsingKey(key: string, item: string) {
+  async cacheIdUsingKey(key: string, item: string): Promise<void> {
     await this.client.set(key, item);
     console.log(`${item} is cached with ${key}`);
     return;
+  }
+
+  async getIdFromKey(key: string): Promise<string | null> {
+    const id = await this.client.get(key);
+    if (!id) {
+      return null;
+    }
+    console.log(`Got id from key ${key}`);
+    return id;
   }
 
   // TODO: debounce here

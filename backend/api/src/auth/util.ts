@@ -10,6 +10,7 @@ import {
   CoinType,
   JWT_ALGO,
   SALT_ROUNDS,
+  TOTP_DIGITS,
 } from "@paybox/common";
 import * as qr from "qrcode";
 import fs from "fs";
@@ -18,6 +19,9 @@ import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
 // import ed from "ed25519-hd-key";
 // import * as ed25519 from 'ed25519';
+
+import * as speakeasy from 'speakeasy';
+import crypto from 'crypto';
 
 /**
  * @param jwt
@@ -166,3 +170,26 @@ export const getAccountOnPhrase = async (
     return [];
   }
 };
+
+/**
+ * 
+ * @returns Opt
+ */
+export const genOtp = (digits: number, time: number): string => {
+  const otp = speakeasy.totp({
+    secret: speakeasy.generateSecret().base32,
+    digits: digits, 
+    encoding: 'base32', 
+    step: time 
+  });
+  return otp;
+}
+
+/**
+ * 
+ * @param length 
+ * @returns 
+ */
+export const genRand = (length: number): string => {
+  return crypto.randomBytes(length).toString('hex');
+}

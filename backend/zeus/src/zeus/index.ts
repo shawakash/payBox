@@ -1024,6 +1024,18 @@ export type ScalarCoders = {
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+  ["Boolean_comparison_exp"]: {
+    _eq?: boolean | undefined | null | Variable<any, string>;
+    _gt?: boolean | undefined | null | Variable<any, string>;
+    _gte?: boolean | undefined | null | Variable<any, string>;
+    _in?: Array<boolean> | undefined | null | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: boolean | undefined | null | Variable<any, string>;
+    _lte?: boolean | undefined | null | Variable<any, string>;
+    _neq?: boolean | undefined | null | Variable<any, string>;
+    _nin?: Array<boolean> | undefined | null | Variable<any, string>;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ["Int_comparison_exp"]: {
     _eq?: number | undefined | null | Variable<any, string>;
@@ -2162,8 +2174,7 @@ export type ValueTypes = {
       ValueTypes["transactions_aggregate"],
     ];
     username?: boolean | `@${string}`;
-    /** An object relationship */
-    wallet?: ValueTypes["wallet"];
+    valid?: boolean | `@${string}`;
     wallets?: [
       {
         /** distinct select on columns */
@@ -2347,8 +2358,8 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    wallet?:
-      | ValueTypes["wallet_bool_exp"]
+    valid?:
+      | ValueTypes["Boolean_comparison_exp"]
       | undefined
       | null
       | Variable<any, string>;
@@ -2393,11 +2404,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
-    wallet?:
-      | ValueTypes["wallet_obj_rel_insert_input"]
-      | undefined
-      | null
-      | Variable<any, string>;
+    valid?: boolean | undefined | null | Variable<any, string>;
     wallets?:
       | ValueTypes["wallet_arr_rel_insert_input"]
       | undefined
@@ -2496,11 +2503,7 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    wallet?:
-      | ValueTypes["wallet_order_by"]
-      | undefined
-      | null
-      | Variable<any, string>;
+    valid?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     wallets_aggregate?:
       | ValueTypes["wallet_aggregate_order_by"]
       | undefined
@@ -2522,6 +2525,7 @@ export type ValueTypes = {
     mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     password?: string | undefined | null | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
+    valid?: boolean | undefined | null | Variable<any, string>;
   };
   /** aggregate stddev on columns */
   ["client_stddev_fields"]: AliasType<{
@@ -2560,6 +2564,7 @@ export type ValueTypes = {
     mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     password?: string | undefined | null | Variable<any, string>;
     username?: string | undefined | null | Variable<any, string>;
+    valid?: boolean | undefined | null | Variable<any, string>;
   };
   /** aggregate sum on columns */
   ["client_sum_fields"]: AliasType<{
@@ -6986,6 +6991,18 @@ export type ResolverInputTypes = {
     subscription?: ResolverInputTypes["subscription_root"];
     __typename?: boolean | `@${string}`;
   }>;
+  /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+  ["Boolean_comparison_exp"]: {
+    _eq?: boolean | undefined | null;
+    _gt?: boolean | undefined | null;
+    _gte?: boolean | undefined | null;
+    _in?: Array<boolean> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: boolean | undefined | null;
+    _lte?: boolean | undefined | null;
+    _neq?: boolean | undefined | null;
+    _nin?: Array<boolean> | undefined | null;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ["Int_comparison_exp"]: {
     _eq?: number | undefined | null;
@@ -7730,8 +7747,7 @@ export type ResolverInputTypes = {
       ResolverInputTypes["transactions_aggregate"],
     ];
     username?: boolean | `@${string}`;
-    /** An object relationship */
-    wallet?: ResolverInputTypes["wallet"];
+    valid?: boolean | `@${string}`;
     wallets?: [
       {
         /** distinct select on columns */
@@ -7841,7 +7857,7 @@ export type ResolverInputTypes = {
       | undefined
       | null;
     username?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-    wallet?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
+    valid?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null;
     wallets?: ResolverInputTypes["wallet_bool_exp"] | undefined | null;
     wallets_aggregate?:
       | ResolverInputTypes["wallet_aggregate_bool_exp"]
@@ -7875,10 +7891,7 @@ export type ResolverInputTypes = {
       | undefined
       | null;
     username?: string | undefined | null;
-    wallet?:
-      | ResolverInputTypes["wallet_obj_rel_insert_input"]
-      | undefined
-      | null;
+    valid?: boolean | undefined | null;
     wallets?:
       | ResolverInputTypes["wallet_arr_rel_insert_input"]
       | undefined
@@ -7944,7 +7957,7 @@ export type ResolverInputTypes = {
       | undefined
       | null;
     username?: ResolverInputTypes["order_by"] | undefined | null;
-    wallet?: ResolverInputTypes["wallet_order_by"] | undefined | null;
+    valid?: ResolverInputTypes["order_by"] | undefined | null;
     wallets_aggregate?:
       | ResolverInputTypes["wallet_aggregate_order_by"]
       | undefined
@@ -7965,6 +7978,7 @@ export type ResolverInputTypes = {
     mobile?: ResolverInputTypes["bigint"] | undefined | null;
     password?: string | undefined | null;
     username?: string | undefined | null;
+    valid?: boolean | undefined | null;
   };
   /** aggregate stddev on columns */
   ["client_stddev_fields"]: AliasType<{
@@ -7997,6 +8011,7 @@ export type ResolverInputTypes = {
     mobile?: ResolverInputTypes["bigint"] | undefined | null;
     password?: string | undefined | null;
     username?: string | undefined | null;
+    valid?: boolean | undefined | null;
   };
   /** aggregate sum on columns */
   ["client_sum_fields"]: AliasType<{
@@ -10982,6 +10997,18 @@ export type ModelTypes = {
     mutation?: ModelTypes["mutation_root"] | undefined;
     subscription?: ModelTypes["subscription_root"] | undefined;
   };
+  /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+  ["Boolean_comparison_exp"]: {
+    _eq?: boolean | undefined;
+    _gt?: boolean | undefined;
+    _gte?: boolean | undefined;
+    _in?: Array<boolean> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: boolean | undefined;
+    _lte?: boolean | undefined;
+    _neq?: boolean | undefined;
+    _nin?: Array<boolean> | undefined;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ["Int_comparison_exp"]: {
     _eq?: number | undefined;
@@ -11559,8 +11586,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     transactions_aggregate: ModelTypes["transactions_aggregate"];
     username?: string | undefined;
-    /** An object relationship */
-    wallet?: ModelTypes["wallet"] | undefined;
+    valid: boolean;
     /** An array relationship */
     wallets: Array<ModelTypes["wallet"]>;
     /** An aggregate relationship */
@@ -11608,7 +11634,7 @@ export type ModelTypes = {
       | ModelTypes["transactions_aggregate_bool_exp"]
       | undefined;
     username?: ModelTypes["String_comparison_exp"] | undefined;
-    wallet?: ModelTypes["wallet_bool_exp"] | undefined;
+    valid?: ModelTypes["Boolean_comparison_exp"] | undefined;
     wallets?: ModelTypes["wallet_bool_exp"] | undefined;
     wallets_aggregate?: ModelTypes["wallet_aggregate_bool_exp"] | undefined;
   };
@@ -11629,7 +11655,7 @@ export type ModelTypes = {
     password?: string | undefined;
     transactions?: ModelTypes["transactions_arr_rel_insert_input"] | undefined;
     username?: string | undefined;
-    wallet?: ModelTypes["wallet_obj_rel_insert_input"] | undefined;
+    valid?: boolean | undefined;
     wallets?: ModelTypes["wallet_arr_rel_insert_input"] | undefined;
   };
   /** aggregate max on columns */
@@ -11685,7 +11711,7 @@ export type ModelTypes = {
       | ModelTypes["transactions_aggregate_order_by"]
       | undefined;
     username?: ModelTypes["order_by"] | undefined;
-    wallet?: ModelTypes["wallet_order_by"] | undefined;
+    valid?: ModelTypes["order_by"] | undefined;
     wallets_aggregate?: ModelTypes["wallet_aggregate_order_by"] | undefined;
   };
   /** primary key columns input for table: client */
@@ -11702,6 +11728,7 @@ export type ModelTypes = {
     mobile?: ModelTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
+    valid?: boolean | undefined;
   };
   /** aggregate stddev on columns */
   ["client_stddev_fields"]: {
@@ -11731,6 +11758,7 @@ export type ModelTypes = {
     mobile?: ModelTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
+    valid?: boolean | undefined;
   };
   /** aggregate sum on columns */
   ["client_sum_fields"]: {
@@ -13255,6 +13283,18 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
+  /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+  ["Boolean_comparison_exp"]: {
+    _eq?: boolean | undefined;
+    _gt?: boolean | undefined;
+    _gte?: boolean | undefined;
+    _in?: Array<boolean> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: boolean | undefined;
+    _lte?: boolean | undefined;
+    _neq?: boolean | undefined;
+    _nin?: Array<boolean> | undefined;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ["Int_comparison_exp"]: {
     _eq?: number | undefined;
@@ -13868,8 +13908,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     transactions_aggregate: GraphQLTypes["transactions_aggregate"];
     username?: string | undefined;
-    /** An object relationship */
-    wallet?: GraphQLTypes["wallet"] | undefined;
+    valid: boolean;
     /** An array relationship */
     wallets: Array<GraphQLTypes["wallet"]>;
     /** An aggregate relationship */
@@ -13920,7 +13959,7 @@ export type GraphQLTypes = {
       | GraphQLTypes["transactions_aggregate_bool_exp"]
       | undefined;
     username?: GraphQLTypes["String_comparison_exp"] | undefined;
-    wallet?: GraphQLTypes["wallet_bool_exp"] | undefined;
+    valid?: GraphQLTypes["Boolean_comparison_exp"] | undefined;
     wallets?: GraphQLTypes["wallet_bool_exp"] | undefined;
     wallets_aggregate?: GraphQLTypes["wallet_aggregate_bool_exp"] | undefined;
   };
@@ -13944,7 +13983,7 @@ export type GraphQLTypes = {
       | GraphQLTypes["transactions_arr_rel_insert_input"]
       | undefined;
     username?: string | undefined;
-    wallet?: GraphQLTypes["wallet_obj_rel_insert_input"] | undefined;
+    valid?: boolean | undefined;
     wallets?: GraphQLTypes["wallet_arr_rel_insert_input"] | undefined;
   };
   /** aggregate max on columns */
@@ -14003,7 +14042,7 @@ export type GraphQLTypes = {
       | GraphQLTypes["transactions_aggregate_order_by"]
       | undefined;
     username?: GraphQLTypes["order_by"] | undefined;
-    wallet?: GraphQLTypes["wallet_order_by"] | undefined;
+    valid?: GraphQLTypes["order_by"] | undefined;
     wallets_aggregate?: GraphQLTypes["wallet_aggregate_order_by"] | undefined;
   };
   /** primary key columns input for table: client */
@@ -14021,6 +14060,7 @@ export type GraphQLTypes = {
     mobile?: GraphQLTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
+    valid?: boolean | undefined;
   };
   /** aggregate stddev on columns */
   ["client_stddev_fields"]: {
@@ -14053,6 +14093,7 @@ export type GraphQLTypes = {
     mobile?: GraphQLTypes["bigint"] | undefined;
     password?: string | undefined;
     username?: string | undefined;
+    valid?: boolean | undefined;
   };
   /** aggregate sum on columns */
   ["client_sum_fields"]: {
@@ -15738,6 +15779,7 @@ export const enum client_select_column {
   mobile = "mobile",
   password = "password",
   username = "username",
+  valid = "valid",
 }
 /** update columns of table "client" */
 export const enum client_update_column {
@@ -15748,6 +15790,7 @@ export const enum client_update_column {
   mobile = "mobile",
   password = "password",
   username = "username",
+  valid = "valid",
 }
 /** ordering argument of a cursor */
 export const enum cursor_ordering {
@@ -15933,6 +15976,7 @@ export const enum wallet_update_column {
 }
 
 type ZEUS_VARIABLES = {
+  ["Boolean_comparison_exp"]: ValueTypes["Boolean_comparison_exp"];
   ["Int_comparison_exp"]: ValueTypes["Int_comparison_exp"];
   ["String_comparison_exp"]: ValueTypes["String_comparison_exp"];
   ["account_aggregate_bool_exp"]: ValueTypes["account_aggregate_bool_exp"];
