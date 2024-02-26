@@ -774,3 +774,37 @@ export const validateClient = async (
     status: dbResStatus.Error
   }
 }
+
+/**
+ * 
+ * @param id 
+ * @returns 
+ */
+export const queryValid = async (
+  id: string
+): Promise<{
+  status: dbResStatus,
+  valid?: boolean
+}> => {
+  const response = await chain("query")({
+    client: [{
+      where: {
+        id: {
+          _eq: id
+        }
+      },
+      limit: 1,
+    }, {
+      valid: true
+    }]
+  }, {operationName: "queryValid"});
+  if (Array.isArray(response.client)) {
+    return {
+      status: dbResStatus.Ok,
+      valid: response.client[0].valid
+    }
+  }
+  return {
+    status: dbResStatus.Error
+  }
+}
