@@ -1,6 +1,6 @@
 import { RedisClientType } from "redis";
 import { Redis } from "../Redis";
-import { Address, Client } from "@paybox/common";
+import { Address, Client, ClientForm } from "@paybox/common";
 
 export class ClientCache {
   private client: RedisClientType;
@@ -11,7 +11,7 @@ export class ClientCache {
     this.redis = redis;
   }
 
-  async cacheClient(key: string, items: Client) {
+  async cacheClient<T extends Client>(key: string, items: T) {
     const data = await this.client.hSet(key, {
       id: items.id,
       firstname: items.firstname || "",
@@ -99,4 +99,34 @@ export class ClientCache {
 
     return;
   }
+
+  async tempCache(key: string, items: ClientForm & { otp: string }): Promise<void> {
+    await this.client.hSet(key, {
+      firstname: items.firstname || "",
+      lastname: items.lastname || "",
+      email: items.email,
+      mobile: items.mobile || "",
+      username: items.username,
+      password: items.password,
+      otp: items.otp,
+    });
+    return;
+  }
+
+  async getTempCache<T extends ClientForm & { otp: string }>(key: string): Promise<T | null> {
+    const client = await this.client.hGetAll(key);
+    if (!client) {
+      return null;
+    }
+    return {
+      firstname: client.firstname,
+      lastname: client.lastname,
+      email: client.email,
+      mobile: client.mobile,
+      username: client.username,
+      password: client.password,
+      otp: client.otp,
+    } as T;
+  };
 }
+
