@@ -19,6 +19,19 @@ export type Scalars = {
   uuid: { input: any; output: any; }
 };
 
+/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['Boolean']['input']>;
+  _gt?: InputMaybe<Scalars['Boolean']['input']>;
+  _gte?: InputMaybe<Scalars['Boolean']['input']>;
+  _in?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['Boolean']['input']>;
+  _lte?: InputMaybe<Scalars['Boolean']['input']>;
+  _neq?: InputMaybe<Scalars['Boolean']['input']>;
+  _nin?: InputMaybe<Array<Scalars['Boolean']['input']>>;
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['Int']['input']>;
@@ -822,8 +835,7 @@ export type Client = {
   /** An aggregate relationship */
   transactions_aggregate: Transactions_Aggregate;
   username?: Maybe<Scalars['String']['output']>;
-  /** An object relationship */
-  wallet?: Maybe<Wallet>;
+  valid: Scalars['Boolean']['output'];
   /** An array relationship */
   wallets: Array<Wallet>;
   /** An aggregate relationship */
@@ -943,7 +955,7 @@ export type Client_Bool_Exp = {
   transactions?: InputMaybe<Transactions_Bool_Exp>;
   transactions_aggregate?: InputMaybe<Transactions_Aggregate_Bool_Exp>;
   username?: InputMaybe<String_Comparison_Exp>;
-  wallet?: InputMaybe<Wallet_Bool_Exp>;
+  valid?: InputMaybe<Boolean_Comparison_Exp>;
   wallets?: InputMaybe<Wallet_Bool_Exp>;
   wallets_aggregate?: InputMaybe<Wallet_Aggregate_Bool_Exp>;
 };
@@ -975,7 +987,7 @@ export type Client_Insert_Input = {
   password?: InputMaybe<Scalars['String']['input']>;
   transactions?: InputMaybe<Transactions_Arr_Rel_Insert_Input>;
   username?: InputMaybe<Scalars['String']['input']>;
-  wallet?: InputMaybe<Wallet_Obj_Rel_Insert_Input>;
+  valid?: InputMaybe<Scalars['Boolean']['input']>;
   wallets?: InputMaybe<Wallet_Arr_Rel_Insert_Input>;
 };
 
@@ -1038,7 +1050,7 @@ export type Client_Order_By = {
   password?: InputMaybe<Order_By>;
   transactions_aggregate?: InputMaybe<Transactions_Aggregate_Order_By>;
   username?: InputMaybe<Order_By>;
-  wallet?: InputMaybe<Wallet_Order_By>;
+  valid?: InputMaybe<Order_By>;
   wallets_aggregate?: InputMaybe<Wallet_Aggregate_Order_By>;
 };
 
@@ -1062,7 +1074,9 @@ export enum Client_Select_Column {
   /** column name */
   Password = 'password',
   /** column name */
-  Username = 'username'
+  Username = 'username',
+  /** column name */
+  Valid = 'valid'
 }
 
 /** input type for updating data in table "client" */
@@ -1074,6 +1088,7 @@ export type Client_Set_Input = {
   mobile?: InputMaybe<Scalars['bigint']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
+  valid?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate stddev on columns */
@@ -1111,6 +1126,7 @@ export type Client_Stream_Cursor_Value_Input = {
   mobile?: InputMaybe<Scalars['bigint']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
+  valid?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** aggregate sum on columns */
@@ -1134,7 +1150,9 @@ export enum Client_Update_Column {
   /** column name */
   Password = 'password',
   /** column name */
-  Username = 'username'
+  Username = 'username',
+  /** column name */
+  Valid = 'valid'
 }
 
 export type Client_Updates = {

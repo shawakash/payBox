@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string, any> = {
+  Boolean_comparison_exp: {},
   Int_comparison_exp: {},
   String_comparison_exp: {},
   account_aggregate_bool_exp: {
@@ -310,7 +311,7 @@ export const AllTypesProps: Record<string, any> = {
     transactions: "transactions_bool_exp",
     transactions_aggregate: "transactions_aggregate_bool_exp",
     username: "String_comparison_exp",
-    wallet: "wallet_bool_exp",
+    valid: "Boolean_comparison_exp",
     wallets: "wallet_bool_exp",
     wallets_aggregate: "wallet_aggregate_bool_exp",
   },
@@ -324,7 +325,6 @@ export const AllTypesProps: Record<string, any> = {
     id: "uuid",
     mobile: "bigint",
     transactions: "transactions_arr_rel_insert_input",
-    wallet: "wallet_obj_rel_insert_input",
     wallets: "wallet_arr_rel_insert_input",
   },
   client_obj_rel_insert_input: {
@@ -347,7 +347,7 @@ export const AllTypesProps: Record<string, any> = {
     password: "order_by",
     transactions_aggregate: "transactions_aggregate_order_by",
     username: "order_by",
-    wallet: "wallet_order_by",
+    valid: "order_by",
     wallets_aggregate: "wallet_aggregate_order_by",
   },
   client_pk_columns_input: {
@@ -1694,7 +1694,7 @@ export const ReturnTypes: Record<string, any> = {
     transactions: "transactions",
     transactions_aggregate: "transactions_aggregate",
     username: "String",
-    wallet: "wallet",
+    valid: "Boolean",
     wallets: "wallet",
     wallets_aggregate: "wallet_aggregate",
   },
