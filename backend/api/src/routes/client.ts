@@ -33,7 +33,7 @@ import {
   setJWTCookie,
   validatePassword,
 } from "../auth/util";
-import { checkPassword, extractClientId } from "../auth/middleware";
+import { checkPassword, extractClientId, isValidated } from "../auth/middleware";
 import {
   Client,
   ClientSigninFormValidate,
@@ -112,7 +112,7 @@ clientRouter.post('/', async (req, res) => {
       });
     }
 
-    return res.status(200).json({ ...client, jwt, otp, status: responseStatus.Ok });
+    return res.status(200).json({ ...client, jwt, status: responseStatus.Ok });
 
   } catch (error) {
     console.error(error);
@@ -120,7 +120,7 @@ clientRouter.post('/', async (req, res) => {
   }
 });
 
-clientRouter.patch("/valid", extractClientId, async (req, res) => {
+clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
   try {
     //@ts-ignore
     const id = req.id;
@@ -167,6 +167,8 @@ clientRouter.patch("/valid", extractClientId, async (req, res) => {
           },
         ],
       });
+      await cache.cacheIdUsingKey(`valid:${id}`, 'true');
+      
       return res
         .status(200)
         .json({
