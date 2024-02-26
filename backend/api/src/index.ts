@@ -7,6 +7,8 @@ import {
   ETH_ADDRESS,
   INFURA_PROJECT_ID,
   SOLANA_ADDRESS,
+  TWILLO_ACCOUNT_SID,
+  TWILLO_TOKEN,
 } from "./config";
 import SolTxnLogs from "./sockets/sol";
 import EthTxnLogs from "./sockets/eth";
@@ -28,6 +30,7 @@ import { swaggerSpec, swaggerYaml } from "@paybox/openapi";
 import swaggerUi, { JsonObject } from "swagger-ui-express";
 import { accountRouter } from "./routes/account";
 import { walletRouter } from "./routes/wallet";
+import twilio from 'twilio';
 
 export const app = express();
 export const server = http.createServer(app);
@@ -42,6 +45,7 @@ export const ethTxn = new EthTxnLogs(
 );
 export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
 export const cache = Redis.getInstance();
+export const twillo = twilio(TWILLO_ACCOUNT_SID, TWILLO_TOKEN); 
 
 app.use(bodyParser.json());
 app.use(

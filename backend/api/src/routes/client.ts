@@ -6,6 +6,8 @@ import {
   ChangePasswordValid,
   PasswordValid,
   SECRET_PHASE_STRENGTH,
+  TOTP_DIGITS,
+  TOTP_TIME,
   responseStatus,
 } from "@paybox/common";
 import {
@@ -19,8 +21,10 @@ import {
   updateMetadata,
   updatePassword,
 } from "../db/client";
-import { cache } from "../index";
+import { cache, twillo } from "../index";
 import {
+  genOtp,
+  genRand,
   generateSeed,
   setHashPassword,
   setJWTCookie,
@@ -34,8 +38,50 @@ import {
 } from "@paybox/common";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
+import { REDIS_SECRET, TWILLO_NUMBER } from "../config";
 
 export const clientRouter = Router();
+
+clientRouter.post('/otp', async (req, res) => {
+  try {
+    const { username, email, firstname, lastname, mobile, password } =
+      ClientSignupFormValidate.parse(req.body);
+
+    const getClient = await conflictClient(username, email);
+    if (getClient.client?.length) {
+      return res
+        .status(409)
+        .json({ msg: "client already exist", status: responseStatus.Error });
+    }
+
+    // Generate OTP
+    const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
+    await twillo.messages.create({
+      body: `Paybox OTP is: ${otp}`,
+      from: TWILLO_NUMBER,
+      to: `+91${mobile}` as string,
+    });
+
+    // Cache
+    await cache.clientCache.tempCache(otp, {
+      username,
+      email,
+      firstname,
+      lastname,
+      mobile,
+      password,
+      otp,
+    });
+
+    return res
+            .status(200)
+            .json({ otp, status: responseStatus.Ok });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error, status: responseStatus.Error });
+  }
+});
 
 clientRouter.post("/", async (req, res) => {
   try {
