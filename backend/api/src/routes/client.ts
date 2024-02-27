@@ -74,7 +74,6 @@ clientRouter.post('/', async (req, res) => {
     }
 
 
-    // Cache
     /**
     * Cache
     */
@@ -89,24 +88,24 @@ clientRouter.post('/', async (req, res) => {
       address: client.address,
       password: hashPassword,
     });
-    
+
     /**
      * Create a Jwt
     */
-   let jwt: string;
-   if (client.id) {
-     jwt = await setJWTCookie(req, res, client.id as string);
+    let jwt: string;
+    if (client.id) {
+      jwt = await setJWTCookie(req, res, client.id as string);
     } else {
       return res.status(500).json({
         msg: "Error creating user account",
         status: responseStatus.Error,
       });
     }
-    
+
     // Generate OTP
     const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
     try {
-      sendOTP(`${firstname}`, Number(mobile), email, otp);
+      sendOTP(`${firstname}`, email, otp, Number(mobile));
       await cache.cacheIdUsingKey(otp.toString(), client.id as string);
     } catch (error) {
       console.log(error);
@@ -145,7 +144,7 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      if(validate.valid == false) {
+      if (validate.valid == false) {
         return res
           .status(503)
           .json({ status: responseStatus.Error, msg: "Error in validation" });
@@ -169,7 +168,7 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
         ],
       });
       await cache.cacheIdUsingKey(`valid:${id}`, 'true');
-      
+
       return res
         .status(200)
         .json({
@@ -214,96 +213,19 @@ clientRouter.post("/providerAuth", async (req, res) => {
     }
 
     const hashPassword = await setHashPassword(password);
-    const getClient = await checkClient(username, email);
-    if (getClient.client?.length) {
-      let jwt: string;
-      if (getClient.client[0].id) {
-        jwt = await setJWTCookie(req, res, getClient.client[0].id as string);
-      } else {
-        return res.status(500).json({
-          msg: "Error creating user account",
-          status: responseStatus.Error,
-        });
-      }
-      await cache.clientCache.cacheClient(getClient.client[0].id as string, {
-        firstname,
-        email,
-        username,
-        lastname,
-        mobile,
-        id: getClient?.client[0].id as string,
-        address: getClient.client[0].address as Address,
-        //@ts-ignore
-        password: hashPassword || "",
-      });
-
-      return res
-        .status(200)
-        .json({ ...getClient.client[0], jwt, status: responseStatus.Ok });
-    }
-    const seed = generateSeed(SECRET_PHASE_STRENGTH);
-    const solKeys = await new SolOps().createWallet(seed);
-    const ethKeys = new EthOps().createWallet(seed);
-    const client = await createClient(
-      username,
-      email,
-      firstname,
-      lastname,
-      hashPassword,
-      Number(mobile),
-      seed,
-      solKeys,
-      ethKeys,
-    );
-    if (
-      client.status == dbResStatus.Error ||
-      client.sol == undefined ||
-      client.eth == undefined
-    ) {
+    const mutation = await checkClient(username, email);
+    if (mutation.status == dbResStatus.Error || mutation.client?.id == undefined) {
       return res
         .status(503)
-        .json({ msg: "Database Error", status: responseStatus.Error });
-    }
-
-    /**
-     * Cache
-     */
-    await cache.clientCache.cacheClient(client?.id as string, {
-      firstname,
-      email,
-      username,
-      lastname,
-      mobile,
-      id: client?.id as string,
-      address: client?.address as Address,
-      //@ts-ignore
-      password: hashPassword || "",
-    });
-
-    if (client.walletId) {
-      await cache.wallet.cacheWallet(client.walletId as string, {
-        clientId: client.id as string,
-        id: client.walletId as string,
-        secretPhase: seed,
-        accounts: [
-          {
-            clientId: client.id as string,
-            id: client.accountId as string,
-            sol: client.sol,
-            eth: client.eth,
-            walletId: client.walletId as string,
-            name: "Account 1",
-          },
-        ],
-      });
+        .json({ status: responseStatus.Error, msg: "Database Error" });
     }
 
     /**
      * Create a Jwt
-     */
+    */
     let jwt: string;
-    if (client?.id) {
-      jwt = await setJWTCookie(req, res, client.id as string);
+    if (mutation.client.id) {
+      jwt = await setJWTCookie(req, res, mutation.client.id as string);
     } else {
       return res.status(500).json({
         msg: "Error creating user account",
@@ -311,7 +233,31 @@ clientRouter.post("/providerAuth", async (req, res) => {
       });
     }
 
-    return res.status(200).json({ ...client, jwt, status: responseStatus.Ok });
+    await cache.clientCache.cacheClient(mutation.client.id as string, {
+      firstname,
+      email,
+      username,
+      lastname,
+      mobile,
+      id: mutation?.client.id as string,
+      address: mutation.client?.address as Address,
+      //@ts-ignore
+      password: hashPassword || "",
+    });
+
+    // Generate OTP
+    const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
+    try {
+      sendOTP(`${firstname}`, email, otp);
+      await cache.cacheIdUsingKey(otp.toString(), mutation.client.id as string);
+    } catch (error) {
+      console.log(error);
+      return res.status(200).json({ ...mutation.client, jwt, msg: "Error in sending otp", status: responseStatus.Ok });
+    }
+
+    return res
+      .status(200)
+      .json({ ...mutation.client, jwt, status: responseStatus.Ok });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error, status: responseStatus.Error });

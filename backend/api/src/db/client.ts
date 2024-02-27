@@ -5,6 +5,7 @@ import {
   AccountType,
   Address,
   BitcoinKey,
+  Client,
   EthKey,
   HASURA_ADMIN_SERCRET,
   SolKey,
@@ -278,16 +279,7 @@ export const checkClient = async (
   username: string,
   email: string,
 ): Promise<{
-  client?: {
-    username?: unknown;
-    email?: unknown;
-    firstname?: unknown;
-    lastname?: unknown;
-    mobile?: unknown;
-    id?: unknown;
-    address?: unknown;
-    password?: unknown;
-  }[];
+  client?: Client;
   status: dbResStatus;
 }> => {
   const response = await chain("query")(
@@ -320,9 +312,9 @@ export const checkClient = async (
     },
     { operationName: "checkClient" },
   );
-  if (response.client.length) {
+  if (response.client[0].id) {
     return {
-      ...response,
+      client: response.client[0] as Client,
       status: dbResStatus.Ok,
     };
   }
