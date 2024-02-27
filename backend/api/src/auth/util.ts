@@ -1,16 +1,14 @@
 import type { Request, Response } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
 import bcryptjs from "bcryptjs";
-import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY } from "../config";
+import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY, GMAIL, TWILLO_NUMBER } from "../config";
 import {
   Address,
   CLIENT_URL,
-  ChainAccount,
   ChainAccountPrivate,
-  CoinType,
   JWT_ALGO,
   SALT_ROUNDS,
-  TOTP_DIGITS,
+  getOtpTemplate,
 } from "@paybox/common";
 import * as qr from "qrcode";
 import fs from "fs";
@@ -22,6 +20,8 @@ import { EthOps } from "../sockets/eth";
 
 import * as speakeasy from 'speakeasy';
 import crypto from 'crypto';
+import nodemailer from 'nodemailer';
+import { transporter, twillo } from "..";
 
 /**
  * @param jwt
@@ -175,14 +175,14 @@ export const getAccountOnPhrase = async (
  * 
  * @returns Opt
  */
-export const genOtp = (digits: number, time: number): string => {
+export const genOtp = (digits: number, time: number): number => {
   const otp = speakeasy.totp({
     secret: speakeasy.generateSecret().base32,
-    digits: digits, 
-    encoding: 'base32', 
-    step: time 
+    digits: digits,
+    encoding: 'base32',
+    step: time
   });
-  return otp;
+  return Number(otp);
 }
 
 /**
@@ -192,4 +192,38 @@ export const genOtp = (digits: number, time: number): string => {
  */
 export const genRand = (length: number): string => {
   return crypto.randomBytes(length).toString('hex');
+}
+
+/**
+ * 
+ * @param name 
+ * @param email 
+ * @param otp 
+ */
+export const sendOTP = async (
+  name: string,
+  mobile: number,
+  email: string,
+  otp: number,
+) => {
+  const template = getOtpTemplate(name, otp, GMAIL);
+  const mailOptions = {
+    from: GMAIL,
+    to: email,
+    subject: 'PayBox Email Verification',
+    html: template
+  };
+
+  try {
+    await twillo.messages.create({
+      body: `PayBox Verifcation OTP: ${otp}`,
+      from: TWILLO_NUMBER,
+      to: `+91${mobile}` as string,
+    });
+    await transporter.sendMail(mailOptions);
+    console.log('OTP sent successfully to', email);
+  } catch (error) {
+    console.error('Error sending OTP:', error);
+    throw error;
+  }
 }

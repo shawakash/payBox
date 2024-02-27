@@ -39,4 +39,10 @@ export const TWILLO_TOKEN = process.env.TWILLO_TOKEN || "";
 
 export const TWILLO_NUMBER = process.env.TWILLO_NUMBER || "";
 
-export const REDIS_SECRET = process.env.REDIS_SECRET || "04eec09f"
+export const REDIS_SECRET = process.env.REDIS_SECRET || "04eec09f";
+
+export const GMAIL = process.env.GMAIL || "";
+
+export const GMAIL_APP_PASS = process.env.GMAIL_APP_PASS || "";
+
+export const MAIL_SERVICE = process.env.MAIL_SERVICE || "gmail";

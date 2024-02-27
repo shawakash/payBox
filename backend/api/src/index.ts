@@ -5,7 +5,10 @@ import { WebSocketServer } from "ws";
 import {
   BTC_ADDRESS,
   ETH_ADDRESS,
+  GMAIL,
+  GMAIL_APP_PASS,
   INFURA_PROJECT_ID,
+  MAIL_SERVICE,
   SOLANA_ADDRESS,
   TWILLO_ACCOUNT_SID,
   TWILLO_TOKEN,
@@ -31,6 +34,7 @@ import swaggerUi, { JsonObject } from "swagger-ui-express";
 import { accountRouter } from "./routes/account";
 import { walletRouter } from "./routes/wallet";
 import twilio from 'twilio';
+import nodemailer from 'nodemailer';
 
 export const app = express();
 export const server = http.createServer(app);
@@ -45,7 +49,16 @@ export const ethTxn = new EthTxnLogs(
 );
 export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
 export const cache = Redis.getInstance();
-export const twillo = twilio(TWILLO_ACCOUNT_SID, TWILLO_TOKEN); 
+export const twillo = twilio(TWILLO_ACCOUNT_SID, TWILLO_TOKEN);
+export const transporter = nodemailer.createTransport({
+  service: MAIL_SERVICE,
+  port: 465,
+  secure: true,
+  auth: {
+    user: GMAIL,
+    pass: GMAIL_APP_PASS
+  }
+}); 
 
 app.use(bodyParser.json());
 app.use(
