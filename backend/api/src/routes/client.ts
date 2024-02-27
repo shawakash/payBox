@@ -24,11 +24,12 @@ import {
   updatePassword,
   validateClient,
 } from "../db/client";
-import { cache, twillo } from "../index";
+import { cache } from "../index";
 import {
   genOtp,
   genRand,
   generateSeed,
+  sendOTP,
   setHashPassword,
   setJWTCookie,
   validatePassword,
@@ -41,8 +42,6 @@ import {
 } from "@paybox/common";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { REDIS_SECRET, TWILLO_NUMBER } from "../config";
-import { createWallet } from "../db/wallet";
 
 export const clientRouter = Router();
 
@@ -74,13 +73,6 @@ clientRouter.post('/', async (req, res) => {
         .json({ msg: "Database Error", status: responseStatus.Error });
     }
 
-    // Generate OTP
-    const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
-    await twillo.messages.create({
-      body: `Paybox OTP is: ${otp}`,
-      from: TWILLO_NUMBER,
-      to: `+91${mobile}` as string,
-    });
 
     // Cache
     /**
@@ -97,19 +89,28 @@ clientRouter.post('/', async (req, res) => {
       address: client.address,
       password: hashPassword,
     });
-    await cache.cacheIdUsingKey(otp, client.id as string);
-
+    
     /**
      * Create a Jwt
-     */
-    let jwt: string;
-    if (client.id) {
-      jwt = await setJWTCookie(req, res, client.id as string);
+    */
+   let jwt: string;
+   if (client.id) {
+     jwt = await setJWTCookie(req, res, client.id as string);
     } else {
       return res.status(500).json({
         msg: "Error creating user account",
         status: responseStatus.Error,
       });
+    }
+    
+    // Generate OTP
+    const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
+    try {
+      sendOTP(`${firstname}`, Number(mobile), email, otp);
+      await cache.cacheIdUsingKey(otp.toString(), client.id as string);
+    } catch (error) {
+      console.log(error);
+      return res.status(200).json({ ...client, jwt, msg: "Error in sending otp", status: responseStatus.Ok });
     }
 
     return res.status(200).json({ ...client, jwt, status: responseStatus.Ok });
