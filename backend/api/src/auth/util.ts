@@ -202,9 +202,9 @@ export const genRand = (length: number): string => {
  */
 export const sendOTP = async (
   name: string,
-  mobile: number,
   email: string,
   otp: number,
+  mobile?: number,
 ) => {
   const template = getOtpTemplate(name, otp, GMAIL);
   const mailOptions = {
@@ -215,11 +215,13 @@ export const sendOTP = async (
   };
 
   try {
-    await twillo.messages.create({
-      body: `PayBox Verifcation OTP: ${otp}`,
-      from: TWILLO_NUMBER,
-      to: `+91${mobile}` as string,
-    });
+    if(mobile !== undefined) {
+      await twillo.messages.create({
+        body: `PayBox Verifcation OTP: ${otp}`,
+        from: TWILLO_NUMBER,
+        to: `+91${mobile}` as string,
+      });
+    }
     await transporter.sendMail(mailOptions);
     console.log('OTP sent successfully to', email);
   } catch (error) {
