@@ -21,7 +21,8 @@ import { EthOps } from "../sockets/eth";
 import * as speakeasy from 'speakeasy';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
-import { transporter, twillo } from "..";
+import { cloud, transporter, twillo } from "..";
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 
 /**
  * @param jwt
@@ -121,39 +122,32 @@ export const validatePassword = async (
  * @returns true if the qr code is generated successfully else false
  */
 export const generateQRCode = async (
+  bucketName: string,
   payload: Partial<Address>,
   id: string,
-): Promise<null | string> => {
+): Promise<string | undefined> => {
   try {
-    const path = generateUniqueImageName(id);
     let redirectUrl = `${CLIENT_URL}/txn/send?`;
-    if(payload.sol) {
+    if (payload.sol) {
       redirectUrl += `sol=${payload.sol}&`;
     }
-    if(payload.eth) {
+    if (payload.eth) {
       redirectUrl += `eth=${payload.eth}&`;
     }
-    if(payload.bitcoin) {
+    if (payload.bitcoin) {
       redirectUrl += `&bitcoin=${payload.bitcoin}&`;
     }
+    const buffer = await qr.toBuffer(redirectUrl);
+    const ETag = await putObjectInR2(bucketName, `qr:${id.slice(5)}`, buffer, 'image/png');
+    return ETag;
 
-    if (!fs.existsSync(path)) {
-      await qr.toFile(path, redirectUrl);
-      console.log(`QR code generated successfully and saved at: ${path}`);
-      return path;
-    } else {
-      const uniquePath = generateUniqueImageName(`${id}_new`);
-      await qr.toFile(uniquePath, JSON.stringify(redirectUrl));
-      console.log(`QR code generated successfully and saved at: ${uniquePath}`);
-      return uniquePath;
-    }
   } catch (error) {
     console.error("Error generating QR code:", error);
-    return null;
+    return undefined;
   }
 };
 
-export const generateUniqueImageName = (id: string): string => {
+export const getUniqueImageName = (id: string): string => {
   const timestamp: number = Date.now();
   const imageName: string = `./codes/${id.slice(5)}_${timestamp
     .toString()
@@ -224,7 +218,7 @@ export const sendOTP = async (
   };
 
   try {
-    if(mobile !== undefined) {
+    if (mobile !== undefined) {
       await twillo.messages.create({
         body: `PayBox Verifcation OTP: ${otp}`,
         from: TWILLO_NUMBER,
@@ -235,6 +229,36 @@ export const sendOTP = async (
     console.log('OTP sent successfully to', email);
   } catch (error) {
     console.error('Error sending OTP:', error);
+    throw error;
+  }
+}
+
+/**
+ * 
+ * @param bucketName 
+ * @param fileName 
+ * @param content 
+ * @param contentType 
+ */
+export const putObjectInR2 = async <T extends string | Uint8Array | Buffer>(
+  bucketName: string,
+  fileName: string,
+  content: T,
+  contentType: string
+): Promise<string | undefined> => {
+  const mutate = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: fileName,
+    Body: content,
+    ContentType: contentType,
+  });
+
+  try {
+    const { ETag } = await cloud.send(mutate);
+    console.log(`File ${fileName} uploaded with ETag: ${ETag}`);
+    return ETag;
+  } catch (error) {
+    console.error('Error uploading object:', error);
     throw error;
   }
 }
