@@ -46,3 +46,13 @@ export const GMAIL = process.env.GMAIL || "";
 export const GMAIL_APP_PASS = process.env.GMAIL_APP_PASS || "";
 
 export const MAIL_SERVICE = process.env.MAIL_SERVICE || "gmail";
+
+export const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || "";
+
+export const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || "";
+
+export const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "";
+
+export const R2_ENDPOINT = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
+
+export const R2_TOKEN = process.env.R2_TOKEN || "";
