@@ -3,3 +3,4 @@ export * from "./addressValid";
 export * from "./transaction";
 export * from "./account";
 export * from "./wallet";
+export * from "./qrcode";

@@ -296,7 +296,13 @@ export const checkPassword = async (
   }
 };
 
-
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
 export const isValidated = async (
   req: Request,
   res: Response,
@@ -326,6 +332,45 @@ export const isValidated = async (
           .json({ msg: "Client Phone Number is validated 😊", status: responseStatus.Ok });
       }
     } else {
+      return res
+        .status(500)
+        .json({ status: responseStatus.Error, msg: "Jwt error" });
+    }
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
+  }
+}
+
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
+export const checkValidation = async (
+  req: Request, 
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+    if(id) {
+      console.log(id);
+      const validCache = await cache.getIdFromKey(`valid:${id}`);
+      if (!validCache) {
+        return res
+          .status(200)
+          .json({ msg: "Please verify your number or email first.", status: responseStatus.Error });
+      }
+    } else { 
       return res
         .status(500)
         .json({ status: responseStatus.Error, msg: "Jwt error" });

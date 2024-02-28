@@ -121,13 +121,22 @@ export const validatePassword = async (
  * @returns true if the qr code is generated successfully else false
  */
 export const generateQRCode = async (
-  payload: Partial<Address> & { id: string },
+  payload: Partial<Address>,
   id: string,
 ): Promise<null | string> => {
   try {
     const path = generateUniqueImageName(id);
-    const redirectUrl = `${CLIENT_URL}/txn/send?sol=${payload.sol}&eth=${payload.eth}&bitcoin=${payload.bitcoin}&usdc=${payload.usdc}`;
-    // const qrCodeDataURL = await qr.toDataURL(redirectUrl);
+    let redirectUrl = `${CLIENT_URL}/txn/send?`;
+    if(payload.sol) {
+      redirectUrl += `sol=${payload.sol}&`;
+    }
+    if(payload.eth) {
+      redirectUrl += `eth=${payload.eth}&`;
+    }
+    if(payload.bitcoin) {
+      redirectUrl += `&bitcoin=${payload.bitcoin}&`;
+    }
+
     if (!fs.existsSync(path)) {
       await qr.toFile(path, redirectUrl);
       console.log(`QR code generated successfully and saved at: ${path}`);

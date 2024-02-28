@@ -112,7 +112,7 @@ app.get("/_health", (_req, res) => {
 
 app.use("/client", clientRouter);
 app.use("/address", extractClientId, addressRouter);
-app.use("/qrcode", qrcodeRouter);
+app.use("/qrcode", extractClientId, qrcodeRouter);
 app.use("/txn", extractClientId, txnRouter);
 app.use("/account", extractClientId, accountRouter);
 app.use("/wallet", extractClientId, walletRouter);
