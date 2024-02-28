@@ -234,3 +234,5 @@ export const getOtpTemplate = (name: string, otp: number, helpEmail: string) => 
 </html>
   `
 }
+
+export const R2_QRCODE_BUCKET_NAME = "paybox-qrcode";
