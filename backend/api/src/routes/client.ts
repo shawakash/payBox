@@ -167,6 +167,14 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
           },
         ],
       });
+      await cache.account.cacheAccount(validate.account?.id as string, {
+        clientId: id,
+        id: validate.account?.id as string,
+        sol: validate.account?.sol,
+        eth: validate.account?.eth,
+        walletId: validate.walletId as string,
+        name: "Account 1",
+      });
       await cache.cacheIdUsingKey(`valid:${id}`, 'true');
 
       return res
