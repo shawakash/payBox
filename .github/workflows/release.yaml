@@ -1,0 +1,43 @@
+# most of this is copied from https://github.com/t3-oss/create-t3-app/blob/next/.github/workflows/release.yml
+name: Prepare Release
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  pr:
+    name: Release Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '21.6.1'
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+      - name: Build packages
+        run: yarn turbo run build --filter='./packages/*'
+
+      - name: Create Version PR or Publish to NPM
+        id: changesets
+        uses: changesets/action@v1.4.6
+        with:
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          version: yarn bump-versions
+          publish: yarn changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.CHANGESET_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
