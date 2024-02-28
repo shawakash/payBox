@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createReadStream } from "fs";
-import { AccountType, Address, QrcodeQuery, responseStatus } from "@paybox/common";
-import { generateQRCode } from "../auth/util";
+import { AccountType, Address, QrcodeQuery, R2_QRCODE_BUCKET_NAME, responseStatus } from "@paybox/common";
+import { generateQRCode, putObjectInR2 } from "../auth/util";
 import { checkValidation, hasAddress, isValidated } from "../auth/middleware";
 import { cache } from "..";
 
@@ -13,8 +13,9 @@ qrcodeRouter.get("/get", hasAddress, async (req, res) => {
     const address = req.address;
     if (address) {
       const isGenerated = await generateQRCode(
-        address as Partial<Address>,
-        address.id,
+        R2_QRCODE_BUCKET_NAME,
+        address as Address,
+        address.id
       );
       if (!isGenerated) {
         return res.status(500).json({
@@ -51,6 +52,7 @@ qrcodeRouter.get('/', checkValidation, async (req, res) => {
         });
       }
     const code = await generateQRCode(
+      R2_QRCODE_BUCKET_NAME,
       {
         sol: acocunt.sol.publicKey,
         eth: acocunt.eth.publicKey,
@@ -64,11 +66,11 @@ qrcodeRouter.get('/', checkValidation, async (req, res) => {
         msg: "Error in generating qr code",
       });
     }
-    res.setHeader("Content-Type", "image/png");
-    const stream = createReadStream(code);
-
-    stream.pipe(res);
-
+    return res.status(200).json({
+      status: responseStatus.Ok,
+      msg: "QR code generated successfully",
+      tag: code,
+    });
   } catch (error) {
     console.log(error);
     return res

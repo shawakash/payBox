@@ -9,6 +9,9 @@ import {
   GMAIL_APP_PASS,
   INFURA_PROJECT_ID,
   MAIL_SERVICE,
+  R2_ACCESS_KEY_ID,
+  R2_ENDPOINT,
+  R2_SECRET_ACCESS_KEY,
   SOLANA_ADDRESS,
   TWILLO_ACCOUNT_SID,
   TWILLO_TOKEN,
@@ -35,6 +38,7 @@ import { accountRouter } from "./routes/account";
 import { walletRouter } from "./routes/wallet";
 import twilio from 'twilio';
 import nodemailer from 'nodemailer';
+import { S3Client } from '@aws-sdk/client-s3';
 
 export const app = express();
 export const server = http.createServer(app);
@@ -59,6 +63,16 @@ export const transporter = nodemailer.createTransport({
     pass: GMAIL_APP_PASS
   }
 }); 
+
+export const cloud = new S3Client({
+  region: 'auto',
+  endpoint: R2_ENDPOINT,
+
+  credentials: {
+    accessKeyId: R2_ACCESS_KEY_ID,
+    secretAccessKey: R2_SECRET_ACCESS_KEY
+  }
+});
 
 app.use(bodyParser.json());
 app.use(
