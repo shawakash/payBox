@@ -2,7 +2,7 @@ import { Router } from "express";
 import { createReadStream } from "fs";
 import { AccountType, Address, QrcodeQuery, R2_QRCODE_BUCKET_NAME, responseStatus } from "@paybox/common";
 import { generateQRCode, putObjectInR2 } from "../auth/util";
-import { checkValidation, hasAddress, isValidated } from "../auth/middleware";
+import { checkQrcode, checkValidation, hasAddress, isValidated } from "../auth/middleware";
 import { cache } from "..";
 
 export const qrcodeRouter = Router();
@@ -37,7 +37,7 @@ qrcodeRouter.get("/get", hasAddress, async (req, res) => {
 });
 
 
-qrcodeRouter.get('/', checkValidation, async (req, res) => {
+qrcodeRouter.get('/', checkValidation, checkQrcode, async (req, res) => {
   try {
     const { accountId } = QrcodeQuery.parse(req.query);
 
@@ -70,6 +70,7 @@ qrcodeRouter.get('/', checkValidation, async (req, res) => {
       status: responseStatus.Ok,
       msg: "QR code generated successfully",
       tag: code,
+      type: "image/png",
     });
   } catch (error) {
     console.log(error);

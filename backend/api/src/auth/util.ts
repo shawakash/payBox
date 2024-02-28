@@ -22,7 +22,8 @@ import * as speakeasy from 'speakeasy';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { cloud, transporter, twillo } from "..";
-import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { Readable } from "stream";
+import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 
 /**
  * @param jwt
@@ -125,7 +126,7 @@ export const generateQRCode = async (
   bucketName: string,
   payload: Partial<Address>,
   id: string,
-): Promise<string | undefined> => {
+): Promise<Buffer | undefined> => {
   try {
     let redirectUrl = `${CLIENT_URL}/txn/send?`;
     if (payload.sol) {
@@ -138,8 +139,8 @@ export const generateQRCode = async (
       redirectUrl += `&bitcoin=${payload.bitcoin}&`;
     }
     const buffer = await qr.toBuffer(redirectUrl);
-    const ETag = await putObjectInR2(bucketName, `qr:${id.slice(5)}`, buffer, 'image/png');
-    return ETag;
+    const ETag = await putObjectInR2<Buffer>(bucketName, `qr:${id.slice(5)}`, buffer, 'image/png');
+    return buffer;
 
   } catch (error) {
     console.error("Error generating QR code:", error);
@@ -251,6 +252,12 @@ export const putObjectInR2 = async <T extends string | Uint8Array | Buffer>(
     Key: fileName,
     Body: content,
     ContentType: contentType,
+    Metadata: {
+      'Uploaded-By': 'payBox',
+      'Upload-Date': new Date().toISOString(),
+      'Content-Type': contentType,
+      'owner': 'paybox'
+    }
   });
 
   try {
@@ -260,5 +267,47 @@ export const putObjectInR2 = async <T extends string | Uint8Array | Buffer>(
   } catch (error) {
     console.error('Error uploading object:', error);
     throw error;
+  }
+}
+
+/**
+ * 
+ * @param bucketName 
+ * @param fileName 
+ * @returns 
+ */
+export const getObjectFromR2 = async (
+  bucketName: string,
+  fileName: string
+): Promise<{code: Buffer, type: string} | undefined> => {
+
+  const command = new GetObjectCommand({
+    Bucket: bucketName,
+    Key: fileName
+  });
+
+  try {
+    const { Body, ContentType } = await cloud.send(command);
+    if (Body) {
+      const chunks: Buffer[] = [];
+      for await (const chunk of Body as Readable) {
+        if (Buffer.isBuffer(chunk)) {
+          chunks.push(chunk);
+        } else {
+          chunks.push(Buffer.from(chunk));
+        }
+      }
+      console.log(`Get ${fileName} from R2`);
+      return {
+        code: Buffer.concat(chunks),
+        type: ContentType as string
+      };
+    } else {
+      console.log(`File ${fileName} not found in R2`);
+      return undefined;
+    }
+  } catch (error) {
+    console.error('Error getting object:', error);
+    return undefined;
   }
 }

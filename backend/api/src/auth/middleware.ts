@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import {
   clearCookie,
+  getObjectFromR2,
   setJWTCookie,
   validateJwt,
   validatePassword,
@@ -11,6 +12,8 @@ import {
   GetQrQuerySchema,
   Network,
   PasswordValid,
+  QrcodeQuery,
+  R2_QRCODE_BUCKET_NAME,
   TxnSendQuery,
   dbResStatus,
   responseStatus,
@@ -371,6 +374,48 @@ export const checkValidation = async (
           .json({ msg: "Please verify your number or email first.", status: responseStatus.Error });
       }
     } else { 
+      return res
+        .status(500)
+        .json({ status: responseStatus.Error, msg: "Jwt error" });
+    }
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
+  }
+}
+
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
+export const checkQrcode = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+    if(id) {
+      const {accountId} = QrcodeQuery.parse(req.query);
+      const fileName = `qr:${accountId.slice(5)}`;
+      const body = await getObjectFromR2(R2_QRCODE_BUCKET_NAME, fileName);
+      if (body?.code) {
+        return res.status(200).json({
+          status: responseStatus.Ok,
+          qrCode: body.code,
+          type: body.type,
+        });
+      }
+    } else {
       return res
         .status(500)
         .json({ status: responseStatus.Error, msg: "Jwt error" });
