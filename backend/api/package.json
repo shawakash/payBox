@@ -53,6 +53,7 @@
     "graphql": "^16.8.1",
     "graphql-subscriptions": "^2.0.0",
     "helpful-decorators": "^2.1.0",
+    "hono": "^4.0.8",
     "jose": "^5.2.0",
     "mime-types": "^2.1.35",
     "morgan": "^1.10.0",
