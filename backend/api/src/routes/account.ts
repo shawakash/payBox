@@ -16,8 +16,6 @@ import {
   SECRET_PHASE_STRENGTH,
 } from "@paybox/common";
 import { Router } from "express";
-import { SolOps } from "../sockets/sol";
-import { EthOps } from "../sockets/eth";
 import {
   createAccount,
   deleteAccount,
@@ -26,7 +24,7 @@ import {
   getAccount,
 } from "../db/account";
 import { importFromPrivate, addAccountPhrase } from "../db/wallet";
-import { cache } from "..";
+import { cache, ethOps, solOps } from "..";
 import {
   generateSeed,
   getAccountOnPhrase,
@@ -53,8 +51,8 @@ accountRouter.post("/", async (req, res) => {
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
-      const solKeys = await new SolOps().createAccount(query.secret);
-      const ethKeys = new EthOps().createAccount(query.secret);
+      const solKeys = await solOps.createAccount(query.secret);
+      const ethKeys = ethOps.createAccount(query.secret);
       const mutation = await createAccount(
         id,
         walletId,
@@ -262,9 +260,9 @@ accountRouter.post("/private", async (req, res) => {
       let keys = {} as WalletKeys;
       switch (network) {
         case Network.Sol:
-          keys = await new SolOps().fromSecret(secretKey);
+          keys = await solOps.fromSecret(secretKey);
         case Network.Eth:
-          keys = new EthOps().fromSecret(secretKey);
+          keys = ethOps.fromSecret(secretKey);
         case Network.Bitcoin:
         case Network.USDC:
           break;

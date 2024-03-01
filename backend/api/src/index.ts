@@ -16,8 +16,6 @@ import {
   TWILLO_ACCOUNT_SID,
   TWILLO_TOKEN,
 } from "./config";
-import SolTxnLogs from "./sockets/sol";
-import EthTxnLogs from "./sockets/eth";
 import { EthNetwok } from "./types/address";
 import { BTC_WS_URL, CLIENT_URL, PORT } from "@paybox/common";
 import morgan from "morgan";
@@ -30,7 +28,6 @@ import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
 import { expressMiddleware } from "@apollo/server/express4";
 import { createApollo } from "./resolver/server";
-import { BtcTxn } from "./sockets/btc";
 import path from "path";
 import { swaggerSpec, swaggerYaml } from "@paybox/openapi";
 import swaggerUi, { JsonObject } from "swagger-ui-express";
@@ -39,19 +36,23 @@ import { walletRouter } from "./routes/wallet";
 import twilio from 'twilio';
 import nodemailer from 'nodemailer';
 import { S3Client } from '@aws-sdk/client-s3';
+import {SolTxnLogs, EthTxnLogs, SolOps, EthOps, BtcTxn} from "@paybox/ws";
 
 export const app = express();
 export const server = http.createServer(app);
 export const wss = new WebSocketServer({ server });
 // export const apolloServer = createApollo();
 
+export const solOps = new SolOps();
+export const ethOps = new EthOps();
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
 export const ethTxn = new EthTxnLogs(
-  EthNetwok.sepolia,
-  INFURA_PROJECT_ID,
-  ETH_ADDRESS,
+    EthNetwok.sepolia,
+    INFURA_PROJECT_ID,
+    ETH_ADDRESS,
 );
 export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
+
 export const cache = Redis.getInstance();
 export const twillo = twilio(TWILLO_ACCOUNT_SID, TWILLO_TOKEN);
 export const transporter = nodemailer.createTransport({
@@ -131,15 +132,6 @@ app.use("/txn", extractClientId, txnRouter);
 app.use("/account", extractClientId, accountRouter);
 app.use("/wallet", extractClientId, walletRouter);
 
-wss.on("connection", async (ws) => {
-  solTxn.connectWebSocket(ws);
-  ethTxn.connectWebSocket(ws);
-  btcTxn.connectWebSocket(ws);
-  ws.on("message", (message) => {
-    const data = message.toString();
-    console.log(data);
-  });
-});
 
 server.listen(PORT, async () => {
   console.log(`Server listening on port: ${PORT}\n`);
