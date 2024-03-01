@@ -24,7 +24,7 @@ import {
   updatePassword,
   validateClient,
 } from "../db/client";
-import { cache } from "../index";
+import { cache, ethOps, solOps } from "../index";
 import {
   genOtp,
   genRand,
@@ -40,8 +40,6 @@ import {
   ClientSigninFormValidate,
   ClientSignupFormValidate,
 } from "@paybox/common";
-import { SolOps } from "../sockets/sol";
-import { EthOps } from "../sockets/eth";
 
 export const clientRouter = Router();
 
@@ -135,8 +133,8 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
       }
 
       const seed = generateSeed(SECRET_PHASE_STRENGTH);
-      const solKeys = await new SolOps().createWallet(seed);
-      const ethKeys = new EthOps().createWallet(seed);
+      const solKeys = await solOps.createWallet(seed);
+      const ethKeys = ethOps.createWallet(seed);
 
       const validate = await validateClient(id, seed, 'Account 1', solKeys, ethKeys);
       if (validate.status == dbResStatus.Error || validate.walletId == undefined || validate.account == undefined) {
