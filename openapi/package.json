@@ -7,10 +7,9 @@
   "license": "MIT",
   "private": "true",
   "scripts": {
-    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js && cp ./src/swagger/swagger.yaml ./dist/swagger.yaml",
     "dev": "node dist/index.js --trace-warning",
-    "gen": "openapi-generator generate -i src/swagger/swagger.yaml -g typescript-axios -o ./src/spec-client",
-    "genType": "npx openapi-typescript  src/swagger/swagger.yaml -o ./src/openapi.d.ts"
+    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js && cp ./src/swagger/swagger.yaml ./dist/swagger.yaml",
+    "gen": "openapi-generator generate -i src/swagger/swagger.yaml -g typescript-axios -o ./src/spec-client && npx openapi-typescript  src/swagger/swagger.yaml -o ./src/openapi.d.ts"
   },
   "dependencies": {
     "@openapitools/openapi-generator-cli": "^2.9.0",
