@@ -2,6 +2,7 @@ import { Network } from "./types";
 import { Cluster } from "@solana/web3.js";
 
 export const PORT: number = 8080;
+export const WSPORT: number = 8081;
 export const SolanaRpcUrl = "https://api.devnet.solana.com";
 export const BACKEND_URL = "http://localhost:8080";
 export const HASURA_ADMIN_SERCRET = "myadminsecretkey";
