@@ -1,33 +1,3 @@
 table:
   name: client
   schema: public
-object_relationships:
-  - name: address
-    using:
-      foreign_key_constraint_on:
-        column: client_id
-        table:
-          name: address
-          schema: public
-array_relationships:
-  - name: accounts
-    using:
-      foreign_key_constraint_on:
-        column: clientId
-        table:
-          name: account
-          schema: public
-  - name: transactions
-    using:
-      foreign_key_constraint_on:
-        column: clientId
-        table:
-          name: transactions
-          schema: public
-  - name: wallets
-    using:
-      foreign_key_constraint_on:
-        column: clientId
-        table:
-          name: wallet
-          schema: public

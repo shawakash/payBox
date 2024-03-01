@@ -1,7 +1,3 @@
 table:
   name: bitcoin
   schema: public
-object_relationships:
-  - name: account
-    using:
-      foreign_key_constraint_on: accountId
