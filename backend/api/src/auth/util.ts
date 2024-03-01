@@ -13,15 +13,13 @@ import {
 import * as qr from "qrcode";
 import fs from "fs";
 import * as bip39 from "bip39";
-import { SolOps } from "../sockets/sol";
-import { EthOps } from "../sockets/eth";
 // import ed from "ed25519-hd-key";
 // import * as ed25519 from 'ed25519';
 
 import * as speakeasy from 'speakeasy';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
-import { cloud, transporter, twillo } from "..";
+import { cloud, ethOps, solOps, transporter, twillo } from "..";
 import { Readable } from "stream";
 import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 
@@ -166,8 +164,8 @@ export const getAccountOnPhrase = async (
   count: number,
 ): Promise<ChainAccountPrivate[]> => {
   try {
-    const solAccounts = await new SolOps().fromPhrase(secretPhrase, count);
-    const ethAccounts = new EthOps().fromPhrase(secretPhrase, count);
+    const solAccounts = await solOps.fromPhrase(secretPhrase, count);
+    const ethAccounts = ethOps.fromPhrase(secretPhrase, count);
     return [...solAccounts, ...ethAccounts];
   } catch (error) {
     console.log(error);
