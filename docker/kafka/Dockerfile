@@ -13,8 +13,6 @@ RUN yarn install
 # Build the pacakge
 RUN yarn build
 
-# Expose port 8080
-EXPOSE 8081
 
 # Command to run the application
 CMD ["yarn", "dev"]
