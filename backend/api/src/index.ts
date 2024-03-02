@@ -39,6 +39,8 @@ import { S3Client } from '@aws-sdk/client-s3';
 import {SolTxnLogs, EthTxnLogs, SolOps, EthOps, BtcTxn} from "@paybox/ws";
 
 export * from "./db";
+export * from "./Redis";
+export * from "./auth";
 
 export const app = express();
 export const server = http.createServer(app);
