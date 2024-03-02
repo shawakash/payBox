@@ -24,7 +24,7 @@ import {
   getAccount,
 } from "../db/account";
 import { importFromPrivate, addAccountPhrase } from "../db/wallet";
-import { cache, ethOps, solOps } from "..";
+import { cache } from "..";
 import {
   generateSeed,
   getAccountOnPhrase,
@@ -33,6 +33,9 @@ import {
 import { getPassword } from "../db/client";
 import { checkPassword } from "../auth/middleware";
 import { getSecretPhase } from "../db/wallet";
+import { SolOps } from "../sockets/sol";
+import { EthOps } from "../sockets/eth";
+import { INFURA_PROJECT_ID } from "../config";
 
 export const accountRouter = Router();
 
@@ -51,8 +54,8 @@ accountRouter.post("/", async (req, res) => {
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
-      const solKeys = await solOps.createAccount(query.secret);
-      const ethKeys = ethOps.createAccount(query.secret);
+      const solKeys = await (new SolOps()).createAccount(query.secret);
+      const ethKeys = (new EthOps()).createAccount(query.secret);
       const mutation = await createAccount(
         id,
         walletId,
@@ -260,9 +263,9 @@ accountRouter.post("/private", async (req, res) => {
       let keys = {} as WalletKeys;
       switch (network) {
         case Network.Sol:
-          keys = await solOps.fromSecret(secretKey);
+          keys = await (new SolOps()).fromSecret(secretKey);
         case Network.Eth:
-          keys = ethOps.fromSecret(secretKey);
+          keys = (new EthOps).fromSecret(secretKey);
         case Network.Bitcoin:
         case Network.USDC:
           break;

@@ -36,22 +36,13 @@ import { walletRouter } from "./routes/wallet";
 import twilio from 'twilio';
 import nodemailer from 'nodemailer';
 import { S3Client } from '@aws-sdk/client-s3';
-import {SolTxnLogs, EthTxnLogs, SolOps, EthOps, BtcTxn} from "@paybox/ws";
+
 
 export const app = express();
 export const server = http.createServer(app);
 export const wss = new WebSocketServer({ server });
 // export const apolloServer = createApollo();
 
-export const solOps = new SolOps();
-export const ethOps = new EthOps();
-export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
-export const ethTxn = new EthTxnLogs(
-    EthNetwok.sepolia,
-    INFURA_PROJECT_ID,
-    ETH_ADDRESS,
-);
-export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
 
 export const cache = Redis.getInstance();
 export const twillo = twilio(TWILLO_ACCOUNT_SID, TWILLO_TOKEN);

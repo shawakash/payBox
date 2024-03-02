@@ -18,10 +18,12 @@ import {
   dbResStatus,
   responseStatus,
 } from "@paybox/common";
-import { cache, ethTxn, solTxn } from "..";
+import { cache } from "..";
 import { getAddressByClient } from "../db/qrcode";
 import { Address } from "web3";
 import { getPassword, queryValid } from "../db/client";
+import { EthOps } from "../sockets/eth";
+import { SolOps } from "../sockets/sol";
 
 /**
  *
@@ -104,8 +106,8 @@ export const txnCheckAddress = async (
       try {
         const { network, from, to, cluster } = TxnSendQuery.parse(req.query);
         if (network == Network.Eth) {
-          const sender = await ethTxn.checkAddress(from);
-          const receiver = await ethTxn.checkAddress(to);
+          const sender = await (new EthOps()).checkAddress(from);
+          const receiver = await (new EthOps()).checkAddress(to);
           if (!sender && !receiver) {
             return res.status(400).json({
               status: responseStatus.Error,
@@ -114,8 +116,8 @@ export const txnCheckAddress = async (
           }
         }
         if (network == Network.Sol) {
-          const sender = await solTxn.checkAddress(from);
-          const receiver = await solTxn.checkAddress(to);
+          const sender = await (new SolOps()).checkAddress(from);
+          const receiver = await (new SolOps()).checkAddress(to);
           if (!sender && !receiver) {
             return res.status(400).json({
               status: responseStatus.Error,
@@ -166,7 +168,7 @@ export const checkAddress = async (
         //   }
         // }
         if (sol != undefined) {
-          const isAddress = await solTxn.checkAddress(sol);
+          const isAddress = await (new SolOps()).checkAddress(sol);
           if (!isAddress) {
             return res.status(400).json({
               status: responseStatus.Error,

@@ -19,9 +19,11 @@ import * as bip39 from "bip39";
 import * as speakeasy from 'speakeasy';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
-import { cloud, ethOps, solOps, transporter, twillo } from "..";
+import { cloud, transporter, twillo } from "..";
 import { Readable } from "stream";
 import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { SolOps } from "../sockets/sol";
+import { EthOps } from "../sockets/eth";
 
 /**
  * @param jwt
@@ -164,8 +166,8 @@ export const getAccountOnPhrase = async (
   count: number,
 ): Promise<ChainAccountPrivate[]> => {
   try {
-    const solAccounts = await solOps.fromPhrase(secretPhrase, count);
-    const ethAccounts = ethOps.fromPhrase(secretPhrase, count);
+    const solAccounts = await (new SolOps()).fromPhrase(secretPhrase, count);
+    const ethAccounts = (new EthOps()).fromPhrase(secretPhrase, count);
     return [...solAccounts, ...ethAccounts];
   } catch (error) {
     console.log(error);
