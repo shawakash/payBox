@@ -16,6 +16,7 @@
   "dependencies": {
     "@paybox/common": "*",
     "@paybox/kafka": "*",
+    "@paybox/api": "*",
     "@paybox/zeus": "*",
     "@solana/spl-token": "^0.4.1",
     "@solana/wallet-adapter-wallets": "^0.19.27",

@@ -1,4 +1,4 @@
-import { BTC_WS_URL, CLIENT_URL, WSPORT } from "@paybox/common";
+import { BTC_WS_URL, CLIENT_URL, TxnLogMsgValid, WSPORT, WsMessageType, wsResponseStatus } from "@paybox/common";
 import bodyParser from "body-parser";
 import express from "express";
 import http from "http";
@@ -11,6 +11,7 @@ import { BTC_ADDRESS, ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS } from "./c
 import { SolTxnLogs } from "./managers/sol";
 import { EthTxnLogs } from "./managers/eth";
 import { BtcTxn } from "./managers/btc";
+import {cache} from "@paybox/api";
 
 export * from "./managers";
 
@@ -60,14 +61,20 @@ app.get("/_health", (_req, res) => {
     });
 });
 
-wss.on("connection", async (ws) => {
-    solTxn.connectWebSocket(ws);
-    ethTxn.connectWebSocket(ws);
-    btcTxn.connectWebSocket(ws);
-    ws.on("message", (message) => {
-        const data = message.toString();
-        console.log(data);
+wss.on("connection", async (ws, req) => {
+
+    ws.on("message", async (message) => {
+        const {accountId, clusters, type} = TxnLogMsgValid.parse(message.toString());
+        if (type === WsMessageType.Index) {
+            // cache account
+            const cacheAccount = await cache.account.getAccount(accountId);
+            if (!cacheAccount) {
+               ws.send(JSON.stringify({type: wsResponseStatus.Error, message: "Account not found"}));
+            }
+            // TODO: subscribe to different chains
+        }
     });
+
 });
 
 
