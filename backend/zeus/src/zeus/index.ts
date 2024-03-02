@@ -1016,9 +1016,9 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(
 type ZEUS_INTERFACES = never;
 export type ScalarCoders = {
   bigint?: ScalarResolver;
-  date?: ScalarResolver;
   float8?: ScalarResolver;
   jsonb?: ScalarResolver;
+  timestamptz?: ScalarResolver;
   uuid?: ScalarResolver;
 };
 type ZEUS_UNIONS = never;
@@ -2606,19 +2606,6 @@ export type ValueTypes = {
   }>;
   /** ordering argument of a cursor */
   ["cursor_ordering"]: cursor_ordering;
-  ["date"]: unknown;
-  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
-  ["date_comparison_exp"]: {
-    _eq?: ValueTypes["date"] | undefined | null | Variable<any, string>;
-    _gt?: ValueTypes["date"] | undefined | null | Variable<any, string>;
-    _gte?: ValueTypes["date"] | undefined | null | Variable<any, string>;
-    _in?: Array<ValueTypes["date"]> | undefined | null | Variable<any, string>;
-    _is_null?: boolean | undefined | null | Variable<any, string>;
-    _lt?: ValueTypes["date"] | undefined | null | Variable<any, string>;
-    _lte?: ValueTypes["date"] | undefined | null | Variable<any, string>;
-    _neq?: ValueTypes["date"] | undefined | null | Variable<any, string>;
-    _nin?: Array<ValueTypes["date"]> | undefined | null | Variable<any, string>;
-  };
   /** eth address and token for client wallets */
   ["eth"]: AliasType<{
     /** An object relationship */
@@ -5596,6 +5583,27 @@ export type ValueTypes = {
     ];
     __typename?: boolean | `@${string}`;
   }>;
+  ["timestamptz"]: unknown;
+  /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+  ["timestamptz_comparison_exp"]: {
+    _eq?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
+    _gt?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
+    _gte?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
+    _in?:
+      | Array<ValueTypes["timestamptz"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
+    _lte?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
+    _neq?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
+    _nin?:
+      | Array<ValueTypes["timestamptz"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
   /** transactions table  */
   ["transactions"]: AliasType<{
     amount?: boolean | `@${string}`;
@@ -5605,7 +5613,6 @@ export type ValueTypes = {
     client?: ValueTypes["client"];
     clientId?: boolean | `@${string}`;
     cluster?: boolean | `@${string}`;
-    date?: boolean | `@${string}`;
     fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
     hash?: boolean | `@${string}`;
@@ -5636,6 +5643,7 @@ export type ValueTypes = {
     ];
     slot?: boolean | `@${string}`;
     status?: boolean | `@${string}`;
+    time?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -5993,11 +6001,6 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    date?:
-      | ValueTypes["date_comparison_exp"]
-      | undefined
-      | null
-      | Variable<any, string>;
     fee?:
       | ValueTypes["float8_comparison_exp"]
       | undefined
@@ -6058,6 +6061,11 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    time?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
     to?:
       | ValueTypes["String_comparison_exp"]
       | undefined
@@ -6105,7 +6113,6 @@ export type ValueTypes = {
       | Variable<any, string>;
     clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     cluster?: string | undefined | null | Variable<any, string>;
-    date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
     fee?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
     from?: string | undefined | null | Variable<any, string>;
     hash?: string | undefined | null | Variable<any, string>;
@@ -6126,6 +6133,7 @@ export type ValueTypes = {
     signature?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
     slot?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     status?: string | undefined | null | Variable<any, string>;
+    time?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
     to?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate max on columns */
@@ -6135,7 +6143,6 @@ export type ValueTypes = {
     chainId?: boolean | `@${string}`;
     clientId?: boolean | `@${string}`;
     cluster?: boolean | `@${string}`;
-    date?: boolean | `@${string}`;
     fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
     hash?: boolean | `@${string}`;
@@ -6145,6 +6152,7 @@ export type ValueTypes = {
     recentBlockhash?: boolean | `@${string}`;
     slot?: boolean | `@${string}`;
     status?: boolean | `@${string}`;
+    time?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -6163,7 +6171,6 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     cluster?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
@@ -6177,6 +6184,7 @@ export type ValueTypes = {
       | Variable<any, string>;
     slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     status?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    time?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** aggregate min on columns */
@@ -6186,7 +6194,6 @@ export type ValueTypes = {
     chainId?: boolean | `@${string}`;
     clientId?: boolean | `@${string}`;
     cluster?: boolean | `@${string}`;
-    date?: boolean | `@${string}`;
     fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
     hash?: boolean | `@${string}`;
@@ -6196,6 +6203,7 @@ export type ValueTypes = {
     recentBlockhash?: boolean | `@${string}`;
     slot?: boolean | `@${string}`;
     status?: boolean | `@${string}`;
+    time?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -6214,7 +6222,6 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     cluster?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
@@ -6228,6 +6235,7 @@ export type ValueTypes = {
       | Variable<any, string>;
     slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     status?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    time?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** response of any mutation on the table "transactions" */
@@ -6270,7 +6278,6 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     cluster?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
-    date?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     fee?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     from?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     hash?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
@@ -6299,6 +6306,7 @@ export type ValueTypes = {
       | Variable<any, string>;
     slot?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     status?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    time?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     to?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
   };
   /** primary key columns input for table: transactions */
@@ -6344,7 +6352,6 @@ export type ValueTypes = {
     chainId?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     cluster?: string | undefined | null | Variable<any, string>;
-    date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
     fee?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
     from?: string | undefined | null | Variable<any, string>;
     hash?: string | undefined | null | Variable<any, string>;
@@ -6365,6 +6372,7 @@ export type ValueTypes = {
     signature?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
     slot?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     status?: string | undefined | null | Variable<any, string>;
+    time?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
     to?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate stddev on columns */
@@ -6456,7 +6464,6 @@ export type ValueTypes = {
     chainId?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     cluster?: string | undefined | null | Variable<any, string>;
-    date?: ValueTypes["date"] | undefined | null | Variable<any, string>;
     fee?: ValueTypes["float8"] | undefined | null | Variable<any, string>;
     from?: string | undefined | null | Variable<any, string>;
     hash?: string | undefined | null | Variable<any, string>;
@@ -6477,6 +6484,7 @@ export type ValueTypes = {
     signature?: ValueTypes["jsonb"] | undefined | null | Variable<any, string>;
     slot?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
     status?: string | undefined | null | Variable<any, string>;
+    time?: ValueTypes["timestamptz"] | undefined | null | Variable<any, string>;
     to?: string | undefined | null | Variable<any, string>;
   };
   /** aggregate sum on columns */
@@ -8045,19 +8053,6 @@ export type ResolverInputTypes = {
   }>;
   /** ordering argument of a cursor */
   ["cursor_ordering"]: cursor_ordering;
-  ["date"]: unknown;
-  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
-  ["date_comparison_exp"]: {
-    _eq?: ResolverInputTypes["date"] | undefined | null;
-    _gt?: ResolverInputTypes["date"] | undefined | null;
-    _gte?: ResolverInputTypes["date"] | undefined | null;
-    _in?: Array<ResolverInputTypes["date"]> | undefined | null;
-    _is_null?: boolean | undefined | null;
-    _lt?: ResolverInputTypes["date"] | undefined | null;
-    _lte?: ResolverInputTypes["date"] | undefined | null;
-    _neq?: ResolverInputTypes["date"] | undefined | null;
-    _nin?: Array<ResolverInputTypes["date"]> | undefined | null;
-  };
   /** eth address and token for client wallets */
   ["eth"]: AliasType<{
     /** An object relationship */
@@ -10057,6 +10052,19 @@ export type ResolverInputTypes = {
     ];
     __typename?: boolean | `@${string}`;
   }>;
+  ["timestamptz"]: unknown;
+  /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+  ["timestamptz_comparison_exp"]: {
+    _eq?: ResolverInputTypes["timestamptz"] | undefined | null;
+    _gt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    _gte?: ResolverInputTypes["timestamptz"] | undefined | null;
+    _in?: Array<ResolverInputTypes["timestamptz"]> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    _lte?: ResolverInputTypes["timestamptz"] | undefined | null;
+    _neq?: ResolverInputTypes["timestamptz"] | undefined | null;
+    _nin?: Array<ResolverInputTypes["timestamptz"]> | undefined | null;
+  };
   /** transactions table  */
   ["transactions"]: AliasType<{
     amount?: boolean | `@${string}`;
@@ -10066,7 +10074,6 @@ export type ResolverInputTypes = {
     client?: ResolverInputTypes["client"];
     clientId?: boolean | `@${string}`;
     cluster?: boolean | `@${string}`;
-    date?: boolean | `@${string}`;
     fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
     hash?: boolean | `@${string}`;
@@ -10094,6 +10101,7 @@ export type ResolverInputTypes = {
     ];
     slot?: boolean | `@${string}`;
     status?: boolean | `@${string}`;
+    time?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -10310,7 +10318,6 @@ export type ResolverInputTypes = {
     client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
     clientId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     cluster?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
-    date?: ResolverInputTypes["date_comparison_exp"] | undefined | null;
     fee?: ResolverInputTypes["float8_comparison_exp"] | undefined | null;
     from?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     hash?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
@@ -10329,6 +10336,7 @@ export type ResolverInputTypes = {
     signature?: ResolverInputTypes["jsonb_comparison_exp"] | undefined | null;
     slot?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null;
     status?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    time?: ResolverInputTypes["timestamptz_comparison_exp"] | undefined | null;
     to?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
   };
   /** unique or primary key constraints on table "transactions" */
@@ -10371,7 +10379,6 @@ export type ResolverInputTypes = {
       | null;
     clientId?: ResolverInputTypes["uuid"] | undefined | null;
     cluster?: string | undefined | null;
-    date?: ResolverInputTypes["date"] | undefined | null;
     fee?: ResolverInputTypes["float8"] | undefined | null;
     from?: string | undefined | null;
     hash?: string | undefined | null;
@@ -10384,6 +10391,7 @@ export type ResolverInputTypes = {
     signature?: ResolverInputTypes["jsonb"] | undefined | null;
     slot?: ResolverInputTypes["bigint"] | undefined | null;
     status?: string | undefined | null;
+    time?: ResolverInputTypes["timestamptz"] | undefined | null;
     to?: string | undefined | null;
   };
   /** aggregate max on columns */
@@ -10393,7 +10401,6 @@ export type ResolverInputTypes = {
     chainId?: boolean | `@${string}`;
     clientId?: boolean | `@${string}`;
     cluster?: boolean | `@${string}`;
-    date?: boolean | `@${string}`;
     fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
     hash?: boolean | `@${string}`;
@@ -10403,6 +10410,7 @@ export type ResolverInputTypes = {
     recentBlockhash?: boolean | `@${string}`;
     slot?: boolean | `@${string}`;
     status?: boolean | `@${string}`;
+    time?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -10413,7 +10421,6 @@ export type ResolverInputTypes = {
     chainId?: ResolverInputTypes["order_by"] | undefined | null;
     clientId?: ResolverInputTypes["order_by"] | undefined | null;
     cluster?: ResolverInputTypes["order_by"] | undefined | null;
-    date?: ResolverInputTypes["order_by"] | undefined | null;
     fee?: ResolverInputTypes["order_by"] | undefined | null;
     from?: ResolverInputTypes["order_by"] | undefined | null;
     hash?: ResolverInputTypes["order_by"] | undefined | null;
@@ -10423,6 +10430,7 @@ export type ResolverInputTypes = {
     recentBlockhash?: ResolverInputTypes["order_by"] | undefined | null;
     slot?: ResolverInputTypes["order_by"] | undefined | null;
     status?: ResolverInputTypes["order_by"] | undefined | null;
+    time?: ResolverInputTypes["order_by"] | undefined | null;
     to?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** aggregate min on columns */
@@ -10432,7 +10440,6 @@ export type ResolverInputTypes = {
     chainId?: boolean | `@${string}`;
     clientId?: boolean | `@${string}`;
     cluster?: boolean | `@${string}`;
-    date?: boolean | `@${string}`;
     fee?: boolean | `@${string}`;
     from?: boolean | `@${string}`;
     hash?: boolean | `@${string}`;
@@ -10442,6 +10449,7 @@ export type ResolverInputTypes = {
     recentBlockhash?: boolean | `@${string}`;
     slot?: boolean | `@${string}`;
     status?: boolean | `@${string}`;
+    time?: boolean | `@${string}`;
     to?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -10452,7 +10460,6 @@ export type ResolverInputTypes = {
     chainId?: ResolverInputTypes["order_by"] | undefined | null;
     clientId?: ResolverInputTypes["order_by"] | undefined | null;
     cluster?: ResolverInputTypes["order_by"] | undefined | null;
-    date?: ResolverInputTypes["order_by"] | undefined | null;
     fee?: ResolverInputTypes["order_by"] | undefined | null;
     from?: ResolverInputTypes["order_by"] | undefined | null;
     hash?: ResolverInputTypes["order_by"] | undefined | null;
@@ -10462,6 +10469,7 @@ export type ResolverInputTypes = {
     recentBlockhash?: ResolverInputTypes["order_by"] | undefined | null;
     slot?: ResolverInputTypes["order_by"] | undefined | null;
     status?: ResolverInputTypes["order_by"] | undefined | null;
+    time?: ResolverInputTypes["order_by"] | undefined | null;
     to?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** response of any mutation on the table "transactions" */
@@ -10486,7 +10494,6 @@ export type ResolverInputTypes = {
     client?: ResolverInputTypes["client_order_by"] | undefined | null;
     clientId?: ResolverInputTypes["order_by"] | undefined | null;
     cluster?: ResolverInputTypes["order_by"] | undefined | null;
-    date?: ResolverInputTypes["order_by"] | undefined | null;
     fee?: ResolverInputTypes["order_by"] | undefined | null;
     from?: ResolverInputTypes["order_by"] | undefined | null;
     hash?: ResolverInputTypes["order_by"] | undefined | null;
@@ -10499,6 +10506,7 @@ export type ResolverInputTypes = {
     signature?: ResolverInputTypes["order_by"] | undefined | null;
     slot?: ResolverInputTypes["order_by"] | undefined | null;
     status?: ResolverInputTypes["order_by"] | undefined | null;
+    time?: ResolverInputTypes["order_by"] | undefined | null;
     to?: ResolverInputTypes["order_by"] | undefined | null;
   };
   /** primary key columns input for table: transactions */
@@ -10536,7 +10544,6 @@ export type ResolverInputTypes = {
     chainId?: ResolverInputTypes["bigint"] | undefined | null;
     clientId?: ResolverInputTypes["uuid"] | undefined | null;
     cluster?: string | undefined | null;
-    date?: ResolverInputTypes["date"] | undefined | null;
     fee?: ResolverInputTypes["float8"] | undefined | null;
     from?: string | undefined | null;
     hash?: string | undefined | null;
@@ -10549,6 +10556,7 @@ export type ResolverInputTypes = {
     signature?: ResolverInputTypes["jsonb"] | undefined | null;
     slot?: ResolverInputTypes["bigint"] | undefined | null;
     status?: string | undefined | null;
+    time?: ResolverInputTypes["timestamptz"] | undefined | null;
     to?: string | undefined | null;
   };
   /** aggregate stddev on columns */
@@ -10622,7 +10630,6 @@ export type ResolverInputTypes = {
     chainId?: ResolverInputTypes["bigint"] | undefined | null;
     clientId?: ResolverInputTypes["uuid"] | undefined | null;
     cluster?: string | undefined | null;
-    date?: ResolverInputTypes["date"] | undefined | null;
     fee?: ResolverInputTypes["float8"] | undefined | null;
     from?: string | undefined | null;
     hash?: string | undefined | null;
@@ -10635,6 +10642,7 @@ export type ResolverInputTypes = {
     signature?: ResolverInputTypes["jsonb"] | undefined | null;
     slot?: ResolverInputTypes["bigint"] | undefined | null;
     status?: string | undefined | null;
+    time?: ResolverInputTypes["timestamptz"] | undefined | null;
     to?: string | undefined | null;
   };
   /** aggregate sum on columns */
@@ -11786,19 +11794,6 @@ export type ModelTypes = {
     mobile?: number | undefined;
   };
   ["cursor_ordering"]: cursor_ordering;
-  ["date"]: any;
-  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
-  ["date_comparison_exp"]: {
-    _eq?: ModelTypes["date"] | undefined;
-    _gt?: ModelTypes["date"] | undefined;
-    _gte?: ModelTypes["date"] | undefined;
-    _in?: Array<ModelTypes["date"]> | undefined;
-    _is_null?: boolean | undefined;
-    _lt?: ModelTypes["date"] | undefined;
-    _lte?: ModelTypes["date"] | undefined;
-    _neq?: ModelTypes["date"] | undefined;
-    _nin?: Array<ModelTypes["date"]> | undefined;
-  };
   /** eth address and token for client wallets */
   ["eth"]: {
     /** An object relationship */
@@ -12548,6 +12543,19 @@ export type ModelTypes = {
     /** fetch data from the table in a streaming manner: "wallet" */
     wallet_stream: Array<ModelTypes["wallet"]>;
   };
+  ["timestamptz"]: any;
+  /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+  ["timestamptz_comparison_exp"]: {
+    _eq?: ModelTypes["timestamptz"] | undefined;
+    _gt?: ModelTypes["timestamptz"] | undefined;
+    _gte?: ModelTypes["timestamptz"] | undefined;
+    _in?: Array<ModelTypes["timestamptz"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: ModelTypes["timestamptz"] | undefined;
+    _lte?: ModelTypes["timestamptz"] | undefined;
+    _neq?: ModelTypes["timestamptz"] | undefined;
+    _nin?: Array<ModelTypes["timestamptz"]> | undefined;
+  };
   /** transactions table  */
   ["transactions"]: {
     amount: ModelTypes["float8"];
@@ -12557,7 +12565,6 @@ export type ModelTypes = {
     client: ModelTypes["client"];
     clientId: ModelTypes["uuid"];
     cluster?: string | undefined;
-    date: ModelTypes["date"];
     fee: ModelTypes["float8"];
     from: string;
     hash?: string | undefined;
@@ -12570,6 +12577,7 @@ export type ModelTypes = {
     signature: ModelTypes["jsonb"];
     slot?: ModelTypes["bigint"] | undefined;
     status: string;
+    time: ModelTypes["timestamptz"];
     to: string;
   };
   /** aggregated selection of "transactions" */
@@ -12725,7 +12733,6 @@ export type ModelTypes = {
     client?: ModelTypes["client_bool_exp"] | undefined;
     clientId?: ModelTypes["uuid_comparison_exp"] | undefined;
     cluster?: ModelTypes["String_comparison_exp"] | undefined;
-    date?: ModelTypes["date_comparison_exp"] | undefined;
     fee?: ModelTypes["float8_comparison_exp"] | undefined;
     from?: ModelTypes["String_comparison_exp"] | undefined;
     hash?: ModelTypes["String_comparison_exp"] | undefined;
@@ -12738,6 +12745,7 @@ export type ModelTypes = {
     signature?: ModelTypes["jsonb_comparison_exp"] | undefined;
     slot?: ModelTypes["bigint_comparison_exp"] | undefined;
     status?: ModelTypes["String_comparison_exp"] | undefined;
+    time?: ModelTypes["timestamptz_comparison_exp"] | undefined;
     to?: ModelTypes["String_comparison_exp"] | undefined;
   };
   ["transactions_constraint"]: transactions_constraint;
@@ -12776,7 +12784,6 @@ export type ModelTypes = {
     client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
     clientId?: ModelTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: ModelTypes["date"] | undefined;
     fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -12789,6 +12796,7 @@ export type ModelTypes = {
     signature?: ModelTypes["jsonb"] | undefined;
     slot?: ModelTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: ModelTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** aggregate max on columns */
@@ -12798,7 +12806,6 @@ export type ModelTypes = {
     chainId?: ModelTypes["bigint"] | undefined;
     clientId?: ModelTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: ModelTypes["date"] | undefined;
     fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -12808,6 +12815,7 @@ export type ModelTypes = {
     recentBlockhash?: string | undefined;
     slot?: ModelTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: ModelTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** order by max() on columns of table "transactions" */
@@ -12817,7 +12825,6 @@ export type ModelTypes = {
     chainId?: ModelTypes["order_by"] | undefined;
     clientId?: ModelTypes["order_by"] | undefined;
     cluster?: ModelTypes["order_by"] | undefined;
-    date?: ModelTypes["order_by"] | undefined;
     fee?: ModelTypes["order_by"] | undefined;
     from?: ModelTypes["order_by"] | undefined;
     hash?: ModelTypes["order_by"] | undefined;
@@ -12827,6 +12834,7 @@ export type ModelTypes = {
     recentBlockhash?: ModelTypes["order_by"] | undefined;
     slot?: ModelTypes["order_by"] | undefined;
     status?: ModelTypes["order_by"] | undefined;
+    time?: ModelTypes["order_by"] | undefined;
     to?: ModelTypes["order_by"] | undefined;
   };
   /** aggregate min on columns */
@@ -12836,7 +12844,6 @@ export type ModelTypes = {
     chainId?: ModelTypes["bigint"] | undefined;
     clientId?: ModelTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: ModelTypes["date"] | undefined;
     fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -12846,6 +12853,7 @@ export type ModelTypes = {
     recentBlockhash?: string | undefined;
     slot?: ModelTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: ModelTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** order by min() on columns of table "transactions" */
@@ -12855,7 +12863,6 @@ export type ModelTypes = {
     chainId?: ModelTypes["order_by"] | undefined;
     clientId?: ModelTypes["order_by"] | undefined;
     cluster?: ModelTypes["order_by"] | undefined;
-    date?: ModelTypes["order_by"] | undefined;
     fee?: ModelTypes["order_by"] | undefined;
     from?: ModelTypes["order_by"] | undefined;
     hash?: ModelTypes["order_by"] | undefined;
@@ -12865,6 +12872,7 @@ export type ModelTypes = {
     recentBlockhash?: ModelTypes["order_by"] | undefined;
     slot?: ModelTypes["order_by"] | undefined;
     status?: ModelTypes["order_by"] | undefined;
+    time?: ModelTypes["order_by"] | undefined;
     to?: ModelTypes["order_by"] | undefined;
   };
   /** response of any mutation on the table "transactions" */
@@ -12888,7 +12896,6 @@ export type ModelTypes = {
     client?: ModelTypes["client_order_by"] | undefined;
     clientId?: ModelTypes["order_by"] | undefined;
     cluster?: ModelTypes["order_by"] | undefined;
-    date?: ModelTypes["order_by"] | undefined;
     fee?: ModelTypes["order_by"] | undefined;
     from?: ModelTypes["order_by"] | undefined;
     hash?: ModelTypes["order_by"] | undefined;
@@ -12901,6 +12908,7 @@ export type ModelTypes = {
     signature?: ModelTypes["order_by"] | undefined;
     slot?: ModelTypes["order_by"] | undefined;
     status?: ModelTypes["order_by"] | undefined;
+    time?: ModelTypes["order_by"] | undefined;
     to?: ModelTypes["order_by"] | undefined;
   };
   /** primary key columns input for table: transactions */
@@ -12929,7 +12937,6 @@ export type ModelTypes = {
     chainId?: ModelTypes["bigint"] | undefined;
     clientId?: ModelTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: ModelTypes["date"] | undefined;
     fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -12942,6 +12949,7 @@ export type ModelTypes = {
     signature?: ModelTypes["jsonb"] | undefined;
     slot?: ModelTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: ModelTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** aggregate stddev on columns */
@@ -13012,7 +13020,6 @@ export type ModelTypes = {
     chainId?: ModelTypes["bigint"] | undefined;
     clientId?: ModelTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: ModelTypes["date"] | undefined;
     fee?: ModelTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -13025,6 +13032,7 @@ export type ModelTypes = {
     signature?: ModelTypes["jsonb"] | undefined;
     slot?: ModelTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: ModelTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** aggregate sum on columns */
@@ -14127,19 +14135,6 @@ export type GraphQLTypes = {
   };
   /** ordering argument of a cursor */
   ["cursor_ordering"]: cursor_ordering;
-  ["date"]: "scalar" & { name: "date" };
-  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
-  ["date_comparison_exp"]: {
-    _eq?: GraphQLTypes["date"] | undefined;
-    _gt?: GraphQLTypes["date"] | undefined;
-    _gte?: GraphQLTypes["date"] | undefined;
-    _in?: Array<GraphQLTypes["date"]> | undefined;
-    _is_null?: boolean | undefined;
-    _lt?: GraphQLTypes["date"] | undefined;
-    _lte?: GraphQLTypes["date"] | undefined;
-    _neq?: GraphQLTypes["date"] | undefined;
-    _nin?: Array<GraphQLTypes["date"]> | undefined;
-  };
   /** eth address and token for client wallets */
   ["eth"]: {
     __typename: "eth";
@@ -14927,6 +14922,19 @@ export type GraphQLTypes = {
     /** fetch data from the table in a streaming manner: "wallet" */
     wallet_stream: Array<GraphQLTypes["wallet"]>;
   };
+  ["timestamptz"]: "scalar" & { name: "timestamptz" };
+  /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
+  ["timestamptz_comparison_exp"]: {
+    _eq?: GraphQLTypes["timestamptz"] | undefined;
+    _gt?: GraphQLTypes["timestamptz"] | undefined;
+    _gte?: GraphQLTypes["timestamptz"] | undefined;
+    _in?: Array<GraphQLTypes["timestamptz"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes["timestamptz"] | undefined;
+    _lte?: GraphQLTypes["timestamptz"] | undefined;
+    _neq?: GraphQLTypes["timestamptz"] | undefined;
+    _nin?: Array<GraphQLTypes["timestamptz"]> | undefined;
+  };
   /** transactions table  */
   ["transactions"]: {
     __typename: "transactions";
@@ -14937,7 +14945,6 @@ export type GraphQLTypes = {
     client: GraphQLTypes["client"];
     clientId: GraphQLTypes["uuid"];
     cluster?: string | undefined;
-    date: GraphQLTypes["date"];
     fee: GraphQLTypes["float8"];
     from: string;
     hash?: string | undefined;
@@ -14950,6 +14957,7 @@ export type GraphQLTypes = {
     signature: GraphQLTypes["jsonb"];
     slot?: GraphQLTypes["bigint"] | undefined;
     status: string;
+    time: GraphQLTypes["timestamptz"];
     to: string;
   };
   /** aggregated selection of "transactions" */
@@ -15108,7 +15116,6 @@ export type GraphQLTypes = {
     client?: GraphQLTypes["client_bool_exp"] | undefined;
     clientId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     cluster?: GraphQLTypes["String_comparison_exp"] | undefined;
-    date?: GraphQLTypes["date_comparison_exp"] | undefined;
     fee?: GraphQLTypes["float8_comparison_exp"] | undefined;
     from?: GraphQLTypes["String_comparison_exp"] | undefined;
     hash?: GraphQLTypes["String_comparison_exp"] | undefined;
@@ -15121,6 +15128,7 @@ export type GraphQLTypes = {
     signature?: GraphQLTypes["jsonb_comparison_exp"] | undefined;
     slot?: GraphQLTypes["bigint_comparison_exp"] | undefined;
     status?: GraphQLTypes["String_comparison_exp"] | undefined;
+    time?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
     to?: GraphQLTypes["String_comparison_exp"] | undefined;
   };
   /** unique or primary key constraints on table "transactions" */
@@ -15160,7 +15168,6 @@ export type GraphQLTypes = {
     client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
     clientId?: GraphQLTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: GraphQLTypes["date"] | undefined;
     fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -15173,6 +15180,7 @@ export type GraphQLTypes = {
     signature?: GraphQLTypes["jsonb"] | undefined;
     slot?: GraphQLTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: GraphQLTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** aggregate max on columns */
@@ -15183,7 +15191,6 @@ export type GraphQLTypes = {
     chainId?: GraphQLTypes["bigint"] | undefined;
     clientId?: GraphQLTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: GraphQLTypes["date"] | undefined;
     fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -15193,6 +15200,7 @@ export type GraphQLTypes = {
     recentBlockhash?: string | undefined;
     slot?: GraphQLTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: GraphQLTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** order by max() on columns of table "transactions" */
@@ -15202,7 +15210,6 @@ export type GraphQLTypes = {
     chainId?: GraphQLTypes["order_by"] | undefined;
     clientId?: GraphQLTypes["order_by"] | undefined;
     cluster?: GraphQLTypes["order_by"] | undefined;
-    date?: GraphQLTypes["order_by"] | undefined;
     fee?: GraphQLTypes["order_by"] | undefined;
     from?: GraphQLTypes["order_by"] | undefined;
     hash?: GraphQLTypes["order_by"] | undefined;
@@ -15212,6 +15219,7 @@ export type GraphQLTypes = {
     recentBlockhash?: GraphQLTypes["order_by"] | undefined;
     slot?: GraphQLTypes["order_by"] | undefined;
     status?: GraphQLTypes["order_by"] | undefined;
+    time?: GraphQLTypes["order_by"] | undefined;
     to?: GraphQLTypes["order_by"] | undefined;
   };
   /** aggregate min on columns */
@@ -15222,7 +15230,6 @@ export type GraphQLTypes = {
     chainId?: GraphQLTypes["bigint"] | undefined;
     clientId?: GraphQLTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: GraphQLTypes["date"] | undefined;
     fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -15232,6 +15239,7 @@ export type GraphQLTypes = {
     recentBlockhash?: string | undefined;
     slot?: GraphQLTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: GraphQLTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** order by min() on columns of table "transactions" */
@@ -15241,7 +15249,6 @@ export type GraphQLTypes = {
     chainId?: GraphQLTypes["order_by"] | undefined;
     clientId?: GraphQLTypes["order_by"] | undefined;
     cluster?: GraphQLTypes["order_by"] | undefined;
-    date?: GraphQLTypes["order_by"] | undefined;
     fee?: GraphQLTypes["order_by"] | undefined;
     from?: GraphQLTypes["order_by"] | undefined;
     hash?: GraphQLTypes["order_by"] | undefined;
@@ -15251,6 +15258,7 @@ export type GraphQLTypes = {
     recentBlockhash?: GraphQLTypes["order_by"] | undefined;
     slot?: GraphQLTypes["order_by"] | undefined;
     status?: GraphQLTypes["order_by"] | undefined;
+    time?: GraphQLTypes["order_by"] | undefined;
     to?: GraphQLTypes["order_by"] | undefined;
   };
   /** response of any mutation on the table "transactions" */
@@ -15275,7 +15283,6 @@ export type GraphQLTypes = {
     client?: GraphQLTypes["client_order_by"] | undefined;
     clientId?: GraphQLTypes["order_by"] | undefined;
     cluster?: GraphQLTypes["order_by"] | undefined;
-    date?: GraphQLTypes["order_by"] | undefined;
     fee?: GraphQLTypes["order_by"] | undefined;
     from?: GraphQLTypes["order_by"] | undefined;
     hash?: GraphQLTypes["order_by"] | undefined;
@@ -15288,6 +15295,7 @@ export type GraphQLTypes = {
     signature?: GraphQLTypes["order_by"] | undefined;
     slot?: GraphQLTypes["order_by"] | undefined;
     status?: GraphQLTypes["order_by"] | undefined;
+    time?: GraphQLTypes["order_by"] | undefined;
     to?: GraphQLTypes["order_by"] | undefined;
   };
   /** primary key columns input for table: transactions */
@@ -15325,7 +15333,6 @@ export type GraphQLTypes = {
     chainId?: GraphQLTypes["bigint"] | undefined;
     clientId?: GraphQLTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: GraphQLTypes["date"] | undefined;
     fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -15338,6 +15345,7 @@ export type GraphQLTypes = {
     signature?: GraphQLTypes["jsonb"] | undefined;
     slot?: GraphQLTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: GraphQLTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** aggregate stddev on columns */
@@ -15411,7 +15419,6 @@ export type GraphQLTypes = {
     chainId?: GraphQLTypes["bigint"] | undefined;
     clientId?: GraphQLTypes["uuid"] | undefined;
     cluster?: string | undefined;
-    date?: GraphQLTypes["date"] | undefined;
     fee?: GraphQLTypes["float8"] | undefined;
     from?: string | undefined;
     hash?: string | undefined;
@@ -15424,6 +15431,7 @@ export type GraphQLTypes = {
     signature?: GraphQLTypes["jsonb"] | undefined;
     slot?: GraphQLTypes["bigint"] | undefined;
     status?: string | undefined;
+    time?: GraphQLTypes["timestamptz"] | undefined;
     to?: string | undefined;
   };
   /** aggregate sum on columns */
@@ -15879,7 +15887,6 @@ export const enum transactions_select_column {
   chainId = "chainId",
   clientId = "clientId",
   cluster = "cluster",
-  date = "date",
   fee = "fee",
   from = "from",
   hash = "hash",
@@ -15892,6 +15899,7 @@ export const enum transactions_select_column {
   signature = "signature",
   slot = "slot",
   status = "status",
+  time = "time",
   to = "to",
 }
 /** select "transactions_aggregate_bool_exp_avg_arguments_columns" columns of table "transactions" */
@@ -15941,7 +15949,6 @@ export const enum transactions_update_column {
   chainId = "chainId",
   clientId = "clientId",
   cluster = "cluster",
-  date = "date",
   fee = "fee",
   from = "from",
   hash = "hash",
@@ -15954,6 +15961,7 @@ export const enum transactions_update_column {
   signature = "signature",
   slot = "slot",
   status = "status",
+  time = "time",
   to = "to",
 }
 /** unique or primary key constraints on table "wallet" */
@@ -16042,8 +16050,6 @@ type ZEUS_VARIABLES = {
   ["client_update_column"]: ValueTypes["client_update_column"];
   ["client_updates"]: ValueTypes["client_updates"];
   ["cursor_ordering"]: ValueTypes["cursor_ordering"];
-  ["date"]: ValueTypes["date"];
-  ["date_comparison_exp"]: ValueTypes["date_comparison_exp"];
   ["eth_bool_exp"]: ValueTypes["eth_bool_exp"];
   ["eth_constraint"]: ValueTypes["eth_constraint"];
   ["eth_inc_input"]: ValueTypes["eth_inc_input"];
@@ -16078,6 +16084,8 @@ type ZEUS_VARIABLES = {
   ["sol_stream_cursor_value_input"]: ValueTypes["sol_stream_cursor_value_input"];
   ["sol_update_column"]: ValueTypes["sol_update_column"];
   ["sol_updates"]: ValueTypes["sol_updates"];
+  ["timestamptz"]: ValueTypes["timestamptz"];
+  ["timestamptz_comparison_exp"]: ValueTypes["timestamptz_comparison_exp"];
   ["transactions_aggregate_bool_exp"]: ValueTypes["transactions_aggregate_bool_exp"];
   ["transactions_aggregate_bool_exp_avg"]: ValueTypes["transactions_aggregate_bool_exp_avg"];
   ["transactions_aggregate_bool_exp_corr"]: ValueTypes["transactions_aggregate_bool_exp_corr"];
