@@ -38,6 +38,10 @@ import nodemailer from 'nodemailer';
 import { S3Client } from '@aws-sdk/client-s3';
 import {SolTxnLogs, EthTxnLogs, SolOps, EthOps, BtcTxn} from "@paybox/ws";
 
+export * from "./db";
+export * from "./Redis";
+export * from "./auth";
+
 export const app = express();
 export const server = http.createServer(app);
 export const wss = new WebSocketServer({ server });
@@ -80,7 +84,7 @@ app.use(
   morgan(":method :url :status :res[content-length] - :response-time ms"),
 );
 
-const corsOptions = {
+export const corsOptions = {
   origin: CLIENT_URL, // specify the allowed origin
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // specify the allowed HTTP methods
   credentials: true, // enable credentials (cookies, authorization headers, etc.)
@@ -132,6 +136,10 @@ app.use("/txn", extractClientId, txnRouter);
 app.use("/account", extractClientId, accountRouter);
 app.use("/wallet", extractClientId, walletRouter);
 
+
+process.on("uncaughtException", function (err) {
+  console.log("Caught exception: " + err);
+});
 
 server.listen(PORT, async () => {
   console.log(`Server listening on port: ${PORT}\n`);
