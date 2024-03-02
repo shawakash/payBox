@@ -4,3 +4,4 @@ export * from "./transaction";
 export * from "./account";
 export * from "./wallet";
 export * from "./qrcode";
+export * from "./logs";

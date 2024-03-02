@@ -37,6 +37,11 @@ export enum responseStatus {
   Ok = "ok",
 }
 
+export enum wsResponseStatus {
+  Error = "error",
+  Ok = "ok",
+}
+
 export enum hookStatus {
   Error = "error",
   Ok = "ok",
@@ -91,7 +96,7 @@ export type InsertTxnType = {
 
 export type TxnType = InsertTxnType & {
   id: string;
-  date?: string;
+  time?: string;
 };
 
 export type TxnsQeuryType = z.infer<typeof TxnsQeury> & { clientId: string };
@@ -261,3 +266,8 @@ export type ChainAccount = {
 export type ChainAccountPrivate = ChainAccount & WalletKeys;
 
 export type NetworkPublicKeyType = z.infer<typeof networkPublicKey>;
+
+export enum WsMessageType {
+  Index = "index",
+  Message = "message"
+}
