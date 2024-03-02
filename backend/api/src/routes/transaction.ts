@@ -1,6 +1,7 @@
 import {
   EthCluster,
   Network,
+  SolCluster,
   TxnQeuryByHash,
   TxnSendQuery,
   TxnType,
@@ -9,11 +10,14 @@ import {
 } from "@paybox/common";
 import { Router } from "express";
 import { getAllTxn, getTxnByHash, getTxns, insertTxn } from "../db/transaction";
-import { cache, ethTxn, solTxn } from "..";
+import { cache } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
 import { publishEthTxn, publishSolTxn } from "../../../../packages/kafka/src";
 import { Cluster } from "@solana/web3.js";
+import { EthOps } from "../sockets/eth";
+import { INFURA_PROJECT_ID } from "../config";
+import { SolOps } from "../sockets/sol";
 
 export const txnRouter = Router();
 
@@ -26,7 +30,7 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
         req.query,
       );
       if (network == Network.Eth) {
-        const transaction = await ethTxn.acceptTxn({ amount, to, from });
+        const transaction = await (new EthOps(cluster as EthCluster, INFURA_PROJECT_ID)).acceptTxn({ amount, to, from });
         if (!transaction) {
           return res
             .status(400)
@@ -49,7 +53,7 @@ txnRouter.post("/send", txnCheckAddress, async (req, res) => {
       }
       let instance;
       if (network == Network.Sol) {
-        instance = await solTxn.acceptTxn({ from, amount, to });
+        instance = await (new SolOps(cluster as Cluster)).acceptTxn({ from, amount, to });
         if (!instance) {
           return res
             .status(400)

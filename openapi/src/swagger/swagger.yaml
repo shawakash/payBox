@@ -1186,7 +1186,7 @@ components:
       properties:
         id:
           type: string
-        date:
+        time:
           type: string
         clientId:
           type: string

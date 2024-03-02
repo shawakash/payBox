@@ -127,7 +127,7 @@ export const getTxns = async ({
           blockTime: true,
           clientId: true,
           fee: true,
-          date: true,
+          time: true,
           from: true,
           network: true,
           //@ts-ignore
@@ -186,7 +186,7 @@ export const getTxnByHash = async ({
           blockTime: true,
           clientId: true,
           fee: true,
-          date: true,
+          time: true,
           from: true,
           network: true,
           //@ts-ignore
@@ -243,7 +243,7 @@ export const getAllTxn = async ({
           blockTime: true,
           clientId: true,
           fee: true,
-          date: true,
+          time: true,
           from: true,
           network: true,
           //@ts-ignore
