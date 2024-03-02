@@ -86,5 +86,5 @@ export const TxnSchema = z.object({
   network: z.nativeEnum(Network),
   slot: z.number().nullable(),
   id: z.string(),
-  date: z.string().optional(),
+  time: z.string().optional(),
 });

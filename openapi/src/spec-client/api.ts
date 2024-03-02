@@ -951,7 +951,7 @@ export interface TxnType {
      * @type {string}
      * @memberof TxnType
      */
-    'date'?: string;
+    'time'?: string;
     /**
      * 
      * @type {string}

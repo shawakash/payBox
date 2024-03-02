@@ -426,7 +426,7 @@ export interface components {
         };
         TxnType: {
             id?: string;
-            date?: string;
+            time?: string;
             clientId?: string;
             blockTime?: number;
             amount?: number;
