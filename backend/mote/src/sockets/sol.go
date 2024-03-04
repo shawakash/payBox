@@ -10,6 +10,7 @@ import (
 	"github.com/blocto/solana-go-sdk/program/system"
 	"github.com/blocto/solana-go-sdk/rpc"
 	"github.com/blocto/solana-go-sdk/types"
+	
 )
 
 type SendSolResult struct {
@@ -90,12 +91,12 @@ func WaitForConfirmation(client *solana.Client, txhash string) (*solana.Transact
     }
 }
 
-func GetTxn(hash string) *solana.Transaction {
+func GetTxn(hash string) (*solana.Transaction, error) {
 	client := solana.NewClient(rpc.DevnetRPCEndpoint)
-	txn, err := WaitForConfirmation(client, hash)
+	txn, err := client.GetTransaction(context.Background(), hash)
 	if err != nil {
 		log.Printf("failed to get tx, err: %v", err)
-		return nil
+		return nil, err
 	}
-	return txn
+	return txn, nil
 }
