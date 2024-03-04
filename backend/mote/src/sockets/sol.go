@@ -22,7 +22,7 @@ type SendSolResult struct {
 	Txn     solana.Transaction
 }
 
-func SendSol(from string, to string, amount float64) (*solana.Transaction, error) {
+func SendSol(from string, to string, amount float64, wait bool) (*solana.Transaction, error) {
 	rpcClient := rpc.New(rpc.DevNet_RPC)
 
 	wsClient, err := ws.Connect(context.Background(), rpc.DevNet_WS)
@@ -74,7 +74,6 @@ func SendSol(from string, to string, amount float64) (*solana.Transaction, error
 		panic(err)
 	}
 
-
 	_, err = tx.Sign(
 		func(key solana.PublicKey) *solana.PrivateKey {
 			if accountFrom.PublicKey().Equals(key) {
@@ -88,18 +87,34 @@ func SendSol(from string, to string, amount float64) (*solana.Transaction, error
 	}
 
 	// Send transaction, and wait for confirmation:
-	sig, err := confirm.SendAndConfirmTransaction(
-		context.Background(),
-		rpcClient,
-		wsClient,
-		tx,
-	)
-	if err != nil {
-		panic(err)
+	if wait {
+		sig, err := confirm.SendAndConfirmTransaction(
+			context.Background(),
+			rpcClient,
+			wsClient,
+			tx,
+		)
+		if err != nil {
+			panic(err)
+		}
+		log.Println("hash: ", sig)
+		return tx, nil
+	} else {
+		sig, err := rpcClient.SendTransactionWithOpts(
+			context.TODO(),
+			tx,
+			rpc.TransactionOpts{
+				PreflightCommitment: rpc.CommitmentFinalized,
+			},
+		)
+		if err != nil {
+			panic(err)
+		}
+		log.Println("hash: ", sig)
+		return tx, nil
 	}
-	log.Println("hash", sig)
-	return tx, nil
 }
+
 
 // func WaitForConfirmation(client *solana.Client, txhash string) (*solana.Transaction, error) {
 // 	for {
