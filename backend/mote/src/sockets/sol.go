@@ -2,101 +2,128 @@ package sockets
 
 import (
 	"context"
+	"fmt"
 	"log"
-	"time"
+	// "os"
+	// "time"
 
-	solana "github.com/blocto/solana-go-sdk/client"
-	"github.com/blocto/solana-go-sdk/common"
-	"github.com/blocto/solana-go-sdk/program/system"
-	"github.com/blocto/solana-go-sdk/rpc"
-	"github.com/blocto/solana-go-sdk/types"
-	
+	// "github.com/davecgh/go-spew/spew"
+	"github.com/gagliardetto/solana-go"
+	"github.com/gagliardetto/solana-go/programs/system"
+	"github.com/gagliardetto/solana-go/rpc"
+	confirm "github.com/gagliardetto/solana-go/rpc/sendAndConfirmTransaction"
+	"github.com/gagliardetto/solana-go/rpc/ws"
+	// "github.com/gagliardetto/solana-go/text"
+	// "golang.org/x/time/rate"
 )
 
 type SendSolResult struct {
-    TxnHash string
-    Txn     types.Transaction
+	TxnHash string
+	Txn     solana.Transaction
 }
 
-func SendSol(from string, to string, amount float64) (*SendSolResult, error) {
-	fromAccount, _ := types.AccountFromBase58(from)
-	log.Println("fromAccount:", fromAccount.PublicKey.ToBase58())
-	client := solana.NewClient(rpc.DevnetRPCEndpoint)
+func SendSol(from string, to string, amount float64) (*solana.Transaction, error) {
+	rpcClient := rpc.New(rpc.DevNet_RPC)
 
-	// // Air droping
-	// sig, err := client.RequestAirdrop(
-	// 	context.TODO(),
-	// 	fromAccount.PublicKey.ToBase58(),
-	// 	1e9,
-	// )
-	// if err != nil {
-	// 	log.Fatalf("failed to request airdrop, err: %v", err)
-	// }
-	// log.Println(sig)
-
-	// to fetch recent blockhash
-	recentBlockhashResponse, err := client.GetLatestBlockhash(context.Background())
+	wsClient, err := ws.Connect(context.Background(), rpc.DevNet_WS)
 	if err != nil {
-		log.Fatalf("failed to get recent blockhash, err: %v", err)
+		panic(err)
 	}
 
+	accountFrom, err := solana.PrivateKeyFromBase58(from)
+	if err != nil {
+		panic(err)
+	}
+
+	accountTo := solana.MustPublicKeyFromBase58(to)
 	lamports := uint64(amount * 1e9)
+	log.Println("Transfering ", lamports, " lamports from ", accountFrom.PublicKey(), " to ", accountTo)
 
-	// create a transfer tx
-	tx, err := types.NewTransaction(types.NewTransactionParam{
-		Signers: []types.Account{fromAccount},
-		Message: types.NewMessage(types.NewMessageParam{
-			FeePayer:        fromAccount.PublicKey,
-			RecentBlockhash: recentBlockhashResponse.Blockhash,
-			Instructions: []types.Instruction{
-				system.Transfer(system.TransferParam{
-					From:   fromAccount.PublicKey,
-					To:     common.PublicKeyFromString(to),
-					Amount: lamports,
-				}),
-			},
-		}),
-	})
+	// // Airdrop 1 sol to the account so it will have something to transfer:
+	// if true {
+	//   out, err := rpcClient.RequestAirdrop(
+	// 	context.TODO(),
+	// 	accountFrom.PublicKey(),
+	// 	solana.LAMPORTS_PER_SOL*1,
+	// 	rpc.CommitmentFinalized,
+	//   )
+	//   if err != nil {
+	// 	panic(err)
+	//   }
+	//   fmt.Println("airdrop transaction signature:", out)
+	//   time.Sleep(time.Second * 5)
+	// }
+
+	recent, err := rpcClient.GetRecentBlockhash(context.TODO(), rpc.CommitmentFinalized)
 	if err != nil {
-		log.Fatalf("failed to new a transaction, err: %v", err)
+		panic(err)
 	}
 
-	// send tx
-	txhash, err := client.SendTransactionWithConfig(context.Background(), tx, solana.SendTransactionConfig{})
+	tx, err := solana.NewTransaction(
+		[]solana.Instruction{
+			system.NewTransferInstruction(
+				lamports,
+				accountFrom.PublicKey(),
+				accountTo,
+			).Build(),
+		},
+		recent.Value.Blockhash,
+		solana.TransactionPayer(accountFrom.PublicKey()),
+	)
 	if err != nil {
-		log.Fatalf("failed to send tx, err: %v", err)
+		panic(err)
 	}
 
-	return &SendSolResult{
-        TxnHash: txhash,
-        Txn:     tx,
-    }, nil
 
-}
-
-func WaitForConfirmation(client *solana.Client, txhash string) (*solana.Transaction, error) {
-    for {
-        // Check the transaction status
-        txn, err := client.GetTransaction(context.Background(), txhash)
-        if err != nil {
-			log.Printf("failed to get tx, err: %v", err)
-			return nil, err
-        }
-
-        if txn != nil {
-            return txn, nil
-        }
-
-        time.Sleep(5 * time.Second)
-    }
-}
-
-func GetTxn(hash string) (*solana.Transaction, error) {
-	client := solana.NewClient(rpc.DevnetRPCEndpoint)
-	txn, err := client.GetTransaction(context.Background(), hash)
+	_, err = tx.Sign(
+		func(key solana.PublicKey) *solana.PrivateKey {
+			if accountFrom.PublicKey().Equals(key) {
+				return &accountFrom
+			}
+			return nil
+		},
+	)
 	if err != nil {
-		log.Printf("failed to get tx, err: %v", err)
-		return nil, err
+		panic(fmt.Errorf("unable to sign transaction: %w", err))
 	}
-	return txn, nil
+
+	// Send transaction, and wait for confirmation:
+	sig, err := confirm.SendAndConfirmTransaction(
+		context.Background(),
+		rpcClient,
+		wsClient,
+		tx,
+	)
+	if err != nil {
+		panic(err)
+	}
+	log.Println("hash", sig)
+	return tx, nil
 }
+
+// func WaitForConfirmation(client *solana.Client, txhash string) (*solana.Transaction, error) {
+// 	for {
+// 		// Check the transaction status
+// 		txn, err := client.GetTransaction(context.Background(), txhash)
+// 		if err != nil {
+// 			log.Printf("failed to get tx, err: %v", err)
+// 			return nil, err
+// 		}
+
+// 		if txn != nil {
+// 			return txn, nil
+// 		}
+
+// 		time.Sleep(5 * time.Second)
+// 	}
+// }
+
+// func GetTxn(hash string) (*solana.Transaction, error) {
+// 	client := solana.NewClient(rpc.DevnetRPCEndpoint)
+// 	txn, err := client.GetTransaction(context.Background(), hash)
+// 	if err != nil {
+// 		log.Printf("failed to get tx, err: %v", err)
+// 		return nil, err
+// 	}
+// 	return txn, nil
+// }
