@@ -12,6 +12,7 @@ type TxnSign struct {
 	Amount float64 `json:"amount" validate:"required"`
 	Network string `json:"network" validate:"required"`
 	Cluster string `json:"cluster" validate:"required"`
+	Wait bool `json:"wait"`
 }
 
 type TxnGet struct {
