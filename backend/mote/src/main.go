@@ -1,14 +1,17 @@
 package main
 
-
 import (
 	"encoding/json"
 	"fmt"
-	"mote/src/config"
-	"mote/src/middle"
 	"net/http"
 	"strconv"
 	"time"
+
+	"mote/src/config"
+	"mote/src/middle"
+	"mote/src/routes"
+
+	"github.com/gorilla/mux"
 )
 
 func MainHandler(w http.ResponseWriter, r *http.Request) {
@@ -52,11 +55,22 @@ func main() {
 		}
 	}()
 
-	mux := http.NewServeMux()
+	app := mux.NewRouter()
 
-	mux.Handle("/", middle.LoggerMiddleware(middle.ResContentType(http.HandlerFunc(MainHandler))))
-	mux.Handle("/_health", middle.LoggerMiddleware(middle.ResContentType(http.HandlerFunc(HealthCheckHandler))))
+	// Middlewares
+	app.Use(middle.LoggerMiddleware)
+	app.Use(middle.CorsMiddleware)
+	app.Use(middle.ResContentType)
 
+	app.HandleFunc("/", MainHandler).Methods("GET")
+	app.HandleFunc("/_health", HealthCheckHandler).Methods("GET")
+
+	// Routers
+	txnRouter := app.PathPrefix("/txn").Subrouter()
+
+	txnRouter.HandleFunc("/send", routes.SignHandler).Methods("POST")
+	// txnRouter.HandleFunc("/", routes.GetTransactionHandler).Methods("GET")
+	
 	fmt.Println("Server started on port ", address)
-	http.ListenAndServe(address, mux)
+	http.ListenAndServe(address, app)
 }
