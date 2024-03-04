@@ -13,3 +13,9 @@ type TxnSign struct {
 	Network string `json:"network" validate:"required"`
 	Cluster string `json:"cluster" validate:"required"`
 }
+
+type TxnGet struct {
+	Hash string `json:"hash" validate:"required"`
+	// Network string `json:"network" validate:"required"`
+	// Cluster string `json:"cluster" validate:"required"`
+}
