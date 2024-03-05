@@ -3,10 +3,12 @@ package routes
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"mote/src/sockets"
 	"mote/src/types"
+
 	"github.com/go-playground/validator/v10"
 )
 
@@ -68,16 +70,18 @@ func GetTransactionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// txn, err := sockets.GetTxn(hash)
-	// if err != nil {
-	// 	http.Error(w, "Transaction not found", http.StatusNotFound)
-	// 	return
-	// }
+	txn, err := sockets.GetTxn(hash)
+	if err != nil {
+		http.Error(w, "Transaction not found", http.StatusNotFound)
+		return
+	}
+
+	log.Println("txn: ", txn);
 
 	response := map[string]interface{}{
 		"status":  "ok",
 		"message": "Transaction found",
-		// "txn":     txn,
+		"txn":     txn,
 	}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
