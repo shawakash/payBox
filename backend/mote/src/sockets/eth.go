@@ -11,6 +11,7 @@ import (
 	"mote/src/config"
 
 	// "github.com/ethereum/go-ethereum/accounts/abi/bind"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -79,6 +80,15 @@ func SendEth(from string, to string, amount float64, wait bool) (*types.Transact
     if err != nil {
         log.Fatalf("Failed to send transaction: %v", err)
     }
+
+	if wait {
+		receipt, err := bind.WaitMined(context.Background(), client, signedTx)
+		if err != nil {
+			log.Fatalf("Failed to get transaction receipt: %v", err)
+		}
+	
+		log.Println("Status: ", receipt.Status)
+	}
 
     log.Println("txn: ", signedTx)
 	return signedTx, nil
