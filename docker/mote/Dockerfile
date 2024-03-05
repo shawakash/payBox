@@ -29,14 +29,11 @@ ENV R2_ACCOUNT_ID=
 ENV R2_TOKEN=
 
 # Copy the application code to the container
-COPY go.mod go.sum Makefile ./
+COPY .  .
 
 # Install app dependencies using Yarn
 RUN go mod download
 RUN make deps
-
-# Copy the application code to the container
-COPY .  .
 
 
 # Build the pacakge
