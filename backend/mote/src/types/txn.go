@@ -19,7 +19,7 @@ type TxnSign struct {
 
 type TxnGet struct {
 	Hash string `json:"hash" validate:"required"`
-	// Network string `json:"network" validate:"required"`
+	Network string `json:"network" validate:"required"`
 	// Cluster string `json:"cluster" validate:"required"`
 }
 
@@ -28,7 +28,7 @@ type Txn struct {
 	Network string `json:"network"`
 	Cluster string `json:"cluster"`
 	Timestamp time.Time `json:"timestamp"`
-	Slot *uint64 `json:"slot"`
+	Slot uint64 `json:"slot"`
 	From string `json:"from"`
 	To string `json:"to"`
 	BlockHash string `json:"blockHash"`

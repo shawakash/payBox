@@ -121,7 +121,7 @@ func SendSol(from string, to string, amount float64, wait bool) (*solana.Transac
 	}
 }
 
-func GetTxn(hash string) (*types.Txn, error) {
+func GetSolTxn(hash string) (*types.Txn, error) {
 	client := rpc.New(rpc.DevNet_RPC)
 	sig := solana.MustSignatureFromBase58(hash)
 	tx, err := client.GetTransaction(
@@ -139,13 +139,12 @@ func GetTxn(hash string) (*types.Txn, error) {
 	if err != nil {
 		panic(err)
 	}
-
 	var txn = &types.Txn{
 		Sig:       string(decodedTx.Signatures[0].String()),
 		Network:   "sol",
 		Cluster:   "devnet",
 		Timestamp: time.Unix(tx.BlockTime.Time().Unix(), 0),
-		Slot:      &tx.Slot,
+		Slot:      tx.Slot,
 		From:      string(decodedTx.Message.AccountKeys[0].String()),
 		To:        string(decodedTx.Message.AccountKeys[1].String()),
 		BlockHash: decodedTx.Message.RecentBlockhash.String(),
