@@ -28,34 +28,33 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 	var txn interface{}
 	var hash string
 	switch txnSignQuery.Network {
-		case "sol":
-			tx, err := sockets.SendSol(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			log.Println("tx: ", tx)	
-			txn = tx
-			hash = tx.Signatures[0].String()
-			fmt.Println("hash:", hash)
-			
-		case "eth":
-			tx, err := sockets.SendEth(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			log.Println("tx: ", tx)	
-			fmt.Println("hash:", tx)
-			txn = tx
-			hash = string(tx.Hash().Hex())
-
-		default:
-			http.Error(w, "Invalid network", http.StatusBadRequest)
+	case "sol":
+		tx, err := sockets.SendSol(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
+		}
+		log.Println("tx: ", tx)
+		txn = tx
+		hash = tx.Signatures[0].String()
+		fmt.Println("hash:", hash)
+
+	case "eth":
+		tx, err := sockets.SendEth(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		log.Println("tx: ", tx)
+		fmt.Println("hash:", tx)
+		txn = tx
+		hash = string(tx.Hash().Hex())
+
+	default:
+		http.Error(w, "Invalid network", http.StatusBadRequest)
+		return
 
 	}
-
 
 	response := map[string]interface{}{
 		"status":  "ok",
@@ -82,9 +81,11 @@ func GetTransactionHandler(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
 	hash := query.Get("hash")
+	network := query.Get("network")
 
 	queryParams := types.TxnGet{
-		Hash: hash,
+		Hash:    hash,
+		Network: network,
 	}
 
 	validate := validator.New()
@@ -94,18 +95,38 @@ func GetTransactionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	txn, err := sockets.GetTxn(hash)
-	if err != nil {
-		http.Error(w, "Transaction not found", http.StatusNotFound)
-		return
-	}
+	var tx interface{}
+	switch queryParams.Network {
+		case "sol":
+			txn, err := sockets.GetSolTxn(hash)
+			if err != nil {
+				http.Error(w, "Sol Transaction not found", http.StatusNotFound)
+				return
+			}
+			tx = txn
 
-	log.Println("txn: ", txn);
+		case "eth":
+			txn, err := sockets.GetEthTxn(hash)
+			if err != nil {
+				http.Error(w, "Eth Transaction not found", http.StatusNotFound)
+				return
+			}
+			if txn == nil {
+				tx = "Transaction is pending"
+				return
+			} else {
+				tx = txn
+			}
+
+		default:
+			http.Error(w, "Invalid network", http.StatusBadRequest)
+			return
+	}
 
 	response := map[string]interface{}{
 		"status":  "ok",
 		"message": "Transaction found",
-		"txn":     txn,
+		"txn":     tx,
 	}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
