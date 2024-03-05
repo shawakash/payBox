@@ -25,19 +25,43 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tx, err := sockets.SendSol(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+	var txn interface{}
+	var hash string
+	switch txnSignQuery.Network {
+		case "sol":
+			tx, err := sockets.SendSol(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			log.Println("tx: ", tx)	
+			txn = tx
+			hash = tx.Signatures[0].String()
+			fmt.Println("hash:", hash)
+			
+		case "eth":
+			tx, err := sockets.SendEth(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			log.Println("tx: ", tx)	
+			fmt.Println("hash:", tx)
+			txn = tx
+			hash = string(tx.Hash().Hex())
+
+		default:
+			http.Error(w, "Invalid network", http.StatusBadRequest)
+			return
+
 	}
 
-	fmt.Println("hash:", tx.Signatures[0])
 
 	response := map[string]interface{}{
 		"status":  "ok",
 		"message": "Transaction signed successfully",
-		"hash":    tx.Signatures[0],
-		"txn":     tx,
+		"hash":    hash,
+		"txn":     txn,
 	}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
