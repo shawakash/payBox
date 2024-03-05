@@ -12,6 +12,7 @@ var (
 	SEPOLIA_URL_HTTP = "https://sepolia.infura.io/v3/"
 	REDIS_SECRET = ""
 	REDIS_URL = "redis://localhost:6379"
+    INFURA_SEPOLIA_URL = ""
 )
 
 const (
@@ -34,6 +35,7 @@ func init() {
     }
     if ENV_SEPOLIA_URL_HTTP := os.Getenv("SEPOLIA_URL_HTTP"); ENV_SEPOLIA_URL_HTTP != "" {
         SEPOLIA_URL_HTTP = ENV_SEPOLIA_URL_HTTP
+        INFURA_SEPOLIA_URL = SEPOLIA_URL_HTTP + INFURA_PROJECT_ID
     }
     if ENV_REDIS_SECRET := os.Getenv("REDIS_SECRET"); ENV_REDIS_SECRET != "" {
         REDIS_SECRET = ENV_REDIS_SECRET

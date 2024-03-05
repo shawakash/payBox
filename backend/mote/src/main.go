@@ -69,7 +69,7 @@ func main() {
 	txnRouter := app.PathPrefix("/txn").Subrouter()
 
 	txnRouter.HandleFunc("/send", routes.SignHandler).Methods("POST")
-	// txnRouter.HandleFunc("/", routes.GetTransactionHandler).Methods("GET")
+	txnRouter.HandleFunc("/", routes.GetTransactionHandler).Methods("GET")
 	
 	fmt.Println("Server started on port ", address)
 	http.ListenAndServe(address, app)

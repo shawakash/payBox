@@ -2,12 +2,18 @@ package sockets
 
 import (
 	"context"
+	"time"
+	// "encoding/json"
 	"fmt"
 	"log"
+
 	// "os"
 	// "time"
 
+	"mote/src/types"
+
 	// "github.com/davecgh/go-spew/spew"
+	bin "github.com/gagliardetto/binary"
 	"github.com/gagliardetto/solana-go"
 	"github.com/gagliardetto/solana-go/programs/system"
 	"github.com/gagliardetto/solana-go/rpc"
@@ -115,30 +121,41 @@ func SendSol(from string, to string, amount float64, wait bool) (*solana.Transac
 	}
 }
 
+func GetSolTxn(hash string) (*types.Txn, error) {
+	client := rpc.New(rpc.DevNet_RPC)
+	sig := solana.MustSignatureFromBase58(hash)
+	tx, err := client.GetTransaction(
+		context.Background(),
+		sig,
+		&rpc.GetTransactionOpts{
+			Encoding: solana.EncodingBase64,
+		},
+	)
+	if err != nil {
+		panic(err)
+	}
 
-// func WaitForConfirmation(client *solana.Client, txhash string) (*solana.Transaction, error) {
-// 	for {
-// 		// Check the transaction status
-// 		txn, err := client.GetTransaction(context.Background(), txhash)
-// 		if err != nil {
-// 			log.Printf("failed to get tx, err: %v", err)
-// 			return nil, err
-// 		}
+	decodedTx, err := solana.TransactionFromDecoder(bin.NewBinDecoder(tx.Transaction.GetBinary()))
+	if err != nil {
+		panic(err)
+	}
+	var txn = &types.Txn{
+		Sig:       string(decodedTx.Signatures[0].String()),
+		Network:   "sol",
+		Cluster:   "devnet",
+		Timestamp: time.Unix(tx.BlockTime.Time().Unix(), 0),
+		Slot:      tx.Slot,
+		From:      string(decodedTx.Message.AccountKeys[0].String()),
+		To:        string(decodedTx.Message.AccountKeys[1].String()),
+		BlockHash: decodedTx.Message.RecentBlockhash.String(),
+		Amt:       float64(tx.Meta.PreBalances[0] - tx.Meta.PostBalances[0]),
+		Fee:       float64(tx.Meta.Fee),
+		Status:    string("confirmed"),
+	}
 
-// 		if txn != nil {
-// 			return txn, nil
-// 		}
-
-// 		time.Sleep(5 * time.Second)
-// 	}
-// }
-
-// func GetTxn(hash string) (*solana.Transaction, error) {
-// 	client := solana.NewClient(rpc.DevnetRPCEndpoint)
-// 	txn, err := client.GetTransaction(context.Background(), hash)
-// 	if err != nil {
-// 		log.Printf("failed to get tx, err: %v", err)
-// 		return nil, err
-// 	}
-// 	return txn, nil
-// }
+	if err != nil {
+		log.Printf("failed to get tx, err: %v", err)
+		return nil, err
+	}
+	return txn, nil
+}
