@@ -1,10 +1,15 @@
 package middle
 
 import (
-	"net/http"
-	"time"
+	"context"
 	"fmt"
+	"log"
+	"net/http"
+	"strings"
+	"time"
+
 	"mote/src/config"
+	"mote/src/utils"
 )
 
 func CustomHeaderMiddleware(next http.Handler) http.Handler {
@@ -53,4 +58,36 @@ func ResContentType(next http.Handler) http.Handler {
 		w.Header().Set("Content-Type", "application/json")
 		next.ServeHTTP(w, r)
 	})
+}
+
+func ExtractClientId(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        var jwtStr string
+
+        // Header takes precedence
+        authHeader := r.Header.Get("Authorization")
+        if authHeader != "" && strings.Split(authHeader, " ")[0] == "Bearer" {
+			jwtStr = strings.Split(authHeader, " ")[1]
+			log.Println(jwtStr)
+        } else if cookie, err := r.Cookie("jwt"); err == nil {
+            jwtStr = cookie.Value
+        } else if jwtQuery := r.URL.Query().Get("jwt"); jwtQuery != "" {
+            jwtStr = jwtQuery
+        }
+
+        if jwtStr != "" {
+            _, claims, err := utils.ValidateJwt(jwtStr)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusForbidden)
+			}
+            ctx := context.WithValue(r.Context(), "id", claims.Subject)
+            ctx = context.WithValue(ctx, "jwt", jwtStr)
+            r = r.WithContext(ctx)
+        } else {
+            http.Error(w, "No authentication token found", http.StatusForbidden)
+            return
+        }
+
+        next.ServeHTTP(w, r)
+    })
 }

@@ -18,6 +18,8 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Recovered from panic:", r)
 		}
 	}()
+
+	log.Println("id", r.Header.Get("id"))
 	var txnSignQuery types.TxnSign
 
 	if err := json.NewDecoder(r.Body).Decode(&txnSignQuery); err != nil {
@@ -28,31 +30,39 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 	var txn interface{}
 	var hash string
 	switch txnSignQuery.Network {
-	case "sol":
-		tx, err := sockets.SendSol(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		log.Println("tx: ", tx)
-		txn = tx
-		hash = tx.Signatures[0].String()
-		fmt.Println("hash:", hash)
+		case "sol":
+			tx, err := sockets.SendSol(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			txn = tx
+			hash = tx.Signatures[0].String()
+			fmt.Println("hash:", hash)
 
-	case "eth":
-		tx, err := sockets.SendEth(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		log.Println("tx: ", tx)
-		fmt.Println("hash:", tx)
-		txn = tx
-		hash = string(tx.Hash().Hex())
+		case "eth":
+			tx, err := sockets.SendEth(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			fmt.Println("hash:", tx)
+			txn = tx
+			hash = string(tx.Hash().Hex())
+		
+		case "btc":
+			tx, err := sockets.SendBtc(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
+			if err != nil {
+				log.Fatalln("Failed to send transaction:", err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+			log.Println("hash: ", tx.Txid)
+			hash = tx.Txid
+			txn = tx
 
-	default:
-		http.Error(w, "Invalid network", http.StatusBadRequest)
-		return
+		default:
+			http.Error(w, "Invalid network", http.StatusBadRequest)
+			return
 
 	}
 
@@ -117,6 +127,7 @@ func GetTransactionHandler(w http.ResponseWriter, r *http.Request) {
 			} else {
 				tx = txn
 			}
+
 
 		default:
 			http.Error(w, "Invalid network", http.StatusBadRequest)
