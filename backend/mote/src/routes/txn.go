@@ -18,6 +18,8 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("Recovered from panic:", r)
 		}
 	}()
+
+	log.Println("id", r.Header.Get("id"))
 	var txnSignQuery types.TxnSign
 
 	if err := json.NewDecoder(r.Body).Decode(&txnSignQuery); err != nil {

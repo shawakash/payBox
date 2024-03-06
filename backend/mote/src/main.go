@@ -67,7 +67,7 @@ func main() {
 
 	// Routers
 	txnRouter := app.PathPrefix("/txn").Subrouter()
-
+	// txnRouter.Use(middle.ExtractClientId)
 	txnRouter.HandleFunc("/send", routes.SignHandler).Methods("POST")
 	txnRouter.HandleFunc("/", routes.GetTransactionHandler).Methods("GET")
 	

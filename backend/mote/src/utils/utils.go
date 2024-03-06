@@ -30,7 +30,10 @@ func ValidateJwt(jwtStr string) (*jwt.JSONWebToken, *jwt.Claims, error) {
 
 	key := []byte(config.AUTH_JWT_PUBLIC_KEY)
 
-	claims := &jwt.Claims{}
+	claims := &jwt.Claims{
+		Issuer:   "shawakash",
+		Audience: jwt.Audience{"payBox"},
+	}
 	err = tok.Claims(key, claims)
 	if err != nil {
 		log.Println("Failed to parse claims:", err)
