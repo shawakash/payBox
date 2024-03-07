@@ -1,9 +1,10 @@
 package types
 
 import (
+	"math/big"
 	"time"
 
-    "github.com/go-playground/validator/v10"
+	"github.com/go-playground/validator/v10"
 )
 
 var Validate = validator.New()
@@ -24,10 +25,10 @@ type TxnGet struct {
 }
 
 type Txn struct {
-	Sig string `json:"hash"`
+	Hash string `json:"hash"`
 	Network string `json:"network"`
 	Cluster string `json:"cluster"`
-	Timestamp time.Time `json:"timestamp"`
+	Timestamp time.Time `json:"time"`
 	Slot uint64 `json:"slot"`
 	From string `json:"from"`
 	To string `json:"to"`
@@ -35,4 +36,12 @@ type Txn struct {
 	Amt float64 `json:"amount"`
 	Fee float64 `json:"fee"`
 	Status string `json:"status"`
+	ClientId string `json:"clientId"`
+	ChainId *big.Int `json:"chainId,omitempty"`
+}
+
+
+type Message struct {
+    Key   string                 `json:"key"`
+    Value Txn `json:"value"`
 }

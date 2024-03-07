@@ -3,6 +3,7 @@ package utils
 import (
 	"crypto/rsa"
 	"crypto/x509"
+	"encoding/json"
 	"encoding/pem"
 	"errors"
 	"log"
@@ -10,7 +11,9 @@ import (
 	"time"
 
 	"mote/src/config"
+	"mote/src/types"
 
+	"github.com/IBM/sarama"
 	jose "github.com/go-jose/go-jose/v4"
 	"github.com/go-jose/go-jose/v4/jwt"
 	"github.com/gorilla/securecookie"
@@ -105,4 +108,38 @@ func ImportSPKI(publicKeyPem string) (*rsa.PublicKey, error) {
 	}
 
 	return rsaPub, nil
+}
+
+
+func PublishTxn(txn types.Txn) {
+	brokers := []string{config.KAFKA_URL}
+
+    kConfig := sarama.NewConfig()
+    kConfig.Producer.RequiredAcks = sarama.WaitForLocal
+    kConfig.Producer.Compression = sarama.CompressionGZIP
+    kConfig.Producer.Flush.Frequency = 500 * time.Millisecond
+
+    producer, err := sarama.NewAsyncProducer(brokers, kConfig)
+    if err != nil {
+        log.Fatalf("Error creating Kafka producer: %v", err)
+    }
+    defer producer.Close()
+
+    jsonData, err := json.Marshal(txn)
+    if err != nil {
+        log.Fatalf("Error marshalling JSON: %v", err)
+    }
+
+    producer.Input() <- &sarama.ProducerMessage{
+        Topic: config.KAFKA_TXN_TOPIC,
+        Key:   sarama.StringEncoder("txn:" + txn.Hash),
+        Value: sarama.ByteEncoder(jsonData),
+    }
+
+    // select {
+    // case <-producer.Successes():
+    //     log.Println("Message published successfully to Kafka!")
+    // case err := <-producer.Errors():
+    //     log.Fatalf("Failed to publish message to Kafka: %v", err.Err)
+    // }
 }

@@ -20,17 +20,18 @@ const chain = Chain(HASURA_URL, {
 /**
  *
  * @param clientId
- * @param blockTime
+ * @param time
  * @param amount
  * @param fee
  * @param from
  * @param to
- * @param postBalances
- * @param preBalances
- * @param recentBlockhash
+ * @param blockHash
  * @param signature
  * @param network
  * @param slot
+ * @param cluster
+ * @param chainId
+ * @param status
  * @returns { status, id? }
  */
 export const insertTxn = async ({
@@ -46,6 +47,7 @@ export const insertTxn = async ({
   slot,
   cluster,
   chainId,
+  status,
 }: InsertTxnType): Promise<{
   status: dbResStatus;
   id?: unknown;
@@ -62,10 +64,13 @@ export const insertTxn = async ({
             amount,
             fee,
             from,
+            time,
             to,
             blockHash,
             cluster,
             chainId,
+            nonce: slot,
+            status
           },
         },
         {
