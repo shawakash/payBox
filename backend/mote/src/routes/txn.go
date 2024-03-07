@@ -37,7 +37,7 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			txn = tx
-			hash = tx.Signatures[0].String()
+			hash = tx.Hash
 			fmt.Println("hash:", hash)
 
 		case "eth":
@@ -48,7 +48,7 @@ func SignHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			fmt.Println("hash:", tx)
 			txn = tx
-			hash = string(tx.Hash().Hex())
+			hash = string(tx.Hash)
 		
 		case "btc":
 			tx, err := sockets.SendBtc(txnSignQuery.From, txnSignQuery.To, txnSignQuery.Amount, txnSignQuery.Wait)
