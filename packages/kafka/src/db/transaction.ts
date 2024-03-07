@@ -35,19 +35,16 @@ const chain = Chain(HASURA_URL, {
  */
 export const insertTxn = async ({
   clientId,
-  blockTime,
+  time,
   amount,
   fee,
   from,
   to,
-  postBalances,
-  preBalances,
-  recentBlockhash,
-  signature,
+  blockHash,
+  hash,
   network,
   slot,
   cluster,
-  nonce,
   chainId,
 }: InsertTxnType): Promise<{
   status: dbResStatus;
@@ -59,19 +56,15 @@ export const insertTxn = async ({
         {
           object: {
             clientId,
-            signature,
             network,
+            hash,
             slot,
             amount,
-            blockTime,
             fee,
             from,
             to,
-            preBalances,
-            postBalances,
-            recentBlockhash,
+            blockHash,
             cluster,
-            nonce,
             chainId,
           },
         },
@@ -121,22 +114,18 @@ export const getTxns = async ({
         },
         {
           id: true,
-          //@ts-ignore
-          signature: true,
+          hash: true,
           amount: true,
-          blockTime: true,
+          time: true,
           clientId: true,
           fee: true,
-          time: true,
           from: true,
           network: true,
-          //@ts-ignore
-          postBalances: true,
-          //@ts-ignore
-          preBalances: true,
-          recentBlockhash: true,
+          blockHash: true,
           slot: true,
           to: true,
+          cluster: true,
+          status: true
         },
       ],
     },
@@ -161,7 +150,7 @@ export const getTxns = async ({
  */
 export const getTxnByHash = async ({
   network,
-  sign,
+  hash,
   clientId,
 }: TxnQuerySignType): Promise<{
   status: dbResStatus;
@@ -173,29 +162,25 @@ export const getTxnByHash = async ({
       transactions: [
         {
           where: {
-            signature: { _contains: sign },
+            hash: { _eq: hash },
             clientId: { _eq: clientId },
             network: { _eq: network },
           },
         },
         {
           id: true,
-          //@ts-ignore
-          signature: true,
           amount: true,
-          blockTime: true,
+          time: true,
           clientId: true,
           fee: true,
-          time: true,
           from: true,
           network: true,
-          //@ts-ignore
-          postBalances: true,
-          //@ts-ignore
-          preBalances: true,
-          recentBlockhash: true,
+          blockHash: true,
           slot: true,
           to: true,
+          hash: true,
+          cluster: true,
+          status: true
         },
       ],
     },
@@ -237,23 +222,18 @@ export const getAllTxn = async ({
         },
         {
           id: true,
-          //@ts-ignore
-          signature: true,
+          hash: true,
           amount: true,
-          blockTime: true,
+          time: true,
           clientId: true,
           fee: true,
-          time: true,
           from: true,
           network: true,
-          //@ts-ignore
-          postBalances: true,
-          //@ts-ignore
-          preBalances: true,
-          recentBlockhash: true,
+          blockHash: true,
           slot: true,
           to: true,
           cluster: true,
+          status: true
         },
       ],
     },
