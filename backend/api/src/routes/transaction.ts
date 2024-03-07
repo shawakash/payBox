@@ -128,16 +128,16 @@ txnRouter.get("/get", async (req, res) => {
     //@ts-ignore
     const id = req.id as string;
     if (id) {
-      let { network, sign } = TxnQeuryByHash.parse(req.query);
+      let { network, hash } = TxnQeuryByHash.parse(req.query);
       /**
        * Cache
        */
-      const isTxn = await cache.txn.cacheGetTxnBySign(sign);
+      const isTxn = await cache.txn.cacheGetTxnBySign(hash);
       if (isTxn) {
         return res.status(302).json({ txn: isTxn, status: responseStatus.Ok });
       }
       //Db query
-      const txn = await getTxnByHash({ network, sign, clientId: id });
+      const txn = await getTxnByHash({ network, hash, clientId: id });
       if (txn.status == dbResStatus.Error) {
         return res
           .status(503)

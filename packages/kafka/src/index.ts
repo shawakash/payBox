@@ -10,11 +10,11 @@ export * from "./db";
 export const kafkaClient = new KafkaInstance();
 
 (async () => {
-  await kafkaClient.init([{ topicName: "txn3", partitions: 2 }]);
+  await kafkaClient.init([{ topicName: "txn4", partitions: 2 }]);
   await kafkaClient.connectProducer();
   const consumer = await kafkaClient.connectCounsumer(
-    "sendTxn3",
-    ["txn3"],
+    "sendTxn4",
+    ["txn4"],
     true,
   );
   await consumer.run({

@@ -1,10 +1,20 @@
 import { Chain } from "@paybox/zeus";
 import {
+  AccountType,
+  Address,
+  BitcoinKey,
+  Client,
+  EthKey,
   HASURA_ADMIN_SERCRET,
   HASURA_URL,
+  SolKey,
+  WalletKeys,
   JWT,
   dbResStatus,
+  getClientId
 } from "@paybox/common";
+import { Wallet, ethers } from "ethers";
+import { Keypair } from "@solana/web3.js";
 
 const chain = Chain(HASURA_URL, {
   headers: {
@@ -14,12 +24,16 @@ const chain = Chain(HASURA_URL, {
 });
 
 /**
+ *
  * @param username
  * @param email
  * @param firstname
  * @param lastname
  * @param hashPassword
  * @param mobile
+ * @param seed
+ * @param solKeys
+ * @param ethKeys
  * @returns
  */
 export const createClient = async (
@@ -29,12 +43,21 @@ export const createClient = async (
   lastname: string | undefined,
   hashPassword: string,
   mobile: number | null,
+  seed: string,
+  solKeys: WalletKeys,
+  ethKeys: WalletKeys,
 ): Promise<{
   id?: unknown;
   address?: unknown;
+  walletId?: unknown;
+  accountId?: unknown;
+  sol?: SolKey;
+  eth?: EthKey;
+  bitcoin?: BitcoinKey;
+  usdc?: EthKey;
   status: dbResStatus;
 }> => {
-  const response = await chain("mutation")(
+  const clientResponse = await chain("mutation")(
     {
       insert_client_one: [
         {
@@ -61,8 +84,87 @@ export const createClient = async (
     },
     { operationName: "createClient" },
   );
-  if (response.insert_client_one?.id) {
-    return { ...response.insert_client_one, status: dbResStatus.Ok };
+  if (clientResponse.insert_client_one?.id) {
+    const createWallet = await chain("mutation")(
+      {
+        insert_wallet_one: [
+          {
+            object: {
+              clientId: clientResponse.insert_client_one.id,
+              secretPhase: seed,
+              accounts: {
+                data: [
+                  {
+                    clientId: clientResponse.insert_client_one.id,
+                    sol: {
+                      data: {
+                        publicKey: solKeys.publicKey,
+                        privateKey: solKeys.privateKey,
+                      },
+                    },
+                    eth: {
+                      data: {
+                        publicKey: ethKeys.publicKey,
+                        privateKey: ethKeys.privateKey,
+                      },
+                    },
+                    name: "Account 1",
+                  },
+                ],
+              },
+            },
+          },
+          {
+            id: true,
+            accounts: [
+              {
+                limit: 1,
+              },
+              {
+                id: true,
+                eth: {
+                  publicKey: true,
+                  goerliEth: true,
+                  kovanEth: true,
+                  mainnetEth: true,
+                  rinkebyEth: true,
+                  ropstenEth: true,
+                  sepoliaEth: true,
+                },
+                sol: {
+                  publicKey: true,
+                  devnetSol: true,
+                  mainnetSol: true,
+                  testnetSol: true,
+                },
+                walletId: true,
+                bitcoin: {
+                  publicKey: true,
+                  mainnetBtc: true,
+                  regtestBtc: true,
+                  textnetBtc: true,
+                },
+              },
+            ],
+          },
+        ],
+      },
+      { operationName: "createWallet" },
+    );
+
+    if (createWallet.insert_wallet_one?.id) {
+      return {
+        ...clientResponse.insert_client_one,
+        walletId: createWallet.insert_wallet_one.id,
+        sol: createWallet.insert_wallet_one.accounts[0].sol as SolKey,
+        eth: createWallet.insert_wallet_one.accounts[0].eth as EthKey,
+        bitcoin: createWallet.insert_wallet_one.accounts[0]
+          .bitcoin as BitcoinKey,
+        accountId: createWallet.insert_wallet_one.accounts[0].id,
+        status: dbResStatus.Ok,
+      };
+    }
+    return { ...clientResponse.insert_client_one, status: dbResStatus.Ok };
   }
   return {
     status: dbResStatus.Error,
@@ -140,9 +242,7 @@ export const conflictClient = async (
   email: string,
 ): Promise<{
   status: dbResStatus;
-  client?: {
-    id?: unknown;
-  }[];
+  client?: getClientId[];
 }> => {
   const response = await chain("query")(
     {
@@ -181,16 +281,7 @@ export const checkClient = async (
   username: string,
   email: string,
 ): Promise<{
-  client?: {
-    username?: unknown;
-    email?: unknown;
-    firstname?: unknown;
-    lastname?: unknown;
-    mobile?: unknown;
-    id?: unknown;
-    address?: unknown;
-    password?: unknown;
-  }[];
+  client?: Client;
   status: dbResStatus;
 }> => {
   const response = await chain("query")(
@@ -223,9 +314,9 @@ export const checkClient = async (
     },
     { operationName: "checkClient" },
   );
-  if (response.client.length) {
+  if (response.client[0].id) {
     return {
-      ...response,
+      client: response.client[0] as Client,
       status: dbResStatus.Ok,
     };
   }
@@ -438,3 +529,276 @@ export const deleteClient = async (
 };
 
 // And continue
+
+/**
+ *
+ * @param id
+ * @returns
+ */
+export const getPassword = async (
+  id: string,
+): Promise<{
+  status: dbResStatus;
+  hashPassword?: string;
+}> => {
+  const response = await chain("query")(
+    {
+      client: [
+        {
+          limit: 1,
+          where: {
+            id: { _eq: id },
+          },
+        },
+        {
+          password: true,
+        },
+      ],
+    },
+    { operationName: "getPassword" },
+  );
+  if (response.client[0].password) {
+    return {
+      status: dbResStatus.Ok,
+      hashPassword: response.client[0].password,
+    };
+  }
+  return {
+    status: dbResStatus.Error,
+  };
+};
+
+/**
+ *
+ * @param id
+ * @param password
+ * @returns
+ */
+export const updatePassword = async (
+  id: string,
+  password: string,
+): Promise<{
+  status: dbResStatus;
+}> => {
+  const response = await chain("mutation")(
+    {
+      update_client: [
+        {
+          where: {
+            id: { _eq: id },
+          },
+          _set: {
+            password,
+          },
+        },
+        {
+          returning: {
+            id: true,
+          },
+        },
+      ],
+    },
+    { operationName: "updatePassword" },
+  );
+  if (response.update_client?.returning[0].id) {
+    return {
+      status: dbResStatus.Ok,
+    };
+  }
+  return {
+    status: dbResStatus.Error,
+  };
+};
+
+/**
+ * 
+ * @param username 
+ * @param email 
+ * @param firstname 
+ * @param lastname 
+ * @param hashPassword 
+ * @param mobile 
+ * @returns 
+ */
+export const createBaseClient = async (
+  username: string,
+  email: string,
+  firstname: string | undefined,
+  lastname: string | undefined,
+  hashPassword: string,
+  mobile: number | null,
+): Promise<{
+  status: dbResStatus,
+  id?: string,
+  address?: Address,
+}> => {
+  const response = await chain("mutation")({
+    insert_client_one: [{
+        object: {
+          firstname,
+          email,
+          username,
+          lastname,
+          mobile: mobile || null,
+          password: hashPassword,
+        },
+      },
+      {
+        id: true,
+        address: {
+          bitcoin: true,
+          eth: true,
+          sol: true,
+          usdc: true,
+          id: true,
+        },
+    }]
+  }, {operationName: "createBaseClient"});
+  if (response.insert_client_one?.id) {
+    return {
+      id: response.insert_client_one.id as string,
+      address: response.insert_client_one.address as Address,
+      status: dbResStatus.Ok
+    }
+  }
+  return {
+    status: dbResStatus.Error
+  }
+}
+
+/**
+ * 
+ * @param id 
+ * @param secretPhase 
+ * @param name 
+ * @param solKeys 
+ * @param ethKeys 
+ * @returns 
+ */
+export const validateClient = async (
+  id: string,
+  secretPhase: string,
+  name: string,
+  solKeys: WalletKeys,
+  ethKeys: WalletKeys,
+): Promise<{
+  status: dbResStatus,
+  valid?: boolean,
+  walletId?: string,
+  account?: AccountType
+}> => {
+  const response = await chain("mutation")({
+    update_client: [{
+      where: {
+        id: {
+          _eq: id
+        }
+      },
+      _set: {
+        valid: true
+      }
+    }, {
+      returning: {
+        valid: true
+      }
+    }]
+  }, {operationName: "validateClient"});
+  
+  const createWallet = await chain("mutation")({
+    insert_wallet_one: [{
+      object: {
+        clientId: id,
+        secretPhase,
+        accounts: {
+          data: [
+            {
+              clientId: id,
+              sol: {
+                data: solKeys
+              },
+              eth: {
+                data: ethKeys
+              },
+              name
+            }
+          ]
+        }
+      }
+    }, {
+      id: true,
+      accounts: [{
+        limit: 1
+      }, {
+        id: true,
+        eth: {
+          publicKey: true,
+          goerliEth: true,
+          kovanEth: true,
+          mainnetEth: true,
+          rinkebyEth: true,
+          ropstenEth: true,
+          sepoliaEth: true
+        },
+        sol: {
+          publicKey: true,
+          devnetSol: true,
+          mainnetSol: true,
+          testnetSol: true
+        },
+        walletId: true,
+        bitcoin: {
+          publicKey: true,
+          mainnetBtc: true,
+          regtestBtc: true,
+          textnetBtc: true
+        }
+      }]
+    }]
+  }, {operationName: "createWallet"});
+
+  if (response.update_client?.returning[0].valid && createWallet.insert_wallet_one?.id) {
+    return {
+      status: dbResStatus.Ok,
+      valid: response.update_client.returning[0].valid,
+      walletId: createWallet.insert_wallet_one.id as string,
+      account: createWallet.insert_wallet_one.accounts[0] as AccountType
+    }
+  }
+  return {
+    status: dbResStatus.Error
+  }
+}
+
+/**
+ * 
+ * @param id 
+ * @returns 
+ */
+export const queryValid = async (
+  id: string
+): Promise<{
+  status: dbResStatus,
+  valid?: boolean
+}> => {
+  const response = await chain("query")({
+    client: [{
+      where: {
+        id: {
+          _eq: id
+        }
+      },
+      limit: 1,
+    }, {
+      valid: true
+    }]
+  }, {operationName: "queryValid"});
+  if (Array.isArray(response.client)) {
+    return {
+      status: dbResStatus.Ok,
+      valid: response.client[0].valid
+    }
+  }
+  return {
+    status: dbResStatus.Error
+  }
+}

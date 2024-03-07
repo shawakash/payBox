@@ -1,4 +1,4 @@
-import { EthCluster, Network, TxnSolana } from "@paybox/common";
+import { EthCluster, Network, TxnSolana, unixToISOString } from "@paybox/common";
 import { kafkaClient } from "..";
 import { ConfirmedTransactionMeta } from "@solana/web3.js";
 import { TransactionReceipt, TransactionResponse } from "ethers";
@@ -31,24 +31,21 @@ export const publishSolTxn = async (
     //@ts-ignore
     const receiver = transaction.message?.accountKeys[1].toBase58();
     await kafkaClient.publishOne({
-      topic: "txn3",
+      topic: "txn4",
       message: [
         {
           partition: 0,
           key: transaction.signatures[0] || "",
           value: JSON.stringify({
-            signature: transaction.signatures,
+            hash: transaction.signatures[0],
             amount,
-            blockTime,
             fee: meta.fee,
             clientId,
             from: sender,
             to: receiver,
-            postBalances: meta.postBalances,
-            preBalances: meta.preBalances,
-            recentBlockhash: transaction.message.recentBlockhash,
+            blockHash: transaction.message.recentBlockhash,
+            time: unixToISOString(blockTime),
             slot,
-            nonce: slot,
             network,
             cluster
           }),
@@ -71,22 +68,21 @@ export const publishEthTxn = async (
 ): Promise<boolean> => {
   try {
     await kafkaClient.publishOne({
-      topic: "txn3",
+      topic: "txn4",
       message: [
         {
           partition: 1,
           key: transaction.hash,
           value: JSON.stringify({
-            signature: [transaction.hash],
+            hash: transaction.hash,
             amount,
-            blockTime: Number(transaction.blockNumber),
+            time: unixToISOString(Number(transaction.blockNumber)),
             fee: calculateGas(transaction.gasLimit, transaction.gasPrice),
             clientId,
             from: transaction.from,
             to: transaction.to,
-            recentBlockhash: transaction.blockHash,
+            blockHash: transaction.blockHash,
             chainId: Number(transaction.chainId),
-            nonce: Number(transaction.nonce),
             slot: Number(transaction.nonce),
             network,
             cluster,
