@@ -89,6 +89,7 @@ export type InsertTxnType = {
   slot?: number;
   chainId?: number;
   cluster?: EthCluster | Cluster | BitcoinCluster | USDCCluster;
+  status?: string;
 };
 
 export type TxnType = InsertTxnType & {
