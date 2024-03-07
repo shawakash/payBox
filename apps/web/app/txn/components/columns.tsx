@@ -49,7 +49,7 @@ export const columns: ColumnDef<TxnType>[] = [
       // make the cluster dynamic
       <Link
         target="_blank"
-        href={getTransactionUrl(row.original.network, row.original.signature[0], row.original.cluster)}
+        href={getTransactionUrl(row.original.network, row.original.hash, row.original.cluster)}
       >
         <div className="w-[80px]">
           Txn-{(row.getValue("id") as string).split("-")[1]}
@@ -154,9 +154,7 @@ export const columns: ColumnDef<TxnType>[] = [
       <DataTableColumnHeader column={column} title="Block Date" />
     ),
     cell: ({ row }) => {
-      const blockTimeMilliseconds = row.original.blockTime * 1000;
-
-      const blockDate = new Date(blockTimeMilliseconds);
+      const blockDate = new Date(row.original.time);
       const formattedDate = format(blockDate, "do MMM yy");
       return (
         <div className="flex items-center space-x-2">
@@ -175,7 +173,7 @@ export const columns: ColumnDef<TxnType>[] = [
       <DataTableColumnHeader column={column} title="Block Time" />
     ),
     cell: ({ row }) => {
-      const blockTimeMilliseconds = row.original.blockTime * 1000;
+      const blockTimeMilliseconds = row.original.time * 1000;
 
       const blockDate = new Date(blockTimeMilliseconds);
       const formattedTime = format(blockDate, "h:mm a");
