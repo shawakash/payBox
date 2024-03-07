@@ -2,7 +2,10 @@ package sockets
 
 import (
 	"context"
+	"math/big"
+	"strings"
 	"time"
+
 	// "encoding/json"
 	"fmt"
 	"log"
@@ -11,8 +14,8 @@ import (
 	// "time"
 
 	"mote/src/types"
+	"mote/src/utils"
 
-	// "github.com/davecgh/go-spew/spew"
 	bin "github.com/gagliardetto/binary"
 	"github.com/gagliardetto/solana-go"
 	"github.com/gagliardetto/solana-go/programs/system"
@@ -28,7 +31,7 @@ type SendSolResult struct {
 	Txn     solana.Transaction
 }
 
-func SendSol(from string, to string, amount float64, wait bool) (*solana.Transaction, error) {
+func SendSol(from string, to string, amount float64, wait bool) (*types.Txn, error) {
 	rpcClient := rpc.New(rpc.DevNet_RPC)
 
 	wsClient, err := ws.Connect(context.Background(), rpc.DevNet_WS)
@@ -104,7 +107,6 @@ func SendSol(from string, to string, amount float64, wait bool) (*solana.Transac
 			panic(err)
 		}
 		log.Println("hash: ", sig)
-		return tx, nil
 	} else {
 		sig, err := rpcClient.SendTransactionWithOpts(
 			context.TODO(),
@@ -117,8 +119,13 @@ func SendSol(from string, to string, amount float64, wait bool) (*solana.Transac
 			panic(err)
 		}
 		log.Println("hash: ", sig)
-		return tx, nil
 	}
+	txn, _ := GetSolTxn(tx.Signatures[0].String())
+	log.Println("txn: ", txn)
+
+	utils.PublishTxn(*txn)
+
+	return txn, nil
 }
 
 func GetSolTxn(hash string) (*types.Txn, error) {
@@ -135,12 +142,15 @@ func GetSolTxn(hash string) (*types.Txn, error) {
 		panic(err)
 	}
 
-	decodedTx, err := solana.TransactionFromDecoder(bin.NewBinDecoder(tx.Transaction.GetBinary()))
-	if err != nil {
-		panic(err)
-	}
+	log.Println("tx: ", tx)
+
+    decodedTx, err := solana.TransactionFromDecoder(bin.NewBinDecoder(tx.Transaction.GetBinary()))
+    if err != nil {
+      panic(err)
+    }
+	
 	var txn = &types.Txn{
-		Sig:       string(decodedTx.Signatures[0].String()),
+		Hash:      string(decodedTx.Signatures[0].String()),
 		Network:   "sol",
 		Cluster:   "devnet",
 		Timestamp: time.Unix(tx.BlockTime.Time().Unix(), 0),
@@ -148,9 +158,15 @@ func GetSolTxn(hash string) (*types.Txn, error) {
 		From:      string(decodedTx.Message.AccountKeys[0].String()),
 		To:        string(decodedTx.Message.AccountKeys[1].String()),
 		BlockHash: decodedTx.Message.RecentBlockhash.String(),
-		Amt:       float64(tx.Meta.PreBalances[0] - tx.Meta.PostBalances[0]),
-		Fee:       float64(tx.Meta.Fee),
+		Amt:       float64(tx.Meta.PostBalances[0] - tx.Meta.PreBalances[0]) / 1e9,
+		Fee:       float64(tx.Meta.Fee) / 1e9,
 		Status:    string("confirmed"),
+		ClientId:  "71cc7ca9-6072-4571-99c6-a595132fba2f",
+		ChainId:   big.NewInt(103),
+	}
+
+	if txn.To == strings.Repeat("1", 32) {
+		txn.To = txn.From
 	}
 
 	if err != nil {

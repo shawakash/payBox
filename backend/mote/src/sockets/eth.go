@@ -10,6 +10,7 @@ import (
 
 	"mote/src/config"
 	localType "mote/src/types"
+	"mote/src/utils"
 
 	// "github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -20,7 +21,7 @@ import (
 	// "github.com/ethereum/go-ethereum/rpc"
 )
 
-func SendEth(from string, to string, amount float64, wait bool) (*types.Transaction, error) {
+func SendEth(from string, to string, amount float64, wait bool) (*localType.Txn, error) {
 	client, err := ethclient.Dial(config.INFURA_SEPOLIA_URL)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
@@ -82,17 +83,38 @@ func SendEth(from string, to string, amount float64, wait bool) (*types.Transact
 		log.Fatalf("Failed to send transaction: %v", err)
 	}
 
+	var txn = &localType.Txn{
+		Hash:       signedTx.Hash().Hex(),
+		Network:   "eth",
+		From:      fromAddress.Hex(),
+		To:        toAddress.Hex(),
+		Amt:       float64(signedTx.Value().Int64()) / math.Pow10(18),
+		Fee:       float64(signedTx.GasPrice().Int64()) * float64(signedTx.Gas()) / math.Pow10(18),
+		Status:    "pending",
+		Cluster:   "sepolia",
+		Timestamp: signedTx.Time(),
+		BlockHash: "null",
+		Slot:      signedTx.Nonce(),
+		ClientId:  "71cc7ca9-6072-4571-99c6-a595132fba2f",
+		ChainId: chainID,
+	}
+
 	if wait {
 		receipt, err := bind.WaitMined(context.Background(), client, signedTx)
 		if err != nil {
 			log.Fatalf("Failed to get transaction receipt: %v", err)
 		}
-
+		txn.Status = "confirmed"
+		txn.BlockHash = receipt.BlockHash.Hex()
 		log.Println("Status: ", receipt.Status)
 	}
 
 	log.Println("txn: ", signedTx)
-	return signedTx, nil
+
+	
+	utils.PublishTxn(*txn)
+
+	return txn, nil
 }
 
 func GetEthTxn(hash string) (*localType.Txn, error) {
@@ -126,7 +148,7 @@ func GetEthTxn(hash string) (*localType.Txn, error) {
 	}
 
 	var txn = &localType.Txn{
-		Sig:       tx.Hash().Hex(),
+		Hash:       tx.Hash().Hex(),
 		Network:   "eth",
 		From:      from.Hex(),
 		To:        tx.To().Hex(),
@@ -137,6 +159,7 @@ func GetEthTxn(hash string) (*localType.Txn, error) {
 		Timestamp: tx.Time(),
 		BlockHash: receipt.BlockHash.Hex(),
 		Slot:      tx.Nonce(),
+		ClientId:  "71cc7ca9-6072-4571-99c6-a595132fba2f",
 	}
 	return txn, nil
 }
