@@ -78,18 +78,15 @@ export type TxnSendQueryType = z.infer<typeof TxnSendQuery>;
 
 export type InsertTxnType = {
   clientId: string;
-  blockTime: number;
+  time: number;
   amount: number;
   fee: number;
   from: string;
   to: string;
-  postBalances?: number[] | null;
-  preBalances?: number[] | null;
-  recentBlockhash: string;
-  signature: string[];
+  blockHash: string;
+  hash: string;
   network: Network;
-  slot?: number | null;
-  nonce?: number | null;
+  slot?: number;
   chainId?: number;
   cluster?: EthCluster | Cluster | BitcoinCluster | USDCCluster;
 };
@@ -97,6 +94,7 @@ export type InsertTxnType = {
 export type TxnType = InsertTxnType & {
   id: string;
   time?: string;
+  status?: string
 };
 
 export type TxnsQeuryType = z.infer<typeof TxnsQeury> & { clientId: string };
@@ -271,3 +269,8 @@ export enum WsMessageType {
   Index = "index",
   Message = "message"
 }
+
+
+export type getClientId = {
+  id?: unknown;
+};

@@ -237,3 +237,21 @@ export const getOtpTemplate = (name: string, otp: number, helpEmail: string) => 
 }
 
 export const R2_QRCODE_BUCKET_NAME = "paybox-qrcode";
+
+export const unixToISOString = (unixTime: number): string => {
+  const date = new Date(unixTime * 1000);
+  const offset = -date.getTimezoneOffset();
+  const offsetHours = Math.floor(offset / 60);
+  const offsetMinutes = Math.abs(offset) % 60;
+
+  const dateString = date.toISOString().split('T')[0];
+  const timeString = date.toTimeString().split(' ')[0];
+
+  const offsetString =
+      (offsetHours >= 0 ? '+' : '-') +
+      ('0' + Math.abs(offsetHours)).slice(-2) +
+      ':' +
+      ('0' + offsetMinutes).slice(-2);
+
+  return `${dateString}T${timeString}.${date.getMilliseconds()}${offsetString}`;
+}

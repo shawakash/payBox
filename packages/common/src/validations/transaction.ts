@@ -69,7 +69,7 @@ export const TxnsQeury = z.object({
 
 export const TxnQeuryByHash = z.object({
   network: z.nativeEnum(Network),
-  sign: z.string(),
+  hash: z.string(),
 });
 
 export const TxnSchema = z.object({
