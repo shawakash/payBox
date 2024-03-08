@@ -1,6 +1,9 @@
 {
   "name": "@paybox/ui",
-  "version": "0.0.6",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "private": true,
   "exports": {
     "./button": "./src/button.tsx",
@@ -12,8 +15,8 @@
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
-    "@repo/eslint-config": "^0.0.6",
-    "@repo/typescript-config": "^0.0.6",
+    "@repo/eslint-config": "^0.1.0",
+    "@repo/typescript-config": "^0.1.0",
     "@turbo/gen": "^1.11.3",
     "@types/eslint": "^8.56.1",
     "@types/node": "^20.10.6",
