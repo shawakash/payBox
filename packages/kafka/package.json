@@ -8,7 +8,8 @@
   "private": "true",
   "scripts": {
     "dev": "node dist/index.js --trace-warning",
-    "build": "tsup src/index.ts --format cjs,esm --dts"
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "publish": "npm version patch && npm publish"
   },
   "dependencies": {
     "@paybox/common": "^0.1.0",
