@@ -23,7 +23,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/openapi Docker image
-        run: docker build -t shawakash/paybox-openapi:${{ github.sha }} -f ./docker/openapi/Dockerfile ./openapi
+        run: docker build -t shawakash/paybox-openapi:${{ github.sha }} -f ./docker/openapi/Dockerfile .
 
       - name: Push @paybox/openapi Docker image
         run: docker push shawakash/paybox-openapi:${{ github.sha }}
@@ -41,7 +41,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/kafka Docker image
-        run: docker build -t shawakash/paybox-kafka:${{ github.sha }} -f ./docker/kafka/Dockerfile ./packages/kafka
+        run: docker build -t shawakash/paybox-kafka:${{ github.sha }} -f ./docker/kafka/Dockerfile .
 
       - name: Push @paybox/kafka Docker image
         run: docker push shawakash/paybox-kafka:${{ github.sha }}
@@ -59,7 +59,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/zeus Docker image
-        run: docker build -t shawakash/paybox-zeus:${{ github.sha }} -f ./docker/zeus/Dockerfile ./backend/zeus
+        run: docker build -t shawakash/paybox-zeus:${{ github.sha }} -f ./docker/zeus/Dockerfile .
 
       - name: Push @paybox/zeus Docker image
         run: docker push shawakash/paybox-zeus:${{ github.sha }}
@@ -77,7 +77,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/common Docker image
-        run: docker build -t shawakash/paybox-common:${{ github.sha }} -f ./docker/common/Dockerfile ./packages/common
+        run: docker build -t shawakash/paybox-common:${{ github.sha }} -f ./docker/common/Dockerfile .
 
       - name: Push @paybox/common Docker image
         run: docker push shawakash/paybox-common:${{ github.sha }}
@@ -95,7 +95,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/recoil Docker image
-        run: docker build -t shawakash/paybox-recoil:${{ github.sha }} -f ./docker/recoil/Dockerfile ./packages/recoil
+        run: docker build -t shawakash/paybox-recoil:${{ github.sha }} -f ./docker/recoil/Dockerfile .
 
       - name: Push @paybox/recoil Docker image
         run: docker push shawakash/paybox-recoil:${{ github.sha }}
@@ -113,7 +113,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/api Docker image
-        run: docker build -t shawakash/paybox-api:${{ github.sha }} -f ./docker/api/Dockerfile ./backend/api
+        run: docker build -t shawakash/paybox-api:${{ github.sha }} -f ./docker/api/Dockerfile .
 
       - name: Push @paybox/api Docker image
         run: docker push shawakash/paybox-api:${{ github.sha }}
@@ -131,7 +131,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build @paybox/ws Docker image
-        run: docker build -t shawakash/paybox-ws:${{ github.sha }} -f ./docker/ws/Dockerfile ./backend/ws
+        run: docker build -t shawakash/paybox-ws:${{ github.sha }} -f ./docker/ws/Dockerfile .
 
       - name: Push @paybox/ws Docker image
         run: docker push shawakash/paybox-ws:${{ github.sha }}
