@@ -1,0 +1,47 @@
+{
+  "name": "paybox",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev --concurrency=11",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db": "docker compose -f ./backend/hasura/docker-compose.yml up",
+    "hasura": "hasura console --project backend/hasura/hasura",
+    "kafka": "docker compose -f ./docker/kafka/docker-compose.yml up",
+    "bump-versions": "yarn changeset version && yarn install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "./.husky/pre-commit",
+      "post-commit": "./.husky/post-commit",
+      "post-merge": "./.husky/post-merge"
+    }
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "lerna": "^8.1.2",
+    "prettier": "^3.1.1",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=20.6.1"
+  },
+  "packageManager": "yarn@1.22.19",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "backend/*",
+    "openapi"
+  ],
+  "dependencies": {
+    "@microsoft/eslint-formatter-sarif": "2.1.7",
+    "anchor": "^1.4.1",
+    "esbuild": "^0.19.11",
+    "eslint": "8.10.0",
+    "husky": "^9.0.10",
+    "openapi-typescript-codegen": "^0.27.0"
+  }
+}
