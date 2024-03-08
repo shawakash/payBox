@@ -14,6 +14,7 @@ TEST_PACKAGE = ./...
 
 # Build the binary
 build:
+	mkdir -p dist
 	$(GOBUILD) -o $(BINARY_NAME) $(MAIN)
 
 # Run tests
