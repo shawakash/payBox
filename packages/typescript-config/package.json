@@ -1,6 +1,9 @@
 {
   "name": "@repo/typescript-config",
   "version": "0.1.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "private": true,
   "license": "MIT",
   "publishConfig": {
