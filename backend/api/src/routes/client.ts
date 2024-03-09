@@ -6,6 +6,7 @@ import {
   ChangePasswordValid,
   OtpValid,
   PasswordValid,
+  ResendOtpValid,
   SECRET_PHASE_STRENGTH,
   TOTP_DIGITS,
   TOTP_TIME,
@@ -20,6 +21,7 @@ import {
   getClientByEmail,
   getClientById,
   getClientMetaData,
+  upadteMobileEmail,
   updateMetadata,
   updatePassword,
   validateClient,
@@ -34,7 +36,7 @@ import {
   setJWTCookie,
   validatePassword,
 } from "../auth/util";
-import { checkPassword, extractClientId, isValidated } from "../auth/middleware";
+import { checkPassword, extractClientId, isValidated, resendOtpLimiter } from "../auth/middleware";
 import {
   Client,
   ClientSigninFormValidate,
@@ -186,6 +188,44 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
           valid: validate.valid,
           status: responseStatus.Ok
         });
+    }
+    return res
+      .status(500)
+      .json({ status: responseStatus.Error, msg: "Jwt error" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error, status: responseStatus.Error });
+  }
+});
+
+
+/**
+ * Resend Otp
+ */
+clientRouter.patch("/resend", extractClientId, isValidated, resendOtpLimiter, async (req, res) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+    if (id) {
+      const { mobile, email, name } = ResendOtpValid.parse(req.query);
+
+      const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
+      try {
+        sendOTP(name, email, otp, Number(mobile));
+        await cache.cacheIdUsingKey(otp.toString(), id);
+
+        const {status} = await upadteMobileEmail(id, Number(mobile), email);
+        if (status == dbResStatus.Error) {
+          return res
+            .status(503)
+            .json({ status: responseStatus.Error, msg: "Database Error" });
+        }
+
+      } catch (error) {
+        console.log(error);
+        return res.status(200).json({ msg: "Error in sending otp", status: responseStatus.Ok });
+      }
+      return res.status(200).json({ msg: "Otp sent", status: responseStatus.Ok });
     }
     return res
       .status(500)
