@@ -255,3 +255,10 @@ export const unixToISOString = (unixTime: number): string => {
 
   return `${dateString}T${timeString}.${date.getMilliseconds()}${offsetString}`;
 }
+
+
+export enum Process {
+  Dev = "dev",
+  Prod = "prod",
+  Test = "test",
+}
