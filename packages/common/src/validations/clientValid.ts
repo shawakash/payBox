@@ -121,7 +121,27 @@ export const ChangePasswordValid = z.object({
 }).passthrough();
 
 export const OtpValid = z.object({
-  otp: z.union([z.string(), z.number()]).refine((value) => /^\d{6}$/.test(value.toString()), {
+  otp: z.string().refine((value) => /^\d{6}$/.test(value.toString()), {
     message: "Invalid OTP. It should be a 6-digit number.",
   }),
 });
+
+export const ResendOtpValid = z.object({
+  email: z
+    .string()
+    .regex(
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      "should be a valid email",
+    ),
+  mobile: z
+    .string()
+    .refine((value) => /^\d{10}$/.test(value.toString()), {
+      message: "Invalid mobile number. It should be a 10-digit number.",
+    }),
+  name: z
+    .string()
+    .regex(
+      /^[A-Za-z]+([- ]?[A-Za-z]+)*$/,
+      "should be between 3-15 characters and can only contain numbers, letters, and underscores.",
+    ),
+})
