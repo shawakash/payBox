@@ -1,5 +1,5 @@
 import { RedisClientType, createClient } from "redis";
-import { REDIS_URL } from "./config";
+import { PROCESS, REDIS_URL } from "./config";
 import { ClientCache } from "./redis/client";
 import { AddressCache } from "./redis/address";
 import { TxnCache } from "./redis/txn";
@@ -20,6 +20,15 @@ export class Redis {
       url: REDIS_URL,
       legacyMode: false,
     });
+
+    this.client.on('connect', () => {
+      console.log(`Redis ${PROCESS} server connect at port: ${REDIS_URL?.split(":").slice(-1)[0]}`);
+    });
+
+    this.client.on('error', (err) => {
+      console.error(`Error connecting to Redis ${PROCESS} server:`, err);
+    });
+
     this.client.connect();
     this.clientCache = new ClientCache(this.client, this);
     this.address = new AddressCache(this.client, this);
