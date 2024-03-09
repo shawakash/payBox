@@ -24,6 +24,8 @@ import { Address } from "web3";
 import { getPassword, queryValid } from "../db/client";
 import { EthOps } from "../sockets/eth";
 import { SolOps } from "../sockets/sol";
+import rateLimit from "express-rate-limit";
+
 
 /**
  *
@@ -432,3 +434,17 @@ export const checkQrcode = async (
     });
   }
 }
+
+// Middleware to limit the number of requests to resend OTP
+export const resendOtpLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 15 minutes
+  max: 1, // limit each client to 3 requests per windowMs
+  message: {
+    status: responseStatus.Error,
+    msg: "Too many requests, please try again after 15 minutes"
+  },
+  keyGenerator: function (req, res) {
+    //@ts-ignore
+    return req.id; // Use the client id as the key
+  }
+});

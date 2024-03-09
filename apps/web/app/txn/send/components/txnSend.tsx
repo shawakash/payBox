@@ -93,7 +93,10 @@ export function PaymentCard({
     }).then((res) => res.json());
     toast({
       title: `Transaction Successful`,
-      description: network == Network.Sol ? `Transaction Hash: ${response.signature.transaction.signatures[0]}` : `Transaction Hash: ${response.hash}`,
+      description:
+        network == Network.Sol
+          ? `Transaction Hash: ${response.signature.transaction.signatures[0]}`
+          : `Transaction Hash: ${response.hash}`,
     });
     router.push("/txn");
     setIsLoading(false);
@@ -197,7 +200,6 @@ export function PaymentCard({
             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
               <Input id="name" placeholder={`${client.firstname}`} />
-
             </div>
             <div className="grid gap-2">
               <FormField
@@ -280,10 +282,9 @@ export function PaymentCard({
                       <ClusterCombo
                         network={network}
                         selectCluster={(cluster) => {
-                          console.log(cluster)
+                          console.log(cluster);
                           form.setValue("cluster", cluster);
-                        }
-                        }
+                        }}
                       />
                     </FormControl>
                     <FormMessage />

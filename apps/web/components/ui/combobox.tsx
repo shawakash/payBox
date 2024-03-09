@@ -62,7 +62,7 @@ export function NetworkSelect({
                 <CheckIcon
                   className={cn(
                     "ml-auto h-4 w-4",
-                    value === framework.value ? "opacity-100" : "opacity-0",
+                    value === framework.value ? "opacity-100" : "opacity-0"
                   )}
                 />
               </CommandItem>

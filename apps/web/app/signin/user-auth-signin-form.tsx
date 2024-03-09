@@ -152,7 +152,7 @@ export function ClientSigninForm({
           onClick={() => {
             setIsLoading(true);
             signIn("github", { callbackUrl: "/profile" }).then(() =>
-              setIsLoading(false),
+              setIsLoading(false)
             );
           }}
         >
@@ -170,7 +170,7 @@ export function ClientSigninForm({
           onClick={() => {
             setIsLoading(true);
             signIn("google", { callbackUrl: "/profile" }).then((_) =>
-              setIsLoading(false),
+              setIsLoading(false)
             );
           }}
         >
