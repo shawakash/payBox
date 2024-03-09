@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { OTPForm } from "./components/otp";
+import { ResendOtp } from "./components/resendOtp";
 
 export const metadata: Metadata = {
   title: "Signup | PayBox",
@@ -35,7 +36,7 @@ export default function AuthenticationPage() {
           className="hidden dark:block"
         />
       </div>
-      <div className="container relative hidden h-[800px] flex-col items-center justify-around md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative hidden h-[780px] flex-col items-center justify-around md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         {/* <Link
           href="/signin"
           className={cn(
@@ -68,7 +69,7 @@ export default function AuthenticationPage() {
                 &ldquo;Introducing PayBox, the ultimate app for tracking and
                 indexing blockchain transactions in real-time.&rdquo;
               </p>
-              <footer className="text-sm">Akash Shaw</footer>
+              <footer className="text-sm font-bold">Shaws</footer>
             </blockquote>
           </div>
         </div>
@@ -130,8 +131,9 @@ export default function AuthenticationPage() {
                 <CardContent className="space-y-2 ">
                   <OTPForm />
                 </CardContent>
-                <CardFooter className="flex flex-col space-y-4">
-                  
+                <CardFooter className="flex flex-row ">
+                  <CardDescription>Haven't Received the OTP?</CardDescription>
+                  <ResendOtp />
                 </CardFooter>
               </Card>
             </TabsContent>

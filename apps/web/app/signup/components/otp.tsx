@@ -22,28 +22,36 @@ import {
 } from "@/components/ui/input-otp"
 import { toast } from "@/components/ui/use-toast"
 import React from "react"
+import { AccountType, BACKEND_URL, OtpValid, responseStatus } from "@paybox/common"
+import { useSession } from "next-auth/react"
 
-const FormSchema = z.object({
-    pin: z.string().min(6, {
-        message: "Your one-time password must be 6 characters.",
-    }),
-})
 
 export function OTPForm() {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
+
+    const session = useSession();
+    console.log(session, "session")
+    const form = useForm<z.infer<typeof OtpValid>>({
+        resolver: zodResolver(OtpValid),
         defaultValues: {
-            pin: "",
+            otp: "",
         },
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    const onSubmit = async (data: z.infer<typeof OtpValid>) => {
+        const { status, msg, valid, walletId, account }: { status: responseStatus, msg: string, valid?: boolean, walletId?: string, account?: AccountType } =
+            await fetch(`${BACKEND_URL}/client/valid?otp=${data.otp}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    //@ts-ignore
+                    "Authorization": `Bearer ${session.data?.user?.jwt}`
+                },
+            }).then((res) => res.json());
+        console.log(status, "valid")
         toast({
-            title: "You submitted the following values:",
+            title: "Otp Validation Status",
             description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
+                <h1>{msg}</h1>
             ),
         })
     }
@@ -53,7 +61,7 @@ export function OTPForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
                 <FormField
                     control={form.control}
-                    name="pin"
+                    name="otp"
                     render={({ field }) => (
                         <FormItem>
                             <FormControl>
@@ -79,7 +87,6 @@ export function OTPForm() {
                         </FormItem>
                     )}
                 />
-
                 <Button type="submit">Submit</Button>
             </form>
         </Form>
