@@ -16,9 +16,7 @@ export const metadata: Metadata = {
   description: "Transactions Table for Client of PayBox",
 };
 
-const getTxns = async (
-  jwt: string,
-): Promise<TxnType[] | null> => {
+const getTxns = async (jwt: string): Promise<TxnType[] | null> => {
   try {
     const apiUrl = `${BACKEND_URL}/txn/getAll`;
     const { status, txns }: { txns: TxnType[]; status: responseStatus } =
