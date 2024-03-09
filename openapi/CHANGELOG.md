@@ -1,5 +1,13 @@
 # @paybox/openapi
 
+## 0.1.2
+
+### Patch Changes
+
+- 2f0d245: feat: updating scripts and pipeline and adding some actions
+- Updated dependencies [2f0d245]
+  - @paybox/kafka@2.0.1
+
 ## 0.1.1
 
 ### Patch Changes
