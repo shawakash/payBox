@@ -21,6 +21,7 @@ export class ClientCache {
       username: items.username,
       password: items.password,
       address: JSON.stringify(items.address),
+      valid: items.valid.toString(),
     });
 
     console.log(`User Cached ${data}`);
@@ -46,6 +47,7 @@ export class ClientCache {
       lastname: client.lastname,
       //@ts-ignore  Redis does not allow to cache with types
       address: JSON.parse(client.address),
+      valid: client.valid === "true" ? true : false,
     };
   }
 
@@ -93,12 +95,14 @@ export class ClientCache {
         bitcoin: items.bitcoin,
         usdc: items.usdc,
       }),
+      valid: client.valid,
     });
 
     console.log(`Client address updated for client ID: ${key}`);
 
     return;
   }
+
 
 }
 

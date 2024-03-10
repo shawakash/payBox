@@ -23,7 +23,7 @@ export enum Network {
   USDC = "usdc",
 }
 
-export type Client = z.infer<typeof ClientSignupFormValidate> & { id: string };
+export type Client = z.infer<typeof ClientSignupFormValidate> & { id: string, valid: boolean };
 export enum SignType {
   Signin = "Signin",
   Signout = "Signout",
@@ -275,3 +275,8 @@ export enum WsMessageType {
 export type getClientId = {
   id?: unknown;
 };
+
+export enum SignStatus {
+  Verify = "verify",
+  Details = "details"
+}

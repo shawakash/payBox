@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": "true",
   "scripts": {
-    "build": "esbuild ./src/index.js --bundle --platform=node --outfile=dist/index.js",
+    "build": "esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
     "dev": "node dist/index.js --trace-warning",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""

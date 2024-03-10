@@ -89,6 +89,7 @@ clientRouter.post('/', async (req, res) => {
       //@ts-ignore
       address: client.address,
       password: hashPassword,
+      valid: client.valid || false,
     });
 
     /**
@@ -153,7 +154,8 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
       }
       /**
        * Cache
-       */
+      */
+      await cache.clientCache.updateUserFields(id, { valid: true })
       await cache.wallet.cacheWallet(validate.walletId as string, {
         clientId: id,
         id: validate.walletId as string,
@@ -175,6 +177,7 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
         sol: validate.account?.sol,
         eth: validate.account?.eth,
         walletId: validate.walletId as string,
+        valid: validate.valid,
         name: "Account 1",
       });
       await cache.cacheIdUsingKey(`valid:${id}`, 'true');
@@ -211,7 +214,7 @@ clientRouter.patch("/resend", extractClientId, isValidated, resendOtpLimiter, as
 
       const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
       try {
-        sendOTP(name, email, otp, Number(mobile));
+        await sendOTP(name, email, otp, Number(mobile));
         await cache.cacheIdUsingKey(otp.toString(), id);
 
         const {status} = await upadteMobileEmail(id, Number(mobile), email);
@@ -291,6 +294,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
       address: mutation.client?.address as Address,
       //@ts-ignore
       password: hashPassword || "",
+      valid: mutation.client?.valid || false,
     });
 
     // Generate OTP
@@ -343,7 +347,7 @@ clientRouter.post("/login", async (req, res) => {
         .status(503)
         .json({ status: responseStatus.Error, msg: "Database Error" });
     }
-    if (!query.client?.length) {
+    if (!query.client?.id) {
       return res
         .status(404)
         .json({ msg: "Not found", status: responseStatus.Error });
@@ -354,7 +358,7 @@ clientRouter.post("/login", async (req, res) => {
      */
     const isCorrectPass = await validatePassword(
       password,
-      query.client[0].password as string,
+      query.client.password as string,
     );
     if (!isCorrectPass) {
       return res
@@ -366,16 +370,16 @@ clientRouter.post("/login", async (req, res) => {
      * Cache
      */
     await cache.clientCache.cacheClient(
-      query.client[0].id as string,
-      query.client[0] as Client,
+      query.client.id as string,
+      query.client as Client,
     );
 
     /**
      * Create a Jwt
      */
     let jwt: string;
-    if (query.client[0].id) {
-      jwt = await setJWTCookie(req, res, query.client[0].id as string);
+    if (query.client.id) {
+      jwt = await setJWTCookie(req, res, query.client.id as string);
     } else {
       return res
         .status(500)
@@ -383,7 +387,7 @@ clientRouter.post("/login", async (req, res) => {
     }
     return res
       .status(200)
-      .json({ ...query.client[0], jwt, status: responseStatus.Ok });
+      .json({ ...query.client, jwt, status: responseStatus.Ok });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error, status: responseStatus.Error });
@@ -407,18 +411,18 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
             .json({ ...cachedClient, status: responseStatus.Ok, jwt: req.jwt })
         );
       }
-      const query = await getClientById(id);
+      const query = await getClientById<Client & {valid: boolean}>(id);
       if (query.status == dbResStatus.Error) {
         return res
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      if (!query.client?.length) {
+      if (!query.client?.id) {
         return res
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.clientCache.cacheClient(id, query.client[0] as Client);
+      await cache.clientCache.cacheClient(id, query.client as Client);
       return (
         res
           .status(302)
@@ -465,15 +469,15 @@ clientRouter.get("/:username", extractClientId, async (req, res) => {
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
 
-      if (!query.client?.length) {
+      if (!query.client?.id) {
         return res
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.clientCache.cacheClient(id, query.client[0] as Client);
+      await cache.clientCache.cacheClient(id, query.client as Client);
       return res
         .status(302)
-        .json({ ...query.client[0], status: responseStatus.Ok });
+        .json({ ...query.client, status: responseStatus.Ok });
     }
   } catch (error) {
     console.error(error);

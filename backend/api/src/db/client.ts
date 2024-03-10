@@ -178,16 +178,7 @@ export const getClientByEmail = async (
   email: string,
 ): Promise<{
   status: dbResStatus;
-  client?: {
-    username?: unknown;
-    email?: unknown;
-    firstname?: unknown;
-    lastname?: unknown;
-    mobile?: unknown;
-    id?: unknown;
-    address?: unknown;
-    password?: unknown;
-  }[];
+  client?: Client;
 }> => {
   const response = await chain("query")(
     {
@@ -220,7 +211,7 @@ export const getClientByEmail = async (
   );
   if (response) {
     return {
-      ...response,
+      client: response.client[0] as Client,
       status: dbResStatus.Ok,
     };
   }
@@ -307,6 +298,7 @@ export const checkClient = async (
           },
           mobile: true,
           password: true,
+          valid: true,
         },
       ],
     },
@@ -332,15 +324,7 @@ export const checkClient = async (
 export const getClientMetaData = async (
   username: string,
 ): Promise<{
-  client?: {
-    username?: unknown;
-    email?: unknown;
-    firstname?: unknown;
-    lastname?: unknown;
-    mobile?: unknown;
-    id?: unknown;
-    address?: unknown;
-  }[];
+  client?: Client;
   status: dbResStatus;
 }> => {
   const response = await chain("query")(
@@ -373,7 +357,7 @@ export const getClientMetaData = async (
   );
   if (response.client[0].id) {
     return {
-      ...response,
+      client: response.client[0] as Client,
       status: dbResStatus.Ok,
     };
   }
@@ -433,18 +417,10 @@ export const updateMetadata = async (
  * @param email
  * @returns
  */
-export const getClientById = async (
+export const getClientById = async<T>(
   id: string,
 ): Promise<{
-  client?: {
-    username?: unknown;
-    email?: unknown;
-    firstname?: unknown;
-    lastname?: unknown;
-    mobile?: unknown;
-    id?: unknown;
-    trips?: unknown;
-  }[];
+  client?: T;
   status: dbResStatus;
 }> => {
   const response = await chain("query")(
@@ -470,6 +446,7 @@ export const getClientById = async (
             usdc: true,
             id: true,
           },
+          valid: true,
         },
       ],
     },
@@ -477,7 +454,7 @@ export const getClientById = async (
   );
   if (response.client[0].id) {
     return {
-      ...response,
+      client: response.client[0] as T,
       status: dbResStatus.Ok,
     };
   }
@@ -628,6 +605,7 @@ export const createBaseClient = async (
 ): Promise<{
   status: dbResStatus,
   id?: string,
+  valid?: boolean,
   address?: Address,
 }> => {
   const response = await chain("mutation")({
@@ -650,11 +628,13 @@ export const createBaseClient = async (
           usdc: true,
           id: true,
         },
+        valid: true
     }]
   }, {operationName: "createBaseClient"});
   if (response.insert_client_one?.id) {
     return {
       id: response.insert_client_one.id as string,
+      valid: response.insert_client_one.valid as boolean,
       address: response.insert_client_one.address as Address,
       status: dbResStatus.Ok
     }
