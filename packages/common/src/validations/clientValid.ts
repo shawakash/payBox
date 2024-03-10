@@ -9,9 +9,11 @@ export const ClientSignupFormValidate = z.object({
     ),
   password: z
     .string()
-    .regex(
-      /^[a-z0-9_]{3,50}$/,
-      "should be between 3-15 characters and can only contain numbers, letters, and underscores.",
+    .refine(value =>
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
+      {
+        message: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
+      }
     ),
   firstname: z
     .string()
@@ -58,7 +60,14 @@ export const ClientSigninFormValidate = z.object({
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
       "should be a valid email",
     ),
-  password: z.string(),
+  password: z
+    .string()
+    .refine(value =>
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
+      {
+        message: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
+      }
+    ),
 });
 
 export const MetadataUpdateForm = z.object({
@@ -99,24 +108,30 @@ export const MetadataUpdateForm = z.object({
 export const PasswordValid = z.object({
   password: z
     .string()
-    .regex(
-      /^[a-z0-9_]{3,50}$/,
-      "should be between 3-15 characters and can only contain numbers, letters, and underscores.",
+    .refine(value =>
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
+      {
+        message: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
+      }
     ),
 }).passthrough();
 
 export const ChangePasswordValid = z.object({
   password: z
     .string()
-    .regex(
-      /^[a-z0-9_]{3,50}$/,
-      "should be between 3-15 characters and can only contain numbers, letters, and underscores.",
+    .refine(value =>
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
+      {
+        message: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
+      }
     ),
   newPassword: z
     .string()
-    .regex(
-      /^[a-z0-9_]{3,50}$/,
-      "should be between 3-15 characters and can only contain numbers, letters, and underscores.",
+    .refine(value =>
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
+      {
+        message: 'New Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
+      }
     ),
 }).passthrough();
 

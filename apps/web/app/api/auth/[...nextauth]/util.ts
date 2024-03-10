@@ -59,6 +59,7 @@ export const authOptions: NextAuthOptions = {
             email: response.email,
             address: response.address,
             mobile: response.mobile,
+            valid: response.valid,
           };
 
           if (user.jwt) {
@@ -86,6 +87,7 @@ export const authOptions: NextAuthOptions = {
           email: req.body?.email,
           address: response.address,
           mobile: req.body?.mobile,
+          valid: response.valid,
         };
 
         if (user.jwt) {
@@ -97,11 +99,13 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/signin",
-    newUser: "signup",
+    newUser: "/signup",
     error: "/_404",
   },
 
   callbacks: {
+
+
     async jwt({ token, trigger, user, session }) {
       if (user) {
         /**
@@ -125,6 +129,8 @@ export const authOptions: NextAuthOptions = {
           token.address = user.address;
           //@ts-ignore
           token.mobile = user.mobile;
+          //@ts-ignore
+          token.valid = user.valid;
         }
         //@ts-ignore
         if (token.jwt) {
@@ -150,7 +156,7 @@ export const authOptions: NextAuthOptions = {
           },
           body: JSON.stringify(body),
         }).then((res) => res.json());
-        console.log(response, "from jwt");
+        // console.log(response, "from jwt");
         token.jwt = response.jwt;
         token.id = response.id;
         token.firstname = user.name?.split(" ")[0];
@@ -158,6 +164,7 @@ export const authOptions: NextAuthOptions = {
         token.email = response.email;
         token.mobile = response.mobile;
         token.address = response.address;
+        token.valid = response.valid;
 
         /**
          * Fetch the jwt
@@ -172,21 +179,25 @@ export const authOptions: NextAuthOptions = {
           email: response.email,
           address: response.address,
           mobile: response.mobile,
+          valid: response.valid,
         };
       }
       return token;
     },
     async session({ user, session, token, trigger, newSession }) {
       if (trigger == "update") {
-        console.log(user, token, "session");
+        // console.log(user, token, "session");
       }
       const me = await fetch(`${BACKEND_URL}/client/me`, {
-        method: "get",
+        method: "GET",
         headers: {
           //@ts-ignore
           authorization: `Bearer ${token.jwt}`,
         },
-        cache: "force-cache",
+        // cache: "no-store",
+        next: {
+          revalidate: 60
+        }
       }).then((res) => res.json());
       /**
        * \Add the jwt from token to user
@@ -204,8 +215,11 @@ export const authOptions: NextAuthOptions = {
           address: me.address,
           mobile: Number(me.mobile),
           name: `${me.firstname} ${me.lastname}`,
+          valid: me.valid,
         },
       };
     },
+    
   },
+  
 };

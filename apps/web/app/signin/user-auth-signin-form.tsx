@@ -46,7 +46,8 @@ export function ClientSigninForm({
 
   React.useEffect(() => {
     // Check if the session is defined and navigate to the protected page
-    if (session) {
+    //@ts-ignore
+    if (session && session.user.valid == true) {
       router.push("/profile");
     }
   }, [session, router]);
@@ -129,7 +130,7 @@ export function ClientSigninForm({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Sign In with Email
+              Sign Up with Email
             </Button>
           </div>
         </form>

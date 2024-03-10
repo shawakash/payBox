@@ -14,7 +14,6 @@ export default async function SettingsProfilePage() {
     redirect("/signup");
   }
   revalidateTag("getTxn");
-  console.log(session.user);
   return (
     <div className="space-y-6">
       <div>

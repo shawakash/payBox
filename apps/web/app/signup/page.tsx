@@ -1,23 +1,16 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { ClientSignupForm } from "@/app/signup/user-auth-signup-form";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { OTPForm } from "./components/otp";
-import { ResendOtp } from "./components/resendOtp";
+import { SignStatus } from "@paybox/common";
+import { SignupTab } from "./components/signup-tab";
+
 
 export const metadata: Metadata = {
   title: "Signup | PayBox",
   description: "Authentication forms built using the components.",
 };
 
-export default function AuthenticationPage() {
+export default async function AuthenticationPage({searchParams}: {searchParams: {status: SignStatus}}) {
   return (
     <div className="flex justify-center items-center mx-56 my-0 overflow-hidden rounded-[0.5rem] border bg-background shadow-md md:shadow-xl">
       <div className="md:hidden">
@@ -74,71 +67,7 @@ export default function AuthenticationPage() {
           </div>
         </div>
         <div className="lg:p-8 w-full h-full flex justify-center space-y-6 ">
-          <Tabs defaultValue="payload" className="w-[500px]">
-            <TabsList className="grid w-full grid-cols-2 bg-zinc-800">
-              <TabsTrigger value="payload">Signup Details</TabsTrigger>
-              <TabsTrigger value="valid" disabled={false}>Validations</TabsTrigger>
-            </TabsList>
-            <TabsContent value="payload">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Create Your Account</CardTitle>
-                  <CardDescription>
-                    Be Sure to add Legit Details as its gonna validate you.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <ClientSignupForm />
-                </CardContent>
-                <CardFooter className="flex flex-col space-y-4">
-                  <div className="flex items-center justify-center space-x-2">
-                    <Checkbox id="terms" />
-                    <label
-                      htmlFor="terms"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Accept terms and conditions
-                    </label>
-                  </div>
-                  <p className="px-8 text-center text-sm text-muted-foreground">
-                    By clicking continue, you agree to our{" "}
-                    <Link
-                      href="/terms"
-                      className="underline underline-offset-4 hover:text-primary"
-                    >
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link
-                      href="/privacy"
-                      className="underline underline-offset-4 hover:text-primary"
-                    >
-                      Privacy Policy
-                    </Link>
-                    .
-                  </p>
-                </CardFooter>
-              </Card>
-            </TabsContent>
-            <TabsContent value="valid">
-              <Card className="min-h-48">
-                <CardHeader>
-                  <CardTitle>One Time Passcode..</CardTitle>
-                  <CardDescription>
-                    Check your email or message for the OTP.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-2 ">
-                  <OTPForm />
-                </CardContent>
-                <CardFooter className="flex flex-row ">
-                  <CardDescription>Haven't Received the OTP?</CardDescription>
-                  <ResendOtp />
-                </CardFooter>
-              </Card>
-            </TabsContent>
-          </Tabs>
-
+          <SignupTab />
         </div>
       </div>
     </div>

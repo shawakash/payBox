@@ -7,7 +7,6 @@ import Sparkles from "./components/Client/sparkle";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
-  console.log(session?.user);
   return (
     <>
       <div className="flex items-center justify-center">

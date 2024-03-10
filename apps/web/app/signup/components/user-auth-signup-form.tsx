@@ -28,10 +28,11 @@ import {
   hookStatus,
   responseStatus,
 } from "@paybox/common";
-import { useToast } from "../../components/ui/use-toast";
+import { useToast } from "../../../components/ui/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
 import { useRecoilState } from "recoil";
 import { clientAtom, loadingAtom } from "@paybox/recoil";
+import { RocketIcon } from "@radix-ui/react-icons";
 
 interface ClientSignupFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -47,7 +48,8 @@ export function ClientSignupForm({
 
   React.useEffect(() => {
     // Check if the session is defined and navigate to the protected page
-    if (session) {
+    //@ts-ignore
+    if (session && (session.user.valid == true)) {
       router.push("/profile");
     }
   }, [session, router]);
@@ -64,7 +66,6 @@ export function ClientSignupForm({
     signIn("credentials", {
       ...values,
       type: "signup",
-      callbackUrl: "/profile",
     }).then((_) => {
       setIsLoading(false);
     });
@@ -186,7 +187,7 @@ export function ClientSignupForm({
                       placeholder="@password"
                       type="password"
                       autoCapitalize="none"
-                      autoComplete="email"
+                      autoComplete="password"
                       autoCorrect="off"
                       disabled={isLoading}
                       {...field}
@@ -224,11 +225,12 @@ export function ClientSignupForm({
               disabled={isLoading}
               type="submit"
               onSubmit={() => setIsLoading(true)}
+              className="flex items-center space-x-4"
             >
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Sign In with Email
+                )}
+                <RocketIcon/> <p>Sign Up with Email</p>
             </Button>
           </div>
         </form>

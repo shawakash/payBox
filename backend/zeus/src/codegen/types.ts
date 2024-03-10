@@ -2936,7 +2936,7 @@ export type Transactions = {
   hash: Scalars['String']['output'];
   id: Scalars['uuid']['output'];
   network: Scalars['String']['output'];
-  nonce?: Maybe<Scalars['Int']['output']>;
+  nonce?: Maybe<Scalars['bigint']['output']>;
   slot?: Maybe<Scalars['bigint']['output']>;
   status: Scalars['String']['output'];
   time: Scalars['timestamptz']['output'];
@@ -3115,7 +3115,7 @@ export type Transactions_Bool_Exp = {
   hash?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   network?: InputMaybe<String_Comparison_Exp>;
-  nonce?: InputMaybe<Int_Comparison_Exp>;
+  nonce?: InputMaybe<Bigint_Comparison_Exp>;
   slot?: InputMaybe<Bigint_Comparison_Exp>;
   status?: InputMaybe<String_Comparison_Exp>;
   time?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -3135,7 +3135,7 @@ export type Transactions_Inc_Input = {
   amount?: InputMaybe<Scalars['float8']['input']>;
   chainId?: InputMaybe<Scalars['bigint']['input']>;
   fee?: InputMaybe<Scalars['float8']['input']>;
-  nonce?: InputMaybe<Scalars['Int']['input']>;
+  nonce?: InputMaybe<Scalars['bigint']['input']>;
   slot?: InputMaybe<Scalars['bigint']['input']>;
 };
 
@@ -3152,7 +3152,7 @@ export type Transactions_Insert_Input = {
   hash?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   network?: InputMaybe<Scalars['String']['input']>;
-  nonce?: InputMaybe<Scalars['Int']['input']>;
+  nonce?: InputMaybe<Scalars['bigint']['input']>;
   slot?: InputMaybe<Scalars['bigint']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   time?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -3172,7 +3172,7 @@ export type Transactions_Max_Fields = {
   hash?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   network?: Maybe<Scalars['String']['output']>;
-  nonce?: Maybe<Scalars['Int']['output']>;
+  nonce?: Maybe<Scalars['bigint']['output']>;
   slot?: Maybe<Scalars['bigint']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   time?: Maybe<Scalars['timestamptz']['output']>;
@@ -3211,7 +3211,7 @@ export type Transactions_Min_Fields = {
   hash?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   network?: Maybe<Scalars['String']['output']>;
-  nonce?: Maybe<Scalars['Int']['output']>;
+  nonce?: Maybe<Scalars['bigint']['output']>;
   slot?: Maybe<Scalars['bigint']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   time?: Maybe<Scalars['timestamptz']['output']>;
@@ -3388,7 +3388,7 @@ export type Transactions_Set_Input = {
   hash?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   network?: InputMaybe<Scalars['String']['input']>;
-  nonce?: InputMaybe<Scalars['Int']['input']>;
+  nonce?: InputMaybe<Scalars['bigint']['input']>;
   slot?: InputMaybe<Scalars['bigint']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   time?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -3472,7 +3472,7 @@ export type Transactions_Stream_Cursor_Value_Input = {
   hash?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   network?: InputMaybe<Scalars['String']['input']>;
-  nonce?: InputMaybe<Scalars['Int']['input']>;
+  nonce?: InputMaybe<Scalars['bigint']['input']>;
   slot?: InputMaybe<Scalars['bigint']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
   time?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -3485,7 +3485,7 @@ export type Transactions_Sum_Fields = {
   amount?: Maybe<Scalars['float8']['output']>;
   chainId?: Maybe<Scalars['bigint']['output']>;
   fee?: Maybe<Scalars['float8']['output']>;
-  nonce?: Maybe<Scalars['Int']['output']>;
+  nonce?: Maybe<Scalars['bigint']['output']>;
   slot?: Maybe<Scalars['bigint']['output']>;
 };
 
