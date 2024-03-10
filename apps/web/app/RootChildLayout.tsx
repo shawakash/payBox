@@ -1,7 +1,7 @@
 "use client";
 import { Nav } from "@/components/ui/nav";
 import { Progress } from "@/components/ui/progress";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { loadingAtom } from "@paybox/recoil";
 import { useRecoilValue } from "recoil";
 
