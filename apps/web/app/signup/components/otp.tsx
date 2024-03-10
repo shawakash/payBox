@@ -20,16 +20,17 @@ import {
     InputOTPSlot,
     InputOTPSeparator,
 } from "@/components/ui/input-otp"
-import { toast } from "@/components/ui/use-toast"
 import React from "react"
 import { AccountType, BACKEND_URL, OtpValid, responseStatus } from "@paybox/common"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 
 export function OTPForm() {
 
+    const router = useRouter()
     const session = useSession();
-    console.log(session, "session")
     const form = useForm<z.infer<typeof OtpValid>>({
         resolver: zodResolver(OtpValid),
         defaultValues: {
@@ -38,22 +39,29 @@ export function OTPForm() {
     })
 
     const onSubmit = async (data: z.infer<typeof OtpValid>) => {
-        const { status, msg, valid, walletId, account }: { status: responseStatus, msg: string, valid?: boolean, walletId?: string, account?: AccountType } =
-            await fetch(`${BACKEND_URL}/client/valid?otp=${data.otp}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    //@ts-ignore
-                    "Authorization": `Bearer ${session.data?.user?.jwt}`
-                },
-            }).then((res) => res.json());
-        console.log(status, "valid")
-        toast({
-            title: "Otp Validation Status",
-            description: (
-                <h1>{msg}</h1>
-            ),
-        })
+        toast.promise(
+            fetch(`${BACKEND_URL}/client/valid?otp=${data.otp}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                //@ts-ignore
+                "Authorization": `Bearer ${session.data?.user?.jwt}`
+            },
+        }).then((res) => res.json()), {
+            loading: "Validating OTP",
+            success: async ({ status, msg, valid, walletId, account }) => {
+                // TODO: Add the walletId to the session
+                if (status === responseStatus.Ok) {
+                    session.update()
+                    router.push("/profile")
+                    return msg;
+                }
+                return msg;
+            },
+            error: ({status, msg}) => {
+                return msg;
+            }
+        });
     }
 
     return (

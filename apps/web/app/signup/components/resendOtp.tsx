@@ -27,52 +27,66 @@ import { Label } from "@/components/ui/label"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { toast } from "@/components/ui/use-toast"
 import { BACKEND_URL, ResendOtpValid } from "@paybox/common";
+import { useSession } from "next-auth/react"
+import React from "react"
+import { toast } from "sonner"
 
 
 export function ResendOtp() {
 
-    // USE THE ATOM TO GET THE USER'S EMAIL, PHONE NUMBER and JWT
-    // CALL THE API TO RESEND THE OTP
+    const session = useSession();
 
+    const formRef = React.useRef<HTMLFormElement>(null)
     const form = useForm<z.infer<typeof ResendOtpValid>>({
         resolver: zodResolver(ResendOtpValid),
         defaultValues: {
-            email: "",
+            email: session.data?.user?.email ?? "",
+            //@ts-ignore
+            mobile: (session.data?.user?.mobile || "").toString() ?? "",
+            //@ts-ignore
+            name: session.data?.user?.firstname ?? ""
         },
     })
 
     const onSubmit = async (data: z.infer<typeof ResendOtpValid>) => {
-        toast({
-            title: "Resending Otp..",
-            description: (
-                <h1>Resending Otp to {data.email}, {data.mobile}</h1>
-            ),
-        })
-        const { status, msg }: {status: string, msg: string} =
-            await fetch(`${BACKEND_URL}/client/resend?mobile=${data.mobile}&email=${data.email}&name=Akash`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }).then((res) => res.json());
-        // handle the response
-        toast({
-            title: `Resending Otp..`,
-            description: (
-                <h1>{status}: {msg}</h1>
-            ),
-        })
+        console.log("here")
+        const call = async () => {
+            try {     
+                const { status, msg }: { status: string, msg: string } =
+                    await fetch(`${BACKEND_URL}/client/resend?mobile=${data.mobile}&email=${data.email}&name=Akash`, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                            //@ts-ignore
+                            "Authorization": `Bearer ${session.data?.user?.jwt}`
+                        },
+                    }).then((res) => res.json());
+                    return {status, msg}
+            } catch (error) {
+                throw new Error("Error in sending otp")
+                return {error}
+            }
+        }
+        toast.promise(call(), {
+            loading: "Re-Sending otp...",
+            success: ({status, msg}) => {
+              return msg;
+            },
+            error: ({e}) => {
+              console.error(e);
+              return `Error in sending otp: ${e.message}`;
+            },
+          });
     }
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button variant="link">Resend Otp</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="link">Resend Otp</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <DialogHeader>
                             <DialogTitle>Resend Otp</DialogTitle>
                             <DialogDescription>
@@ -80,6 +94,33 @@ export function ResendOtp() {
                             </DialogDescription>
                         </DialogHeader>
                         <div className="flex flex-col space-y-3 pt-2">
+                            <FormField
+                                control={form.control}
+                                name="name"
+                                render={({ field }) => (
+                                    <FormItem className="flex flex-col">
+                                        <FormLabel className="" htmlFor="mobile">
+                                            Name
+                                        </FormLabel>
+                                        <FormControl>
+                                            <div className="flex items-center space-x-2">
+                                                <div className="grid flex-1 gap-2">
+                                                    <Input
+                                                        id="name"
+                                                        type="text"
+                                                        //@ts-ignore
+                                                        placeholder={`${session.data?.user?.firstname}`}
+                                                        autoComplete="firstname"
+                                                        autoCorrect="off"
+                                                        {...field}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                             <FormField
                                 control={form.control}
                                 name="mobile"
@@ -94,6 +135,8 @@ export function ResendOtp() {
                                                     <Input
                                                         id="mobile"
                                                         type="text"
+                                                        //@ts-ignore
+                                                        placeholder={`${session.data?.user?.mobile}`}
                                                         autoComplete="mobile"
                                                         autoCorrect="off"
                                                         {...field}
@@ -119,6 +162,7 @@ export function ResendOtp() {
                                                     <Input
                                                         id="email"
                                                         type="text"
+                                                        placeholder={`${session.data?.user?.email}`}
                                                         autoComplete="email"
                                                         autoCorrect="off"
                                                         {...field}
@@ -134,24 +178,16 @@ export function ResendOtp() {
                         <DialogFooter className="w-full">
                             <DialogClose asChild>
                                 <div className="w-full flex justify-between">
-                                    <Button
-                                        type="submit"
-                                    // onSubmit={() => setIsLoading(true)}
-                                    >
-                                        {/* {isLoading && (
-                                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                                )} */}
-                                        Send Otp
-                                    </Button>
+                                    <Button type="submit">Send Otp</Button>
                                     <Button type="button" variant="secondary">
                                         Close
                                     </Button>
                                 </div>
                             </DialogClose>
                         </DialogFooter>
-                    </DialogContent>
-                </Dialog >
-            </form>
+                    </form>
+                </DialogContent>
+            </Dialog >
         </Form>
 
     )
