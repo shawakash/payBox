@@ -8,7 +8,7 @@
   "private": "true",
   "scripts": {
     "dev": "node dist/index.js --trace-warning",
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
     "publish": "npm version patch && npm publish"
   },
   "dependencies": {
@@ -16,7 +16,7 @@
     "@types/kafkajs": "^1.9.0",
     "kafkajs": "^2.2.4",
     "tsup": "^8.0.2",
-    "@paybox/zeus": "*"
+    "@paybox/zeus": "^0.1.1"
   },
   "gitHead": "3bd6c7180a38ad8e8b5557751301ffaba6b2a5da"
 }
