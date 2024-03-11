@@ -22,7 +22,7 @@ export function SignupTab() {
     }, [session])
 
     return (
-        <Tabs defaultValue={SignStatus.Details} value={status} className="w-[500px]">
+        <Tabs defaultValue={status} value={status} className="w-[500px]">
             <TabsList className="grid w-full grid-cols-2 bg-zinc-800">
                 <TabsTrigger value={SignStatus.Details} disabled={status === SignStatus.Verify}>Signup Details</TabsTrigger>
                 <TabsTrigger value={SignStatus.Verify} disabled={status === SignStatus.Details}>Validations</TabsTrigger>

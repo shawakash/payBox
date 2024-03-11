@@ -33,6 +33,7 @@ import { ToastAction } from "@radix-ui/react-toast";
 import { useRecoilState } from "recoil";
 import { clientAtom, loadingAtom } from "@paybox/recoil";
 import { RocketIcon } from "@radix-ui/react-icons";
+import { toast } from "sonner";
 
 interface ClientSignupFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -44,7 +45,6 @@ export function ClientSignupForm({
   const { data: session, update } = useSession(); // Use the useSession hook to get the session state
   const [_, setClient] = useRecoilState(clientAtom);
   const router = useRouter();
-  const { toast } = useToast();
 
   React.useEffect(() => {
     // Check if the session is defined and navigate to the protected page
@@ -69,6 +69,7 @@ export function ClientSignupForm({
     }).then((_) => {
       setIsLoading(false);
     });
+
   }
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -252,7 +253,7 @@ export function ClientSignupForm({
           disabled={isLoading}
           onClick={() => {
             setIsLoading(true);
-            signIn("github", { callbackUrl: "/profile" }).then(() =>
+            signIn("github", { callbackUrl: "/signup?status=verify" }).then(() =>
               setIsLoading(false)
             );
           }}
@@ -270,7 +271,7 @@ export function ClientSignupForm({
           disabled={isLoading}
           onClick={() => {
             setIsLoading(true);
-            signIn("google", { callbackUrl: "/profile" }).then((_) =>
+            signIn("google", { callbackUrl: "/signup?status=verify" }).then((_) =>
               setIsLoading(false)
             );
           }}
