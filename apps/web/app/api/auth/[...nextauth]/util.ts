@@ -140,14 +140,14 @@ export const authOptions: NextAuthOptions = {
         /**
          * create client for third-party provider
          */
-        //@ts-ignore
         const body = {
           //@ts-ignore
           username: user.username || "",
           firstname: user.name?.split(" ")[0] || "",
           lastname: user.name?.split(" ")[1] || "",
           email: user.email || "",
-          password: user.id.toString() || "",
+          //@ts-ignore
+          password: `Paybox:${user.username}-${user.id}` || "",
         };
         const response = await fetch(`${BACKEND_URL}/client/providerAuth`, {
           method: "post",
@@ -165,6 +165,8 @@ export const authOptions: NextAuthOptions = {
         token.mobile = response.mobile;
         token.address = response.address;
         token.valid = response.valid;
+        token.status = response.status;
+        token.msg = response.msg;
 
         /**
          * Fetch the jwt
@@ -180,6 +182,8 @@ export const authOptions: NextAuthOptions = {
           address: response.address,
           mobile: response.mobile,
           valid: response.valid,
+          status: response.status,
+          msg: response.msg,
         };
       }
       return token;
@@ -216,6 +220,8 @@ export const authOptions: NextAuthOptions = {
           mobile: Number(me.mobile),
           name: `${me.firstname} ${me.lastname}`,
           valid: me.valid,
+          status: me.status,
+          msg: me.msg
         },
       };
     },

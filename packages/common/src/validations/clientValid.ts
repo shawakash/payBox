@@ -10,8 +10,7 @@ export const ClientSignupFormValidate = z.object({
   password: z
     .string()
     .refine(value =>
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
-      {
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/.test(value),      {
         message: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
       }
     ),
@@ -63,8 +62,7 @@ export const ClientSigninFormValidate = z.object({
   password: z
     .string()
     .refine(value =>
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
-      {
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/.test(value),      {
         message: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
       }
     ),
@@ -109,7 +107,7 @@ export const PasswordValid = z.object({
   password: z
     .string()
     .refine(value =>
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/.test(value),
       {
         message: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
       }
@@ -120,16 +118,14 @@ export const ChangePasswordValid = z.object({
   password: z
     .string()
     .refine(value =>
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
-      {
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/.test(value),      {
         message: 'Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
       }
     ),
   newPassword: z
     .string()
     .refine(value =>
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(value),
-      {
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{8,}$/.test(value),      {
         message: 'New Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character',
       }
     ),

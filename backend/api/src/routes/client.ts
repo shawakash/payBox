@@ -13,7 +13,6 @@ import {
   responseStatus,
 } from "@paybox/common";
 import {
-  checkClient,
   conflictClient,
   createBaseClient,
   createClient,
@@ -217,7 +216,7 @@ clientRouter.patch("/resend", extractClientId, isValidated, resendOtpLimiter, as
         await sendOTP(name, email, otp, Number(mobile));
         await cache.cacheIdUsingKey(otp.toString(), id);
 
-        const {status} = await upadteMobileEmail(id, Number(mobile), email);
+        const { status } = await upadteMobileEmail(id, Number(mobile), email);
         if (status == dbResStatus.Error) {
           return res
             .status(503)
@@ -248,7 +247,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
       ClientSignupFormValidate.parse(req.body);
 
     /**
-     * Cache
+     * Cache check
      */
     const cachedClient =
       (await cache.clientCache.getClientFromKey(username)) ||
@@ -264,8 +263,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
     }
 
     const hashPassword = await setHashPassword(password);
-    const mutation = await checkClient(username, email);
-    if (mutation.status == dbResStatus.Error || mutation.client?.id == undefined) {
+    const mutation = await createBaseClient(username, email, firstname, lastname, hashPassword, Number(mobile));
+    if (mutation.status == dbResStatus.Error || mutation?.id == undefined) {
       return res
         .status(503)
         .json({ status: responseStatus.Error, msg: "Database Error" });
@@ -275,8 +274,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
      * Create a Jwt
     */
     let jwt: string;
-    if (mutation.client.id) {
-      jwt = await setJWTCookie(req, res, mutation.client.id as string);
+    if (mutation.id) {
+      jwt = await setJWTCookie(req, res, mutation.id as string);
     } else {
       return res.status(500).json({
         msg: "Error creating user account",
@@ -284,32 +283,52 @@ clientRouter.post("/providerAuth", async (req, res) => {
       });
     }
 
-    await cache.clientCache.cacheClient(mutation.client.id as string, {
+    await cache.clientCache.cacheClient(mutation.id as string, {
       firstname,
       email,
       username,
       lastname,
       mobile,
-      id: mutation?.client.id as string,
-      address: mutation.client?.address as Address,
+      id: mutation?.id as string,
+      address: mutation?.address as Address,
       //@ts-ignore
       password: hashPassword || "",
-      valid: mutation.client?.valid || false,
+      valid: mutation?.valid || false,
     });
 
     // Generate OTP
     const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
     try {
       sendOTP(`${firstname}`, email, otp);
-      await cache.cacheIdUsingKey(otp.toString(), mutation.client.id as string);
+      await cache.cacheIdUsingKey(otp.toString(), mutation.id as string);
     } catch (error) {
       console.log(error);
-      return res.status(200).json({ ...mutation.client, jwt, msg: "Error in sending otp", status: responseStatus.Ok });
+      return res.status(200).json({
+        firstname,
+        email,
+        username,
+        lastname,
+        mobile,
+        id: mutation?.id as string,
+        address: mutation?.address as Address,
+        valid: mutation?.valid || false,
+        jwt, msg: "Error in sending otp",
+        status: responseStatus.Ok
+      });
     }
 
     return res
       .status(200)
-      .json({ ...mutation.client, jwt, status: responseStatus.Ok });
+      .json({
+        firstname,
+        email,
+        username,
+        lastname,
+        mobile,
+        id: mutation?.id as string,
+        address: mutation?.address as Address,
+        valid: mutation?.valid || false, jwt, status: responseStatus.Ok
+      });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error, status: responseStatus.Error });
@@ -411,7 +430,7 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
             .json({ ...cachedClient, status: responseStatus.Ok, jwt: req.jwt })
         );
       }
-      const query = await getClientById<Client & {valid: boolean}>(id);
+      const query = await getClientById<Client & { valid: boolean }>(id);
       if (query.status == dbResStatus.Error) {
         return res
           .status(503)

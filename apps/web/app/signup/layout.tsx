@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { authOptions } from "../api/auth/[...nextauth]/util";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { responseStatus } from "@paybox/common";
+import Error from "./Error";
 
 export const metadata: Metadata = {
     title: "PayBox | Signup",
