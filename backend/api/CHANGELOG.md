@@ -1,5 +1,13 @@
 # @paybox/api
 
+## 0.0.11
+
+### Patch Changes
+
+- a08dc95: fix: password now can contain any special character
+- Updated dependencies [a08dc95]
+  - @paybox/common@0.1.2
+
 ## 0.0.10
 
 ### Patch Changes
