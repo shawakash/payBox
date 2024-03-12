@@ -23,13 +23,12 @@ import { Redis } from "./Redis";
 import { clientRouter } from "./routes/client";
 import cors from "cors";
 import { addressRouter } from "./routes/address";
-import { extractClientId } from "./auth/middleware";
+import { checkValidation, extractClientId } from "./auth/middleware";
 import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
 import { expressMiddleware } from "@apollo/server/express4";
 import { createApollo } from "./resolver/server";
 import path from "path";
-import { swaggerSpec, swaggerYaml } from "@paybox/openapi";
 import swaggerUi, { JsonObject } from "swagger-ui-express";
 import { accountRouter } from "./routes/account";
 import { walletRouter } from "./routes/wallet";
@@ -121,11 +120,11 @@ app.get("/_health", (_req, res) => {
 // });
 
 app.use("/client", clientRouter);
-app.use("/address", extractClientId, addressRouter);
-app.use("/qrcode", extractClientId, qrcodeRouter);
-app.use("/txn", extractClientId, txnRouter);
-app.use("/account", extractClientId, accountRouter);
-app.use("/wallet", extractClientId, walletRouter);
+app.use("/address", extractClientId, checkValidation, addressRouter);
+app.use("/qrcode", extractClientId, checkValidation, qrcodeRouter);
+app.use("/txn", extractClientId, checkValidation, txnRouter);
+app.use("/account", extractClientId, checkValidation, accountRouter);
+app.use("/wallet", extractClientId, checkValidation, walletRouter);
 
 
 process.on("uncaughtException", function (err) {
