@@ -22,6 +22,7 @@ import {
   getPrivate,
   updateAccountName,
   getAccount,
+  getAccounts,
 } from "../db/account";
 import { importFromPrivate, addAccountPhrase } from "../db/wallet";
 import { cache } from "..";
@@ -398,6 +399,48 @@ accountRouter.post("/import", async (req, res) => {
     return res
       .status(500)
       .json({ status: responseStatus.Error, msg: "Jwt error" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
+  }
+});
+
+// to get all the account of a specific client
+accountRouter.get('/all', async (req, res) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+
+    // const cacheAccs = await cache.account.getAccounts(`accs:${id}`);
+    // if (cacheAccs) {
+    //   return res.status(302).json({
+    //     accounts: cacheAccs,
+    //     status: responseStatus.Ok,
+    //   });
+    // }
+
+    const {status, accounts} = await getAccounts(id);
+    if(status == dbResStatus.Error || !accounts) {
+      return res
+          .status(503)
+          .json({ msg: "Database Error", status: responseStatus.Error });
+    }
+
+    console.log(accounts)
+
+    // cacheit
+    // await cache.account.cacheAccounts(`accs:${id}`, accounts);
+    // // check cache
+    // console.log(await cache.account.getAccounts<AccountType[]>(`accs:${id}`));
+
+    return res
+            .status(200)
+            .json({accounts, status: responseStatus.Ok});
+
   } catch (error) {
     console.log(error);
     return res.status(500).json({
