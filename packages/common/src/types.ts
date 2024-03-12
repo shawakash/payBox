@@ -178,7 +178,9 @@ export type AccountType = {
   bitcoin?: BitcoinKey;
   walletId: string
   id: string;
-  name: string
+  name: string,
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type SolKey = {

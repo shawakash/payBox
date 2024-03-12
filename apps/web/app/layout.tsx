@@ -29,7 +29,7 @@ export default async function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen bg-background w-full font-sans antialiased py-9 flex flex-col gap-y-5 items-center justify-center",
+          "min-h-screen bg-background w-full font-sans antialiased flex flex-col gap-y-5 items-center justify-center",
           fontSans.variable,
         )}
       >

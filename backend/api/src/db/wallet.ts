@@ -56,10 +56,10 @@ export const getSecretPhase = async (
 
 /**
  *
- * @param walletId
+ * @param key
  * @returns
  */
-export const getAccounts = async (
+export const getAccountsFromWalletId = async (
   walletId: string,
 ): Promise<{
   status: dbResStatus;
@@ -395,3 +395,35 @@ export const addAccountPhrase = async (
     status: dbResStatus.Error,
   };
 };
+
+/**
+ * 
+ * @param id 
+ * @returns 
+ */
+export const getWallets = async (
+  id: string
+): Promise<{
+  status: dbResStatus,
+  wallets?: WalletType[]
+}> => {
+  const response = await chain("query")({
+    wallet: [{
+      where: {
+        clientId: { _eq: id }
+      }
+    }, {
+      id: true,
+      clientId: true,
+    }]
+  }, {operationName: "getWallets"});
+  if(response.wallet[0].id) {
+    return {
+      status: dbResStatus.Ok,
+      wallets: response.wallet as WalletType[]
+    }
+  }
+  return {
+    status: dbResStatus.Error,
+  }
+}
