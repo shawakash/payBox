@@ -25,12 +25,10 @@ import {
 } from "@/components/ui/select"
 import AccountCreateForm from "./components/account-create-form";
 
-interface AccountCreateProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export default function AccountCreate({
-    className,
-    ...props
-}: AccountCreateProps) {
+
+}: {}) {
 
     return (
         <div className="">
