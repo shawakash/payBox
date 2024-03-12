@@ -6,7 +6,7 @@ import {
   dbResStatus,
   responseStatus,
 } from "@paybox/common";
-import { delWallet, getAccounts, getSecretPhase } from "../db/wallet";
+import { delWallet, getAccounts, getSecretPhase, getWallets } from "../db/wallet";
 import { cache } from "..";
 
 export const walletRouter = Router();
@@ -100,5 +100,28 @@ walletRouter.delete("/", async (req, res) => {
     return res
       .status(500)
       .json({ status: responseStatus.Error, msg: "Jwt error" });
+  }
+});
+
+walletRouter.get("/", async (req, res) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+    const query = await getWallets(id);
+    if (query.status == dbResStatus.Error || query.wallets == undefined) {
+      return res
+        .status(503)
+        .json({ msg: "Database Error", status: responseStatus.Error });
+    }
+    return res.status(200).json({
+      wallets: query.wallets,
+      status: responseStatus.Ok,
+    });
+
+  } catch (error) {
+    console.error(error)
+    return res
+    .status(500)
+    .json({ status: responseStatus.Error, msg: "Jwt error" });
   }
 });

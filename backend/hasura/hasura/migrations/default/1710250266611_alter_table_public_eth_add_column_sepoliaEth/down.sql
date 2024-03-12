@@ -1,0 +1,4 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- alter table "public"."eth" add column "sepoliaEth" float8
+--  null default '0.00';

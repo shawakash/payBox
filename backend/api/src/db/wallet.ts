@@ -395,3 +395,62 @@ export const addAccountPhrase = async (
     status: dbResStatus.Error,
   };
 };
+
+/**
+ * 
+ * @param id 
+ * @returns 
+ */
+export const getWallets = async (
+  id: string
+): Promise<{
+  status: dbResStatus,
+  wallets?: WalletType[]
+}> => {
+  const response = await chain("query")({
+    wallet: [{
+      where: {
+        clientId: { _eq: id }
+      }
+    }, {
+      id: true,
+      accounts: [{
+
+      }, {
+        id: true,
+        eth: {
+          publicKey: true,
+          goerliEth: true,
+          kovanEth: true,
+          mainnetEth: true,
+          rinkebyEth: true,
+          ropstenEth: true,
+          sepoliaEth: true,
+        },
+        sol: {
+          publicKey: true,
+          devnetSol: true,
+          mainnetSol: true,
+          testnetSol: true,
+        },
+        walletId: true,
+        clientId: true,
+        bitcoin: {
+          publicKey: true,
+          mainnetBtc: true,
+          regtestBtc: true,
+          textnetBtc: true,
+        },
+      }]
+    }]
+  }, {operationName: "getWallets"});
+  if(response.wallet[0].id) {
+    return {
+      status: dbResStatus.Ok,
+      wallets: response.wallet as WalletType[]
+    }
+  }
+  return {
+    status: dbResStatus.Error,
+  }
+}
