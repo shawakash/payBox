@@ -1,6 +1,9 @@
 import z from "zod";
 import { Network } from "../types";
 import { isBitcoinPrivateKey, isBitcoinPublicKey, isEthereumPrivateKey, isEthereumPublicKey, isSolanaAddress, isSolanaPrivateKey, secretPhraseRefine } from "../constant";
+import { SolKeyParser } from "./sol";
+import { EthKeyParser } from "./eth";
+import { BtcParser } from "./btc";
 
 export const AccountCreateQuery = z.object({
     name: z
@@ -114,3 +117,18 @@ export const ImportAccount = z.object({
     name: z.string(),
     keys: z.array(networkPublicKey)
 });
+
+export const AccountParser = z.object({
+    id: z.string(),
+    name: z.string(),
+    walletId: z.string(),
+    clientId: z.string(),
+    eth: EthKeyParser,
+    sol: SolKeyParser,
+    bitcoin: BtcParser,
+    usdc: z.undefined().optional(),
+    createdAt: z.string(),
+    updatedAt: z.string(),
+});
+
+export const AccountsParser = z.array(AccountParser);
