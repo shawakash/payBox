@@ -88,6 +88,8 @@ export const createAccount = async (
             textnetBtc: true,
           },
           name: true,
+          createdAt: true,
+          updatedAt: true,
           clientId: true,
         },
       ],
@@ -156,6 +158,8 @@ export const updateAccountName = async (
               regtestBtc: true,
               textnetBtc: true,
             },
+            createdAt: true,
+            updatedAt: true,
           },
         },
       ],
@@ -312,6 +316,8 @@ export const getAccount = async (
           },
           name: true,
           clientId: true,
+          createdAt: true,
+          updatedAt: true,
         },
       ],
     },
@@ -327,3 +333,61 @@ export const getAccount = async (
     status: dbResStatus.Error,
   };
 };
+
+/**
+ * 
+ * @param id 
+ * @returns 
+ */
+export const getAccounts = async (
+  id: string
+): Promise<{
+  status: dbResStatus;
+  accounts?: AccountType[];
+}> => {
+  const response = await chain("query")({
+    account: [{
+      where: {
+        clientId: { _eq: id }
+      },
+    }, 
+    {
+      id: true,
+      eth: {
+        publicKey: true,
+        goerliEth: true,
+        kovanEth: true,
+        mainnetEth: true,
+        rinkebyEth: true,
+        ropstenEth: true,
+        sepoliaEth: true,
+      },
+      sol: {
+        publicKey: true,
+        devnetSol: true,
+        mainnetSol: true,
+        testnetSol: true,
+      },
+      walletId: true,
+      bitcoin: {
+        publicKey: true,
+        mainnetBtc: true,
+        regtestBtc: true,
+        textnetBtc: true,
+      },
+      name: true,
+      clientId: true,
+      createdAt: true,
+      updatedAt: true,
+    }]
+  }, { operationName: "getAccounts" });
+  if (response.account) {
+    return {
+      status: dbResStatus.Ok,
+      accounts: response.account as AccountType[],
+    };
+  }
+  return {
+    status: dbResStatus.Error,
+  }
+}

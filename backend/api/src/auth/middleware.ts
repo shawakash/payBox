@@ -370,7 +370,6 @@ export const checkValidation = async (
     //@ts-ignore
     const id = req.id;
     if(id) {
-      console.log(id);
       const validCache = await cache.getIdFromKey(`valid:${id}`);
       if (!validCache) {
         return res

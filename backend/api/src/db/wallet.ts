@@ -56,10 +56,10 @@ export const getSecretPhase = async (
 
 /**
  *
- * @param walletId
+ * @param key
  * @returns
  */
-export const getAccounts = async (
+export const getAccountsFromWalletId = async (
   walletId: string,
 ): Promise<{
   status: dbResStatus;
@@ -414,34 +414,7 @@ export const getWallets = async (
       }
     }, {
       id: true,
-      accounts: [{
-
-      }, {
-        id: true,
-        eth: {
-          publicKey: true,
-          goerliEth: true,
-          kovanEth: true,
-          mainnetEth: true,
-          rinkebyEth: true,
-          ropstenEth: true,
-          sepoliaEth: true,
-        },
-        sol: {
-          publicKey: true,
-          devnetSol: true,
-          mainnetSol: true,
-          testnetSol: true,
-        },
-        walletId: true,
-        clientId: true,
-        bitcoin: {
-          publicKey: true,
-          mainnetBtc: true,
-          regtestBtc: true,
-          textnetBtc: true,
-        },
-      }]
+      clientId: true,
     }]
   }, {operationName: "getWallets"});
   if(response.wallet[0].id) {

@@ -6,7 +6,7 @@ import {
   dbResStatus,
   responseStatus,
 } from "@paybox/common";
-import { delWallet, getAccounts, getSecretPhase, getWallets } from "../db/wallet";
+import { delWallet, getAccountsFromWalletId, getSecretPhase, getWallets } from "../db/wallet";
 import { cache } from "..";
 
 export const walletRouter = Router();
@@ -52,7 +52,7 @@ walletRouter.get("/accounts", async (req, res) => {
           status: responseStatus.Ok,
         });
       }
-      const query = await getAccounts(walletId);
+      const query = await getAccountsFromWalletId(walletId);
       if (query.status == dbResStatus.Error || query.accounts == undefined) {
         return res
           .status(503)
