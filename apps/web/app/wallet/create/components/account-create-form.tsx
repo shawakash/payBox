@@ -54,12 +54,10 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 
-interface AccountCreateProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export default function AccountCreateForm({
-    className,
-    ...props
-}: AccountCreateProps) {
+
+}: {}) {
     const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
     const session = useSession();
     // get the walletId from atom
@@ -98,7 +96,7 @@ export default function AccountCreateForm({
                     <CardDescription>Your New Web3 Account in just a click.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className={cn("grid gap-6", className)} {...props}>
+                    <div className={cn("grid gap-6")}>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                                 <div className="grid gap-5">
