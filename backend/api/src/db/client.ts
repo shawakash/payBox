@@ -142,6 +142,8 @@ export const createClient = async (
                   regtestBtc: true,
                   textnetBtc: true,
                 },
+                createdAt: true,
+                updatedAt: true
               },
             ],
           },
@@ -729,7 +731,9 @@ export const validateClient = async (
           mainnetBtc: true,
           regtestBtc: true,
           textnetBtc: true
-        }
+        },
+        createdAt: true,
+        updatedAt: true
       }]
     }]
   }, {operationName: "createWallet"});
