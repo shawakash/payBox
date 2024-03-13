@@ -23,7 +23,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import {AccountCreateForm} from "./components/account-create-form";
+import {AccountCreateForm} from "../../account/create/components/account-create-form";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/util";
 import { redirect } from "next/navigation";
