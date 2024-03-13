@@ -24,7 +24,7 @@ import {
   getAccount,
   getAccounts,
 } from "../db/account";
-import { importFromPrivate, addAccountPhrase } from "../db/wallet";
+import { importFromPrivate, addAccountPhrase, getWalletForAccountCreate } from "../db/wallet";
 import { cache } from "..";
 import {
   generateSeed,
@@ -32,7 +32,7 @@ import {
   validatePassword,
 } from "../auth/util";
 import { getPassword } from "../db/client";
-import { checkPassword } from "../auth/middleware";
+import { accountCreateRateLimit, checkPassword } from "../auth/middleware";
 import { getSecretPhase } from "../db/wallet";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
@@ -40,26 +40,26 @@ import { INFURA_PROJECT_ID } from "../config";
 
 export const accountRouter = Router();
 
-accountRouter.post("/", async (req, res) => {
+accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
   try {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { name, walletId } = AccountCreateQuery.parse(req.query);
+      const { name } = AccountCreateQuery.parse(req.query);
       /**
        * Create an public and private key
        */
-      const query = await getSecretPhase(walletId, id);
-      if (query.status == dbResStatus.Error || query.secret == undefined) {
+      const query = await getWalletForAccountCreate(id);
+      if (query.status == dbResStatus.Error || query.id == undefined || query.secretPhase == undefined) {
         return res
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
-      const solKeys = await (new SolOps()).createAccount(query.secret);
-      const ethKeys = (new EthOps()).createAccount(query.secret);
+      const solKeys = await (new SolOps()).createAccount(query.secretPhase);
+      const ethKeys = (new EthOps()).createAccount(query.secretPhase);
       const mutation = await createAccount(
         id,
-        walletId,
+        query.id,
         name,
         solKeys,
         ethKeys,
@@ -72,7 +72,6 @@ accountRouter.post("/", async (req, res) => {
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
-      console.log(mutation);
 
       /**
        * Cache
@@ -430,16 +429,41 @@ accountRouter.get('/all', async (req, res) => {
           .json({ msg: "Database Error", status: responseStatus.Error });
     }
 
-    console.log(accounts)
 
     // cacheit
-    // await cache.account.cacheAccounts(`accs:${id}`, accounts);
-    // // check cache
-    // console.log(await cache.account.getAccounts<AccountType[]>(`accs:${id}`));
+    await cache.account.cacheAccounts(`accs:${id}`, accounts);
 
     return res
             .status(200)
             .json({accounts, status: responseStatus.Ok});
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
+  }
+});
+
+// To get the total number of accounts
+accountRouter.get('/totalAccount', async (req, res) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+
+    //query
+    const {status, accounts} = await getAccounts(id);
+    if(status == dbResStatus.Error || !accounts) {
+      return res
+          .status(503)
+          .json({ msg: "Database Error", status: responseStatus.Error });
+    }
+
+    return res
+            .status(200)
+            .json({number: accounts.length, status: responseStatus.Ok});
 
   } catch (error) {
     console.log(error);
