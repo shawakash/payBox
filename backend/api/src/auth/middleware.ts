@@ -440,7 +440,21 @@ export const resendOtpLimiter = rateLimit({
   max: 1, // limit each client to 3 requests per windowMs
   message: {
     status: responseStatus.Error,
-    msg: "Too many requests, please try again after 15 minutes"
+    msg: "Too many requests, please try again after 1 minute"
+  },
+  keyGenerator: function (req, res) {
+    //@ts-ignore
+    return req.id; // Use the client id as the key
+  }
+});
+
+
+export const accountCreateRateLimit = rateLimit({
+  windowMs: 5 * 60 * 1000, // 15 minutes
+  max: 2,
+  message: {
+    status: responseStatus.Error,
+    msg: "Too many requests, please try again after 5 minutes"
   },
   keyGenerator: function (req, res) {
     //@ts-ignore
