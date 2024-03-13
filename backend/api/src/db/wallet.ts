@@ -1,4 +1,4 @@
-import { Chain } from "@paybox/zeus";
+import { Chain, order_by } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus } from "../types/client";
 import {
@@ -99,6 +99,8 @@ export const getAccountsFromWalletId = async (
           },
           name: true,
           clientId: true,
+          createdAt: true,
+          updatedAt: true
         },
       ],
     },
@@ -279,6 +281,8 @@ export const importFromPrivate = async (
               regtestBtc: true,
               textnetBtc: true,
             },
+            createdAt: true,
+            updatedAt: true
           },
         ],
       },
@@ -376,6 +380,8 @@ export const addAccountPhrase = async (
               regtestBtc: true,
               textnetBtc: true,
             },
+            createdAt: true,
+            updatedAt: true
           },
         ],
       },
@@ -410,14 +416,17 @@ export const getWallets = async (
   const response = await chain("query")({
     wallet: [{
       where: {
-        clientId: { _eq: id }
-      }
+        clientId: { _eq: id },
+      },
+      order_by: [{
+        createdAt: order_by["asc"]
+      }]
     }, {
       id: true,
       clientId: true,
     }]
-  }, {operationName: "getWallets"});
-  if(response.wallet[0].id) {
+  }, { operationName: "getWallets" });
+  if (response.wallet[0].id) {
     return {
       status: dbResStatus.Ok,
       wallets: response.wallet as WalletType[]
@@ -425,5 +434,43 @@ export const getWallets = async (
   }
   return {
     status: dbResStatus.Error,
+  }
+}
+
+/**
+ * 
+ * @param clientId 
+ * @returns 
+ */
+export const getWalletForAccountCreate = async (
+  clientId: string
+): Promise<{
+  status: dbResStatus,
+  secretPhase?: string,
+  id?: string
+}> => {
+  const response = await chain("query")({
+    wallet: [{
+      where: {
+        clientId: { _eq: clientId }
+      },
+      order_by: [{
+        createdAt: order_by["asc"]
+      }],
+      limit: 1
+    }, {
+      secretPhase: true,
+      id: true,
+    }]
+  }, { operationName: "getWalletForAccountCreate" });
+  if (response.wallet[0].id) {
+    return {
+      status: dbResStatus.Ok,
+      id: response.wallet[0].id as string,
+      secretPhase: response.wallet[0].secretPhase as string
+    }
+  }
+  return {
+    status: dbResStatus.Error
   }
 }

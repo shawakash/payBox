@@ -55,45 +55,48 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Link } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-interface AccountCreateProps extends React.HTMLAttributes<HTMLDivElement>  { walletIds: string[] }
+interface AccountCreateProps extends React.HTMLAttributes<HTMLDivElement> { 
+    defaultAccountName: string,
+    jwt: string
+}
 
 export function AccountCreateForm({
-    walletIds,
-    className,
-    ...props
+    defaultAccountName,
+    jwt
 }: AccountCreateProps) {
     const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
-    const session = useSession();
-    // get the walletId from atom
+    const router = useRouter();
 
     const form = useForm<z.infer<typeof AccountCreateQuery>>({
         resolver: zodResolver(AccountCreateQuery),
         defaultValues: {
-            name: "Account n",
-            walletId: walletIds[0]
+            name: defaultAccountName,
         },
     });
 
     async function onSubmit(values: z.infer<typeof AccountCreateQuery>) {
         const call = async () => {
             try {
-                const response = await fetch(`${BACKEND_URL}/account?name=${values.name}&walletId=${values.walletId}`, {
+                const response = await fetch(`${BACKEND_URL}/account?name=${values.name}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        //@ts-ignore
-                        "Authorization": `Bearer ${session.data?.user.jwt}`
+                        "Authorization": `Bearer ${jwt}`
                     },
                 }).then(res => res.json());
-                return {account: response.account, status: response.status}
+                return { account: response.account, status: response.status, msg: response.msg }
             } catch (error) {
                 throw new Error("Error creating Account");
             }
         }
         toast.promise(call(), {
             loading: "Creating Account...",
-            success({ account, status }: { account: AccountType, status: responseStatus }) {
+            success({ account, status, msg }: { account: AccountType, status: responseStatus, msg: string }) {
+                if(status == responseStatus.Error) {
+                    return toast.error(msg)
+                }
                 //TODO: set the account to the atom
                 return `Account '${account.name}' Created Successfully`
             },
@@ -101,6 +104,7 @@ export function AccountCreateForm({
                 return msg
             },
         })
+        router.push('/account/');
     }
     return (
         <div className="flex items-center justify-center">
@@ -110,7 +114,7 @@ export function AccountCreateForm({
                     <CardDescription>Your New Web3 Account in just a click.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <div className={cn("grid gap-6", className)} {...props}>
+                    <div className={cn("grid gap-6")}>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                                 <div className="grid gap-5">
@@ -136,27 +140,6 @@ export function AccountCreateForm({
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="walletId"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                <FormLabel>Wallet</FormLabel>
-                                                <Select onValueChange={field.onChange} defaultValue={walletIds[0]}>
-                                                  <FormControl>
-                                                    <SelectTrigger>
-                                                      <SelectValue placeholder="Select a Wallet" />
-                                                    </SelectTrigger>
-                                                  </FormControl>
-                                                  <SelectContent>
-                                                    {walletIds.map((walletId) => {
-                                                        return <SelectItem key={walletId} value={walletId}>{walletId}</SelectItem>
-                                                    })}
-                                                  </SelectContent>
-                                                </Select>
-                                              </FormItem>
                                             )}
                                         />
                                     </div>
