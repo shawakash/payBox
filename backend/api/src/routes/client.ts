@@ -2,6 +2,7 @@ import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { dbResStatus } from "../types/client";
 import {
+  AccountType,
   Address,
   ChangePasswordValid,
   OtpValid,
@@ -154,33 +155,36 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
       /**
        * Cache
       */
-      await cache.clientCache.updateUserFields(id, { valid: true })
-      await cache.wallet.cacheWallet(validate.walletId as string, {
-        clientId: id,
-        id: validate.walletId as string,
-        secretPhase: seed,
-        accounts: [
-          {
-            clientId: id as string,
-            id: validate.account?.id as string,
-            sol: validate.account?.sol,
-            eth: validate.account?.eth,
-            walletId: validate.walletId as string,
-            name: "Account 1",
+     await cache.clientCache.updateUserFields(id, { valid: true })
+     await cache.wallet.cacheWallet(validate.walletId as string, {
+       clientId: id,
+       id: validate.walletId as string,
+       secretPhase: seed,
+       accounts: [
+         {
+           clientId: id as string,
+           id: validate.account?.id as string,
+           sol: validate.account?.sol,
+           eth: validate.account?.eth,
+           walletId: validate.walletId as string,
+           name: "Account 1",
+           createdAt: validate.account.createdAt,
+           updatedAt: validate.account.updatedAt
           },
         ],
       });
-      await cache.account.cacheAccount(validate.account?.id as string, {
+      await cache.account.cacheAccount<AccountType>(validate.account?.id as string, {
         clientId: id,
         id: validate.account?.id as string,
         sol: validate.account?.sol,
         eth: validate.account?.eth,
         walletId: validate.walletId as string,
-        valid: validate.valid,
         name: "Account 1",
+        createdAt: validate.account.createdAt,
+        updatedAt: validate.account.updatedAt
       });
       await cache.cacheIdUsingKey(`valid:${id}`, 'true');
-
+      
       return res
         .status(200)
         .json({

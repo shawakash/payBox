@@ -1,4 +1,4 @@
-import { Chain } from "@paybox/zeus";
+import { Chain, order_by } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
 import { dbResStatus, getClientId } from "../types/client";
 import {
@@ -350,6 +350,9 @@ export const getAccounts = async (
       where: {
         clientId: { _eq: id }
       },
+      order_by: [{
+        createdAt: order_by["asc"]
+      }]
     }, 
     {
       id: true,

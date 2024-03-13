@@ -58,7 +58,18 @@ export class AccountCache {
     if (!account) {
       return null;
     }
-    return AccountParser.parse(account) as T;
+    return {
+      id: account.id,
+      clientId: account.clientId,
+      walletId: account.walletId,
+      name: account.name,
+      sol: JSON.parse(account.sol),
+      eth: JSON.parse(account.eth),
+      bitcoin: JSON.parse(account.bitcoin),
+      usdc: JSON.parse(account.usdc),
+      createdAt: account.createdAt,
+      updatedAt: account.updatedAt,
+    } as T;
   }
 
   async cacheAccounts(key: string, items: AccountType[]): Promise<void> {
@@ -82,12 +93,26 @@ export class AccountCache {
     return;
   }
 
-  async getAccounts<T>(key: string){
+  async getAccounts<T extends AccountType>(key: string): Promise<T | null> {
     const cache = await this.client.get(key);
     if (!cache) {
       return null;
     }
-    const acc = AccountsParser.parse(JSON.parse(cache));
+    //@ts-ignore
+    const acc = JSON.parse(cache).map(account => {
+      return {
+        id: account.id,
+        clientId: account.clientId,
+        walletId: account.walletId,
+        name: account.name,
+        sol: JSON.parse(account.sol),
+        eth: JSON.parse(account.eth),
+        bitcoin: JSON.parse(account.bitcoin) || undefined,
+        usdc: JSON.parse(account.usdc) || undefined,
+        createdAt: account.createdAt,
+        updatedAt: account.updatedAt,
+      }
+    });
     return acc as T;
   }
 
