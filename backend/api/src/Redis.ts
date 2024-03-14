@@ -58,6 +58,10 @@ export class Redis {
     return this.instance;
   }
 
+  get getclient() {
+    return this.client;
+  }
+
   async deleteHash(key: string) {
     const deletedKeys = await this.client.del(key);
     console.log(`Deleted hash with ${key} key`);
