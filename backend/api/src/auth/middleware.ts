@@ -16,6 +16,7 @@ import {
   QrcodeQuery,
   R2_QRCODE_BUCKET_NAME,
   TxnSendQuery,
+  VALID_CACHE_EXPIRE,
   dbResStatus,
   responseStatus,
 } from "@paybox/common";
@@ -375,9 +376,18 @@ export const checkValidation = async (
       const validCache = await cache.getIdFromKey(`valid:${id}`);
       if (!validCache) {
         //TODO: QUERY THE DB AND CACHE THE RESULT
-        return res
+        const {status, valid} = await queryValid(id);
+        if (status == dbResStatus.Error) {
+          return res
+            .status(503)
+            .json({ msg: "Database Error", status: responseStatus.Error });
+        }
+        if (!valid) {
+          return res
           .status(200)
           .json({ msg: "Please verify your number or email first.", status: responseStatus.Error });
+        }
+        await cache.cacheIdUsingKey(`valid:${id}`, 'true', VALID_CACHE_EXPIRE);
       }
     } else { 
       return res
