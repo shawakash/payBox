@@ -19,6 +19,18 @@ export class Redis {
     this.client = createClient({
       url: REDIS_URL,
       legacyMode: false,
+      socket: {
+        reconnectStrategy(retries, cause) {
+          if (retries > 20) {
+            console.log("Too many retries on REDIS. Connection Terminated");
+            return false;
+          } else {
+            console.log(`Retrying to connect to Redis ${PROCESS} server: ${cause}`);
+            return Math.min(retries * 100, 3000);
+          }
+        },
+      },
+
     });
 
     this.client.on('connect', () => {
@@ -28,6 +40,8 @@ export class Redis {
     this.client.on('error', (err) => {
       console.error(`Error connecting to Redis ${PROCESS} server:`, err);
     });
+
+    
 
     this.client.connect();
     this.clientCache = new ClientCache(this.client, this);
