@@ -7,6 +7,7 @@ import {
   validatePassword,
 } from "./util";
 import {
+  ADDRESS_CACHE_EXPIRE,
   AccountGetPrivateKey,
   AddressFormPartial,
   GetQrQuerySchema,
@@ -226,6 +227,7 @@ export const hasAddress = async (
               id: string;
               clientId: string;
             },
+            ADDRESS_CACHE_EXPIRE
           );
           //@ts-ignore
           req.address = getAddress.address;
@@ -372,6 +374,7 @@ export const checkValidation = async (
     if(id) {
       const validCache = await cache.getIdFromKey(`valid:${id}`);
       if (!validCache) {
+        //TODO: QUERY THE DB AND CACHE THE RESULT
         return res
           .status(200)
           .json({ msg: "Please verify your number or email first.", status: responseStatus.Error });
