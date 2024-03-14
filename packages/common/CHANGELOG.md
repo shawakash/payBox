@@ -1,5 +1,11 @@
 # @paybox/common
 
+## 0.1.3
+
+### Patch Changes
+
+- 2e57922: feat: improve the cache server.
+
 ## 0.1.2
 
 ### Patch Changes

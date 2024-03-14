@@ -1,5 +1,13 @@
 # @paybox/api
 
+## 0.0.12
+
+### Patch Changes
+
+- 2e57922: feat: improve the cache server.
+- Updated dependencies [2e57922]
+  - @paybox/common@0.1.3
+
 ## 0.0.11
 
 ### Patch Changes
