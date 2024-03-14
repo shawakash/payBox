@@ -1,9 +1,14 @@
 import { RedisClientType } from "redis";
 import { Redis } from "../Redis";
 import {
+  ACCOUNT_CACHE_EXPIRE,
+  AccountType,
   ChainAccountPrivate,
+  Client,
   Network,
   NetworkPublicKeyType,
+  VALID_CACHE_EXPIRE,
+  WALLET_CACHE_EXPIRE,
   WalletKeys,
   WalletType,
 } from "@paybox/common";
@@ -72,5 +77,32 @@ export class WalletCache {
       }),
     );
     return keys;
+  }
+
+  async handleValid(wallet: WalletType, clientId: string, account: AccountType): Promise<void> {
+    this.client.multi()
+      .hSet(clientId, "valid", "true")
+      .hSet(wallet.id, {
+        id: wallet.id,
+        clientId: wallet.clientId,
+        accounts: JSON.stringify(wallet.accounts),
+      })
+      .expire(wallet.id, WALLET_CACHE_EXPIRE)
+      .hSet(account.id, {
+        id: account.id,
+        clientId: account.clientId,
+        sol: JSON.stringify(account.sol),
+        eth: JSON.stringify(account.eth),
+        bitcoin: JSON.stringify(account.bitcoin || {}),
+        usdc: JSON.stringify(account.usdc || {}),
+        walletId: account.walletId,
+        name: account.name,
+        createdAt: account.createdAt,
+        updatedAt: account.updatedAt,
+      })
+      .expire(account.id, ACCOUNT_CACHE_EXPIRE)
+      .set(`valid:${clientId}`, "true", {
+        EX: VALID_CACHE_EXPIRE,
+      });
   }
 }

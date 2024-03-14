@@ -159,36 +159,12 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
       /**
        * Cache
       */
-     //TODO: USE TRANSACTION OF REDIS
-     await cache.clientCache.updateUserFields(id, { valid: true }, CLIENT_CACHE_EXPIRE)
-     await cache.wallet.cacheWallet(validate.walletId as string, {
-       clientId: id,
-       id: validate.walletId as string,
-       secretPhase: seed,
-       accounts: [
-         {
-           clientId: id as string,
-           id: validate.account?.id as string,
-           sol: validate.account?.sol,
-           eth: validate.account?.eth,
-           walletId: validate.walletId as string,
-           name: "Account 1",
-           createdAt: validate.account.createdAt,
-           updatedAt: validate.account.updatedAt
-          },
-        ],
-      }, CLIENT_CACHE_EXPIRE);
-      await cache.account.cacheAccount<AccountType>(validate.account?.id as string, {
-        clientId: id,
-        id: validate.account?.id as string,
-        sol: validate.account?.sol,
-        eth: validate.account?.eth,
-        walletId: validate.walletId as string,
-        name: "Account 1",
-        createdAt: validate.account.createdAt,
-        updatedAt: validate.account.updatedAt
-      }, ACCOUNT_CACHE_EXPIRE);
-      await cache.cacheIdUsingKey(`valid:${id}`, 'true', VALID_CACHE_EXPIRE);
+     //Done: USE TRANSACTION OF REDIS
+     await cache.wallet.handleValid({
+      id: validate.walletId,
+      clientId: id,
+      accounts: [validate.account],
+     }, id, validate.account);
       
       return res
         .status(200)
