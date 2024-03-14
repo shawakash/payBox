@@ -17,13 +17,13 @@ export class WalletCache {
     this.redis = redis;
   }
 
-  async cacheWallet(key: string, items: Partial<WalletType>): Promise<void> {
+  async cacheWallet(key: string, items: Partial<WalletType>, expire: number): Promise<void> {
     const data = await this.client.hSet(key, {
       id: items.id as string,
       clientId: items.clientId as string,
       accounts: JSON.stringify(items.accounts),
     });
-
+    await this.client.expire(key, expire);
     console.log(`Wallet Cached ${data}`);
     return;
   }
@@ -40,13 +40,14 @@ export class WalletCache {
     };
   }
 
-  async fromPhrase(key: string, items: ChainAccountPrivate[]): Promise<void> {
+  async fromPhrase(key: string, items: ChainAccountPrivate[], expire: number): Promise<void> {
     await Promise.all(
       items.map(async ({ privateKey, publicKey }) => {
         await this.client.hSet(publicKey, {
           privateKey,
           publicKey,
         });
+        await this.client.expire(publicKey, expire);
       }),
     );
     console.log(`From Phrase Cached ${key}`);

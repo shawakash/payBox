@@ -2,15 +2,19 @@ import { Router } from "express";
 import { UpdateClientParser, ValidateUsername } from "../validations/client";
 import { dbResStatus } from "../types/client";
 import {
+  ACCOUNT_CACHE_EXPIRE,
   AccountType,
   Address,
+  CLIENT_CACHE_EXPIRE,
   ChangePasswordValid,
+  OTP_CACHE_EXPIRE,
   OtpValid,
   PasswordValid,
   ResendOtpValid,
   SECRET_PHASE_STRENGTH,
   TOTP_DIGITS,
   TOTP_TIME,
+  VALID_CACHE_EXPIRE,
   responseStatus,
 } from "@paybox/common";
 import {
@@ -90,7 +94,7 @@ clientRouter.post('/', async (req, res) => {
       address: client.address,
       password: hashPassword,
       valid: client.valid || false,
-    });
+    }, CLIENT_CACHE_EXPIRE);
 
     /**
      * Create a Jwt
@@ -109,7 +113,7 @@ clientRouter.post('/', async (req, res) => {
     const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
     try {
       sendOTP(`${firstname}`, email, otp, Number(mobile));
-      await cache.cacheIdUsingKey(otp.toString(), client.id as string);
+      await cache.cacheIdUsingKey(otp.toString(), client.id as string, OTP_CACHE_EXPIRE);
     } catch (error) {
       console.log(error);
       return res.status(200).json({ ...client, jwt, msg: "Error in sending otp", status: responseStatus.Ok });
@@ -155,7 +159,8 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
       /**
        * Cache
       */
-     await cache.clientCache.updateUserFields(id, { valid: true })
+     //TODO: USE TRANSACTION OF REDIS
+     await cache.clientCache.updateUserFields(id, { valid: true }, CLIENT_CACHE_EXPIRE)
      await cache.wallet.cacheWallet(validate.walletId as string, {
        clientId: id,
        id: validate.walletId as string,
@@ -172,7 +177,7 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
            updatedAt: validate.account.updatedAt
           },
         ],
-      });
+      }, CLIENT_CACHE_EXPIRE);
       await cache.account.cacheAccount<AccountType>(validate.account?.id as string, {
         clientId: id,
         id: validate.account?.id as string,
@@ -182,8 +187,8 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
         name: "Account 1",
         createdAt: validate.account.createdAt,
         updatedAt: validate.account.updatedAt
-      });
-      await cache.cacheIdUsingKey(`valid:${id}`, 'true');
+      }, ACCOUNT_CACHE_EXPIRE);
+      await cache.cacheIdUsingKey(`valid:${id}`, 'true', VALID_CACHE_EXPIRE);
       
       return res
         .status(200)
@@ -218,7 +223,7 @@ clientRouter.patch("/resend", extractClientId, isValidated, resendOtpLimiter, as
       const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
       try {
         await sendOTP(name, email, otp, Number(mobile));
-        await cache.cacheIdUsingKey(otp.toString(), id);
+        await cache.cacheIdUsingKey(otp.toString(), id, OTP_CACHE_EXPIRE);
 
         const { status } = await upadteMobileEmail(id, Number(mobile), email);
         if (status == dbResStatus.Error) {
@@ -298,13 +303,13 @@ clientRouter.post("/providerAuth", async (req, res) => {
       //@ts-ignore
       password: hashPassword || "",
       valid: mutation?.valid || false,
-    });
+    }, CLIENT_CACHE_EXPIRE);
 
     // Generate OTP
     const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
     try {
       sendOTP(`${firstname}`, email, otp);
-      await cache.cacheIdUsingKey(otp.toString(), mutation.id as string);
+      await cache.cacheIdUsingKey(otp.toString(), mutation.id as string, OTP_CACHE_EXPIRE);
     } catch (error) {
       console.log(error);
       return res.status(200).json({
@@ -395,6 +400,7 @@ clientRouter.post("/login", async (req, res) => {
     await cache.clientCache.cacheClient(
       query.client.id as string,
       query.client as Client,
+      CLIENT_CACHE_EXPIRE,
     );
 
     /**
@@ -445,7 +451,7 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.clientCache.cacheClient(id, query.client as Client);
+      await cache.clientCache.cacheClient(id, query.client as Client, CLIENT_CACHE_EXPIRE);
       return (
         res
           .status(302)
@@ -497,7 +503,7 @@ clientRouter.get("/:username", extractClientId, async (req, res) => {
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.clientCache.cacheClient(id, query.client as Client);
+      await cache.clientCache.cacheClient(id, query.client as Client, CLIENT_CACHE_EXPIRE);
       return res
         .status(302)
         .json({ ...query.client, status: responseStatus.Ok });
@@ -523,10 +529,10 @@ clientRouter.patch("/updateMetadata", extractClientId, async (req, res) => {
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
       //@ts-ignore
-      await cache.updateUserFields(req.id, {
+      await cache.updateUserFields(req.id as string, {
         firstname,
         lastname,
-      });
+      }, CLIENT_CACHE_EXPIRE);
       return res
         .status(200)
         .json({ status: responseStatus.Ok, msg: "Metadata Updated" });
@@ -543,13 +549,17 @@ clientRouter.delete("/delete", extractClientId, async (req, res) => {
     if (req.id) {
       //@ts-ignore
       const delete_user = await deleteClient(req.id);
-      if (delete_user.status == dbResStatus.Error) {
+      if (delete_user.status == dbResStatus.Error || delete_user?.email == undefined || delete_user?.username == undefined) {
         return res
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
       //@ts-ignore
       await cache.deleteHash(req.id);
+      await cache.deleteHash(delete_user.email);
+      await cache.deleteHash(delete_user.username);
+      //@ts-ignore
+      await cache.deleteHash(`valid:${req.id}`);
       return res
         .status(200)
         .json({ status: responseStatus.Ok, msg: "User Deleted" });
