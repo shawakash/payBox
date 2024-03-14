@@ -72,7 +72,7 @@ export const cloud = new S3Client({
 
 app.use(bodyParser.json());
 app.use(
-  morgan(":method :url :status :res[content-length] - :response-time ms"),
+  morgan("\n:method :url :status :res[content-length] - :response-time ms\n"),
 );
 
 export const corsOptions = {

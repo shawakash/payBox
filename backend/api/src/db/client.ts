@@ -737,6 +737,8 @@ export const validateClient = async (
           regtestBtc: true,
           textnetBtc: true
         },
+        clientId: true,
+        name: true,
         createdAt: true,
         updatedAt: true
       }]
