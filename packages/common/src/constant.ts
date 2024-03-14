@@ -262,3 +262,12 @@ export enum Process {
   Prod = "prod",
   Test = "test",
 }
+
+export const ACCOUNT_CACHE_EXPIRE = 60 * 60 * 1; // 1 hour  
+export const ADDRESS_CACHE_EXPIRE = 60 * 60 * 1; // 1 hour  
+export const CLIENT_CACHE_EXPIRE = 60 * 60 * 1; // 1 hour
+export const WALLET_CACHE_EXPIRE = 60 * 60 * 1; // 1 hour
+export const TRANSACTION_CACHE_EXPIRE = 60 * 60 * 1; // 1 hour
+export const PHRASE_ACCOUNT_CACHE_EXPIRE = 60 * 5; // 1 hour
+export const OTP_CACHE_EXPIRE = 60 * 5; // 1 hour
+export const VALID_CACHE_EXPIRE = 60 * 60 * 10; // 1 hour
