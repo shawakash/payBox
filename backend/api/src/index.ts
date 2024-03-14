@@ -46,8 +46,9 @@ export const server = http.createServer(app);
 export const wss = new WebSocketServer({ server });
 // export const apolloServer = createApollo();
 
+export const cache = new Redis();
+export const redisClient = cache.getclient;
 
-export const cache = Redis.getInstance();
 export const twillo = twilio(TWILLO_ACCOUNT_SID, TWILLO_TOKEN);
 export const transporter = nodemailer.createTransport({
   service: MAIL_SERVICE,
@@ -131,6 +132,17 @@ process.on("uncaughtException", function (err) {
   console.log("Caught exception: " + err);
 });
 
-server.listen(PORT, async () => {
-  console.log(`Server listening on port: ${PORT}\n`);
+process.on("unhandledRejection", function (reason, _promise) {
+  console.log("Unhandled Rejection at:", reason);
+});
+
+process.on('SIGINT', async () => {
+  await cache.getclient.disconnect();
+  process.exit(0)
+});
+
+cache.getclient.on('ready', () => {
+  server.listen(PORT, async () => {
+    console.log(`Server listening on port: ${PORT}\n`);
+  });
 });
