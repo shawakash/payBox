@@ -128,36 +128,68 @@ export const delWallet = async (
   clientId: string,
 ): Promise<{
   status: dbResStatus;
+  accounts?: {id: string}[]
 }> => {
-  const response = await chain("mutation")({
+  const deleteEth = await chain("mutation")({
+    delete_eth: [{
+      where: {
+        account: {
+          walletId: { _eq: walletId },
+        }
+      }
+    }, {
+      returning: {
+        id: true
+      }
+    }],
+  }, {operationName: "deleteEth"});
+
+  const deleteSol = await chain("mutation")({
+    delete_sol: [{
+      where: {
+        account: {
+          walletId: { _eq: walletId },
+        }
+      }
+    }, {
+      returning: {
+        id: true
+      }
+    }]
+  }, {operationName: "deleteSol"});
+
+  const deleteAccount = await chain("mutation")({
+    delete_account: [{
+      where: {
+        walletId: { _eq: walletId },
+      }
+    }, {
+      returning: {
+        id: true
+      }
+    }]
+  }, {operationName: "deleteAccount"});
+
+  const delete_wallet = await chain("mutation")({
     delete_wallet: [
       {
         where: {
           id: { _eq: walletId },
           clientId: { _eq: clientId },
-          accounts: {
-            walletId: { _eq: walletId },
-            sol: {
-              account: {
-                walletId: { _eq: walletId },
-              },
-            },
-            eth: {
-              account: {
-                walletId: { _eq: walletId },
-              },
-            },
-          },
         },
       },
       {
-        returning: {},
+        returning: {
+          id: true
+        },
       },
     ],
-  });
-  if (Array.isArray(response.delete_wallet?.returning)) {
+  }, {operationName: "deleteWallet"});
+
+  if (Array.isArray(deleteAccount.delete_account?.returning) && delete_wallet.delete_wallet?.returning[0].id) {
     return {
       status: dbResStatus.Ok,
+      accounts: deleteAccount.delete_account?.returning as {id: string}[] || [],
     };
   }
   return {
