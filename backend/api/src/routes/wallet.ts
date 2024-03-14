@@ -2,6 +2,7 @@ import { Router } from "express";
 import { checkPassword } from "../auth/middleware";
 import {
   SecretValid,
+  WALLET_CACHE_EXPIRE,
   WalletAccountGet,
   dbResStatus,
   responseStatus,
@@ -63,7 +64,7 @@ walletRouter.get("/accounts", async (req, res) => {
         clientId: id,
         id: walletId,
         accounts: query.accounts,
-      });
+      }, WALLET_CACHE_EXPIRE);
       return res.status(200).json({
         accounts: query.accounts,
         status: responseStatus.Ok,
@@ -81,7 +82,6 @@ walletRouter.delete("/", async (req, res) => {
     const id = req.id;
     if (id) {
       const { walletId } = SecretValid.parse(req.query);
-      await cache.deleteHash(walletId);
 
       const deleteSecret = await delWallet(walletId, id);
       if (deleteSecret.status == dbResStatus.Error) {
@@ -89,6 +89,15 @@ walletRouter.delete("/", async (req, res) => {
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
+      if(deleteSecret.accounts?.length == 0) {
+        return res
+          .status(404)
+          .json({ status: responseStatus.Error, msg: "Not found" });
+      }
+      cache.deleteHash(walletId);
+      deleteSecret.accounts?.map(async (account) => {
+        cache.deleteHash(account.id);
+      });
       return res
         .status(200)
         .json({ status: responseStatus.Ok, msg: "Deleted" });

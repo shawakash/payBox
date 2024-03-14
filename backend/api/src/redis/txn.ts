@@ -11,7 +11,7 @@ export class TxnCache {
     this.redis = redis;
   }
 
-  async cacheTxns(key: string, items: TxnType | TxnType[]) {
+  async cacheTxns(key: string, items: TxnType | TxnType[], expire: number) {
     const dataArray = Array.isArray(items) ? items : [items]; // Ensure items is an array
     console.log(dataArray);
     const promises = dataArray.map(async (item) => {
@@ -30,7 +30,7 @@ export class TxnCache {
         postBalances: JSON.stringify(item.postBalances),
         recentBlockhash: item.recentBlockhash,
       });
-
+      await this.client.expire(key, expire);
       console.log(`Txn Cached ${data}`);
       await this.redis.cacheIdUsingKey(item.signature[0], item.id);
     });
@@ -40,7 +40,7 @@ export class TxnCache {
     return;
   }
 
-  async cacheTxn(key: string, item: TxnType) {
+  async cacheTxn(key: string, item: TxnType, expire: number) {
     const data = await this.client.hSet(key, {
       id: item.id,
       clientId: item.clientId,
@@ -56,7 +56,8 @@ export class TxnCache {
       postBalances: JSON.stringify(item.postBalances),
       recentBlockhash: item.recentBlockhash,
     });
-
+    await this.client.expire(key, expire);
+    
     console.log(`Txn Cached ${data}`);
     await this.redis.cacheIdUsingKey(item.signature[0], item.id);
     return;

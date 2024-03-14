@@ -14,6 +14,9 @@ import {
   ImportAccount,
   ChainAccount,
   SECRET_PHASE_STRENGTH,
+  ACCOUNT_CACHE_EXPIRE,
+  WALLET_CACHE_EXPIRE,
+  PHRASE_ACCOUNT_CACHE_EXPIRE,
 } from "@paybox/common";
 import { Router } from "express";
 import {
@@ -79,6 +82,7 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
       await cache.account.cacheAccount<AccountType>(
         mutation.account.id,
         mutation.account,
+        ACCOUNT_CACHE_EXPIRE
       );
 
       return res.status(200).json({
@@ -121,6 +125,7 @@ accountRouter.patch("/updateName", async (req, res) => {
       await cache.account.cacheAccount<AccountType>(
         mutation.account.id,
         mutation.account,
+        ACCOUNT_CACHE_EXPIRE
       );
 
       return res.status(200).json({
@@ -234,7 +239,7 @@ accountRouter.get("/", async (req, res) => {
       /**
        * Cache
        */
-      await cache.account.cacheAccount<AccountType>(accountId, query.account);
+      await cache.account.cacheAccount<AccountType>(accountId, query.account, ACCOUNT_CACHE_EXPIRE);
 
       return res.status(200).json({
         account: query.account,
@@ -291,7 +296,7 @@ accountRouter.post("/private", async (req, res) => {
       /**
        * Cache
        */
-      await cache.wallet.cacheWallet(mutation.wallet.id, mutation.wallet);
+      await cache.wallet.cacheWallet(mutation.wallet.id, mutation.wallet, WALLET_CACHE_EXPIRE);
       return res.status(200).json({
         wallet: mutation.wallet,
         status: responseStatus.Ok,
@@ -323,7 +328,7 @@ accountRouter.get("/fromPhrase", async (req, res) => {
           .json({ status: responseStatus.Error, msg: "Invalid phrase" });
       }
       // cache
-      await cache.wallet.fromPhrase(secretPhrase, accounts);
+      await cache.wallet.fromPhrase(secretPhrase, accounts, PHRASE_ACCOUNT_CACHE_EXPIRE);
       return res.status(200).json({
         //@ts-ignore
         accounts: accounts.map(({ privateKey, ...account }) => account),
@@ -389,7 +394,7 @@ accountRouter.post("/import", async (req, res) => {
       /**
        * Cache
        */
-      await cache.wallet.cacheWallet(mutation.wallet.id, mutation.wallet);
+      await cache.wallet.cacheWallet(mutation.wallet.id, mutation.wallet, WALLET_CACHE_EXPIRE);
       return res.status(200).json({
         wallet: mutation.wallet,
         status: responseStatus.Ok,
@@ -431,7 +436,7 @@ accountRouter.get('/all', async (req, res) => {
 
 
     // cacheit
-    await cache.account.cacheAccounts(`accs:${id}`, accounts);
+    await cache.account.cacheAccounts(`accs:${id}`, accounts, ACCOUNT_CACHE_EXPIRE);
 
     return res
             .status(200)

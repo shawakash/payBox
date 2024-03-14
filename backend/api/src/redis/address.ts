@@ -1,5 +1,5 @@
 import { RedisClientType } from "redis";
-import { Address, Client } from "@paybox/common";
+import { Address, CLIENT_CACHE_EXPIRE, Client } from "@paybox/common";
 import { Redis } from "../Redis";
 
 export class AddressCache {
@@ -14,6 +14,7 @@ export class AddressCache {
   async cacheAddress<T extends Address>(
     key: string,
     items: Partial<T> & { id: string; clientId: string },
+    expire: number
   ) {
     const client = await this.client.hGetAll(items.clientId);
     if (!client) {
@@ -35,6 +36,7 @@ export class AddressCache {
         usdc: items.usdc,
       }),
     });
+    await this.client.expire(items.clientId, CLIENT_CACHE_EXPIRE);
     const data = await this.client.hSet(key, {
       id: items.id,
       sol: items.sol as string,
@@ -43,6 +45,7 @@ export class AddressCache {
       usdc: items.usdc as string,
       client_id: items.clientId,
     });
+    await this.client.expire(key, expire);
     console.log(`Address Cached ${data}`);
     return;
   }
@@ -64,11 +67,12 @@ export class AddressCache {
     } as T;
   }
 
-  async patchAddress<T>(key: string, items: Partial<T>): Promise<void> {
+  async patchAddress<T>(key: string, items: Partial<T>, expire: number): Promise<void> {
     for (const [field, value] of Object.entries(items)) {
       //@ts-ignore
       await this.client.hSet(key, field, value.toString());
     }
+    await this.client.expire(key, expire);
     return;
   }
 

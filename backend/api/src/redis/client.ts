@@ -11,7 +11,7 @@ export class ClientCache {
     this.redis = redis;
   }
 
-  async cacheClient<T extends Client>(key: string, items: T) {
+  async cacheClient<T extends Client>(key: string, items: T, expire: number) {
     const data = await this.client.hSet(key, {
       id: items.id,
       firstname: items.firstname || "",
@@ -23,10 +23,10 @@ export class ClientCache {
       address: JSON.stringify(items.address),
       valid: items.valid.toString(),
     });
-
+    await this.client.expire(key, expire);
     console.log(`User Cached ${data}`);
-    await this.redis.cacheIdUsingKey(items.username, items.id);
-    await this.redis.cacheIdUsingKey(items.email, items.id);
+    await this.redis.cacheIdUsingKey(items.username, items.id, expire);
+    await this.redis.cacheIdUsingKey(items.email, items.id, expire);
     return;
   }
 
@@ -65,16 +65,18 @@ export class ClientCache {
     return { ...client };
   }
 
-  async updateUserFields(key: string, updatedFields: Partial<Client>) {
+  async updateUserFields(key: string, updatedFields: Partial<Client>, expire: number) {
     for (const [field, value] of Object.entries(updatedFields)) {
       await this.client.hSet(key, field, value.toString());
     }
+    await this.client.expire(key, expire);
     return;
   }
 
   async updateClientAddress(
     key: string,
     items: Partial<Address> & { id: string },
+    expire: number
   ) {
     const client = await this.client.hGetAll(key);
     if (!client) {
@@ -97,6 +99,7 @@ export class ClientCache {
       }),
       valid: client.valid,
     });
+    await this.client.expire(key, expire);
 
     console.log(`Client address updated for client ID: ${key}`);
 

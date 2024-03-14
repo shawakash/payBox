@@ -1,4 +1,5 @@
 import {
+  ADDRESS_CACHE_EXPIRE,
   Address,
   AddressForm,
   AddressFormPartial,
@@ -57,7 +58,7 @@ addressRouter.post("/", checkAddress, async (req, res) => {
           usdc: usdc || "",
           id: mutateAddress.id as string,
           clientId: id,
-        });
+        }, ADDRESS_CACHE_EXPIRE);
         return res
           .status(200)
           .json({ id: mutateAddress.id, status: responseStatus.Ok });
@@ -115,6 +116,7 @@ addressRouter.get("/", async (req, res) => {
           id: string;
           clientId: string;
         },
+        ADDRESS_CACHE_EXPIRE
       );
 
       return res
@@ -164,7 +166,7 @@ addressRouter.patch("/update", checkAddress, async (req, res) => {
         sol,
         bitcoin,
         usdc,
-      });
+      }, ADDRESS_CACHE_EXPIRE);
 
       return res
         .status(200)

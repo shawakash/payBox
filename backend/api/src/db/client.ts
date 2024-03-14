@@ -475,6 +475,8 @@ export const deleteClient = async (
   id: string,
 ): Promise<{
   status: dbResStatus;
+  username?: string;
+  email?: string;
 }> => {
   const response = await chain("mutation")(
     {
@@ -487,6 +489,7 @@ export const deleteClient = async (
         {
           returning: {
             username: true,
+            email: true
           },
         },
       ],
@@ -497,6 +500,8 @@ export const deleteClient = async (
   if (response.delete_client?.returning[0].username) {
     return {
       status: dbResStatus.Ok,
+      username: response.delete_client.returning[0].username as string,
+      email: response.delete_client.returning[0].email as string,
     };
   }
 
@@ -732,6 +737,8 @@ export const validateClient = async (
           regtestBtc: true,
           textnetBtc: true
         },
+        clientId: true,
+        name: true,
         createdAt: true,
         updatedAt: true
       }]

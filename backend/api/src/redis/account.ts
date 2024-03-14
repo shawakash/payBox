@@ -1,6 +1,6 @@
 import { RedisClientType } from "redis";
 import { Redis } from "../Redis";
-import { AccountParser, AccountType, AccountsParser } from "@paybox/common";
+import { AccountParser, AccountType, AccountsParser, WALLET_CACHE_EXPIRE } from "@paybox/common";
 
 export class AccountCache {
   private client: RedisClientType;
@@ -14,6 +14,7 @@ export class AccountCache {
   async cacheAccount<T extends AccountType>(
     key: string,
     items: T,
+    expire: number
   ): Promise<void> {
     const data = await this.client.hSet(key, {
       id: items.id,
@@ -28,6 +29,8 @@ export class AccountCache {
       updatedAt: items.updatedAt,
     });
 
+    await this.client.expire(key, expire);
+
     // Accounts inside wallets
     const getWallet = await this.client.hGetAll(items.walletId);
     await this.client.hSet(items.walletId, {
@@ -38,16 +41,17 @@ export class AccountCache {
         items,
       ]),
     });
+    await this.client.expire(items.walletId, WALLET_CACHE_EXPIRE);
 
     // // acounts in accs
     // await this.client.set(`accs:${items.clientId}`, JSON.stringify([
     //   ...(getWallet?.accounts ? JSON.parse(getWallet.accounts) : []),
     //   items,
     // ]))
-    console.log([
-      ...(getWallet?.accounts ? JSON.parse(getWallet.accounts) : []),
-      items,
-    ]);
+    // console.log([
+    //   ...(getWallet?.accounts ? JSON.parse(getWallet.accounts) : []),
+    //   items,
+    // ]);
 
     console.log(`Account Cached ${data}`);
     return;
@@ -72,7 +76,7 @@ export class AccountCache {
     } as T;
   }
 
-  async cacheAccounts(key: string, items: AccountType[]): Promise<void> {
+  async cacheAccounts(key: string, items: AccountType[], expire: number): Promise<void> {
     const data = items.map((item) => {
       return {
         id: item.id,
@@ -87,7 +91,9 @@ export class AccountCache {
         updatedAt: item.updatedAt,
       };
     })
-    const cache = await this.client.set(key, JSON.stringify(data));
+    const cache = await this.client.set(key, JSON.stringify(data), {
+      EX: expire,
+    });
     console.log(`Accounts Cached ${cache}`);
 
     return;

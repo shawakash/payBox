@@ -19,6 +19,18 @@ export class Redis {
     this.client = createClient({
       url: REDIS_URL,
       legacyMode: false,
+      socket: {
+        reconnectStrategy(retries, cause) {
+          if (retries > 20) {
+            console.log("Too many retries on REDIS. Connection Terminated");
+            return false;
+          } else {
+            console.log(`Retrying to connect to Redis ${PROCESS} server: ${cause}`);
+            return Math.min(retries * 100, 3000);
+          }
+        },
+      },
+
     });
 
     this.client.on('connect', () => {
@@ -28,6 +40,8 @@ export class Redis {
     this.client.on('error', (err) => {
       console.error(`Error connecting to Redis ${PROCESS} server:`, err);
     });
+
+    
 
     this.client.connect();
     this.clientCache = new ClientCache(this.client, this);
@@ -44,14 +58,20 @@ export class Redis {
     return this.instance;
   }
 
+  get getclient() {
+    return this.client;
+  }
+
   async deleteHash(key: string) {
     const deletedKeys = await this.client.del(key);
     console.log(`Deleted hash with ${key} key`);
     return deletedKeys;
   }
 
-  async cacheIdUsingKey(key: string, item: string): Promise<void> {
-    await this.client.set(key, item);
+  async cacheIdUsingKey(key: string, item: string, expire: number): Promise<void> {
+    await this.client.set(key, item, {
+      EX: expire,
+    });
     console.log(`${item} is cached with ${key}`);
     return;
   }

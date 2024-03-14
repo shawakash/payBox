@@ -2,6 +2,7 @@ import {
   EthCluster,
   Network,
   SolCluster,
+  TRANSACTION_CACHE_EXPIRE,
   TxnQeuryByHash,
   TxnSendQuery,
   TxnType,
@@ -110,6 +111,7 @@ txnRouter.get("/getMany", async (req, res) => {
       await cache.txn.cacheTxns(
         `${id}_txns_${count}_${Date.now()}`,
         txns.txns as TxnType[],
+        TRANSACTION_CACHE_EXPIRE
       );
       return res
         .status(200)
@@ -143,7 +145,7 @@ txnRouter.get("/get", async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      await cache.txn.cacheTxn(txn.id as string, txn.txn as TxnType);
+      await cache.txn.cacheTxn(txn.id as string, txn.txn as TxnType, TRANSACTION_CACHE_EXPIRE);
       return res.status(200).json({ txn, status: responseStatus.Ok });
     }
   } catch (error) {
