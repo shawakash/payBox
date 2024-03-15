@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68b95ec0-bf7d-419c-b9b9-0866ed110dbf" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ws/src/Redis/ChatSub.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ws/src/Redis/ChatSub.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ws/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ws/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/common/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/common/src/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +60,7 @@
       <workItem from="1706779121641" duration="51000" />
       <workItem from="1710054717440" duration="202000" />
       <workItem from="1710491808451" duration="1253000" />
-      <workItem from="1710493084295" duration="5653000" />
+      <workItem from="1710493084295" duration="9818000" />
     </task>
     <servers />
   </component>
