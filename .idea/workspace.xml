@@ -6,9 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="68b95ec0-bf7d-419c-b9b9-0866ed110dbf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ws/src/config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ws/src/config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ws/src/Redis/ChatSub.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ws/src/Redis/ChatSub.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ws/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ws/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/common/src/constant.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/common/src/constant.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/common/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/common/src/types.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +40,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "preferences.editor",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "ts.external.directory.path": "/Users/phillo/code/payBox/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -61,7 +60,7 @@
       <workItem from="1706779121641" duration="51000" />
       <workItem from="1710054717440" duration="202000" />
       <workItem from="1710491808451" duration="1253000" />
-      <workItem from="1710493084295" duration="2515000" />
+      <workItem from="1710493084295" duration="4972000" />
     </task>
     <servers />
   </component>

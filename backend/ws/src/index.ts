@@ -10,6 +10,7 @@ import {BTC_ADDRESS, ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS} from "./con
 import {SolTxnLogs} from "./managers/sol";
 import {EthTxnLogs} from "./managers/eth";
 import {BtcTxn} from "./managers/btc";
+import {ChatSub} from "./Redis/ChatSub";
 
 export * from "./managers";
 
@@ -79,7 +80,10 @@ wss.on("connection", async (ws, req) => {
 
         if(data.type == WsMessageTypeEnum.Join) {
             //TODO subscribe to a channel with the room id
-        } else if(data.type == WsMessageTypeEnum.Chat) {
+            ChatSub.getInstance().subscribe(data.payload.ChannelId, data.payload.ClientId, ws);
+        }
+
+        if(data.type == WsMessageTypeEnum.Chat) {
             //TODO publish the message
         }
 
