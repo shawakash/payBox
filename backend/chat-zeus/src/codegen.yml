@@ -1,0 +1,9 @@
+overwrite: true
+schema:
+  - http://localhost:8113/v1/graphql:
+      headers:
+        x-hasura-admin-secret: myadminsecretkey
+generates:
+  src/codegen/types.ts:
+    plugins:
+      - "typescript"

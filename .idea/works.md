@@ -1,3 +1,0 @@
-# Works -
-
-- Setup a indexer
