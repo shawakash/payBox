@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    image: postgres:15.0-alpine
+    restart: unless-stopped
+    ports:
+      - 4447:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+    command: "postgres -c listen_addresses='*'"
+    healthcheck:
+      test: pg_isready --username=user --dbname=reef_dev --quiet
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_DB: reef_dev
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: user
+
+  hasura:
+    image:  hasura/graphql-engine:v2.18.0.cli-migrations-v3
+    ports:
+      - 8113:8080
+    depends_on:
+      - postgres
+    volumes:
+      - "./hasura/metadata:/hasura-metadata"
+      - "./hasura/migrations:/hasura-migrations"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_CORS_DOMAIN: "*"
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://user:pass@postgres/reef_dev
+      HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres/reef_dev
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: anon
+      HASURA_GRAPHQL_JWT_SECRET: '{ "type": "RS256", "key": "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAzV+GuQ2lQ0CWgnNloOr8\nAbSRem6A9Jh72Wn1oP3HZ/lYq10/kY398CL2777Xb6QYYSn/vwBsIwuQ3HjoR0gN\nNSWzzks/nOrbOK9coS8j5vlg/L6YACawCfUEM07JkeoK19dYTWg/8VctaNefmR53\nLmLBs7jtX1yn7Eo/lDtdaVT1P+amb2tNAyJ/2yFi717yLRcsAmtjmSkJRcuUhs6q\nLkoPvaVYLqFddhDJte/Hphz+MHGC11PanvbjE04STUpEMw6wACVKFQj+094fQW2s\njhfU7xdLxv3h+zshD+CBC9qDN5AvHN4FM1YJj8uahqUUydUiGcscr2KBXegNEJJX\nELzkxV1ohrcq8jV92CZ4V7WNRxDpcwdTxtGs5pR1eqkexBFhliQ8wf/AUVlis/UK\nlnqBR7ycz53Mztzgsvpzi36tJ0S+bWqrTgHEog9v88M69qayVN6UG59voWVVrQvL\ngj+35acKpRF5/mQqOzwt/8xihenvGCcgkrWUKTUAaMC/wX6BeEdwLcRROI4rbnN/\njulRfCfXbvLEr7rBkaaPwcPOc8YDZpxXW+DYaOr8qsjJ992HmnlC6SDKZbeSo8o2\nmrPZR+5mCFvzhllM4S6qsHL4VrUfU2T88v2JQYe5uiG29flkZXacRRgZLborz5qa\njbR9dShyu2e/mXjoqgc71ZUCAwEAAQ==\n-----END PUBLIC KEY-----" }'
+
+volumes:
+  data:
