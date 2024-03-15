@@ -80,11 +80,12 @@ wss.on("connection", async (ws, req) => {
 
         if(data.type == WsMessageTypeEnum.Join) {
             //TODO subscribe to a channel with the room id
-            ChatSub.getInstance().subscribe(data.payload.ChannelId, data.payload.ClientId, ws);
+            ChatSub.getInstance().subscribe(data.payload.ChannelId, data.clientId, ws);
         }
 
         if(data.type == WsMessageTypeEnum.Chat) {
             //TODO publish the message
+            ChatSub.getInstance().sendMessage(data.payload.ChannelId, data.payload);
         }
 
     });

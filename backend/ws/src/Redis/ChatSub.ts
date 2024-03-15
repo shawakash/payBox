@@ -1,5 +1,7 @@
 import {createClient, RedisClientType} from "redis";
 import {CHAT_REDIS_URL} from "../config";
+import {WsMessageType} from "@paybox/common";
+import {WsMessageTypeEnum} from "@paybox/common/src";
 
 export class ChatSub {
     public static instance: ChatSub;
@@ -56,5 +58,19 @@ export class ChatSub {
                 }
             });
         }
+    }
+
+    publish(channelId: string, data: any) {
+        console.log(`publishing to ${channelId}`);
+        this.publisher.publish(channelId, JSON.stringify(data));
+    }
+
+    async sendMessage(channelId: string, payload: any) {
+        this.publish(
+            channelId, {
+                type: WsMessageTypeEnum.Chat,
+                payload
+            }
+        )
     }
 }
