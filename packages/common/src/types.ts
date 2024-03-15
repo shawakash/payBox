@@ -282,3 +282,13 @@ export enum SignStatus {
   Verify = "verify",
   Details = "details"
 }
+
+export enum WsMessageTypeEnum {
+  Join = "join",
+  Chat = "message"
+}
+
+export type WsChatMessageType = {
+  type: WsMessageTypeEnum,
+  payload: any
+}
