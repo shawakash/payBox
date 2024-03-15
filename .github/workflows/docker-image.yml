@@ -153,3 +153,21 @@ jobs:
 
       - name: Push @paybox/mote Docker image
         run: docker push shawakash/paybox-mote:${{ github.sha }}
+
+    chat_zeus_image:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: Login to DockerHub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+        - name: Build @paybox/chat-zeus Docker image
+          run: docker build -t shawakash/paybox-chat-zeus:${{ github.sha }} -f ./docker/chat-zeus/Dockerfile .
+
+        - name: Push @paybox/chat-zeus Docker image
+          run: docker push shawakash/paybox-chat-zeus:${{ github.sha }}
