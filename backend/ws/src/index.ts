@@ -1,17 +1,15 @@
-import { BTC_WS_URL, CLIENT_URL, TxnLogMsgValid, WSPORT, WsMessageType, wsResponseStatus } from "@paybox/common";
+import {BTC_WS_URL, CLIENT_URL, WsChatMessageType, WsMessageTypeEnum, WSPORT} from "@paybox/common";
 import bodyParser from "body-parser";
 import express from "express";
 import http from "http";
 import morgan from "morgan";
-import url from "url";
-import { WebSocketServer } from "ws";
+import {WebSocketServer} from "ws";
 import cors from "cors";
-import { EthNetwok } from "./types";
-import { BTC_ADDRESS, ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS } from "./config";
-import { SolTxnLogs } from "./managers/sol";
-import { EthTxnLogs } from "./managers/eth";
-import { BtcTxn } from "./managers/btc";
-import {cache} from "@paybox/api";
+import {EthNetwok} from "./types";
+import {BTC_ADDRESS, ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS} from "./config";
+import {SolTxnLogs} from "./managers/sol";
+import {EthTxnLogs} from "./managers/eth";
+import {BtcTxn} from "./managers/btc";
 
 export * from "./managers";
 
@@ -63,16 +61,28 @@ app.get("/_health", (_req, res) => {
 
 wss.on("connection", async (ws, req) => {
 
+    // ws.on("message", async (message) => {
+    //     const {accountId, clusters, type} = TxnLogMsgValid.parse(message.toString());
+    //     if (type === WsMessageType.Index) {
+    //         // cache account
+    //         const cacheAccount = await cache.account.getAccount(accountId);
+    //         if (!cacheAccount) {
+    //            ws.send(JSON.stringify({type: wsResponseStatus.Error, message: "Account not found"}));
+    //         }
+    //         // TODO: subscribe to different chains
+    //     }
+    // });
+
     ws.on("message", async (message) => {
-        const {accountId, clusters, type} = TxnLogMsgValid.parse(message.toString());
-        if (type === WsMessageType.Index) {
-            // cache account
-            const cacheAccount = await cache.account.getAccount(accountId);
-            if (!cacheAccount) {
-               ws.send(JSON.stringify({type: wsResponseStatus.Error, message: "Account not found"}));
-            }
-            // TODO: subscribe to different chains
+
+        const data: WsChatMessageType = JSON.parse(message.toString());
+
+        if(data.type == WsMessageTypeEnum.Join) {
+            //TODO subscribe to a channel with the room id
+        } else if(data.type == WsMessageTypeEnum.Chat) {
+            //TODO publish the message
         }
+
     });
 
 });
