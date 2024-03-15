@@ -1,5 +1,11 @@
 # @paybox/common
 
+## 0.1.4
+
+### Patch Changes
+
+- e19fea1: feat: added a redis pub/sub based chat app to communicate between clients
+
 ## 0.1.3
 
 ### Patch Changes
