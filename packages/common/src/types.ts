@@ -291,12 +291,11 @@ export enum WsMessageTypeEnum {
 
 export type ChatPayload = {
     sender: string,
-    ChannelId: string,
+    channelId: string,
     message: string,
 }
 
 export type WsChatMessageType = {
     type: WsMessageTypeEnum,
     payload: ChatPayload,
-    clientId: string
 }
