@@ -2,7 +2,7 @@
 FROM node:21
 
 # Set the working directory in the container
-WORKDIR /app/backend/zeus
+WORKDIR /app/backend/chat-zeus
 
 # Copy package.json and yarn.lock to the working directory
 COPY . .
@@ -17,6 +17,7 @@ RUN yarn build
 
 # Command to Create the client
 CMD ["yarn", "zeus"]
+CMD ["yarn", "zeus-ws"]
 
 # Commad to Generate the client
 CMD ["yarn", "codegen"]
