@@ -18,7 +18,7 @@ export const app = express();
 
 const server = http.createServer(app);
 
-export const wss = new WebSocketServer({ server });
+export const wss = new WebSocketServer({server});
 
 // instances of the socket classes
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
@@ -28,6 +28,14 @@ export const ethTxn = new EthTxnLogs(
     ETH_ADDRESS,
 );
 export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
+
+const clients: {
+    [key: string]: {
+        channelId: string;
+        ws: any;
+    }
+} = {};
+
 
 app.use(bodyParser.json());
 app.use(
@@ -61,7 +69,9 @@ app.get("/_health", (_req, res) => {
 });
 
 wss.on("connection", async (ws, req) => {
-
+    // TODO: add authentication
+    //@ts-ignore
+    const id = new URL(req.url as string, `http://${req.headers.host}`).searchParams.get('clientId') as string;
     // ws.on("message", async (message) => {
     //     const {accountId, clusters, type} = TxnLogMsgValid.parse(message.toString());
     //     if (type === WsMessageType.Index) {
@@ -78,16 +88,26 @@ wss.on("connection", async (ws, req) => {
 
         const data: WsChatMessageType = JSON.parse(message.toString());
 
-        if(data.type == WsMessageTypeEnum.Join) {
-            //TODO subscribe to a channel with the room id
-            ChatSub.getInstance().subscribe(data.payload.ChannelId, data.clientId, ws);
+        if (data.type == WsMessageTypeEnum.Join) {
+            clients[id] = {
+                channelId: data.payload.channelId,
+                ws
+            }
+            ChatSub.getInstance().subscribe(data.payload.channelId, id, ws);
         }
 
-        if(data.type == WsMessageTypeEnum.Chat) {
-            //TODO publish the message
-            ChatSub.getInstance().sendMessage(data.payload.ChannelId, data.payload);
+        if (data.type == WsMessageTypeEnum.Chat) {
+            ChatSub.getInstance().sendMessage(data.payload.channelId, data.payload);
         }
 
+    });
+
+    ws.on("close", () => {
+        if (clients[id]) {
+            ChatSub.getInstance().unsubscribe(id, clients[id].channelId);
+        } else {
+            console.error(`Error: ID ${id} is not connected to any channel.`);
+        }
     });
 
 });

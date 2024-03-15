@@ -73,4 +73,24 @@ export class ChatSub {
             }
         )
     }
+
+    unsubscribe(clientId: string, channelId: string) {
+        this.subscriptions.set(clientId, [
+            ...(this.subscriptions.get(clientId) || []).filter((id) => id !== channelId)
+        ]);
+        if (this.subscriptions.get(clientId)?.length === 0) {
+            this.subscriptions.delete(clientId)
+        }
+
+        delete this.reverseSubscriptions.get(channelId)?.[clientId];
+        if (
+            !this.reverseSubscriptions.get(channelId) ||
+            Object.keys(this.reverseSubscriptions.get(channelId) || {}).length === 0
+        ) {
+            // unsubscribe from the channel
+            this.subscriber.unsubscribe(channelId);
+            // removing the channel from the reverseSubscriptions
+            this.reverseSubscriptions.delete(channelId);
+        }
+    }
 }
