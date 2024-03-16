@@ -27,6 +27,27 @@ array_relationships:
         table:
           name: account
           schema: public
+  - name: chats
+    using:
+      foreign_key_constraint_on:
+        column: senderId
+        table:
+          name: chat
+          schema: public
+  - name: friendships
+    using:
+      foreign_key_constraint_on:
+        column: clientId1
+        table:
+          name: friendship
+          schema: public
+  - name: friendshipsByClientid2
+    using:
+      foreign_key_constraint_on:
+        column: clientId2
+        table:
+          name: friendship
+          schema: public
   - name: transactions
     using:
       foreign_key_constraint_on:

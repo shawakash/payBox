@@ -1,0 +1,28 @@
+table:
+  name: friendship
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    updated_at: updatedAt
+  custom_root_fields: {}
+object_relationships:
+  - name: client1
+    using:
+      foreign_key_constraint_on: clientId1
+  - name: client2
+    using:
+      foreign_key_constraint_on: clientId2
+array_relationships:
+  - name: chats
+    using:
+      foreign_key_constraint_on:
+        column: friendshipId
+        table:
+          name: chat
+          schema: public
