@@ -1,6 +1,6 @@
 {
   "name": "@paybox/kafka",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -12,7 +12,7 @@
     "publish": "npm version patch && npm publish"
   },
   "dependencies": {
-    "@paybox/backend-common": "^0.0.1",
+    "@paybox/backend-common": "^0.0.2",
     "@types/kafkajs": "^1.9.0",
     "kafkajs": "^2.2.4",
     "tsup": "^8.0.2"
