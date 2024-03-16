@@ -1,7 +1,8 @@
 import {createClient, RedisClientType} from "redis";
 import {CHAT_REDIS_URL} from "../config";
-import {WsMessageType} from "@paybox/common";
+import {ChatPayload, WsChatMessageType, WsMessageType} from "@paybox/common";
 import {WsMessageTypeEnum} from "@paybox/common/src";
+import {publishChatMsg} from "@paybox/kafka/src";
 
 export class ChatSub {
     public static instance: ChatSub;
@@ -31,27 +32,36 @@ export class ChatSub {
         return this.instance;
     }
 
-    subscribe(channelId: string, clientId: string, ws: any) {
+    subscribe(friendshipId: string, clientId: string, ws: any) {
         this.subscriptions.set(clientId, [
             ...(this.subscriptions.get(clientId) || []),
-            channelId
+            friendshipId
         ]);
 
-        this.reverseSubscriptions.set(channelId, {
-            ...(this.reverseSubscriptions.get(channelId) || {}),
+        this.reverseSubscriptions.set(friendshipId, {
+            ...(this.reverseSubscriptions.get(friendshipId) || {}),
             [clientId]: {clientId, ws}
         });
 
-        if (Object.keys(this.reverseSubscriptions.get(channelId) || {}).length === 1) {
-            console.log(`subscribe ${clientId} to ${channelId}`);
-            // TODO: add the channelId to db
-            this.subscriber.subscribe(channelId, (payload) => {
-                console.log(`received message from ${channelId}`);
-                // TODO: PUBLISH THE MESSAGE TO DB
+        if (Object.keys(this.reverseSubscriptions.get(friendshipId) || {}).length === 1) {
+            console.log(`subscribe ${clientId} to ${friendshipId}`);
+            // TODO: add the client to friendships
+            this.subscriber.subscribe(friendshipId, async (payload) => {
+                const parsePayload = JSON.parse(payload) as WsChatMessageType;
+                console.log(`received message from ${friendshipId}`);
+                
                 try {
-                    const subs = this.reverseSubscriptions.get(channelId) || {};
+                    const subs = this.reverseSubscriptions.get(friendshipId) || {};
                     Object.values(subs).forEach(({ws}) => {
                         ws.send(JSON.stringify(payload));
+                    });
+
+                    // Publishing message to queue
+                    await publishChatMsg({
+                        senderId: parsePayload.payload.senderId,
+                        sendAt: (new Date()).toISOString(),
+                        friendshipId,
+                        message: parsePayload.payload.message
                     });
                 } catch (error) {
                     console.error(`Error sending message ${error}`);
