@@ -37,7 +37,6 @@ import nodemailer from 'nodemailer';
 import { S3Client } from '@aws-sdk/client-s3';
 
 
-export * from "./db";
 export * from "./Redis";
 export * from "./auth";
 

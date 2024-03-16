@@ -1,6 +1,5 @@
 import { Chain, order_by } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
-import { dbResStatus, getClientId } from "../types/client";
 import {
   AccountType,
   BitcoinKey,
@@ -10,6 +9,7 @@ import {
   SolKey,
   WalletKeys,
   WalletType,
+  dbResStatus,
 } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {

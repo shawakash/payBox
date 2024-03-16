@@ -2214,6 +2214,365 @@ export type ValueTypes = {
     textnetBtc?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** chat messages for clients */
+  ["chat"]: AliasType<{
+    /** An object relationship */
+    client?: ValueTypes["client"];
+    /** An object relationship */
+    friendship?: ValueTypes["friendship"];
+    friendshipId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    message?: boolean | `@${string}`;
+    sendAt?: boolean | `@${string}`;
+    senderId?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "chat" */
+  ["chat_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["chat_aggregate_fields"];
+    nodes?: ValueTypes["chat"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["chat_aggregate_bool_exp"]: {
+    count?:
+      | ValueTypes["chat_aggregate_bool_exp_count"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  ["chat_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ValueTypes["chat_select_column"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["chat_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>;
+  };
+  /** aggregate fields of "chat" */
+  ["chat_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["chat_max_fields"];
+    min?: ValueTypes["chat_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "chat" */
+  ["chat_aggregate_order_by"]: {
+    count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    max?:
+      | ValueTypes["chat_max_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    min?:
+      | ValueTypes["chat_min_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting array relation for remote table "chat" */
+  ["chat_arr_rel_insert_input"]: {
+    data: Array<ValueTypes["chat_insert_input"]> | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["chat_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Boolean expression to filter rows from the table "chat". All fields are combined with a logical 'AND'. */
+  ["chat_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["chat_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["chat_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["chat_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendship?:
+      | ValueTypes["friendship_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendshipId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    message?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    sendAt?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    senderId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "chat" */
+  ["chat_constraint"]: chat_constraint;
+  /** input type for inserting data into table "chat" */
+  ["chat_insert_input"]: {
+    client?:
+      | ValueTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendship?:
+      | ValueTypes["friendship_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendshipId?:
+      | ValueTypes["uuid"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    message?: string | undefined | null | Variable<any, string>;
+    sendAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    senderId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["chat_max_fields"]: AliasType<{
+    friendshipId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    message?: boolean | `@${string}`;
+    sendAt?: boolean | `@${string}`;
+    senderId?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "chat" */
+  ["chat_max_order_by"]: {
+    friendshipId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    message?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    sendAt?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    senderId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate min on columns */
+  ["chat_min_fields"]: AliasType<{
+    friendshipId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    message?: boolean | `@${string}`;
+    sendAt?: boolean | `@${string}`;
+    senderId?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "chat" */
+  ["chat_min_order_by"]: {
+    friendshipId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    message?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    sendAt?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    senderId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** response of any mutation on the table "chat" */
+  ["chat_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["chat"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "chat" */
+  ["chat_on_conflict"]: {
+    constraint: ValueTypes["chat_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["chat_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["chat_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "chat". */
+  ["chat_order_by"]: {
+    client?:
+      | ValueTypes["client_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendship?:
+      | ValueTypes["friendship_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendshipId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    message?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    sendAt?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    senderId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** primary key columns input for table: chat */
+  ["chat_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "chat" */
+  ["chat_select_column"]: chat_select_column;
+  /** input type for updating data in table "chat" */
+  ["chat_set_input"]: {
+    friendshipId?:
+      | ValueTypes["uuid"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    message?: string | undefined | null | Variable<any, string>;
+    sendAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    senderId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Streaming cursor of the table "chat" */
+  ["chat_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["chat_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["chat_stream_cursor_value_input"]: {
+    friendshipId?:
+      | ValueTypes["uuid"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    message?: string | undefined | null | Variable<any, string>;
+    sendAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    senderId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** update columns of table "chat" */
+  ["chat_update_column"]: chat_update_column;
+  ["chat_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["chat_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["chat_bool_exp"] | Variable<any, string>;
+  };
   /** subscriber for paybox */
   ["client"]: AliasType<{
     accounts?: [
@@ -2286,9 +2645,213 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     address?: ValueTypes["address"];
+    chats?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat"],
+    ];
+    chats_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_aggregate"],
+    ];
     createdAt?: boolean | `@${string}`;
     email?: boolean | `@${string}`;
     firstname?: boolean | `@${string}`;
+    friendships?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["friendship_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship"],
+    ];
+    friendshipsByClientid2?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["friendship_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship"],
+    ];
+    friendshipsByClientid2_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["friendship_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship_aggregate"],
+    ];
+    friendships_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["friendship_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship_aggregate"],
+    ];
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
@@ -2502,6 +3065,16 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    chats?:
+      | ValueTypes["chat_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    chats_aggregate?:
+      | ValueTypes["chat_aggregate_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
     createdAt?:
       | ValueTypes["timestamptz_comparison_exp"]
       | undefined
@@ -2514,6 +3087,26 @@ export type ValueTypes = {
       | Variable<any, string>;
     firstname?:
       | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendships?:
+      | ValueTypes["friendship_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendshipsByClientid2?:
+      | ValueTypes["friendship_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendshipsByClientid2_aggregate?:
+      | ValueTypes["friendship_aggregate_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendships_aggregate?:
+      | ValueTypes["friendship_aggregate_bool_exp"]
       | undefined
       | null
       | Variable<any, string>;
@@ -2591,6 +3184,11 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    chats?:
+      | ValueTypes["chat_arr_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
     createdAt?:
       | ValueTypes["timestamptz"]
       | undefined
@@ -2598,6 +3196,16 @@ export type ValueTypes = {
       | Variable<any, string>;
     email?: string | undefined | null | Variable<any, string>;
     firstname?: string | undefined | null | Variable<any, string>;
+    friendships?:
+      | ValueTypes["friendship_arr_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendshipsByClientid2?:
+      | ValueTypes["friendship_arr_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     lastname?: string | undefined | null | Variable<any, string>;
     mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
@@ -2688,6 +3296,11 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    chats_aggregate?:
+      | ValueTypes["chat_aggregate_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
     createdAt?:
       | ValueTypes["order_by"]
       | undefined
@@ -2696,6 +3309,16 @@ export type ValueTypes = {
     email?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     firstname?:
       | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendshipsByClientid2_aggregate?:
+      | ValueTypes["friendship_aggregate_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    friendships_aggregate?:
+      | ValueTypes["friendship_aggregate_order_by"]
       | undefined
       | null
       | Variable<any, string>;
@@ -3394,6 +4017,463 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
   };
+  /** rooms table for clients */
+  ["friendship"]: AliasType<{
+    chats?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat"],
+    ];
+    chats_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_aggregate"],
+    ];
+    /** An object relationship */
+    client?: ValueTypes["client"];
+    /** An object relationship */
+    clientByClientid2?: ValueTypes["client"];
+    clientId1?: boolean | `@${string}`;
+    clientId2?: boolean | `@${string}`;
+    createdAt?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    status?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "friendship" */
+  ["friendship_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["friendship_aggregate_fields"];
+    nodes?: ValueTypes["friendship"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["friendship_aggregate_bool_exp"]: {
+    count?:
+      | ValueTypes["friendship_aggregate_bool_exp_count"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  ["friendship_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ValueTypes["friendship_select_column"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["friendship_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>;
+  };
+  /** aggregate fields of "friendship" */
+  ["friendship_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["friendship_max_fields"];
+    min?: ValueTypes["friendship_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "friendship" */
+  ["friendship_aggregate_order_by"]: {
+    count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    max?:
+      | ValueTypes["friendship_max_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    min?:
+      | ValueTypes["friendship_min_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting array relation for remote table "friendship" */
+  ["friendship_arr_rel_insert_input"]: {
+    data: Array<ValueTypes["friendship_insert_input"]> | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["friendship_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Boolean expression to filter rows from the table "friendship". All fields are combined with a logical 'AND'. */
+  ["friendship_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["friendship_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["friendship_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["friendship_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    chats?:
+      | ValueTypes["chat_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    chats_aggregate?:
+      | ValueTypes["chat_aggregate_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientByClientid2?:
+      | ValueTypes["client_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId1?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId2?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    createdAt?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    status?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "friendship" */
+  ["friendship_constraint"]: friendship_constraint;
+  /** input type for inserting data into table "friendship" */
+  ["friendship_insert_input"]: {
+    chats?:
+      | ValueTypes["chat_arr_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientByClientid2?:
+      | ValueTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId1?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    clientId2?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    createdAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    status?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["friendship_max_fields"]: AliasType<{
+    clientId1?: boolean | `@${string}`;
+    clientId2?: boolean | `@${string}`;
+    createdAt?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    status?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "friendship" */
+  ["friendship_max_order_by"]: {
+    clientId1?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId2?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    createdAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    status?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** aggregate min on columns */
+  ["friendship_min_fields"]: AliasType<{
+    clientId1?: boolean | `@${string}`;
+    clientId2?: boolean | `@${string}`;
+    createdAt?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    status?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "friendship" */
+  ["friendship_min_order_by"]: {
+    clientId1?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId2?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    createdAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    status?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** response of any mutation on the table "friendship" */
+  ["friendship_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["friendship"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "friendship" */
+  ["friendship_obj_rel_insert_input"]: {
+    data: ValueTypes["friendship_insert_input"] | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["friendship_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** on_conflict condition type for table "friendship" */
+  ["friendship_on_conflict"]: {
+    constraint: ValueTypes["friendship_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["friendship_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["friendship_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "friendship". */
+  ["friendship_order_by"]: {
+    chats_aggregate?:
+      | ValueTypes["chat_aggregate_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientByClientid2?:
+      | ValueTypes["client_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId1?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId2?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    createdAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    status?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** primary key columns input for table: friendship */
+  ["friendship_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "friendship" */
+  ["friendship_select_column"]: friendship_select_column;
+  /** input type for updating data in table "friendship" */
+  ["friendship_set_input"]: {
+    clientId1?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    clientId2?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    createdAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    status?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Streaming cursor of the table "friendship" */
+  ["friendship_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["friendship_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["friendship_stream_cursor_value_input"]: {
+    clientId1?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    clientId2?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    createdAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    status?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** update columns of table "friendship" */
+  ["friendship_update_column"]: friendship_update_column;
+  ["friendship_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["friendship_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["friendship_bool_exp"] | Variable<any, string>;
+  };
   /** mutation root */
   ["mutation_root"]: AliasType<{
     delete_account?: [
@@ -3429,6 +4509,17 @@ export type ValueTypes = {
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["bitcoin"],
     ];
+    delete_chat?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["chat_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["chat_mutation_response"],
+    ];
+    delete_chat_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["chat"],
+    ];
     delete_client?: [
       {
         /** filter the rows which have to be deleted */
@@ -3450,6 +4541,17 @@ export type ValueTypes = {
     delete_eth_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["eth"],
+    ];
+    delete_friendship?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["friendship_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["friendship_mutation_response"],
+    ];
+    delete_friendship_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["friendship"],
     ];
     delete_sol?: [
       {
@@ -3568,6 +4670,34 @@ export type ValueTypes = {
       },
       ValueTypes["bitcoin"],
     ];
+    insert_chat?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["chat_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["chat_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_mutation_response"],
+    ];
+    insert_chat_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["chat_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["chat_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat"],
+    ];
     insert_client?: [
       {
         /** the rows to be inserted */
@@ -3623,6 +4753,34 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["eth"],
+    ];
+    insert_friendship?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["friendship_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["friendship_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship_mutation_response"],
+    ];
+    insert_friendship_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["friendship_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["friendship_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship"],
     ];
     insert_sol?: [
       {
@@ -3832,6 +4990,40 @@ export type ValueTypes = {
       },
       ValueTypes["bitcoin_mutation_response"],
     ];
+    update_chat?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["chat_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["chat_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["chat_mutation_response"],
+    ];
+    update_chat_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["chat_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns: ValueTypes["chat_pk_columns_input"] | Variable<any, string>;
+      },
+      ValueTypes["chat"],
+    ];
+    update_chat_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes["chat_updates"]> | Variable<any, string>;
+      },
+      ValueTypes["chat_mutation_response"],
+    ];
     update_client?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -3933,6 +5125,44 @@ export type ValueTypes = {
         updates: Array<ValueTypes["eth_updates"]> | Variable<any, string>;
       },
       ValueTypes["eth_mutation_response"],
+    ];
+    update_friendship?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["friendship_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["friendship_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["friendship_mutation_response"],
+    ];
+    update_friendship_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["friendship_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns:
+          | ValueTypes["friendship_pk_columns_input"]
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship"],
+    ];
+    update_friendship_many?: [
+      {
+        /** updates to execute, in order */
+        updates:
+          | Array<ValueTypes["friendship_updates"]>
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship_mutation_response"],
     ];
     update_sol?: [
       {
@@ -4295,6 +5525,78 @@ export type ValueTypes = {
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["bitcoin"],
     ];
+    chat?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat"],
+    ];
+    chat_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_aggregate"],
+    ];
+    chat_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["chat"],
+    ];
     client?: [
       {
         /** distinct select on columns */
@@ -4438,6 +5740,78 @@ export type ValueTypes = {
     eth_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["eth"],
+    ];
+    friendship?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["friendship_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship"],
+    ];
+    friendship_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["friendship_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship_aggregate"],
+    ];
+    friendship_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["friendship"],
     ];
     sol?: [
       {
@@ -5351,6 +6725,98 @@ export type ValueTypes = {
       },
       ValueTypes["bitcoin"],
     ];
+    chat?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat"],
+    ];
+    chat_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["chat_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["chat_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat_aggregate"],
+    ];
+    chat_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["chat"],
+    ];
+    chat_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<ValueTypes["chat_stream_cursor_input"] | undefined | null>
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["chat_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["chat"],
+    ];
     client?: [
       {
         /** distinct select on columns */
@@ -5534,6 +7000,100 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["eth"],
+    ];
+    friendship?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["friendship_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship"],
+    ];
+    friendship_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["friendship_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["friendship_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship_aggregate"],
+    ];
+    friendship_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["friendship"],
+    ];
+    friendship_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<
+              ValueTypes["friendship_stream_cursor_input"] | undefined | null
+            >
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["friendship_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["friendship"],
     ];
     sol?: [
       {
@@ -7871,6 +9431,210 @@ export type ResolverInputTypes = {
     textnetBtc?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** chat messages for clients */
+  ["chat"]: AliasType<{
+    /** An object relationship */
+    client?: ResolverInputTypes["client"];
+    /** An object relationship */
+    friendship?: ResolverInputTypes["friendship"];
+    friendshipId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    message?: boolean | `@${string}`;
+    sendAt?: boolean | `@${string}`;
+    senderId?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "chat" */
+  ["chat_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["chat_aggregate_fields"];
+    nodes?: ResolverInputTypes["chat"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["chat_aggregate_bool_exp"]: {
+    count?:
+      | ResolverInputTypes["chat_aggregate_bool_exp_count"]
+      | undefined
+      | null;
+  };
+  ["chat_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ResolverInputTypes["chat_select_column"]>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "chat" */
+  ["chat_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["chat_max_fields"];
+    min?: ResolverInputTypes["chat_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "chat" */
+  ["chat_aggregate_order_by"]: {
+    count?: ResolverInputTypes["order_by"] | undefined | null;
+    max?: ResolverInputTypes["chat_max_order_by"] | undefined | null;
+    min?: ResolverInputTypes["chat_min_order_by"] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "chat" */
+  ["chat_arr_rel_insert_input"]: {
+    data: Array<ResolverInputTypes["chat_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ResolverInputTypes["chat_on_conflict"] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "chat". All fields are combined with a logical 'AND'. */
+  ["chat_bool_exp"]: {
+    _and?: Array<ResolverInputTypes["chat_bool_exp"]> | undefined | null;
+    _not?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["chat_bool_exp"]> | undefined | null;
+    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    friendship?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+    friendshipId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    message?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    sendAt?:
+      | ResolverInputTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null;
+    senderId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    updatedAt?:
+      | ResolverInputTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null;
+  };
+  /** unique or primary key constraints on table "chat" */
+  ["chat_constraint"]: chat_constraint;
+  /** input type for inserting data into table "chat" */
+  ["chat_insert_input"]: {
+    client?:
+      | ResolverInputTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null;
+    friendship?:
+      | ResolverInputTypes["friendship_obj_rel_insert_input"]
+      | undefined
+      | null;
+    friendshipId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    message?: string | undefined | null;
+    sendAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    senderId?: ResolverInputTypes["uuid"] | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["chat_max_fields"]: AliasType<{
+    friendshipId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    message?: boolean | `@${string}`;
+    sendAt?: boolean | `@${string}`;
+    senderId?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "chat" */
+  ["chat_max_order_by"]: {
+    friendshipId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    message?: ResolverInputTypes["order_by"] | undefined | null;
+    sendAt?: ResolverInputTypes["order_by"] | undefined | null;
+    senderId?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ["chat_min_fields"]: AliasType<{
+    friendshipId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    message?: boolean | `@${string}`;
+    sendAt?: boolean | `@${string}`;
+    senderId?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "chat" */
+  ["chat_min_order_by"]: {
+    friendshipId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    message?: ResolverInputTypes["order_by"] | undefined | null;
+    sendAt?: ResolverInputTypes["order_by"] | undefined | null;
+    senderId?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** response of any mutation on the table "chat" */
+  ["chat_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["chat"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "chat" */
+  ["chat_on_conflict"]: {
+    constraint: ResolverInputTypes["chat_constraint"];
+    update_columns: Array<ResolverInputTypes["chat_update_column"]>;
+    where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "chat". */
+  ["chat_order_by"]: {
+    client?: ResolverInputTypes["client_order_by"] | undefined | null;
+    friendship?: ResolverInputTypes["friendship_order_by"] | undefined | null;
+    friendshipId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    message?: ResolverInputTypes["order_by"] | undefined | null;
+    sendAt?: ResolverInputTypes["order_by"] | undefined | null;
+    senderId?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: chat */
+  ["chat_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "chat" */
+  ["chat_select_column"]: chat_select_column;
+  /** input type for updating data in table "chat" */
+  ["chat_set_input"]: {
+    friendshipId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    message?: string | undefined | null;
+    sendAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    senderId?: ResolverInputTypes["uuid"] | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+  };
+  /** Streaming cursor of the table "chat" */
+  ["chat_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["chat_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["chat_stream_cursor_value_input"]: {
+    friendshipId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    message?: string | undefined | null;
+    sendAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    senderId?: ResolverInputTypes["uuid"] | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+  };
+  /** update columns of table "chat" */
+  ["chat_update_column"]: chat_update_column;
+  ["chat_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["chat_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["chat_bool_exp"];
+  };
   /** subscriber for paybox */
   ["client"]: AliasType<{
     accounts?: [
@@ -7921,9 +9685,147 @@ export type ResolverInputTypes = {
     ];
     /** An object relationship */
     address?: ResolverInputTypes["address"];
+    chats?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat"],
+    ];
+    chats_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat_aggregate"],
+    ];
     createdAt?: boolean | `@${string}`;
     email?: boolean | `@${string}`;
     firstname?: boolean | `@${string}`;
+    friendships?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["friendship_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship"],
+    ];
+    friendshipsByClientid2?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["friendship_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship"],
+    ];
+    friendshipsByClientid2_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["friendship_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship_aggregate"],
+    ];
+    friendships_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["friendship_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship_aggregate"],
+    ];
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
@@ -8071,12 +9973,30 @@ export type ResolverInputTypes = {
       | undefined
       | null;
     address?: ResolverInputTypes["address_bool_exp"] | undefined | null;
+    chats?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+    chats_aggregate?:
+      | ResolverInputTypes["chat_aggregate_bool_exp"]
+      | undefined
+      | null;
     createdAt?:
       | ResolverInputTypes["timestamptz_comparison_exp"]
       | undefined
       | null;
     email?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     firstname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    friendships?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+    friendshipsByClientid2?:
+      | ResolverInputTypes["friendship_bool_exp"]
+      | undefined
+      | null;
+    friendshipsByClientid2_aggregate?:
+      | ResolverInputTypes["friendship_aggregate_bool_exp"]
+      | undefined
+      | null;
+    friendships_aggregate?:
+      | ResolverInputTypes["friendship_aggregate_bool_exp"]
+      | undefined
+      | null;
     id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     lastname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     mobile?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null;
@@ -8117,9 +10037,18 @@ export type ResolverInputTypes = {
       | ResolverInputTypes["address_obj_rel_insert_input"]
       | undefined
       | null;
+    chats?: ResolverInputTypes["chat_arr_rel_insert_input"] | undefined | null;
     createdAt?: ResolverInputTypes["timestamptz"] | undefined | null;
     email?: string | undefined | null;
     firstname?: string | undefined | null;
+    friendships?:
+      | ResolverInputTypes["friendship_arr_rel_insert_input"]
+      | undefined
+      | null;
+    friendshipsByClientid2?:
+      | ResolverInputTypes["friendship_arr_rel_insert_input"]
+      | undefined
+      | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
     lastname?: string | undefined | null;
     mobile?: ResolverInputTypes["bigint"] | undefined | null;
@@ -8189,9 +10118,21 @@ export type ResolverInputTypes = {
       | undefined
       | null;
     address?: ResolverInputTypes["address_order_by"] | undefined | null;
+    chats_aggregate?:
+      | ResolverInputTypes["chat_aggregate_order_by"]
+      | undefined
+      | null;
     createdAt?: ResolverInputTypes["order_by"] | undefined | null;
     email?: ResolverInputTypes["order_by"] | undefined | null;
     firstname?: ResolverInputTypes["order_by"] | undefined | null;
+    friendshipsByClientid2_aggregate?:
+      | ResolverInputTypes["friendship_aggregate_order_by"]
+      | undefined
+      | null;
+    friendships_aggregate?:
+      | ResolverInputTypes["friendship_aggregate_order_by"]
+      | undefined
+      | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
     lastname?: ResolverInputTypes["order_by"] | undefined | null;
     mobile?: ResolverInputTypes["order_by"] | undefined | null;
@@ -8611,6 +10552,284 @@ export type ResolverInputTypes = {
     _neq?: ResolverInputTypes["float8"] | undefined | null;
     _nin?: Array<ResolverInputTypes["float8"]> | undefined | null;
   };
+  /** rooms table for clients */
+  ["friendship"]: AliasType<{
+    chats?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat"],
+    ];
+    chats_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat_aggregate"],
+    ];
+    /** An object relationship */
+    client?: ResolverInputTypes["client"];
+    /** An object relationship */
+    clientByClientid2?: ResolverInputTypes["client"];
+    clientId1?: boolean | `@${string}`;
+    clientId2?: boolean | `@${string}`;
+    createdAt?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    status?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "friendship" */
+  ["friendship_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["friendship_aggregate_fields"];
+    nodes?: ResolverInputTypes["friendship"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["friendship_aggregate_bool_exp"]: {
+    count?:
+      | ResolverInputTypes["friendship_aggregate_bool_exp_count"]
+      | undefined
+      | null;
+  };
+  ["friendship_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ResolverInputTypes["friendship_select_column"]>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "friendship" */
+  ["friendship_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["friendship_max_fields"];
+    min?: ResolverInputTypes["friendship_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "friendship" */
+  ["friendship_aggregate_order_by"]: {
+    count?: ResolverInputTypes["order_by"] | undefined | null;
+    max?: ResolverInputTypes["friendship_max_order_by"] | undefined | null;
+    min?: ResolverInputTypes["friendship_min_order_by"] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "friendship" */
+  ["friendship_arr_rel_insert_input"]: {
+    data: Array<ResolverInputTypes["friendship_insert_input"]>;
+    /** upsert condition */
+    on_conflict?:
+      | ResolverInputTypes["friendship_on_conflict"]
+      | undefined
+      | null;
+  };
+  /** Boolean expression to filter rows from the table "friendship". All fields are combined with a logical 'AND'. */
+  ["friendship_bool_exp"]: {
+    _and?: Array<ResolverInputTypes["friendship_bool_exp"]> | undefined | null;
+    _not?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["friendship_bool_exp"]> | undefined | null;
+    chats?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+    chats_aggregate?:
+      | ResolverInputTypes["chat_aggregate_bool_exp"]
+      | undefined
+      | null;
+    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    clientByClientid2?:
+      | ResolverInputTypes["client_bool_exp"]
+      | undefined
+      | null;
+    clientId1?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    clientId2?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    createdAt?:
+      | ResolverInputTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    status?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    updatedAt?:
+      | ResolverInputTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null;
+  };
+  /** unique or primary key constraints on table "friendship" */
+  ["friendship_constraint"]: friendship_constraint;
+  /** input type for inserting data into table "friendship" */
+  ["friendship_insert_input"]: {
+    chats?: ResolverInputTypes["chat_arr_rel_insert_input"] | undefined | null;
+    client?:
+      | ResolverInputTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null;
+    clientByClientid2?:
+      | ResolverInputTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null;
+    clientId1?: ResolverInputTypes["uuid"] | undefined | null;
+    clientId2?: ResolverInputTypes["uuid"] | undefined | null;
+    createdAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    status?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["friendship_max_fields"]: AliasType<{
+    clientId1?: boolean | `@${string}`;
+    clientId2?: boolean | `@${string}`;
+    createdAt?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    status?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "friendship" */
+  ["friendship_max_order_by"]: {
+    clientId1?: ResolverInputTypes["order_by"] | undefined | null;
+    clientId2?: ResolverInputTypes["order_by"] | undefined | null;
+    createdAt?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    status?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ["friendship_min_fields"]: AliasType<{
+    clientId1?: boolean | `@${string}`;
+    clientId2?: boolean | `@${string}`;
+    createdAt?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    status?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "friendship" */
+  ["friendship_min_order_by"]: {
+    clientId1?: ResolverInputTypes["order_by"] | undefined | null;
+    clientId2?: ResolverInputTypes["order_by"] | undefined | null;
+    createdAt?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    status?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** response of any mutation on the table "friendship" */
+  ["friendship_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["friendship"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "friendship" */
+  ["friendship_obj_rel_insert_input"]: {
+    data: ResolverInputTypes["friendship_insert_input"];
+    /** upsert condition */
+    on_conflict?:
+      | ResolverInputTypes["friendship_on_conflict"]
+      | undefined
+      | null;
+  };
+  /** on_conflict condition type for table "friendship" */
+  ["friendship_on_conflict"]: {
+    constraint: ResolverInputTypes["friendship_constraint"];
+    update_columns: Array<ResolverInputTypes["friendship_update_column"]>;
+    where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "friendship". */
+  ["friendship_order_by"]: {
+    chats_aggregate?:
+      | ResolverInputTypes["chat_aggregate_order_by"]
+      | undefined
+      | null;
+    client?: ResolverInputTypes["client_order_by"] | undefined | null;
+    clientByClientid2?:
+      | ResolverInputTypes["client_order_by"]
+      | undefined
+      | null;
+    clientId1?: ResolverInputTypes["order_by"] | undefined | null;
+    clientId2?: ResolverInputTypes["order_by"] | undefined | null;
+    createdAt?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    status?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: friendship */
+  ["friendship_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "friendship" */
+  ["friendship_select_column"]: friendship_select_column;
+  /** input type for updating data in table "friendship" */
+  ["friendship_set_input"]: {
+    clientId1?: ResolverInputTypes["uuid"] | undefined | null;
+    clientId2?: ResolverInputTypes["uuid"] | undefined | null;
+    createdAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    status?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+  };
+  /** Streaming cursor of the table "friendship" */
+  ["friendship_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["friendship_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["friendship_stream_cursor_value_input"]: {
+    clientId1?: ResolverInputTypes["uuid"] | undefined | null;
+    clientId2?: ResolverInputTypes["uuid"] | undefined | null;
+    createdAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    status?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+  };
+  /** update columns of table "friendship" */
+  ["friendship_update_column"]: friendship_update_column;
+  ["friendship_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["friendship_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["friendship_bool_exp"];
+  };
   /** mutation root */
   ["mutation_root"]: AliasType<{
     delete_account?: [
@@ -8646,6 +10865,17 @@ export type ResolverInputTypes = {
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["bitcoin"],
     ];
+    delete_chat?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["chat_bool_exp"];
+      },
+      ResolverInputTypes["chat_mutation_response"],
+    ];
+    delete_chat_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["chat"],
+    ];
     delete_client?: [
       {
         /** filter the rows which have to be deleted */
@@ -8667,6 +10897,17 @@ export type ResolverInputTypes = {
     delete_eth_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["eth"],
+    ];
+    delete_friendship?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["friendship_bool_exp"];
+      },
+      ResolverInputTypes["friendship_mutation_response"],
+    ];
+    delete_friendship_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["friendship"],
     ];
     delete_sol?: [
       {
@@ -8773,6 +11014,24 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["bitcoin"],
     ];
+    insert_chat?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["chat_insert_input"]
+        > /** upsert condition */;
+        on_conflict?: ResolverInputTypes["chat_on_conflict"] | undefined | null;
+      },
+      ResolverInputTypes["chat_mutation_response"],
+    ];
+    insert_chat_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["chat_insert_input"] /** upsert condition */;
+        on_conflict?: ResolverInputTypes["chat_on_conflict"] | undefined | null;
+      },
+      ResolverInputTypes["chat"],
+    ];
     insert_client?: [
       {
         /** the rows to be inserted */
@@ -8814,6 +11073,30 @@ export type ResolverInputTypes = {
         on_conflict?: ResolverInputTypes["eth_on_conflict"] | undefined | null;
       },
       ResolverInputTypes["eth"],
+    ];
+    insert_friendship?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["friendship_insert_input"]
+        > /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["friendship_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["friendship_mutation_response"],
+    ];
+    insert_friendship_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["friendship_insert_input"] /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["friendship_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["friendship"],
     ];
     insert_sol?: [
       {
@@ -8967,6 +11250,32 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["bitcoin_mutation_response"],
     ];
+    update_chat?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ResolverInputTypes["chat_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["chat_bool_exp"];
+      },
+      ResolverInputTypes["chat_mutation_response"],
+    ];
+    update_chat_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ResolverInputTypes["chat_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["chat_pk_columns_input"];
+      },
+      ResolverInputTypes["chat"],
+    ];
+    update_chat_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["chat_updates"]>;
+      },
+      ResolverInputTypes["chat_mutation_response"],
+    ];
     update_client?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -9034,6 +11343,32 @@ export type ResolverInputTypes = {
         updates: Array<ResolverInputTypes["eth_updates"]>;
       },
       ResolverInputTypes["eth_mutation_response"],
+    ];
+    update_friendship?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ResolverInputTypes["friendship_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["friendship_bool_exp"];
+      },
+      ResolverInputTypes["friendship_mutation_response"],
+    ];
+    update_friendship_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ResolverInputTypes["friendship_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["friendship_pk_columns_input"];
+      },
+      ResolverInputTypes["friendship"],
+    ];
+    update_friendship_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["friendship_updates"]>;
+      },
+      ResolverInputTypes["friendship_mutation_response"],
     ];
     update_sol?: [
       {
@@ -9284,6 +11619,56 @@ export type ResolverInputTypes = {
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["bitcoin"],
     ];
+    chat?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat"],
+    ];
+    chat_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat_aggregate"],
+    ];
+    chat_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["chat"],
+    ];
     client?: [
       {
         /** distinct select on columns */
@@ -9381,6 +11766,56 @@ export type ResolverInputTypes = {
       ResolverInputTypes["eth_aggregate"],
     ];
     eth_by_pk?: [{ id: ResolverInputTypes["uuid"] }, ResolverInputTypes["eth"]];
+    friendship?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["friendship_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship"],
+    ];
+    friendship_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["friendship_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship_aggregate"],
+    ];
+    friendship_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["friendship"],
+    ];
     sol?: [
       {
         /** distinct select on columns */
@@ -9967,6 +12402,67 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["bitcoin"],
     ];
+    chat?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat"],
+    ];
+    chat_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["chat_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["chat_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat_aggregate"],
+    ];
+    chat_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["chat"],
+    ];
+    chat_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ResolverInputTypes["chat_stream_cursor_input"] | undefined | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["chat_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["chat"],
+    ];
     client?: [
       {
         /** distinct select on columns */
@@ -10085,6 +12581,69 @@ export type ResolverInputTypes = {
         where?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
       },
       ResolverInputTypes["eth"],
+    ];
+    friendship?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["friendship_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship"],
+    ];
+    friendship_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["friendship_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["friendship_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship_aggregate"],
+    ];
+    friendship_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["friendship"],
+    ];
+    friendship_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ResolverInputTypes["friendship_stream_cursor_input"]
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["friendship_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["friendship"],
     ];
     sol?: [
       {
@@ -11776,6 +14335,174 @@ export type ModelTypes = {
     regtestBtc?: number | undefined;
     textnetBtc?: number | undefined;
   };
+  /** chat messages for clients */
+  ["chat"]: {
+    /** An object relationship */
+    client: ModelTypes["client"];
+    /** An object relationship */
+    friendship: ModelTypes["friendship"];
+    friendshipId: ModelTypes["uuid"];
+    id: ModelTypes["uuid"];
+    message: string;
+    sendAt: ModelTypes["timestamptz"];
+    senderId: ModelTypes["uuid"];
+    updatedAt: ModelTypes["timestamptz"];
+  };
+  /** aggregated selection of "chat" */
+  ["chat_aggregate"]: {
+    aggregate?: ModelTypes["chat_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["chat"]>;
+  };
+  ["chat_aggregate_bool_exp"]: {
+    count?: ModelTypes["chat_aggregate_bool_exp_count"] | undefined;
+  };
+  ["chat_aggregate_bool_exp_count"]: {
+    arguments?: Array<ModelTypes["chat_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["chat_bool_exp"] | undefined;
+    predicate: ModelTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "chat" */
+  ["chat_aggregate_fields"]: {
+    count: number;
+    max?: ModelTypes["chat_max_fields"] | undefined;
+    min?: ModelTypes["chat_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "chat" */
+  ["chat_aggregate_order_by"]: {
+    count?: ModelTypes["order_by"] | undefined;
+    max?: ModelTypes["chat_max_order_by"] | undefined;
+    min?: ModelTypes["chat_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "chat" */
+  ["chat_arr_rel_insert_input"]: {
+    data: Array<ModelTypes["chat_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ModelTypes["chat_on_conflict"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "chat". All fields are combined with a logical 'AND'. */
+  ["chat_bool_exp"]: {
+    _and?: Array<ModelTypes["chat_bool_exp"]> | undefined;
+    _not?: ModelTypes["chat_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["chat_bool_exp"]> | undefined;
+    client?: ModelTypes["client_bool_exp"] | undefined;
+    friendship?: ModelTypes["friendship_bool_exp"] | undefined;
+    friendshipId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    message?: ModelTypes["String_comparison_exp"] | undefined;
+    sendAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
+    senderId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    updatedAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
+  };
+  ["chat_constraint"]: chat_constraint;
+  /** input type for inserting data into table "chat" */
+  ["chat_insert_input"]: {
+    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    friendship?: ModelTypes["friendship_obj_rel_insert_input"] | undefined;
+    friendshipId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: ModelTypes["timestamptz"] | undefined;
+    senderId?: ModelTypes["uuid"] | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["chat_max_fields"]: {
+    friendshipId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: ModelTypes["timestamptz"] | undefined;
+    senderId?: ModelTypes["uuid"] | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  /** order by max() on columns of table "chat" */
+  ["chat_max_order_by"]: {
+    friendshipId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    message?: ModelTypes["order_by"] | undefined;
+    sendAt?: ModelTypes["order_by"] | undefined;
+    senderId?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["chat_min_fields"]: {
+    friendshipId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: ModelTypes["timestamptz"] | undefined;
+    senderId?: ModelTypes["uuid"] | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  /** order by min() on columns of table "chat" */
+  ["chat_min_order_by"]: {
+    friendshipId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    message?: ModelTypes["order_by"] | undefined;
+    sendAt?: ModelTypes["order_by"] | undefined;
+    senderId?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "chat" */
+  ["chat_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["chat"]>;
+  };
+  /** on_conflict condition type for table "chat" */
+  ["chat_on_conflict"]: {
+    constraint: ModelTypes["chat_constraint"];
+    update_columns: Array<ModelTypes["chat_update_column"]>;
+    where?: ModelTypes["chat_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "chat". */
+  ["chat_order_by"]: {
+    client?: ModelTypes["client_order_by"] | undefined;
+    friendship?: ModelTypes["friendship_order_by"] | undefined;
+    friendshipId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    message?: ModelTypes["order_by"] | undefined;
+    sendAt?: ModelTypes["order_by"] | undefined;
+    senderId?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: chat */
+  ["chat_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["chat_select_column"]: chat_select_column;
+  /** input type for updating data in table "chat" */
+  ["chat_set_input"]: {
+    friendshipId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: ModelTypes["timestamptz"] | undefined;
+    senderId?: ModelTypes["uuid"] | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  /** Streaming cursor of the table "chat" */
+  ["chat_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["chat_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["chat_stream_cursor_value_input"]: {
+    friendshipId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: ModelTypes["timestamptz"] | undefined;
+    senderId?: ModelTypes["uuid"] | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  ["chat_update_column"]: chat_update_column;
+  ["chat_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["chat_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["chat_bool_exp"];
+  };
   /** subscriber for paybox */
   ["client"]: {
     /** An array relationship */
@@ -11784,9 +14511,21 @@ export type ModelTypes = {
     accounts_aggregate: ModelTypes["account_aggregate"];
     /** An object relationship */
     address?: ModelTypes["address"] | undefined;
+    /** An array relationship */
+    chats: Array<ModelTypes["chat"]>;
+    /** An aggregate relationship */
+    chats_aggregate: ModelTypes["chat_aggregate"];
     createdAt?: ModelTypes["timestamptz"] | undefined;
     email: string;
     firstname?: string | undefined;
+    /** An array relationship */
+    friendships: Array<ModelTypes["friendship"]>;
+    /** An array relationship */
+    friendshipsByClientid2: Array<ModelTypes["friendship"]>;
+    /** An aggregate relationship */
+    friendshipsByClientid2_aggregate: ModelTypes["friendship_aggregate"];
+    /** An aggregate relationship */
+    friendships_aggregate: ModelTypes["friendship_aggregate"];
     id: ModelTypes["uuid"];
     lastname?: string | undefined;
     mobile?: ModelTypes["bigint"] | undefined;
@@ -11834,9 +14573,19 @@ export type ModelTypes = {
     accounts?: ModelTypes["account_bool_exp"] | undefined;
     accounts_aggregate?: ModelTypes["account_aggregate_bool_exp"] | undefined;
     address?: ModelTypes["address_bool_exp"] | undefined;
+    chats?: ModelTypes["chat_bool_exp"] | undefined;
+    chats_aggregate?: ModelTypes["chat_aggregate_bool_exp"] | undefined;
     createdAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
     email?: ModelTypes["String_comparison_exp"] | undefined;
     firstname?: ModelTypes["String_comparison_exp"] | undefined;
+    friendships?: ModelTypes["friendship_bool_exp"] | undefined;
+    friendshipsByClientid2?: ModelTypes["friendship_bool_exp"] | undefined;
+    friendshipsByClientid2_aggregate?:
+      | ModelTypes["friendship_aggregate_bool_exp"]
+      | undefined;
+    friendships_aggregate?:
+      | ModelTypes["friendship_aggregate_bool_exp"]
+      | undefined;
     id?: ModelTypes["uuid_comparison_exp"] | undefined;
     lastname?: ModelTypes["String_comparison_exp"] | undefined;
     mobile?: ModelTypes["bigint_comparison_exp"] | undefined;
@@ -11860,9 +14609,14 @@ export type ModelTypes = {
   ["client_insert_input"]: {
     accounts?: ModelTypes["account_arr_rel_insert_input"] | undefined;
     address?: ModelTypes["address_obj_rel_insert_input"] | undefined;
+    chats?: ModelTypes["chat_arr_rel_insert_input"] | undefined;
     createdAt?: ModelTypes["timestamptz"] | undefined;
     email?: string | undefined;
     firstname?: string | undefined;
+    friendships?: ModelTypes["friendship_arr_rel_insert_input"] | undefined;
+    friendshipsByClientid2?:
+      | ModelTypes["friendship_arr_rel_insert_input"]
+      | undefined;
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: ModelTypes["bigint"] | undefined;
@@ -11920,9 +14674,16 @@ export type ModelTypes = {
   ["client_order_by"]: {
     accounts_aggregate?: ModelTypes["account_aggregate_order_by"] | undefined;
     address?: ModelTypes["address_order_by"] | undefined;
+    chats_aggregate?: ModelTypes["chat_aggregate_order_by"] | undefined;
     createdAt?: ModelTypes["order_by"] | undefined;
     email?: ModelTypes["order_by"] | undefined;
     firstname?: ModelTypes["order_by"] | undefined;
+    friendshipsByClientid2_aggregate?:
+      | ModelTypes["friendship_aggregate_order_by"]
+      | undefined;
+    friendships_aggregate?:
+      | ModelTypes["friendship_aggregate_order_by"]
+      | undefined;
     id?: ModelTypes["order_by"] | undefined;
     lastname?: ModelTypes["order_by"] | undefined;
     mobile?: ModelTypes["order_by"] | undefined;
@@ -12293,6 +15054,188 @@ export type ModelTypes = {
     _neq?: ModelTypes["float8"] | undefined;
     _nin?: Array<ModelTypes["float8"]> | undefined;
   };
+  /** rooms table for clients */
+  ["friendship"]: {
+    /** An array relationship */
+    chats: Array<ModelTypes["chat"]>;
+    /** An aggregate relationship */
+    chats_aggregate: ModelTypes["chat_aggregate"];
+    /** An object relationship */
+    client: ModelTypes["client"];
+    /** An object relationship */
+    clientByClientid2: ModelTypes["client"];
+    clientId1: ModelTypes["uuid"];
+    clientId2: ModelTypes["uuid"];
+    createdAt: ModelTypes["timestamptz"];
+    id: ModelTypes["uuid"];
+    status: string;
+    updatedAt: ModelTypes["timestamptz"];
+  };
+  /** aggregated selection of "friendship" */
+  ["friendship_aggregate"]: {
+    aggregate?: ModelTypes["friendship_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["friendship"]>;
+  };
+  ["friendship_aggregate_bool_exp"]: {
+    count?: ModelTypes["friendship_aggregate_bool_exp_count"] | undefined;
+  };
+  ["friendship_aggregate_bool_exp_count"]: {
+    arguments?: Array<ModelTypes["friendship_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["friendship_bool_exp"] | undefined;
+    predicate: ModelTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "friendship" */
+  ["friendship_aggregate_fields"]: {
+    count: number;
+    max?: ModelTypes["friendship_max_fields"] | undefined;
+    min?: ModelTypes["friendship_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "friendship" */
+  ["friendship_aggregate_order_by"]: {
+    count?: ModelTypes["order_by"] | undefined;
+    max?: ModelTypes["friendship_max_order_by"] | undefined;
+    min?: ModelTypes["friendship_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "friendship" */
+  ["friendship_arr_rel_insert_input"]: {
+    data: Array<ModelTypes["friendship_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ModelTypes["friendship_on_conflict"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "friendship". All fields are combined with a logical 'AND'. */
+  ["friendship_bool_exp"]: {
+    _and?: Array<ModelTypes["friendship_bool_exp"]> | undefined;
+    _not?: ModelTypes["friendship_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["friendship_bool_exp"]> | undefined;
+    chats?: ModelTypes["chat_bool_exp"] | undefined;
+    chats_aggregate?: ModelTypes["chat_aggregate_bool_exp"] | undefined;
+    client?: ModelTypes["client_bool_exp"] | undefined;
+    clientByClientid2?: ModelTypes["client_bool_exp"] | undefined;
+    clientId1?: ModelTypes["uuid_comparison_exp"] | undefined;
+    clientId2?: ModelTypes["uuid_comparison_exp"] | undefined;
+    createdAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    status?: ModelTypes["String_comparison_exp"] | undefined;
+    updatedAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
+  };
+  ["friendship_constraint"]: friendship_constraint;
+  /** input type for inserting data into table "friendship" */
+  ["friendship_insert_input"]: {
+    chats?: ModelTypes["chat_arr_rel_insert_input"] | undefined;
+    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    clientByClientid2?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    clientId1?: ModelTypes["uuid"] | undefined;
+    clientId2?: ModelTypes["uuid"] | undefined;
+    createdAt?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["friendship_max_fields"]: {
+    clientId1?: ModelTypes["uuid"] | undefined;
+    clientId2?: ModelTypes["uuid"] | undefined;
+    createdAt?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  /** order by max() on columns of table "friendship" */
+  ["friendship_max_order_by"]: {
+    clientId1?: ModelTypes["order_by"] | undefined;
+    clientId2?: ModelTypes["order_by"] | undefined;
+    createdAt?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    status?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["friendship_min_fields"]: {
+    clientId1?: ModelTypes["uuid"] | undefined;
+    clientId2?: ModelTypes["uuid"] | undefined;
+    createdAt?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  /** order by min() on columns of table "friendship" */
+  ["friendship_min_order_by"]: {
+    clientId1?: ModelTypes["order_by"] | undefined;
+    clientId2?: ModelTypes["order_by"] | undefined;
+    createdAt?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    status?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "friendship" */
+  ["friendship_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["friendship"]>;
+  };
+  /** input type for inserting object relation for remote table "friendship" */
+  ["friendship_obj_rel_insert_input"]: {
+    data: ModelTypes["friendship_insert_input"];
+    /** upsert condition */
+    on_conflict?: ModelTypes["friendship_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "friendship" */
+  ["friendship_on_conflict"]: {
+    constraint: ModelTypes["friendship_constraint"];
+    update_columns: Array<ModelTypes["friendship_update_column"]>;
+    where?: ModelTypes["friendship_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "friendship". */
+  ["friendship_order_by"]: {
+    chats_aggregate?: ModelTypes["chat_aggregate_order_by"] | undefined;
+    client?: ModelTypes["client_order_by"] | undefined;
+    clientByClientid2?: ModelTypes["client_order_by"] | undefined;
+    clientId1?: ModelTypes["order_by"] | undefined;
+    clientId2?: ModelTypes["order_by"] | undefined;
+    createdAt?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    status?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: friendship */
+  ["friendship_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["friendship_select_column"]: friendship_select_column;
+  /** input type for updating data in table "friendship" */
+  ["friendship_set_input"]: {
+    clientId1?: ModelTypes["uuid"] | undefined;
+    clientId2?: ModelTypes["uuid"] | undefined;
+    createdAt?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  /** Streaming cursor of the table "friendship" */
+  ["friendship_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["friendship_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["friendship_stream_cursor_value_input"]: {
+    clientId1?: ModelTypes["uuid"] | undefined;
+    clientId2?: ModelTypes["uuid"] | undefined;
+    createdAt?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+  };
+  ["friendship_update_column"]: friendship_update_column;
+  ["friendship_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["friendship_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["friendship_bool_exp"];
+  };
   /** mutation root */
   ["mutation_root"]: {
     /** delete data from the table: "account" */
@@ -12307,6 +15250,10 @@ export type ModelTypes = {
     delete_bitcoin?: ModelTypes["bitcoin_mutation_response"] | undefined;
     /** delete single row from the table: "bitcoin" */
     delete_bitcoin_by_pk?: ModelTypes["bitcoin"] | undefined;
+    /** delete data from the table: "chat" */
+    delete_chat?: ModelTypes["chat_mutation_response"] | undefined;
+    /** delete single row from the table: "chat" */
+    delete_chat_by_pk?: ModelTypes["chat"] | undefined;
     /** delete data from the table: "client" */
     delete_client?: ModelTypes["client_mutation_response"] | undefined;
     /** delete single row from the table: "client" */
@@ -12315,6 +15262,10 @@ export type ModelTypes = {
     delete_eth?: ModelTypes["eth_mutation_response"] | undefined;
     /** delete single row from the table: "eth" */
     delete_eth_by_pk?: ModelTypes["eth"] | undefined;
+    /** delete data from the table: "friendship" */
+    delete_friendship?: ModelTypes["friendship_mutation_response"] | undefined;
+    /** delete single row from the table: "friendship" */
+    delete_friendship_by_pk?: ModelTypes["friendship"] | undefined;
     /** delete data from the table: "sol" */
     delete_sol?: ModelTypes["sol_mutation_response"] | undefined;
     /** delete single row from the table: "sol" */
@@ -12341,6 +15292,10 @@ export type ModelTypes = {
     insert_bitcoin?: ModelTypes["bitcoin_mutation_response"] | undefined;
     /** insert a single row into the table: "bitcoin" */
     insert_bitcoin_one?: ModelTypes["bitcoin"] | undefined;
+    /** insert data into the table: "chat" */
+    insert_chat?: ModelTypes["chat_mutation_response"] | undefined;
+    /** insert a single row into the table: "chat" */
+    insert_chat_one?: ModelTypes["chat"] | undefined;
     /** insert data into the table: "client" */
     insert_client?: ModelTypes["client_mutation_response"] | undefined;
     /** insert a single row into the table: "client" */
@@ -12349,6 +15304,10 @@ export type ModelTypes = {
     insert_eth?: ModelTypes["eth_mutation_response"] | undefined;
     /** insert a single row into the table: "eth" */
     insert_eth_one?: ModelTypes["eth"] | undefined;
+    /** insert data into the table: "friendship" */
+    insert_friendship?: ModelTypes["friendship_mutation_response"] | undefined;
+    /** insert a single row into the table: "friendship" */
+    insert_friendship_one?: ModelTypes["friendship"] | undefined;
     /** insert data into the table: "sol" */
     insert_sol?: ModelTypes["sol_mutation_response"] | undefined;
     /** insert a single row into the table: "sol" */
@@ -12387,6 +15346,14 @@ export type ModelTypes = {
     update_bitcoin_many?:
       | Array<ModelTypes["bitcoin_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "chat" */
+    update_chat?: ModelTypes["chat_mutation_response"] | undefined;
+    /** update single row of the table: "chat" */
+    update_chat_by_pk?: ModelTypes["chat"] | undefined;
+    /** update multiples rows of table: "chat" */
+    update_chat_many?:
+      | Array<ModelTypes["chat_mutation_response"] | undefined>
+      | undefined;
     /** update data of the table: "client" */
     update_client?: ModelTypes["client_mutation_response"] | undefined;
     /** update single row of the table: "client" */
@@ -12402,6 +15369,14 @@ export type ModelTypes = {
     /** update multiples rows of table: "eth" */
     update_eth_many?:
       | Array<ModelTypes["eth_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "friendship" */
+    update_friendship?: ModelTypes["friendship_mutation_response"] | undefined;
+    /** update single row of the table: "friendship" */
+    update_friendship_by_pk?: ModelTypes["friendship"] | undefined;
+    /** update multiples rows of table: "friendship" */
+    update_friendship_many?:
+      | Array<ModelTypes["friendship_mutation_response"] | undefined>
       | undefined;
     /** update data of the table: "sol" */
     update_sol?: ModelTypes["sol_mutation_response"] | undefined;
@@ -12450,6 +15425,12 @@ export type ModelTypes = {
     bitcoin_aggregate: ModelTypes["bitcoin_aggregate"];
     /** fetch data from the table: "bitcoin" using primary key columns */
     bitcoin_by_pk?: ModelTypes["bitcoin"] | undefined;
+    /** fetch data from the table: "chat" */
+    chat: Array<ModelTypes["chat"]>;
+    /** fetch aggregated fields from the table: "chat" */
+    chat_aggregate: ModelTypes["chat_aggregate"];
+    /** fetch data from the table: "chat" using primary key columns */
+    chat_by_pk?: ModelTypes["chat"] | undefined;
     /** fetch data from the table: "client" */
     client: Array<ModelTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -12462,6 +15443,12 @@ export type ModelTypes = {
     eth_aggregate: ModelTypes["eth_aggregate"];
     /** fetch data from the table: "eth" using primary key columns */
     eth_by_pk?: ModelTypes["eth"] | undefined;
+    /** fetch data from the table: "friendship" */
+    friendship: Array<ModelTypes["friendship"]>;
+    /** fetch aggregated fields from the table: "friendship" */
+    friendship_aggregate: ModelTypes["friendship_aggregate"];
+    /** fetch data from the table: "friendship" using primary key columns */
+    friendship_by_pk?: ModelTypes["friendship"] | undefined;
     /** fetch data from the table: "sol" */
     sol: Array<ModelTypes["sol"]>;
     /** fetch aggregated fields from the table: "sol" */
@@ -12724,6 +15711,14 @@ export type ModelTypes = {
     bitcoin_by_pk?: ModelTypes["bitcoin"] | undefined;
     /** fetch data from the table in a streaming manner: "bitcoin" */
     bitcoin_stream: Array<ModelTypes["bitcoin"]>;
+    /** fetch data from the table: "chat" */
+    chat: Array<ModelTypes["chat"]>;
+    /** fetch aggregated fields from the table: "chat" */
+    chat_aggregate: ModelTypes["chat_aggregate"];
+    /** fetch data from the table: "chat" using primary key columns */
+    chat_by_pk?: ModelTypes["chat"] | undefined;
+    /** fetch data from the table in a streaming manner: "chat" */
+    chat_stream: Array<ModelTypes["chat"]>;
     /** fetch data from the table: "client" */
     client: Array<ModelTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -12740,6 +15735,14 @@ export type ModelTypes = {
     eth_by_pk?: ModelTypes["eth"] | undefined;
     /** fetch data from the table in a streaming manner: "eth" */
     eth_stream: Array<ModelTypes["eth"]>;
+    /** fetch data from the table: "friendship" */
+    friendship: Array<ModelTypes["friendship"]>;
+    /** fetch aggregated fields from the table: "friendship" */
+    friendship_aggregate: ModelTypes["friendship_aggregate"];
+    /** fetch data from the table: "friendship" using primary key columns */
+    friendship_by_pk?: ModelTypes["friendship"] | undefined;
+    /** fetch data from the table in a streaming manner: "friendship" */
+    friendship_stream: Array<ModelTypes["friendship"]>;
     /** fetch data from the table: "sol" */
     sol: Array<ModelTypes["sol"]>;
     /** fetch aggregated fields from the table: "sol" */
@@ -14123,6 +17126,183 @@ export type GraphQLTypes = {
     regtestBtc?: number | undefined;
     textnetBtc?: number | undefined;
   };
+  /** chat messages for clients */
+  ["chat"]: {
+    __typename: "chat";
+    /** An object relationship */
+    client: GraphQLTypes["client"];
+    /** An object relationship */
+    friendship: GraphQLTypes["friendship"];
+    friendshipId: GraphQLTypes["uuid"];
+    id: GraphQLTypes["uuid"];
+    message: string;
+    sendAt: GraphQLTypes["timestamptz"];
+    senderId: GraphQLTypes["uuid"];
+    updatedAt: GraphQLTypes["timestamptz"];
+  };
+  /** aggregated selection of "chat" */
+  ["chat_aggregate"]: {
+    __typename: "chat_aggregate";
+    aggregate?: GraphQLTypes["chat_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["chat"]>;
+  };
+  ["chat_aggregate_bool_exp"]: {
+    count?: GraphQLTypes["chat_aggregate_bool_exp_count"] | undefined;
+  };
+  ["chat_aggregate_bool_exp_count"]: {
+    arguments?: Array<GraphQLTypes["chat_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["chat_bool_exp"] | undefined;
+    predicate: GraphQLTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "chat" */
+  ["chat_aggregate_fields"]: {
+    __typename: "chat_aggregate_fields";
+    count: number;
+    max?: GraphQLTypes["chat_max_fields"] | undefined;
+    min?: GraphQLTypes["chat_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "chat" */
+  ["chat_aggregate_order_by"]: {
+    count?: GraphQLTypes["order_by"] | undefined;
+    max?: GraphQLTypes["chat_max_order_by"] | undefined;
+    min?: GraphQLTypes["chat_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "chat" */
+  ["chat_arr_rel_insert_input"]: {
+    data: Array<GraphQLTypes["chat_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["chat_on_conflict"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "chat". All fields are combined with a logical 'AND'. */
+  ["chat_bool_exp"]: {
+    _and?: Array<GraphQLTypes["chat_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["chat_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["chat_bool_exp"]> | undefined;
+    client?: GraphQLTypes["client_bool_exp"] | undefined;
+    friendship?: GraphQLTypes["friendship_bool_exp"] | undefined;
+    friendshipId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    message?: GraphQLTypes["String_comparison_exp"] | undefined;
+    sendAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
+    senderId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "chat" */
+  ["chat_constraint"]: chat_constraint;
+  /** input type for inserting data into table "chat" */
+  ["chat_insert_input"]: {
+    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    friendship?: GraphQLTypes["friendship_obj_rel_insert_input"] | undefined;
+    friendshipId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: GraphQLTypes["timestamptz"] | undefined;
+    senderId?: GraphQLTypes["uuid"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["chat_max_fields"]: {
+    __typename: "chat_max_fields";
+    friendshipId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: GraphQLTypes["timestamptz"] | undefined;
+    senderId?: GraphQLTypes["uuid"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** order by max() on columns of table "chat" */
+  ["chat_max_order_by"]: {
+    friendshipId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    message?: GraphQLTypes["order_by"] | undefined;
+    sendAt?: GraphQLTypes["order_by"] | undefined;
+    senderId?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["chat_min_fields"]: {
+    __typename: "chat_min_fields";
+    friendshipId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: GraphQLTypes["timestamptz"] | undefined;
+    senderId?: GraphQLTypes["uuid"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** order by min() on columns of table "chat" */
+  ["chat_min_order_by"]: {
+    friendshipId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    message?: GraphQLTypes["order_by"] | undefined;
+    sendAt?: GraphQLTypes["order_by"] | undefined;
+    senderId?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "chat" */
+  ["chat_mutation_response"]: {
+    __typename: "chat_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["chat"]>;
+  };
+  /** on_conflict condition type for table "chat" */
+  ["chat_on_conflict"]: {
+    constraint: GraphQLTypes["chat_constraint"];
+    update_columns: Array<GraphQLTypes["chat_update_column"]>;
+    where?: GraphQLTypes["chat_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "chat". */
+  ["chat_order_by"]: {
+    client?: GraphQLTypes["client_order_by"] | undefined;
+    friendship?: GraphQLTypes["friendship_order_by"] | undefined;
+    friendshipId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    message?: GraphQLTypes["order_by"] | undefined;
+    sendAt?: GraphQLTypes["order_by"] | undefined;
+    senderId?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: chat */
+  ["chat_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "chat" */
+  ["chat_select_column"]: chat_select_column;
+  /** input type for updating data in table "chat" */
+  ["chat_set_input"]: {
+    friendshipId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: GraphQLTypes["timestamptz"] | undefined;
+    senderId?: GraphQLTypes["uuid"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** Streaming cursor of the table "chat" */
+  ["chat_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["chat_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["chat_stream_cursor_value_input"]: {
+    friendshipId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    message?: string | undefined;
+    sendAt?: GraphQLTypes["timestamptz"] | undefined;
+    senderId?: GraphQLTypes["uuid"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** update columns of table "chat" */
+  ["chat_update_column"]: chat_update_column;
+  ["chat_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["chat_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["chat_bool_exp"];
+  };
   /** subscriber for paybox */
   ["client"]: {
     __typename: "client";
@@ -14132,9 +17312,21 @@ export type GraphQLTypes = {
     accounts_aggregate: GraphQLTypes["account_aggregate"];
     /** An object relationship */
     address?: GraphQLTypes["address"] | undefined;
+    /** An array relationship */
+    chats: Array<GraphQLTypes["chat"]>;
+    /** An aggregate relationship */
+    chats_aggregate: GraphQLTypes["chat_aggregate"];
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
     email: string;
     firstname?: string | undefined;
+    /** An array relationship */
+    friendships: Array<GraphQLTypes["friendship"]>;
+    /** An array relationship */
+    friendshipsByClientid2: Array<GraphQLTypes["friendship"]>;
+    /** An aggregate relationship */
+    friendshipsByClientid2_aggregate: GraphQLTypes["friendship_aggregate"];
+    /** An aggregate relationship */
+    friendships_aggregate: GraphQLTypes["friendship_aggregate"];
     id: GraphQLTypes["uuid"];
     lastname?: string | undefined;
     mobile?: GraphQLTypes["bigint"] | undefined;
@@ -14185,9 +17377,19 @@ export type GraphQLTypes = {
     accounts?: GraphQLTypes["account_bool_exp"] | undefined;
     accounts_aggregate?: GraphQLTypes["account_aggregate_bool_exp"] | undefined;
     address?: GraphQLTypes["address_bool_exp"] | undefined;
+    chats?: GraphQLTypes["chat_bool_exp"] | undefined;
+    chats_aggregate?: GraphQLTypes["chat_aggregate_bool_exp"] | undefined;
     createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
     email?: GraphQLTypes["String_comparison_exp"] | undefined;
     firstname?: GraphQLTypes["String_comparison_exp"] | undefined;
+    friendships?: GraphQLTypes["friendship_bool_exp"] | undefined;
+    friendshipsByClientid2?: GraphQLTypes["friendship_bool_exp"] | undefined;
+    friendshipsByClientid2_aggregate?:
+      | GraphQLTypes["friendship_aggregate_bool_exp"]
+      | undefined;
+    friendships_aggregate?:
+      | GraphQLTypes["friendship_aggregate_bool_exp"]
+      | undefined;
     id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     lastname?: GraphQLTypes["String_comparison_exp"] | undefined;
     mobile?: GraphQLTypes["bigint_comparison_exp"] | undefined;
@@ -14212,9 +17414,14 @@ export type GraphQLTypes = {
   ["client_insert_input"]: {
     accounts?: GraphQLTypes["account_arr_rel_insert_input"] | undefined;
     address?: GraphQLTypes["address_obj_rel_insert_input"] | undefined;
+    chats?: GraphQLTypes["chat_arr_rel_insert_input"] | undefined;
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
     email?: string | undefined;
     firstname?: string | undefined;
+    friendships?: GraphQLTypes["friendship_arr_rel_insert_input"] | undefined;
+    friendshipsByClientid2?:
+      | GraphQLTypes["friendship_arr_rel_insert_input"]
+      | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: GraphQLTypes["bigint"] | undefined;
@@ -14277,9 +17484,16 @@ export type GraphQLTypes = {
   ["client_order_by"]: {
     accounts_aggregate?: GraphQLTypes["account_aggregate_order_by"] | undefined;
     address?: GraphQLTypes["address_order_by"] | undefined;
+    chats_aggregate?: GraphQLTypes["chat_aggregate_order_by"] | undefined;
     createdAt?: GraphQLTypes["order_by"] | undefined;
     email?: GraphQLTypes["order_by"] | undefined;
     firstname?: GraphQLTypes["order_by"] | undefined;
+    friendshipsByClientid2_aggregate?:
+      | GraphQLTypes["friendship_aggregate_order_by"]
+      | undefined;
+    friendships_aggregate?:
+      | GraphQLTypes["friendship_aggregate_order_by"]
+      | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
     lastname?: GraphQLTypes["order_by"] | undefined;
     mobile?: GraphQLTypes["order_by"] | undefined;
@@ -14677,6 +17891,197 @@ export type GraphQLTypes = {
     _neq?: GraphQLTypes["float8"] | undefined;
     _nin?: Array<GraphQLTypes["float8"]> | undefined;
   };
+  /** rooms table for clients */
+  ["friendship"]: {
+    __typename: "friendship";
+    /** An array relationship */
+    chats: Array<GraphQLTypes["chat"]>;
+    /** An aggregate relationship */
+    chats_aggregate: GraphQLTypes["chat_aggregate"];
+    /** An object relationship */
+    client: GraphQLTypes["client"];
+    /** An object relationship */
+    clientByClientid2: GraphQLTypes["client"];
+    clientId1: GraphQLTypes["uuid"];
+    clientId2: GraphQLTypes["uuid"];
+    createdAt: GraphQLTypes["timestamptz"];
+    id: GraphQLTypes["uuid"];
+    status: string;
+    updatedAt: GraphQLTypes["timestamptz"];
+  };
+  /** aggregated selection of "friendship" */
+  ["friendship_aggregate"]: {
+    __typename: "friendship_aggregate";
+    aggregate?: GraphQLTypes["friendship_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["friendship"]>;
+  };
+  ["friendship_aggregate_bool_exp"]: {
+    count?: GraphQLTypes["friendship_aggregate_bool_exp_count"] | undefined;
+  };
+  ["friendship_aggregate_bool_exp_count"]: {
+    arguments?: Array<GraphQLTypes["friendship_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["friendship_bool_exp"] | undefined;
+    predicate: GraphQLTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "friendship" */
+  ["friendship_aggregate_fields"]: {
+    __typename: "friendship_aggregate_fields";
+    count: number;
+    max?: GraphQLTypes["friendship_max_fields"] | undefined;
+    min?: GraphQLTypes["friendship_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "friendship" */
+  ["friendship_aggregate_order_by"]: {
+    count?: GraphQLTypes["order_by"] | undefined;
+    max?: GraphQLTypes["friendship_max_order_by"] | undefined;
+    min?: GraphQLTypes["friendship_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "friendship" */
+  ["friendship_arr_rel_insert_input"]: {
+    data: Array<GraphQLTypes["friendship_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["friendship_on_conflict"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "friendship". All fields are combined with a logical 'AND'. */
+  ["friendship_bool_exp"]: {
+    _and?: Array<GraphQLTypes["friendship_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["friendship_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["friendship_bool_exp"]> | undefined;
+    chats?: GraphQLTypes["chat_bool_exp"] | undefined;
+    chats_aggregate?: GraphQLTypes["chat_aggregate_bool_exp"] | undefined;
+    client?: GraphQLTypes["client_bool_exp"] | undefined;
+    clientByClientid2?: GraphQLTypes["client_bool_exp"] | undefined;
+    clientId1?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    clientId2?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    status?: GraphQLTypes["String_comparison_exp"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "friendship" */
+  ["friendship_constraint"]: friendship_constraint;
+  /** input type for inserting data into table "friendship" */
+  ["friendship_insert_input"]: {
+    chats?: GraphQLTypes["chat_arr_rel_insert_input"] | undefined;
+    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    clientByClientid2?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    clientId1?: GraphQLTypes["uuid"] | undefined;
+    clientId2?: GraphQLTypes["uuid"] | undefined;
+    createdAt?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["friendship_max_fields"]: {
+    __typename: "friendship_max_fields";
+    clientId1?: GraphQLTypes["uuid"] | undefined;
+    clientId2?: GraphQLTypes["uuid"] | undefined;
+    createdAt?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** order by max() on columns of table "friendship" */
+  ["friendship_max_order_by"]: {
+    clientId1?: GraphQLTypes["order_by"] | undefined;
+    clientId2?: GraphQLTypes["order_by"] | undefined;
+    createdAt?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    status?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["friendship_min_fields"]: {
+    __typename: "friendship_min_fields";
+    clientId1?: GraphQLTypes["uuid"] | undefined;
+    clientId2?: GraphQLTypes["uuid"] | undefined;
+    createdAt?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** order by min() on columns of table "friendship" */
+  ["friendship_min_order_by"]: {
+    clientId1?: GraphQLTypes["order_by"] | undefined;
+    clientId2?: GraphQLTypes["order_by"] | undefined;
+    createdAt?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    status?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "friendship" */
+  ["friendship_mutation_response"]: {
+    __typename: "friendship_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["friendship"]>;
+  };
+  /** input type for inserting object relation for remote table "friendship" */
+  ["friendship_obj_rel_insert_input"]: {
+    data: GraphQLTypes["friendship_insert_input"];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["friendship_on_conflict"] | undefined;
+  };
+  /** on_conflict condition type for table "friendship" */
+  ["friendship_on_conflict"]: {
+    constraint: GraphQLTypes["friendship_constraint"];
+    update_columns: Array<GraphQLTypes["friendship_update_column"]>;
+    where?: GraphQLTypes["friendship_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "friendship". */
+  ["friendship_order_by"]: {
+    chats_aggregate?: GraphQLTypes["chat_aggregate_order_by"] | undefined;
+    client?: GraphQLTypes["client_order_by"] | undefined;
+    clientByClientid2?: GraphQLTypes["client_order_by"] | undefined;
+    clientId1?: GraphQLTypes["order_by"] | undefined;
+    clientId2?: GraphQLTypes["order_by"] | undefined;
+    createdAt?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    status?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: friendship */
+  ["friendship_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "friendship" */
+  ["friendship_select_column"]: friendship_select_column;
+  /** input type for updating data in table "friendship" */
+  ["friendship_set_input"]: {
+    clientId1?: GraphQLTypes["uuid"] | undefined;
+    clientId2?: GraphQLTypes["uuid"] | undefined;
+    createdAt?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** Streaming cursor of the table "friendship" */
+  ["friendship_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["friendship_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["friendship_stream_cursor_value_input"]: {
+    clientId1?: GraphQLTypes["uuid"] | undefined;
+    clientId2?: GraphQLTypes["uuid"] | undefined;
+    createdAt?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    status?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+  };
+  /** update columns of table "friendship" */
+  ["friendship_update_column"]: friendship_update_column;
+  ["friendship_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["friendship_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["friendship_bool_exp"];
+  };
   /** mutation root */
   ["mutation_root"]: {
     __typename: "mutation_root";
@@ -14692,6 +18097,10 @@ export type GraphQLTypes = {
     delete_bitcoin?: GraphQLTypes["bitcoin_mutation_response"] | undefined;
     /** delete single row from the table: "bitcoin" */
     delete_bitcoin_by_pk?: GraphQLTypes["bitcoin"] | undefined;
+    /** delete data from the table: "chat" */
+    delete_chat?: GraphQLTypes["chat_mutation_response"] | undefined;
+    /** delete single row from the table: "chat" */
+    delete_chat_by_pk?: GraphQLTypes["chat"] | undefined;
     /** delete data from the table: "client" */
     delete_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** delete single row from the table: "client" */
@@ -14700,6 +18109,12 @@ export type GraphQLTypes = {
     delete_eth?: GraphQLTypes["eth_mutation_response"] | undefined;
     /** delete single row from the table: "eth" */
     delete_eth_by_pk?: GraphQLTypes["eth"] | undefined;
+    /** delete data from the table: "friendship" */
+    delete_friendship?:
+      | GraphQLTypes["friendship_mutation_response"]
+      | undefined;
+    /** delete single row from the table: "friendship" */
+    delete_friendship_by_pk?: GraphQLTypes["friendship"] | undefined;
     /** delete data from the table: "sol" */
     delete_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
     /** delete single row from the table: "sol" */
@@ -14726,6 +18141,10 @@ export type GraphQLTypes = {
     insert_bitcoin?: GraphQLTypes["bitcoin_mutation_response"] | undefined;
     /** insert a single row into the table: "bitcoin" */
     insert_bitcoin_one?: GraphQLTypes["bitcoin"] | undefined;
+    /** insert data into the table: "chat" */
+    insert_chat?: GraphQLTypes["chat_mutation_response"] | undefined;
+    /** insert a single row into the table: "chat" */
+    insert_chat_one?: GraphQLTypes["chat"] | undefined;
     /** insert data into the table: "client" */
     insert_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** insert a single row into the table: "client" */
@@ -14734,6 +18153,12 @@ export type GraphQLTypes = {
     insert_eth?: GraphQLTypes["eth_mutation_response"] | undefined;
     /** insert a single row into the table: "eth" */
     insert_eth_one?: GraphQLTypes["eth"] | undefined;
+    /** insert data into the table: "friendship" */
+    insert_friendship?:
+      | GraphQLTypes["friendship_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "friendship" */
+    insert_friendship_one?: GraphQLTypes["friendship"] | undefined;
     /** insert data into the table: "sol" */
     insert_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
     /** insert a single row into the table: "sol" */
@@ -14772,6 +18197,14 @@ export type GraphQLTypes = {
     update_bitcoin_many?:
       | Array<GraphQLTypes["bitcoin_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "chat" */
+    update_chat?: GraphQLTypes["chat_mutation_response"] | undefined;
+    /** update single row of the table: "chat" */
+    update_chat_by_pk?: GraphQLTypes["chat"] | undefined;
+    /** update multiples rows of table: "chat" */
+    update_chat_many?:
+      | Array<GraphQLTypes["chat_mutation_response"] | undefined>
+      | undefined;
     /** update data of the table: "client" */
     update_client?: GraphQLTypes["client_mutation_response"] | undefined;
     /** update single row of the table: "client" */
@@ -14787,6 +18220,16 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "eth" */
     update_eth_many?:
       | Array<GraphQLTypes["eth_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "friendship" */
+    update_friendship?:
+      | GraphQLTypes["friendship_mutation_response"]
+      | undefined;
+    /** update single row of the table: "friendship" */
+    update_friendship_by_pk?: GraphQLTypes["friendship"] | undefined;
+    /** update multiples rows of table: "friendship" */
+    update_friendship_many?:
+      | Array<GraphQLTypes["friendship_mutation_response"] | undefined>
       | undefined;
     /** update data of the table: "sol" */
     update_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
@@ -14837,6 +18280,12 @@ export type GraphQLTypes = {
     bitcoin_aggregate: GraphQLTypes["bitcoin_aggregate"];
     /** fetch data from the table: "bitcoin" using primary key columns */
     bitcoin_by_pk?: GraphQLTypes["bitcoin"] | undefined;
+    /** fetch data from the table: "chat" */
+    chat: Array<GraphQLTypes["chat"]>;
+    /** fetch aggregated fields from the table: "chat" */
+    chat_aggregate: GraphQLTypes["chat_aggregate"];
+    /** fetch data from the table: "chat" using primary key columns */
+    chat_by_pk?: GraphQLTypes["chat"] | undefined;
     /** fetch data from the table: "client" */
     client: Array<GraphQLTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -14849,6 +18298,12 @@ export type GraphQLTypes = {
     eth_aggregate: GraphQLTypes["eth_aggregate"];
     /** fetch data from the table: "eth" using primary key columns */
     eth_by_pk?: GraphQLTypes["eth"] | undefined;
+    /** fetch data from the table: "friendship" */
+    friendship: Array<GraphQLTypes["friendship"]>;
+    /** fetch aggregated fields from the table: "friendship" */
+    friendship_aggregate: GraphQLTypes["friendship_aggregate"];
+    /** fetch data from the table: "friendship" using primary key columns */
+    friendship_by_pk?: GraphQLTypes["friendship"] | undefined;
     /** fetch data from the table: "sol" */
     sol: Array<GraphQLTypes["sol"]>;
     /** fetch aggregated fields from the table: "sol" */
@@ -15129,6 +18584,14 @@ export type GraphQLTypes = {
     bitcoin_by_pk?: GraphQLTypes["bitcoin"] | undefined;
     /** fetch data from the table in a streaming manner: "bitcoin" */
     bitcoin_stream: Array<GraphQLTypes["bitcoin"]>;
+    /** fetch data from the table: "chat" */
+    chat: Array<GraphQLTypes["chat"]>;
+    /** fetch aggregated fields from the table: "chat" */
+    chat_aggregate: GraphQLTypes["chat_aggregate"];
+    /** fetch data from the table: "chat" using primary key columns */
+    chat_by_pk?: GraphQLTypes["chat"] | undefined;
+    /** fetch data from the table in a streaming manner: "chat" */
+    chat_stream: Array<GraphQLTypes["chat"]>;
     /** fetch data from the table: "client" */
     client: Array<GraphQLTypes["client"]>;
     /** fetch aggregated fields from the table: "client" */
@@ -15145,6 +18608,14 @@ export type GraphQLTypes = {
     eth_by_pk?: GraphQLTypes["eth"] | undefined;
     /** fetch data from the table in a streaming manner: "eth" */
     eth_stream: Array<GraphQLTypes["eth"]>;
+    /** fetch data from the table: "friendship" */
+    friendship: Array<GraphQLTypes["friendship"]>;
+    /** fetch aggregated fields from the table: "friendship" */
+    friendship_aggregate: GraphQLTypes["friendship_aggregate"];
+    /** fetch data from the table: "friendship" using primary key columns */
+    friendship_by_pk?: GraphQLTypes["friendship"] | undefined;
+    /** fetch data from the table in a streaming manner: "friendship" */
+    friendship_stream: Array<GraphQLTypes["friendship"]>;
     /** fetch data from the table: "sol" */
     sol: Array<GraphQLTypes["sol"]>;
     /** fetch aggregated fields from the table: "sol" */
@@ -15985,6 +19456,28 @@ export const enum bitcoin_update_column {
   textnetBtc = "textnetBtc",
   updatedAt = "updatedAt",
 }
+/** unique or primary key constraints on table "chat" */
+export const enum chat_constraint {
+  chat_pkey = "chat_pkey",
+}
+/** select columns of table "chat" */
+export const enum chat_select_column {
+  friendshipId = "friendshipId",
+  id = "id",
+  message = "message",
+  sendAt = "sendAt",
+  senderId = "senderId",
+  updatedAt = "updatedAt",
+}
+/** update columns of table "chat" */
+export const enum chat_update_column {
+  friendshipId = "friendshipId",
+  id = "id",
+  message = "message",
+  sendAt = "sendAt",
+  senderId = "senderId",
+  updatedAt = "updatedAt",
+}
 /** unique or primary key constraints on table "client" */
 export const enum client_constraint {
   client_email_key = "client_email_key",
@@ -16057,6 +19550,28 @@ export const enum eth_update_column {
   rinkebyEth = "rinkebyEth",
   ropstenEth = "ropstenEth",
   sepoliaEth = "sepoliaEth",
+  updatedAt = "updatedAt",
+}
+/** unique or primary key constraints on table "friendship" */
+export const enum friendship_constraint {
+  friendships_pkey = "friendships_pkey",
+}
+/** select columns of table "friendship" */
+export const enum friendship_select_column {
+  clientId1 = "clientId1",
+  clientId2 = "clientId2",
+  createdAt = "createdAt",
+  id = "id",
+  status = "status",
+  updatedAt = "updatedAt",
+}
+/** update columns of table "friendship" */
+export const enum friendship_update_column {
+  clientId1 = "clientId1",
+  clientId2 = "clientId2",
+  createdAt = "createdAt",
+  id = "id",
+  status = "status",
   updatedAt = "updatedAt",
 }
 /** column ordering options */
@@ -16260,6 +19775,24 @@ type ZEUS_VARIABLES = {
   ["bitcoin_stream_cursor_value_input"]: ValueTypes["bitcoin_stream_cursor_value_input"];
   ["bitcoin_update_column"]: ValueTypes["bitcoin_update_column"];
   ["bitcoin_updates"]: ValueTypes["bitcoin_updates"];
+  ["chat_aggregate_bool_exp"]: ValueTypes["chat_aggregate_bool_exp"];
+  ["chat_aggregate_bool_exp_count"]: ValueTypes["chat_aggregate_bool_exp_count"];
+  ["chat_aggregate_order_by"]: ValueTypes["chat_aggregate_order_by"];
+  ["chat_arr_rel_insert_input"]: ValueTypes["chat_arr_rel_insert_input"];
+  ["chat_bool_exp"]: ValueTypes["chat_bool_exp"];
+  ["chat_constraint"]: ValueTypes["chat_constraint"];
+  ["chat_insert_input"]: ValueTypes["chat_insert_input"];
+  ["chat_max_order_by"]: ValueTypes["chat_max_order_by"];
+  ["chat_min_order_by"]: ValueTypes["chat_min_order_by"];
+  ["chat_on_conflict"]: ValueTypes["chat_on_conflict"];
+  ["chat_order_by"]: ValueTypes["chat_order_by"];
+  ["chat_pk_columns_input"]: ValueTypes["chat_pk_columns_input"];
+  ["chat_select_column"]: ValueTypes["chat_select_column"];
+  ["chat_set_input"]: ValueTypes["chat_set_input"];
+  ["chat_stream_cursor_input"]: ValueTypes["chat_stream_cursor_input"];
+  ["chat_stream_cursor_value_input"]: ValueTypes["chat_stream_cursor_value_input"];
+  ["chat_update_column"]: ValueTypes["chat_update_column"];
+  ["chat_updates"]: ValueTypes["chat_updates"];
   ["client_bool_exp"]: ValueTypes["client_bool_exp"];
   ["client_constraint"]: ValueTypes["client_constraint"];
   ["client_inc_input"]: ValueTypes["client_inc_input"];
@@ -16291,6 +19824,25 @@ type ZEUS_VARIABLES = {
   ["eth_updates"]: ValueTypes["eth_updates"];
   ["float8"]: ValueTypes["float8"];
   ["float8_comparison_exp"]: ValueTypes["float8_comparison_exp"];
+  ["friendship_aggregate_bool_exp"]: ValueTypes["friendship_aggregate_bool_exp"];
+  ["friendship_aggregate_bool_exp_count"]: ValueTypes["friendship_aggregate_bool_exp_count"];
+  ["friendship_aggregate_order_by"]: ValueTypes["friendship_aggregate_order_by"];
+  ["friendship_arr_rel_insert_input"]: ValueTypes["friendship_arr_rel_insert_input"];
+  ["friendship_bool_exp"]: ValueTypes["friendship_bool_exp"];
+  ["friendship_constraint"]: ValueTypes["friendship_constraint"];
+  ["friendship_insert_input"]: ValueTypes["friendship_insert_input"];
+  ["friendship_max_order_by"]: ValueTypes["friendship_max_order_by"];
+  ["friendship_min_order_by"]: ValueTypes["friendship_min_order_by"];
+  ["friendship_obj_rel_insert_input"]: ValueTypes["friendship_obj_rel_insert_input"];
+  ["friendship_on_conflict"]: ValueTypes["friendship_on_conflict"];
+  ["friendship_order_by"]: ValueTypes["friendship_order_by"];
+  ["friendship_pk_columns_input"]: ValueTypes["friendship_pk_columns_input"];
+  ["friendship_select_column"]: ValueTypes["friendship_select_column"];
+  ["friendship_set_input"]: ValueTypes["friendship_set_input"];
+  ["friendship_stream_cursor_input"]: ValueTypes["friendship_stream_cursor_input"];
+  ["friendship_stream_cursor_value_input"]: ValueTypes["friendship_stream_cursor_value_input"];
+  ["friendship_update_column"]: ValueTypes["friendship_update_column"];
+  ["friendship_updates"]: ValueTypes["friendship_updates"];
   ["order_by"]: ValueTypes["order_by"];
   ["sol_bool_exp"]: ValueTypes["sol_bool_exp"];
   ["sol_constraint"]: ValueTypes["sol_constraint"];

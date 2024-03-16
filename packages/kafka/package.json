@@ -12,11 +12,10 @@
     "publish": "npm version patch && npm publish"
   },
   "dependencies": {
-    "@paybox/common": "^0.1.1",
+    "@paybox/backend-common": "^0.0.1",
     "@types/kafkajs": "^1.9.0",
     "kafkajs": "^2.2.4",
-    "tsup": "^8.0.2",
-    "@paybox/zeus": "^0.1.1"
+    "tsup": "^8.0.2"
   },
   "gitHead": "3bd6c7180a38ad8e8b5557751301ffaba6b2a5da"
 }

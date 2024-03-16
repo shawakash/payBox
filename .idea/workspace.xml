@@ -6,8 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="68b95ec0-bf7d-419c-b9b9-0866ed110dbf" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ws/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ws/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/openapi/src/spec-client/.openapi-generator/FILES" beforeDir="false" afterPath="$PROJECT_DIR$/openapi/src/spec-client/.openapi-generator/FILES" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/hasura/hasura/metadata/databases/default/tables/public_client.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/hasura/hasura/metadata/databases/default/tables/public_client.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/hasura/hasura/metadata/databases/default/tables/tables.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/hasura/hasura/metadata/databases/default/tables/tables.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ws/src/Redis/ChatSub.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ws/src/Redis/ChatSub.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/zeus/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/zeus/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/zeus/src/codegen/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/zeus/src/codegen/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/zeus/src/zeus/const.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/zeus/src/zeus/const.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/zeus/src/zeus/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/zeus/src/zeus/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/common/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/common/src/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/kafka/src/db/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/kafka/src/db/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/kafka/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/kafka/src/index.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +28,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/apps/web/package.json" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -28,22 +39,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "dev",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "ts.external.directory.path": "/Users/phillo/code/payBox/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;chat&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/phillo/code/payBox/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -60,6 +71,9 @@
       <workItem from="1710054717440" duration="202000" />
       <workItem from="1710491808451" duration="1253000" />
       <workItem from="1710493084295" duration="11557000" />
+      <workItem from="1710589374910" duration="804000" />
+      <workItem from="1710590187605" duration="59000" />
+      <workItem from="1710590254900" duration="3697000" />
     </task>
     <servers />
   </component>

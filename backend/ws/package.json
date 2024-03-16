@@ -14,9 +14,9 @@
     "zeus": "npx graphql-zeus http://localhost:8113/v1/graphql ./src --header=x-hasura-admin-secret:myadminsecretkey --subscriptions"
   },
   "dependencies": {
-    "@paybox/api": "*",
     "@paybox/common": "*",
     "@paybox/kafka": "*",
+    "@paybox/backend-common": "*",
     "@paybox/zeus": "*",
     "@solana/spl-token": "^0.4.1",
     "@solana/wallet-adapter-wallets": "^0.19.27",

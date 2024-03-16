@@ -26,17 +26,17 @@ import {
   updateAccountName,
   getAccount,
   getAccounts,
-} from "../db/account";
-import { importFromPrivate, addAccountPhrase, getWalletForAccountCreate } from "../db/wallet";
+} from "@paybox/backend-common";
+import { importFromPrivate, addAccountPhrase, getWalletForAccountCreate } from "@paybox/backend-common";
 import { cache } from "..";
 import {
   generateSeed,
   getAccountOnPhrase,
   validatePassword,
 } from "../auth/util";
-import { getPassword } from "../db/client";
+import { getPassword } from "@paybox/backend-common";
 import { accountCreateRateLimit, checkPassword } from "../auth/middleware";
-import { getSecretPhase } from "../db/wallet";
+import { getSecretPhase } from "@paybox/backend-common";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
 import { INFURA_PROJECT_ID } from "../config";

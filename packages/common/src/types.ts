@@ -290,8 +290,8 @@ export enum WsMessageTypeEnum {
 }
 
 export type ChatPayload = {
-    sender: string,
-    channelId: string,
+    senderId: string,
+    friendshipId: string,
     message: string,
 }
 
@@ -299,3 +299,5 @@ export type WsChatMessageType = {
     type: WsMessageTypeEnum,
     payload: ChatPayload,
 }
+
+export type FriendshipStatus = "pending" | "accepted" | "rejected" | "blocked" | "deleted";

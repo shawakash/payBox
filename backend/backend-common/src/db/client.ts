@@ -1,6 +1,5 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
-import { dbResStatus, getClientId } from "../types/client";
 import {
   AccountType,
   Address,
@@ -10,6 +9,8 @@ import {
   HASURA_ADMIN_SERCRET,
   SolKey,
   WalletKeys,
+  dbResStatus,
+  getClientId,
 } from "@paybox/common";
 import { Wallet, ethers } from "ethers";
 import { Keypair } from "@solana/web3.js";

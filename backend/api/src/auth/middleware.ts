@@ -21,9 +21,9 @@ import {
   responseStatus,
 } from "@paybox/common";
 import { cache } from "..";
-import { getAddressByClient } from "../db/qrcode";
+import { getAddressByClient } from "@paybox/backend-common";
 import { Address } from "web3";
-import { getPassword, queryValid } from "../db/client";
+import { getPassword, queryValid } from "@paybox/backend-common";
 import { EthOps } from "../sockets/eth";
 import { SolOps } from "../sockets/sol";
 import rateLimit from "express-rate-limit";
