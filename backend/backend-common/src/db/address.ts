@@ -142,7 +142,7 @@ export const getAddressByClientId = async (
     },
     { operationName: "getAddressByClientId" },
   );
-  if (response.address[0].id) {
+  if (response.address[0]?.id) {
     return {
       ...response,
       status: dbResStatus.Ok,

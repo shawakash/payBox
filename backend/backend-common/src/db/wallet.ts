@@ -43,7 +43,7 @@ export const getSecretPhase = async (
       },
     ],
   });
-  if (response.wallet[0].secretPhase) {
+  if (response.wallet[0]?.secretPhase) {
     return {
       status: dbResStatus.Ok,
       secret: response.wallet[0].secretPhase as string,
@@ -106,7 +106,7 @@ export const getAccountsFromWalletId = async (
     },
     { operationName: "getAccounts" },
   );
-  if (response.account[0].id) {
+  if (response.account[0]?.id) {
     return {
       status: dbResStatus.Ok,
       accounts: response.account as AccountType[],
@@ -186,7 +186,7 @@ export const delWallet = async (
     ],
   }, {operationName: "deleteWallet"});
 
-  if (Array.isArray(deleteAccount.delete_account?.returning) && delete_wallet.delete_wallet?.returning[0].id) {
+  if (Array.isArray(deleteAccount.delete_account?.returning) && delete_wallet.delete_wallet?.returning[0]?.id) {
     return {
       status: dbResStatus.Ok,
       accounts: deleteAccount.delete_account?.returning as {id: string}[] || [],
@@ -458,7 +458,7 @@ export const getWallets = async (
       clientId: true,
     }]
   }, { operationName: "getWallets" });
-  if (response.wallet[0].id) {
+  if (response.wallet[0]?.id) {
     return {
       status: dbResStatus.Ok,
       wallets: response.wallet as WalletType[]
@@ -495,7 +495,7 @@ export const getWalletForAccountCreate = async (
       id: true,
     }]
   }, { operationName: "getWalletForAccountCreate" });
-  if (response.wallet[0].id) {
+  if (response.wallet[0]?.id) {
     return {
       status: dbResStatus.Ok,
       id: response.wallet[0].id as string,

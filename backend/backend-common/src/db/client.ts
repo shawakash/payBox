@@ -157,11 +157,11 @@ export const createClient = async (
       return {
         ...clientResponse.insert_client_one,
         walletId: createWallet.insert_wallet_one.id,
-        sol: createWallet.insert_wallet_one.accounts[0].sol as SolKey,
-        eth: createWallet.insert_wallet_one.accounts[0].eth as EthKey,
+        sol: createWallet.insert_wallet_one.accounts[0]?.sol as SolKey,
+        eth: createWallet.insert_wallet_one.accounts[0]?.eth as EthKey,
         bitcoin: createWallet.insert_wallet_one.accounts[0]
-          .bitcoin as BitcoinKey,
-        accountId: createWallet.insert_wallet_one.accounts[0].id,
+          ?.bitcoin as BitcoinKey,
+        accountId: createWallet.insert_wallet_one.accounts[0]?.id,
         status: dbResStatus.Ok,
       };
     }
@@ -307,7 +307,7 @@ export const checkClient = async (
     },
     { operationName: "checkClient" },
   );
-  if (response.client[0].id) {
+  if (response.client[0]?.id) {
     return {
       client: response.client[0] as Client,
       status: dbResStatus.Ok,
@@ -358,7 +358,7 @@ export const getClientMetaData = async (
     },
     { operationName: "getClient" },
   );
-  if (response.client[0].id) {
+  if (response.client[0]?.id) {
     return {
       client: response.client[0] as Client,
       status: dbResStatus.Ok,
@@ -455,7 +455,7 @@ export const getClientById = async<T>(
     },
     { operationName: "getClientById" },
   );
-  if (response.client[0].id) {
+  if (response.client[0]?.id) {
     return {
       client: response.client[0] as T,
       status: dbResStatus.Ok,
@@ -498,7 +498,7 @@ export const deleteClient = async (
     { operationName: "deleteClient" },
   );
 
-  if (response.delete_client?.returning[0].username) {
+  if (response.delete_client?.returning[0]?.username) {
     return {
       status: dbResStatus.Ok,
       username: response.delete_client.returning[0].username as string,
@@ -540,7 +540,7 @@ export const getPassword = async (
     },
     { operationName: "getPassword" },
   );
-  if (response.client[0].password) {
+  if (response.client[0]?.password) {
     return {
       status: dbResStatus.Ok,
       hashPassword: response.client[0].password,
@@ -583,7 +583,7 @@ export const updatePassword = async (
     },
     { operationName: "updatePassword" },
   );
-  if (response.update_client?.returning[0].id) {
+  if (response.update_client?.returning[0]?.id) {
     return {
       status: dbResStatus.Ok,
     };
@@ -746,7 +746,7 @@ export const validateClient = async (
     }]
   }, {operationName: "createWallet"});
 
-  if (response.update_client?.returning[0].valid && createWallet.insert_wallet_one?.id) {
+  if (response.update_client?.returning[0]?.valid && createWallet.insert_wallet_one?.id) {
     return {
       status: dbResStatus.Ok,
       valid: response.update_client.returning[0].valid,
@@ -785,7 +785,7 @@ export const queryValid = async (
   if (Array.isArray(response.client)) {
     return {
       status: dbResStatus.Ok,
-      valid: response.client[0].valid
+      valid: response.client[0]?.valid
     }
   }
   return {
@@ -824,7 +824,7 @@ export const upadteMobileEmail = async (
       }
     }]
   }, {operationName: "updateMobileEmail"});
-  if (response.update_client?.returning[0].id) {
+  if (response.update_client?.returning[0]?.id) {
     return {
       status: dbResStatus.Ok
     }

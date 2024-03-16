@@ -323,7 +323,7 @@ export const getAccount = async (
     },
     { operationName: "getAccount" },
   );
-  if (response.account[0].id) {
+  if (response.account[0]?.id) {
     return {
       status: dbResStatus.Ok,
       account: response.account[0] as AccountType,

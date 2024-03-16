@@ -37,7 +37,7 @@ export const getAddressByClient = async (
       },
     ],
   });
-  if (response.address[0].id) {
+  if (response.address[0]?.id) {
     return {
       status: dbResStatus.Ok,
       address: {
