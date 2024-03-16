@@ -7,7 +7,7 @@ import {
   dbResStatus,
   responseStatus,
 } from "@paybox/common";
-import { delWallet, getAccountsFromWalletId, getSecretPhase, getWallets } from "../db/wallet";
+import { delWallet, getAccountsFromWalletId, getSecretPhase, getWallets } from "@paybox/backend-common";
 import { cache } from "..";
 
 export const walletRouter = Router();

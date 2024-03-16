@@ -10,11 +10,11 @@ import {
   responseStatus,
 } from "@paybox/common";
 import { Router } from "express";
-import { getAllTxn, getTxnByHash, getTxns, insertTxn } from "../db/transaction";
+import { getAllTxn, getTxnByHash, getTxns, insertTxn } from "@paybox/backend-common";
 import { cache } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
-import { publishEthTxn, publishSolTxn } from "../../../../packages/kafka/src";
+import { publishEthTxn, publishSolTxn } from "@paybox/kafka";
 import { Cluster } from "@solana/web3.js";
 import { EthOps } from "../sockets/eth";
 import { INFURA_PROJECT_ID } from "../config";

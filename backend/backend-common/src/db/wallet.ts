@@ -1,6 +1,6 @@
 import { Chain, order_by } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
-import { dbResStatus } from "../types/client";
+import { dbResStatus } from "@paybox/common";
 import {
   AccountType,
   HASURA_ADMIN_SERCRET,

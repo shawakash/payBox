@@ -12,7 +12,7 @@ import {
   createAddress,
   getAddressByClientId,
   updateAddress,
-} from "../db/address";
+} from "@paybox/backend-common";
 import { dbResStatus } from "../types/client";
 import { cache } from "../index";
 

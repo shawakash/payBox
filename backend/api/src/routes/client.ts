@@ -29,7 +29,7 @@ import {
   updateMetadata,
   updatePassword,
   validateClient,
-} from "../db/client";
+} from "@paybox/backend-common";
 import { cache } from "../index";
 import {
   genOtp,

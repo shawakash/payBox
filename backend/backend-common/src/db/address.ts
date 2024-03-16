@@ -1,5 +1,6 @@
 import { Chain } from "@paybox/zeus";
-import { HASURA_ADMIN_SERCRET, HASURA_URL, JWT, dbResStatus } from "@paybox/common";
+import { HASURA_URL, JWT } from "../config";
+import { HASURA_ADMIN_SERCRET, dbResStatus } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
   headers: {

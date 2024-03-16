@@ -1,6 +1,6 @@
 import { Chain } from "@paybox/zeus";
 import { HASURA_URL, JWT } from "../config";
-import { dbResStatus } from "../types/client";
+import { dbResStatus } from "@paybox/common";
 import {
   HASURA_ADMIN_SERCRET,
   InsertTxnType,
