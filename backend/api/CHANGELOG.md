@@ -1,5 +1,14 @@
 # @paybox/api
 
+## 0.0.13
+
+### Patch Changes
+
+- aefa090: feat: publishing the message after sending to sockets using the message queues and creating new Backend-common module
+- Updated dependencies [aefa090]
+  - @paybox/backend-common@0.0.2
+  - @paybox/kafka@2.0.2
+
 ## 0.0.12
 
 ### Patch Changes
