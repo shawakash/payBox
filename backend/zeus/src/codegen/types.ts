@@ -890,6 +890,243 @@ export type Bitcoin_Variance_Fields = {
   textnetBtc?: Maybe<Scalars['Float']['output']>;
 };
 
+/** chat messages for clients */
+export type Chat = {
+  __typename?: 'chat';
+  /** An object relationship */
+  client: Client;
+  createdAt: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  friendship: Friendship;
+  friendshipId: Scalars['uuid']['output'];
+  id: Scalars['uuid']['output'];
+  message: Scalars['String']['output'];
+  senderId: Scalars['uuid']['output'];
+  updatedAt: Scalars['timestamptz']['output'];
+};
+
+/** aggregated selection of "chat" */
+export type Chat_Aggregate = {
+  __typename?: 'chat_aggregate';
+  aggregate?: Maybe<Chat_Aggregate_Fields>;
+  nodes: Array<Chat>;
+};
+
+export type Chat_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Chat_Aggregate_Bool_Exp_Count>;
+};
+
+export type Chat_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Chat_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Chat_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "chat" */
+export type Chat_Aggregate_Fields = {
+  __typename?: 'chat_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Chat_Max_Fields>;
+  min?: Maybe<Chat_Min_Fields>;
+};
+
+
+/** aggregate fields of "chat" */
+export type Chat_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Chat_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "chat" */
+export type Chat_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Chat_Max_Order_By>;
+  min?: InputMaybe<Chat_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "chat" */
+export type Chat_Arr_Rel_Insert_Input = {
+  data: Array<Chat_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Chat_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "chat". All fields are combined with a logical 'AND'. */
+export type Chat_Bool_Exp = {
+  _and?: InputMaybe<Array<Chat_Bool_Exp>>;
+  _not?: InputMaybe<Chat_Bool_Exp>;
+  _or?: InputMaybe<Array<Chat_Bool_Exp>>;
+  client?: InputMaybe<Client_Bool_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  friendship?: InputMaybe<Friendship_Bool_Exp>;
+  friendshipId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  message?: InputMaybe<String_Comparison_Exp>;
+  senderId?: InputMaybe<Uuid_Comparison_Exp>;
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "chat" */
+export enum Chat_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  ChatPkey = 'chat_pkey'
+}
+
+/** input type for inserting data into table "chat" */
+export type Chat_Insert_Input = {
+  client?: InputMaybe<Client_Obj_Rel_Insert_Input>;
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  friendship?: InputMaybe<Friendship_Obj_Rel_Insert_Input>;
+  friendshipId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  senderId?: InputMaybe<Scalars['uuid']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Chat_Max_Fields = {
+  __typename?: 'chat_max_fields';
+  createdAt?: Maybe<Scalars['timestamptz']['output']>;
+  friendshipId?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  senderId?: Maybe<Scalars['uuid']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by max() on columns of table "chat" */
+export type Chat_Max_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  friendshipId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  message?: InputMaybe<Order_By>;
+  senderId?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Chat_Min_Fields = {
+  __typename?: 'chat_min_fields';
+  createdAt?: Maybe<Scalars['timestamptz']['output']>;
+  friendshipId?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  message?: Maybe<Scalars['String']['output']>;
+  senderId?: Maybe<Scalars['uuid']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by min() on columns of table "chat" */
+export type Chat_Min_Order_By = {
+  createdAt?: InputMaybe<Order_By>;
+  friendshipId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  message?: InputMaybe<Order_By>;
+  senderId?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "chat" */
+export type Chat_Mutation_Response = {
+  __typename?: 'chat_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Chat>;
+};
+
+/** on_conflict condition type for table "chat" */
+export type Chat_On_Conflict = {
+  constraint: Chat_Constraint;
+  update_columns?: Array<Chat_Update_Column>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "chat". */
+export type Chat_Order_By = {
+  client?: InputMaybe<Client_Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  friendship?: InputMaybe<Friendship_Order_By>;
+  friendshipId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  message?: InputMaybe<Order_By>;
+  senderId?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: chat */
+export type Chat_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "chat" */
+export enum Chat_Select_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  FriendshipId = 'friendshipId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  SenderId = 'senderId',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+/** input type for updating data in table "chat" */
+export type Chat_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  friendshipId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  senderId?: InputMaybe<Scalars['uuid']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** Streaming cursor of the table "chat" */
+export type Chat_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Chat_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Chat_Stream_Cursor_Value_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  friendshipId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  message?: InputMaybe<Scalars['String']['input']>;
+  senderId?: InputMaybe<Scalars['uuid']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** update columns of table "chat" */
+export enum Chat_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  FriendshipId = 'friendshipId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  SenderId = 'senderId',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+export type Chat_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Chat_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Chat_Bool_Exp;
+};
+
 /** subscriber for paybox */
 export type Client = {
   __typename?: 'client';
@@ -899,9 +1136,21 @@ export type Client = {
   accounts_aggregate: Account_Aggregate;
   /** An object relationship */
   address?: Maybe<Address>;
+  /** An array relationship */
+  chats: Array<Chat>;
+  /** An aggregate relationship */
+  chats_aggregate: Chat_Aggregate;
   createdAt?: Maybe<Scalars['timestamptz']['output']>;
   email: Scalars['String']['output'];
   firstname?: Maybe<Scalars['String']['output']>;
+  /** An array relationship */
+  friendships: Array<Friendship>;
+  /** An array relationship */
+  friendshipsByClientid2: Array<Friendship>;
+  /** An aggregate relationship */
+  friendshipsByClientid2_aggregate: Friendship_Aggregate;
+  /** An aggregate relationship */
+  friendships_aggregate: Friendship_Aggregate;
   id: Scalars['uuid']['output'];
   lastname?: Maybe<Scalars['String']['output']>;
   mobile?: Maybe<Scalars['bigint']['output']>;
@@ -937,6 +1186,66 @@ export type ClientAccounts_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Account_Order_By>>;
   where?: InputMaybe<Account_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientChatsArgs = {
+  distinct_on?: InputMaybe<Array<Chat_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Chat_Order_By>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientChats_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Chat_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Chat_Order_By>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientFriendshipsArgs = {
+  distinct_on?: InputMaybe<Array<Friendship_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Friendship_Order_By>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientFriendshipsByClientid2Args = {
+  distinct_on?: InputMaybe<Array<Friendship_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Friendship_Order_By>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientFriendshipsByClientid2_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Friendship_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Friendship_Order_By>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientFriendships_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Friendship_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Friendship_Order_By>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
 };
 
 
@@ -1023,9 +1332,15 @@ export type Client_Bool_Exp = {
   accounts?: InputMaybe<Account_Bool_Exp>;
   accounts_aggregate?: InputMaybe<Account_Aggregate_Bool_Exp>;
   address?: InputMaybe<Address_Bool_Exp>;
+  chats?: InputMaybe<Chat_Bool_Exp>;
+  chats_aggregate?: InputMaybe<Chat_Aggregate_Bool_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   firstname?: InputMaybe<String_Comparison_Exp>;
+  friendships?: InputMaybe<Friendship_Bool_Exp>;
+  friendshipsByClientid2?: InputMaybe<Friendship_Bool_Exp>;
+  friendshipsByClientid2_aggregate?: InputMaybe<Friendship_Aggregate_Bool_Exp>;
+  friendships_aggregate?: InputMaybe<Friendship_Aggregate_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   lastname?: InputMaybe<String_Comparison_Exp>;
   mobile?: InputMaybe<Bigint_Comparison_Exp>;
@@ -1058,9 +1373,12 @@ export type Client_Inc_Input = {
 export type Client_Insert_Input = {
   accounts?: InputMaybe<Account_Arr_Rel_Insert_Input>;
   address?: InputMaybe<Address_Obj_Rel_Insert_Input>;
+  chats?: InputMaybe<Chat_Arr_Rel_Insert_Input>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   firstname?: InputMaybe<Scalars['String']['input']>;
+  friendships?: InputMaybe<Friendship_Arr_Rel_Insert_Input>;
+  friendshipsByClientid2?: InputMaybe<Friendship_Arr_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   lastname?: InputMaybe<Scalars['String']['input']>;
   mobile?: InputMaybe<Scalars['bigint']['input']>;
@@ -1127,9 +1445,12 @@ export type Client_On_Conflict = {
 export type Client_Order_By = {
   accounts_aggregate?: InputMaybe<Account_Aggregate_Order_By>;
   address?: InputMaybe<Address_Order_By>;
+  chats_aggregate?: InputMaybe<Chat_Aggregate_Order_By>;
   createdAt?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   firstname?: InputMaybe<Order_By>;
+  friendshipsByClientid2_aggregate?: InputMaybe<Friendship_Aggregate_Order_By>;
+  friendships_aggregate?: InputMaybe<Friendship_Aggregate_Order_By>;
   id?: InputMaybe<Order_By>;
   lastname?: InputMaybe<Order_By>;
   mobile?: InputMaybe<Order_By>;
@@ -1682,6 +2003,278 @@ export type Float8_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['float8']['input']>>;
 };
 
+/** rooms table for clients */
+export type Friendship = {
+  __typename?: 'friendship';
+  /** An array relationship */
+  chats: Array<Chat>;
+  /** An aggregate relationship */
+  chats_aggregate: Chat_Aggregate;
+  /** An object relationship */
+  client: Client;
+  /** An object relationship */
+  clientByClientid2: Client;
+  clientId1: Scalars['uuid']['output'];
+  clientId2: Scalars['uuid']['output'];
+  createdAt: Scalars['timestamptz']['output'];
+  id: Scalars['uuid']['output'];
+  status: Scalars['String']['output'];
+  updatedAt: Scalars['timestamptz']['output'];
+};
+
+
+/** rooms table for clients */
+export type FriendshipChatsArgs = {
+  distinct_on?: InputMaybe<Array<Chat_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Chat_Order_By>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+
+/** rooms table for clients */
+export type FriendshipChats_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Chat_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Chat_Order_By>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+/** aggregated selection of "friendship" */
+export type Friendship_Aggregate = {
+  __typename?: 'friendship_aggregate';
+  aggregate?: Maybe<Friendship_Aggregate_Fields>;
+  nodes: Array<Friendship>;
+};
+
+export type Friendship_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Friendship_Aggregate_Bool_Exp_Count>;
+};
+
+export type Friendship_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Friendship_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Friendship_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "friendship" */
+export type Friendship_Aggregate_Fields = {
+  __typename?: 'friendship_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Friendship_Max_Fields>;
+  min?: Maybe<Friendship_Min_Fields>;
+};
+
+
+/** aggregate fields of "friendship" */
+export type Friendship_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Friendship_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "friendship" */
+export type Friendship_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Friendship_Max_Order_By>;
+  min?: InputMaybe<Friendship_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "friendship" */
+export type Friendship_Arr_Rel_Insert_Input = {
+  data: Array<Friendship_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Friendship_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "friendship". All fields are combined with a logical 'AND'. */
+export type Friendship_Bool_Exp = {
+  _and?: InputMaybe<Array<Friendship_Bool_Exp>>;
+  _not?: InputMaybe<Friendship_Bool_Exp>;
+  _or?: InputMaybe<Array<Friendship_Bool_Exp>>;
+  chats?: InputMaybe<Chat_Bool_Exp>;
+  chats_aggregate?: InputMaybe<Chat_Aggregate_Bool_Exp>;
+  client?: InputMaybe<Client_Bool_Exp>;
+  clientByClientid2?: InputMaybe<Client_Bool_Exp>;
+  clientId1?: InputMaybe<Uuid_Comparison_Exp>;
+  clientId2?: InputMaybe<Uuid_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  status?: InputMaybe<String_Comparison_Exp>;
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "friendship" */
+export enum Friendship_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  FriendshipsPkey = 'friendships_pkey'
+}
+
+/** input type for inserting data into table "friendship" */
+export type Friendship_Insert_Input = {
+  chats?: InputMaybe<Chat_Arr_Rel_Insert_Input>;
+  client?: InputMaybe<Client_Obj_Rel_Insert_Input>;
+  clientByClientid2?: InputMaybe<Client_Obj_Rel_Insert_Input>;
+  clientId1?: InputMaybe<Scalars['uuid']['input']>;
+  clientId2?: InputMaybe<Scalars['uuid']['input']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** aggregate max on columns */
+export type Friendship_Max_Fields = {
+  __typename?: 'friendship_max_fields';
+  clientId1?: Maybe<Scalars['uuid']['output']>;
+  clientId2?: Maybe<Scalars['uuid']['output']>;
+  createdAt?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by max() on columns of table "friendship" */
+export type Friendship_Max_Order_By = {
+  clientId1?: InputMaybe<Order_By>;
+  clientId2?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Friendship_Min_Fields = {
+  __typename?: 'friendship_min_fields';
+  clientId1?: Maybe<Scalars['uuid']['output']>;
+  clientId2?: Maybe<Scalars['uuid']['output']>;
+  createdAt?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by min() on columns of table "friendship" */
+export type Friendship_Min_Order_By = {
+  clientId1?: InputMaybe<Order_By>;
+  clientId2?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "friendship" */
+export type Friendship_Mutation_Response = {
+  __typename?: 'friendship_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Friendship>;
+};
+
+/** input type for inserting object relation for remote table "friendship" */
+export type Friendship_Obj_Rel_Insert_Input = {
+  data: Friendship_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Friendship_On_Conflict>;
+};
+
+/** on_conflict condition type for table "friendship" */
+export type Friendship_On_Conflict = {
+  constraint: Friendship_Constraint;
+  update_columns?: Array<Friendship_Update_Column>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "friendship". */
+export type Friendship_Order_By = {
+  chats_aggregate?: InputMaybe<Chat_Aggregate_Order_By>;
+  client?: InputMaybe<Client_Order_By>;
+  clientByClientid2?: InputMaybe<Client_Order_By>;
+  clientId1?: InputMaybe<Order_By>;
+  clientId2?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: friendship */
+export type Friendship_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "friendship" */
+export enum Friendship_Select_Column {
+  /** column name */
+  ClientId1 = 'clientId1',
+  /** column name */
+  ClientId2 = 'clientId2',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+/** input type for updating data in table "friendship" */
+export type Friendship_Set_Input = {
+  clientId1?: InputMaybe<Scalars['uuid']['input']>;
+  clientId2?: InputMaybe<Scalars['uuid']['input']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** Streaming cursor of the table "friendship" */
+export type Friendship_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Friendship_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Friendship_Stream_Cursor_Value_Input = {
+  clientId1?: InputMaybe<Scalars['uuid']['input']>;
+  clientId2?: InputMaybe<Scalars['uuid']['input']>;
+  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+};
+
+/** update columns of table "friendship" */
+export enum Friendship_Update_Column {
+  /** column name */
+  ClientId1 = 'clientId1',
+  /** column name */
+  ClientId2 = 'clientId2',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Status = 'status',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+export type Friendship_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Friendship_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Friendship_Bool_Exp;
+};
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
@@ -1697,6 +2290,10 @@ export type Mutation_Root = {
   delete_bitcoin?: Maybe<Bitcoin_Mutation_Response>;
   /** delete single row from the table: "bitcoin" */
   delete_bitcoin_by_pk?: Maybe<Bitcoin>;
+  /** delete data from the table: "chat" */
+  delete_chat?: Maybe<Chat_Mutation_Response>;
+  /** delete single row from the table: "chat" */
+  delete_chat_by_pk?: Maybe<Chat>;
   /** delete data from the table: "client" */
   delete_client?: Maybe<Client_Mutation_Response>;
   /** delete single row from the table: "client" */
@@ -1705,6 +2302,10 @@ export type Mutation_Root = {
   delete_eth?: Maybe<Eth_Mutation_Response>;
   /** delete single row from the table: "eth" */
   delete_eth_by_pk?: Maybe<Eth>;
+  /** delete data from the table: "friendship" */
+  delete_friendship?: Maybe<Friendship_Mutation_Response>;
+  /** delete single row from the table: "friendship" */
+  delete_friendship_by_pk?: Maybe<Friendship>;
   /** delete data from the table: "sol" */
   delete_sol?: Maybe<Sol_Mutation_Response>;
   /** delete single row from the table: "sol" */
@@ -1729,6 +2330,10 @@ export type Mutation_Root = {
   insert_bitcoin?: Maybe<Bitcoin_Mutation_Response>;
   /** insert a single row into the table: "bitcoin" */
   insert_bitcoin_one?: Maybe<Bitcoin>;
+  /** insert data into the table: "chat" */
+  insert_chat?: Maybe<Chat_Mutation_Response>;
+  /** insert a single row into the table: "chat" */
+  insert_chat_one?: Maybe<Chat>;
   /** insert data into the table: "client" */
   insert_client?: Maybe<Client_Mutation_Response>;
   /** insert a single row into the table: "client" */
@@ -1737,6 +2342,10 @@ export type Mutation_Root = {
   insert_eth?: Maybe<Eth_Mutation_Response>;
   /** insert a single row into the table: "eth" */
   insert_eth_one?: Maybe<Eth>;
+  /** insert data into the table: "friendship" */
+  insert_friendship?: Maybe<Friendship_Mutation_Response>;
+  /** insert a single row into the table: "friendship" */
+  insert_friendship_one?: Maybe<Friendship>;
   /** insert data into the table: "sol" */
   insert_sol?: Maybe<Sol_Mutation_Response>;
   /** insert a single row into the table: "sol" */
@@ -1767,6 +2376,12 @@ export type Mutation_Root = {
   update_bitcoin_by_pk?: Maybe<Bitcoin>;
   /** update multiples rows of table: "bitcoin" */
   update_bitcoin_many?: Maybe<Array<Maybe<Bitcoin_Mutation_Response>>>;
+  /** update data of the table: "chat" */
+  update_chat?: Maybe<Chat_Mutation_Response>;
+  /** update single row of the table: "chat" */
+  update_chat_by_pk?: Maybe<Chat>;
+  /** update multiples rows of table: "chat" */
+  update_chat_many?: Maybe<Array<Maybe<Chat_Mutation_Response>>>;
   /** update data of the table: "client" */
   update_client?: Maybe<Client_Mutation_Response>;
   /** update single row of the table: "client" */
@@ -1779,6 +2394,12 @@ export type Mutation_Root = {
   update_eth_by_pk?: Maybe<Eth>;
   /** update multiples rows of table: "eth" */
   update_eth_many?: Maybe<Array<Maybe<Eth_Mutation_Response>>>;
+  /** update data of the table: "friendship" */
+  update_friendship?: Maybe<Friendship_Mutation_Response>;
+  /** update single row of the table: "friendship" */
+  update_friendship_by_pk?: Maybe<Friendship>;
+  /** update multiples rows of table: "friendship" */
+  update_friendship_many?: Maybe<Array<Maybe<Friendship_Mutation_Response>>>;
   /** update data of the table: "sol" */
   update_sol?: Maybe<Sol_Mutation_Response>;
   /** update single row of the table: "sol" */
@@ -1837,6 +2458,18 @@ export type Mutation_RootDelete_Bitcoin_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_ChatArgs = {
+  where: Chat_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Chat_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_ClientArgs = {
   where: Client_Bool_Exp;
 };
@@ -1856,6 +2489,18 @@ export type Mutation_RootDelete_EthArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Eth_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_FriendshipArgs = {
+  where: Friendship_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Friendship_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -1939,6 +2584,20 @@ export type Mutation_RootInsert_Bitcoin_OneArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsert_ChatArgs = {
+  objects: Array<Chat_Insert_Input>;
+  on_conflict?: InputMaybe<Chat_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Chat_OneArgs = {
+  object: Chat_Insert_Input;
+  on_conflict?: InputMaybe<Chat_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsert_ClientArgs = {
   objects: Array<Client_Insert_Input>;
   on_conflict?: InputMaybe<Client_On_Conflict>;
@@ -1963,6 +2622,20 @@ export type Mutation_RootInsert_EthArgs = {
 export type Mutation_RootInsert_Eth_OneArgs = {
   object: Eth_Insert_Input;
   on_conflict?: InputMaybe<Eth_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_FriendshipArgs = {
+  objects: Array<Friendship_Insert_Input>;
+  on_conflict?: InputMaybe<Friendship_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Friendship_OneArgs = {
+  object: Friendship_Insert_Input;
+  on_conflict?: InputMaybe<Friendship_On_Conflict>;
 };
 
 
@@ -2071,6 +2744,26 @@ export type Mutation_RootUpdate_Bitcoin_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_ChatArgs = {
+  _set?: InputMaybe<Chat_Set_Input>;
+  where: Chat_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Chat_By_PkArgs = {
+  _set?: InputMaybe<Chat_Set_Input>;
+  pk_columns: Chat_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Chat_ManyArgs = {
+  updates: Array<Chat_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_ClientArgs = {
   _inc?: InputMaybe<Client_Inc_Input>;
   _set?: InputMaybe<Client_Set_Input>;
@@ -2111,6 +2804,26 @@ export type Mutation_RootUpdate_Eth_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Eth_ManyArgs = {
   updates: Array<Eth_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_FriendshipArgs = {
+  _set?: InputMaybe<Friendship_Set_Input>;
+  where: Friendship_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Friendship_By_PkArgs = {
+  _set?: InputMaybe<Friendship_Set_Input>;
+  pk_columns: Friendship_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Friendship_ManyArgs = {
+  updates: Array<Friendship_Updates>;
 };
 
 
@@ -2213,6 +2926,12 @@ export type Query_Root = {
   bitcoin_aggregate: Bitcoin_Aggregate;
   /** fetch data from the table: "bitcoin" using primary key columns */
   bitcoin_by_pk?: Maybe<Bitcoin>;
+  /** fetch data from the table: "chat" */
+  chat: Array<Chat>;
+  /** fetch aggregated fields from the table: "chat" */
+  chat_aggregate: Chat_Aggregate;
+  /** fetch data from the table: "chat" using primary key columns */
+  chat_by_pk?: Maybe<Chat>;
   /** fetch data from the table: "client" */
   client: Array<Client>;
   /** fetch aggregated fields from the table: "client" */
@@ -2225,6 +2944,12 @@ export type Query_Root = {
   eth_aggregate: Eth_Aggregate;
   /** fetch data from the table: "eth" using primary key columns */
   eth_by_pk?: Maybe<Eth>;
+  /** fetch data from the table: "friendship" */
+  friendship: Array<Friendship>;
+  /** fetch aggregated fields from the table: "friendship" */
+  friendship_aggregate: Friendship_Aggregate;
+  /** fetch data from the table: "friendship" using primary key columns */
+  friendship_by_pk?: Maybe<Friendship>;
   /** fetch data from the table: "sol" */
   sol: Array<Sol>;
   /** fetch aggregated fields from the table: "sol" */
@@ -2315,6 +3040,29 @@ export type Query_RootBitcoin_By_PkArgs = {
 };
 
 
+export type Query_RootChatArgs = {
+  distinct_on?: InputMaybe<Array<Chat_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Chat_Order_By>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+
+export type Query_RootChat_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Chat_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Chat_Order_By>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+
+export type Query_RootChat_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
 export type Query_RootClientArgs = {
   distinct_on?: InputMaybe<Array<Client_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -2357,6 +3105,29 @@ export type Query_RootEth_AggregateArgs = {
 
 
 export type Query_RootEth_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootFriendshipArgs = {
+  distinct_on?: InputMaybe<Array<Friendship_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Friendship_Order_By>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+
+export type Query_RootFriendship_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Friendship_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Friendship_Order_By>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+
+export type Query_RootFriendship_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -2774,6 +3545,14 @@ export type Subscription_Root = {
   bitcoin_by_pk?: Maybe<Bitcoin>;
   /** fetch data from the table in a streaming manner: "bitcoin" */
   bitcoin_stream: Array<Bitcoin>;
+  /** fetch data from the table: "chat" */
+  chat: Array<Chat>;
+  /** fetch aggregated fields from the table: "chat" */
+  chat_aggregate: Chat_Aggregate;
+  /** fetch data from the table: "chat" using primary key columns */
+  chat_by_pk?: Maybe<Chat>;
+  /** fetch data from the table in a streaming manner: "chat" */
+  chat_stream: Array<Chat>;
   /** fetch data from the table: "client" */
   client: Array<Client>;
   /** fetch aggregated fields from the table: "client" */
@@ -2790,6 +3569,14 @@ export type Subscription_Root = {
   eth_by_pk?: Maybe<Eth>;
   /** fetch data from the table in a streaming manner: "eth" */
   eth_stream: Array<Eth>;
+  /** fetch data from the table: "friendship" */
+  friendship: Array<Friendship>;
+  /** fetch aggregated fields from the table: "friendship" */
+  friendship_aggregate: Friendship_Aggregate;
+  /** fetch data from the table: "friendship" using primary key columns */
+  friendship_by_pk?: Maybe<Friendship>;
+  /** fetch data from the table in a streaming manner: "friendship" */
+  friendship_stream: Array<Friendship>;
   /** fetch data from the table: "sol" */
   sol: Array<Sol>;
   /** fetch aggregated fields from the table: "sol" */
@@ -2907,6 +3694,36 @@ export type Subscription_RootBitcoin_StreamArgs = {
 };
 
 
+export type Subscription_RootChatArgs = {
+  distinct_on?: InputMaybe<Array<Chat_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Chat_Order_By>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+
+export type Subscription_RootChat_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Chat_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Chat_Order_By>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+
+export type Subscription_RootChat_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootChat_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Chat_Stream_Cursor_Input>>;
+  where?: InputMaybe<Chat_Bool_Exp>;
+};
+
+
 export type Subscription_RootClientArgs = {
   distinct_on?: InputMaybe<Array<Client_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -2964,6 +3781,36 @@ export type Subscription_RootEth_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Eth_Stream_Cursor_Input>>;
   where?: InputMaybe<Eth_Bool_Exp>;
+};
+
+
+export type Subscription_RootFriendshipArgs = {
+  distinct_on?: InputMaybe<Array<Friendship_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Friendship_Order_By>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+
+export type Subscription_RootFriendship_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Friendship_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Friendship_Order_By>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+
+export type Subscription_RootFriendship_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootFriendship_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Friendship_Stream_Cursor_Input>>;
+  where?: InputMaybe<Friendship_Bool_Exp>;
 };
 
 
