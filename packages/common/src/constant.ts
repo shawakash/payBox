@@ -236,7 +236,7 @@ export const getOtpTemplate = (name: string, otp: number, helpEmail: string) => 
   `
 }
 
-export const R2_QRCODE_BUCKET_NAME = "paybox-qrcode";
+
 
 export const unixToISOString = (unixTime: number): string => {
   const date = new Date(unixTime * 1000);
