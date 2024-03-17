@@ -21,9 +21,11 @@ import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { cloud, transporter, twillo } from "..";
 import { Readable } from "stream";
-import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { PutObjectCommand, GetObjectCommand, CopyObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * @param jwt
@@ -199,6 +201,13 @@ export const genRand = (length: number): string => {
 }
 
 /**
+ * @returns 
+ */
+export const genUUID = (): string => {
+  return uuidv4();
+}
+
+/**
  * 
  * @param name 
  * @param email 
@@ -279,7 +288,7 @@ export const putObjectInR2 = async <T extends string | Uint8Array | Buffer>(
 export const getObjectFromR2 = async (
   bucketName: string,
   fileName: string
-): Promise<{code: Buffer, type: string} | undefined> => {
+): Promise<{ code: Buffer, type: string } | undefined> => {
 
   const command = new GetObjectCommand({
     Bucket: bucketName,
@@ -309,5 +318,66 @@ export const getObjectFromR2 = async (
   } catch (error) {
     console.error('Error getting object:', error);
     return undefined;
+  }
+}
+
+/**
+ * 
+ * @param bucketName 
+ * @param fileName 
+ * @returns 
+ */
+export const getPutSignUrl = async (bucketName: string, fileName: string, expiresIn: number): Promise<string> => {
+  const command = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: fileName,
+    Metadata: {
+      'Uploaded-By': 'payBox',
+      // 'Upload-Date': new Date().toISOString(),
+      'owner': 'paybox'
+    }
+  });
+
+  try {
+    const url = await getSignedUrl(cloud, command, { expiresIn });
+    console.log(`Get signed url for ${fileName}`);
+    return url;
+  } catch (error) {
+    console.error('Error getting signed url:', error);
+    throw error;
+  }
+}
+
+/**
+ * 
+ * @param bucketName 
+ * @param key 
+ * @param newKey 
+ * @returns 
+ */
+export const updateKey = async (bucketName: string, key: string, newKey: string): Promise<string | undefined> => {
+  const copyCommand = new CopyObjectCommand({
+    Bucket: bucketName,
+    CopySource: `${bucketName}/${key}`,
+    Key: newKey,
+    Metadata: {
+      'Uploaded-By': 'payBox',
+      // 'Upload-Date': new Date().toISOString(),
+      'owner': 'paybox'
+    }
+  }) ;
+
+  const deleteCommand = new DeleteObjectCommand({
+    Bucket: bucketName,
+    Key: key
+  });
+
+  try {
+    const copy = await cloud.send(copyCommand);
+    await cloud.send(deleteCommand);
+    return copy.CopyObjectResult?.ETag;
+  } catch (error) {
+    console.error('Error updating the key:', error);
+    throw error;
   }
 }

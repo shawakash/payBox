@@ -26,12 +26,17 @@ import {
   updateAccountName,
   getAccount,
   getAccounts,
+  putImgUrl,
 } from "@paybox/backend-common";
 import { importFromPrivate, addAccountPhrase, getWalletForAccountCreate } from "@paybox/backend-common";
 import { cache } from "..";
 import {
+  genRand,
+  genUUID,
   generateSeed,
   getAccountOnPhrase,
+  getPutSignUrl,
+  updateKey,
   validatePassword,
 } from "../auth/util";
 import { getPassword } from "@paybox/backend-common";
@@ -39,7 +44,7 @@ import { accountCreateRateLimit, checkPassword } from "../auth/middleware";
 import { getSecretPhase } from "@paybox/backend-common";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { INFURA_PROJECT_ID } from "../config";
+import { INFURA_PROJECT_ID, R2_CLIENT_BUCKET_NAME } from "../config";
 
 export const accountRouter = Router();
 
@@ -48,7 +53,8 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { name } = AccountCreateQuery.parse(req.query);
+      const { name, imgUrl } = AccountCreateQuery.parse(req.query);
+
       /**
        * Create an public and private key
        */
@@ -67,14 +73,23 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
         solKeys,
         ethKeys,
       );
+
+      
       if (
         mutation.status == dbResStatus.Error ||
         mutation.account == undefined
-      ) {
-        return res
+        ) {
+          return res
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
-      }
+        }
+        
+        // change the key of the image
+        if(imgUrl) {
+          const key = (new URL(imgUrl)).pathname.split('/')[1];
+          const newTAG = await updateKey(R2_CLIENT_BUCKET_NAME, key, mutation.account?.id);
+          await putImgUrl(mutation.account.id, `https://${R2_CLIENT_BUCKET_NAME}.cloudflarestorage.com/${mutation.account?.id}`);
+        }
 
       /**
        * Cache
@@ -84,7 +99,7 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
         mutation.account,
         ACCOUNT_CACHE_EXPIRE
       );
-
+        console.log(mutation.account);
       return res.status(200).json({
         account: mutation.account,
         status: responseStatus.Ok,
@@ -453,10 +468,20 @@ accountRouter.get('/all', async (req, res) => {
 });
 
 // To get the total number of accounts
-accountRouter.get('/totalAccount', async (req, res) => {
+accountRouter.get('/defaultMetadata', async (req, res) => {
   try {
     //@ts-ignore
     const id = req.id;
+
+    const randomKey = genUUID();
+
+    // generate a put sign url
+    const putUrl = await getPutSignUrl(R2_CLIENT_BUCKET_NAME, randomKey, 600);
+    if(!putUrl) {
+      return res
+          .status(503)
+          .json({ msg: "Error in generating put sign url", status: responseStatus.Error });
+    }
 
     //query
     const {status, accounts} = await getAccounts(id);
@@ -468,8 +493,41 @@ accountRouter.get('/totalAccount', async (req, res) => {
 
     return res
             .status(200)
-            .json({number: accounts.length, status: responseStatus.Ok});
+            .json({
+              number: accounts.length,
+              putUrl,
+              status: responseStatus.Ok
+            });
 
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
+  }
+});
+
+accountRouter.get('/getPutImgUrl', async (req, res) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+
+    const randomKey = genUUID();
+
+    // generate a put sign url
+    const putUrl = await getPutSignUrl(R2_CLIENT_BUCKET_NAME, randomKey, 600);
+    if(!putUrl) {
+      return res
+          .status(503)
+          .json({ msg: "Error in generating put sign url", status: responseStatus.Error });
+    }
+
+    return res
+            .status(200)
+            .json({putUrl, status: responseStatus.Ok});
+    
   } catch (error) {
     console.log(error);
     return res.status(500).json({

@@ -9,6 +9,9 @@ export const AccountCreateQuery = z.object({
     name: z
         .string()
         .min(5),
+    imgUrl: z
+        .string()
+        .optional(),
 });
 
 export const AccountNameQuery = z.object({

@@ -1090,6 +1090,7 @@ export type ValueTypes = {
     /** An object relationship */
     eth?: ValueTypes["eth"];
     id?: boolean | `@${string}`;
+    img?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     /** An object relationship */
     sol?: ValueTypes["sol"];
@@ -1210,6 +1211,11 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    img?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
     name?:
       | ValueTypes["String_comparison_exp"]
       | undefined
@@ -1258,6 +1264,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    img?: string | undefined | null | Variable<any, string>;
     name?: string | undefined | null | Variable<any, string>;
     sol?:
       | ValueTypes["sol_obj_rel_insert_input"]
@@ -1281,6 +1288,7 @@ export type ValueTypes = {
     clientId?: boolean | `@${string}`;
     createdAt?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    img?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     updatedAt?: boolean | `@${string}`;
     walletId?: boolean | `@${string}`;
@@ -1299,6 +1307,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    img?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     updatedAt?:
       | ValueTypes["order_by"]
@@ -1316,6 +1325,7 @@ export type ValueTypes = {
     clientId?: boolean | `@${string}`;
     createdAt?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    img?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     updatedAt?: boolean | `@${string}`;
     walletId?: boolean | `@${string}`;
@@ -1334,6 +1344,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    img?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     updatedAt?:
       | ValueTypes["order_by"]
@@ -1400,6 +1411,7 @@ export type ValueTypes = {
       | Variable<any, string>;
     eth?: ValueTypes["eth_order_by"] | undefined | null | Variable<any, string>;
     id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    img?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     name?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
     sol?: ValueTypes["sol_order_by"] | undefined | null | Variable<any, string>;
     updatedAt?:
@@ -1433,6 +1445,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    img?: string | undefined | null | Variable<any, string>;
     name?: string | undefined | null | Variable<any, string>;
     updatedAt?:
       | ValueTypes["timestamptz"]
@@ -1463,6 +1476,7 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    img?: string | undefined | null | Variable<any, string>;
     name?: string | undefined | null | Variable<any, string>;
     updatedAt?:
       | ValueTypes["timestamptz"]
@@ -4088,9 +4102,9 @@ export type ValueTypes = {
       ValueTypes["chat_aggregate"],
     ];
     /** An object relationship */
-    client?: ValueTypes["client"];
+    client1?: ValueTypes["client"];
     /** An object relationship */
-    clientByClientid2?: ValueTypes["client"];
+    client2?: ValueTypes["client"];
     clientId1?: boolean | `@${string}`;
     clientId2?: boolean | `@${string}`;
     createdAt?: boolean | `@${string}`;
@@ -4194,12 +4208,12 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    client?:
+    client1?:
       | ValueTypes["client_bool_exp"]
       | undefined
       | null
       | Variable<any, string>;
-    clientByClientid2?:
+    client2?:
       | ValueTypes["client_bool_exp"]
       | undefined
       | null
@@ -4244,12 +4258,12 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    client?:
+    client1?:
       | ValueTypes["client_obj_rel_insert_input"]
       | undefined
       | null
       | Variable<any, string>;
-    clientByClientid2?:
+    client2?:
       | ValueTypes["client_obj_rel_insert_input"]
       | undefined
       | null
@@ -4376,12 +4390,12 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    client?:
+    client1?:
       | ValueTypes["client_order_by"]
       | undefined
       | null
       | Variable<any, string>;
-    clientByClientid2?:
+    client2?:
       | ValueTypes["client_order_by"]
       | undefined
       | null
@@ -8775,6 +8789,7 @@ export type ResolverInputTypes = {
     /** An object relationship */
     eth?: ResolverInputTypes["eth"];
     id?: boolean | `@${string}`;
+    img?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     /** An object relationship */
     sol?: ResolverInputTypes["sol"];
@@ -8847,6 +8862,7 @@ export type ResolverInputTypes = {
       | null;
     eth?: ResolverInputTypes["eth_bool_exp"] | undefined | null;
     id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    img?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     name?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     sol?: ResolverInputTypes["sol_bool_exp"] | undefined | null;
     updatedAt?:
@@ -8872,6 +8888,7 @@ export type ResolverInputTypes = {
     createdAt?: ResolverInputTypes["timestamptz"] | undefined | null;
     eth?: ResolverInputTypes["eth_obj_rel_insert_input"] | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
+    img?: string | undefined | null;
     name?: string | undefined | null;
     sol?: ResolverInputTypes["sol_obj_rel_insert_input"] | undefined | null;
     updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
@@ -8886,6 +8903,7 @@ export type ResolverInputTypes = {
     clientId?: boolean | `@${string}`;
     createdAt?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    img?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     updatedAt?: boolean | `@${string}`;
     walletId?: boolean | `@${string}`;
@@ -8896,6 +8914,7 @@ export type ResolverInputTypes = {
     clientId?: ResolverInputTypes["order_by"] | undefined | null;
     createdAt?: ResolverInputTypes["order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
+    img?: ResolverInputTypes["order_by"] | undefined | null;
     name?: ResolverInputTypes["order_by"] | undefined | null;
     updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
     walletId?: ResolverInputTypes["order_by"] | undefined | null;
@@ -8905,6 +8924,7 @@ export type ResolverInputTypes = {
     clientId?: boolean | `@${string}`;
     createdAt?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    img?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     updatedAt?: boolean | `@${string}`;
     walletId?: boolean | `@${string}`;
@@ -8915,6 +8935,7 @@ export type ResolverInputTypes = {
     clientId?: ResolverInputTypes["order_by"] | undefined | null;
     createdAt?: ResolverInputTypes["order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
+    img?: ResolverInputTypes["order_by"] | undefined | null;
     name?: ResolverInputTypes["order_by"] | undefined | null;
     updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
     walletId?: ResolverInputTypes["order_by"] | undefined | null;
@@ -8947,6 +8968,7 @@ export type ResolverInputTypes = {
     createdAt?: ResolverInputTypes["order_by"] | undefined | null;
     eth?: ResolverInputTypes["eth_order_by"] | undefined | null;
     id?: ResolverInputTypes["order_by"] | undefined | null;
+    img?: ResolverInputTypes["order_by"] | undefined | null;
     name?: ResolverInputTypes["order_by"] | undefined | null;
     sol?: ResolverInputTypes["sol_order_by"] | undefined | null;
     updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
@@ -8964,6 +8986,7 @@ export type ResolverInputTypes = {
     clientId?: ResolverInputTypes["uuid"] | undefined | null;
     createdAt?: ResolverInputTypes["timestamptz"] | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
+    img?: string | undefined | null;
     name?: string | undefined | null;
     updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
     walletId?: ResolverInputTypes["uuid"] | undefined | null;
@@ -8980,6 +9003,7 @@ export type ResolverInputTypes = {
     clientId?: ResolverInputTypes["uuid"] | undefined | null;
     createdAt?: ResolverInputTypes["timestamptz"] | undefined | null;
     id?: ResolverInputTypes["uuid"] | undefined | null;
+    img?: string | undefined | null;
     name?: string | undefined | null;
     updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
     walletId?: ResolverInputTypes["uuid"] | undefined | null;
@@ -10601,9 +10625,9 @@ export type ResolverInputTypes = {
       ResolverInputTypes["chat_aggregate"],
     ];
     /** An object relationship */
-    client?: ResolverInputTypes["client"];
+    client1?: ResolverInputTypes["client"];
     /** An object relationship */
-    clientByClientid2?: ResolverInputTypes["client"];
+    client2?: ResolverInputTypes["client"];
     clientId1?: boolean | `@${string}`;
     clientId2?: boolean | `@${string}`;
     createdAt?: boolean | `@${string}`;
@@ -10674,11 +10698,8 @@ export type ResolverInputTypes = {
       | ResolverInputTypes["chat_aggregate_bool_exp"]
       | undefined
       | null;
-    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
-    clientByClientid2?:
-      | ResolverInputTypes["client_bool_exp"]
-      | undefined
-      | null;
+    client1?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    client2?: ResolverInputTypes["client_bool_exp"] | undefined | null;
     clientId1?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     clientId2?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     createdAt?:
@@ -10697,11 +10718,11 @@ export type ResolverInputTypes = {
   /** input type for inserting data into table "friendship" */
   ["friendship_insert_input"]: {
     chats?: ResolverInputTypes["chat_arr_rel_insert_input"] | undefined | null;
-    client?:
+    client1?:
       | ResolverInputTypes["client_obj_rel_insert_input"]
       | undefined
       | null;
-    clientByClientid2?:
+    client2?:
       | ResolverInputTypes["client_obj_rel_insert_input"]
       | undefined
       | null;
@@ -10779,11 +10800,8 @@ export type ResolverInputTypes = {
       | ResolverInputTypes["chat_aggregate_order_by"]
       | undefined
       | null;
-    client?: ResolverInputTypes["client_order_by"] | undefined | null;
-    clientByClientid2?:
-      | ResolverInputTypes["client_order_by"]
-      | undefined
-      | null;
+    client1?: ResolverInputTypes["client_order_by"] | undefined | null;
+    client2?: ResolverInputTypes["client_order_by"] | undefined | null;
     clientId1?: ResolverInputTypes["order_by"] | undefined | null;
     clientId2?: ResolverInputTypes["order_by"] | undefined | null;
     createdAt?: ResolverInputTypes["order_by"] | undefined | null;
@@ -13780,6 +13798,7 @@ export type ModelTypes = {
     /** An object relationship */
     eth?: ModelTypes["eth"] | undefined;
     id: ModelTypes["uuid"];
+    img?: string | undefined;
     name: string;
     /** An object relationship */
     sol?: ModelTypes["sol"] | undefined;
@@ -13831,6 +13850,7 @@ export type ModelTypes = {
     createdAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
     eth?: ModelTypes["eth_bool_exp"] | undefined;
     id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    img?: ModelTypes["String_comparison_exp"] | undefined;
     name?: ModelTypes["String_comparison_exp"] | undefined;
     sol?: ModelTypes["sol_bool_exp"] | undefined;
     updatedAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
@@ -13846,6 +13866,7 @@ export type ModelTypes = {
     createdAt?: ModelTypes["timestamptz"] | undefined;
     eth?: ModelTypes["eth_obj_rel_insert_input"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     sol?: ModelTypes["sol_obj_rel_insert_input"] | undefined;
     updatedAt?: ModelTypes["timestamptz"] | undefined;
@@ -13857,6 +13878,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["uuid"] | undefined;
     createdAt?: ModelTypes["timestamptz"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     updatedAt?: ModelTypes["timestamptz"] | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
@@ -13866,6 +13888,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["order_by"] | undefined;
     createdAt?: ModelTypes["order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
+    img?: ModelTypes["order_by"] | undefined;
     name?: ModelTypes["order_by"] | undefined;
     updatedAt?: ModelTypes["order_by"] | undefined;
     walletId?: ModelTypes["order_by"] | undefined;
@@ -13875,6 +13898,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["uuid"] | undefined;
     createdAt?: ModelTypes["timestamptz"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     updatedAt?: ModelTypes["timestamptz"] | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
@@ -13884,6 +13908,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["order_by"] | undefined;
     createdAt?: ModelTypes["order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
+    img?: ModelTypes["order_by"] | undefined;
     name?: ModelTypes["order_by"] | undefined;
     updatedAt?: ModelTypes["order_by"] | undefined;
     walletId?: ModelTypes["order_by"] | undefined;
@@ -13915,6 +13940,7 @@ export type ModelTypes = {
     createdAt?: ModelTypes["order_by"] | undefined;
     eth?: ModelTypes["eth_order_by"] | undefined;
     id?: ModelTypes["order_by"] | undefined;
+    img?: ModelTypes["order_by"] | undefined;
     name?: ModelTypes["order_by"] | undefined;
     sol?: ModelTypes["sol_order_by"] | undefined;
     updatedAt?: ModelTypes["order_by"] | undefined;
@@ -13931,6 +13957,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["uuid"] | undefined;
     createdAt?: ModelTypes["timestamptz"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     updatedAt?: ModelTypes["timestamptz"] | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
@@ -13947,6 +13974,7 @@ export type ModelTypes = {
     clientId?: ModelTypes["uuid"] | undefined;
     createdAt?: ModelTypes["timestamptz"] | undefined;
     id?: ModelTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     updatedAt?: ModelTypes["timestamptz"] | undefined;
     walletId?: ModelTypes["uuid"] | undefined;
@@ -15061,9 +15089,9 @@ export type ModelTypes = {
     /** An aggregate relationship */
     chats_aggregate: ModelTypes["chat_aggregate"];
     /** An object relationship */
-    client: ModelTypes["client"];
+    client1: ModelTypes["client"];
     /** An object relationship */
-    clientByClientid2: ModelTypes["client"];
+    client2: ModelTypes["client"];
     clientId1: ModelTypes["uuid"];
     clientId2: ModelTypes["uuid"];
     createdAt: ModelTypes["timestamptz"];
@@ -15110,8 +15138,8 @@ export type ModelTypes = {
     _or?: Array<ModelTypes["friendship_bool_exp"]> | undefined;
     chats?: ModelTypes["chat_bool_exp"] | undefined;
     chats_aggregate?: ModelTypes["chat_aggregate_bool_exp"] | undefined;
-    client?: ModelTypes["client_bool_exp"] | undefined;
-    clientByClientid2?: ModelTypes["client_bool_exp"] | undefined;
+    client1?: ModelTypes["client_bool_exp"] | undefined;
+    client2?: ModelTypes["client_bool_exp"] | undefined;
     clientId1?: ModelTypes["uuid_comparison_exp"] | undefined;
     clientId2?: ModelTypes["uuid_comparison_exp"] | undefined;
     createdAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
@@ -15123,8 +15151,8 @@ export type ModelTypes = {
   /** input type for inserting data into table "friendship" */
   ["friendship_insert_input"]: {
     chats?: ModelTypes["chat_arr_rel_insert_input"] | undefined;
-    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
-    clientByClientid2?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    client1?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    client2?: ModelTypes["client_obj_rel_insert_input"] | undefined;
     clientId1?: ModelTypes["uuid"] | undefined;
     clientId2?: ModelTypes["uuid"] | undefined;
     createdAt?: ModelTypes["timestamptz"] | undefined;
@@ -15190,8 +15218,8 @@ export type ModelTypes = {
   /** Ordering options when selecting data from "friendship". */
   ["friendship_order_by"]: {
     chats_aggregate?: ModelTypes["chat_aggregate_order_by"] | undefined;
-    client?: ModelTypes["client_order_by"] | undefined;
-    clientByClientid2?: ModelTypes["client_order_by"] | undefined;
+    client1?: ModelTypes["client_order_by"] | undefined;
+    client2?: ModelTypes["client_order_by"] | undefined;
     clientId1?: ModelTypes["order_by"] | undefined;
     clientId2?: ModelTypes["order_by"] | undefined;
     createdAt?: ModelTypes["order_by"] | undefined;
@@ -16537,6 +16565,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     eth?: GraphQLTypes["eth"] | undefined;
     id: GraphQLTypes["uuid"];
+    img?: string | undefined;
     name: string;
     /** An object relationship */
     sol?: GraphQLTypes["sol"] | undefined;
@@ -16590,6 +16619,7 @@ export type GraphQLTypes = {
     createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
     eth?: GraphQLTypes["eth_bool_exp"] | undefined;
     id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    img?: GraphQLTypes["String_comparison_exp"] | undefined;
     name?: GraphQLTypes["String_comparison_exp"] | undefined;
     sol?: GraphQLTypes["sol_bool_exp"] | undefined;
     updatedAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
@@ -16606,6 +16636,7 @@ export type GraphQLTypes = {
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
     eth?: GraphQLTypes["eth_obj_rel_insert_input"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     sol?: GraphQLTypes["sol_obj_rel_insert_input"] | undefined;
     updatedAt?: GraphQLTypes["timestamptz"] | undefined;
@@ -16618,6 +16649,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["uuid"] | undefined;
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     updatedAt?: GraphQLTypes["timestamptz"] | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
@@ -16627,6 +16659,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["order_by"] | undefined;
     createdAt?: GraphQLTypes["order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
+    img?: GraphQLTypes["order_by"] | undefined;
     name?: GraphQLTypes["order_by"] | undefined;
     updatedAt?: GraphQLTypes["order_by"] | undefined;
     walletId?: GraphQLTypes["order_by"] | undefined;
@@ -16637,6 +16670,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["uuid"] | undefined;
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     updatedAt?: GraphQLTypes["timestamptz"] | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
@@ -16646,6 +16680,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["order_by"] | undefined;
     createdAt?: GraphQLTypes["order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
+    img?: GraphQLTypes["order_by"] | undefined;
     name?: GraphQLTypes["order_by"] | undefined;
     updatedAt?: GraphQLTypes["order_by"] | undefined;
     walletId?: GraphQLTypes["order_by"] | undefined;
@@ -16678,6 +16713,7 @@ export type GraphQLTypes = {
     createdAt?: GraphQLTypes["order_by"] | undefined;
     eth?: GraphQLTypes["eth_order_by"] | undefined;
     id?: GraphQLTypes["order_by"] | undefined;
+    img?: GraphQLTypes["order_by"] | undefined;
     name?: GraphQLTypes["order_by"] | undefined;
     sol?: GraphQLTypes["sol_order_by"] | undefined;
     updatedAt?: GraphQLTypes["order_by"] | undefined;
@@ -16695,6 +16731,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["uuid"] | undefined;
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     updatedAt?: GraphQLTypes["timestamptz"] | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
@@ -16711,6 +16748,7 @@ export type GraphQLTypes = {
     clientId?: GraphQLTypes["uuid"] | undefined;
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
     id?: GraphQLTypes["uuid"] | undefined;
+    img?: string | undefined;
     name?: string | undefined;
     updatedAt?: GraphQLTypes["timestamptz"] | undefined;
     walletId?: GraphQLTypes["uuid"] | undefined;
@@ -17899,9 +17937,9 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     chats_aggregate: GraphQLTypes["chat_aggregate"];
     /** An object relationship */
-    client: GraphQLTypes["client"];
+    client1: GraphQLTypes["client"];
     /** An object relationship */
-    clientByClientid2: GraphQLTypes["client"];
+    client2: GraphQLTypes["client"];
     clientId1: GraphQLTypes["uuid"];
     clientId2: GraphQLTypes["uuid"];
     createdAt: GraphQLTypes["timestamptz"];
@@ -17950,8 +17988,8 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes["friendship_bool_exp"]> | undefined;
     chats?: GraphQLTypes["chat_bool_exp"] | undefined;
     chats_aggregate?: GraphQLTypes["chat_aggregate_bool_exp"] | undefined;
-    client?: GraphQLTypes["client_bool_exp"] | undefined;
-    clientByClientid2?: GraphQLTypes["client_bool_exp"] | undefined;
+    client1?: GraphQLTypes["client_bool_exp"] | undefined;
+    client2?: GraphQLTypes["client_bool_exp"] | undefined;
     clientId1?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     clientId2?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
@@ -17964,8 +18002,8 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "friendship" */
   ["friendship_insert_input"]: {
     chats?: GraphQLTypes["chat_arr_rel_insert_input"] | undefined;
-    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
-    clientByClientid2?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    client1?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    client2?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
     clientId1?: GraphQLTypes["uuid"] | undefined;
     clientId2?: GraphQLTypes["uuid"] | undefined;
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
@@ -18034,8 +18072,8 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "friendship". */
   ["friendship_order_by"]: {
     chats_aggregate?: GraphQLTypes["chat_aggregate_order_by"] | undefined;
-    client?: GraphQLTypes["client_order_by"] | undefined;
-    clientByClientid2?: GraphQLTypes["client_order_by"] | undefined;
+    client1?: GraphQLTypes["client_order_by"] | undefined;
+    client2?: GraphQLTypes["client_order_by"] | undefined;
     clientId1?: GraphQLTypes["order_by"] | undefined;
     clientId2?: GraphQLTypes["order_by"] | undefined;
     createdAt?: GraphQLTypes["order_by"] | undefined;
@@ -19383,6 +19421,7 @@ export const enum account_select_column {
   clientId = "clientId",
   createdAt = "createdAt",
   id = "id",
+  img = "img",
   name = "name",
   updatedAt = "updatedAt",
   walletId = "walletId",
@@ -19392,6 +19431,7 @@ export const enum account_update_column {
   clientId = "clientId",
   createdAt = "createdAt",
   id = "id",
+  img = "img",
   name = "name",
   updatedAt = "updatedAt",
   walletId = "walletId",

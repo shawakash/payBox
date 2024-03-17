@@ -394,3 +394,39 @@ export const getAccounts = async (
     status: dbResStatus.Error,
   }
 }
+
+/**
+ * 
+ * @param id 
+ * @param img 
+ * @returns 
+ */
+export const putImgUrl = async (
+  id: string,
+  img: string
+): Promise<{
+  status: dbResStatus,
+}> => {
+  const response = await chain("mutation")({
+    update_account: [{
+      where: {
+        id: { _eq: id }
+      },
+      _set: {
+        img
+      }
+    }, {
+      returning: {
+        id: true
+      }
+    }]
+  }, { operationName: "putImgUrl" });
+  if (response.update_account?.returning[0]?.id) {
+    return {
+      status: dbResStatus.Ok
+    }
+  }
+  return {
+    status: dbResStatus.Error
+  }
+}
