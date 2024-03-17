@@ -56,15 +56,18 @@ import {
 } from "@/components/ui/accordion"
 import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { AvatarUpload } from "./avatar-upload";
 
-interface AccountCreateProps extends React.HTMLAttributes<HTMLDivElement> { 
+interface AccountCreateProps extends React.HTMLAttributes<HTMLDivElement> {
     defaultAccountName: string,
+    putUrl: string,
     jwt: string
 }
 
 export function AccountCreateForm({
     defaultAccountName,
-    jwt
+    jwt,
+    putUrl
 }: AccountCreateProps) {
     const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
     const router = useRouter();
@@ -73,13 +76,34 @@ export function AccountCreateForm({
         resolver: zodResolver(AccountCreateQuery),
         defaultValues: {
             name: defaultAccountName,
+            imgUrl: undefined
         },
     });
 
     async function onSubmit(values: z.infer<typeof AccountCreateQuery>) {
         const call = async () => {
             try {
-                const response = await fetch(`${BACKEND_URL}/account?name=${values.name}`, {
+                let accountQueryUrl = `${BACKEND_URL}/account?name=${values.name}`;
+                try {
+                    if (values.imgUrl && putUrl) {
+                        const putResponse = await fetch(putUrl, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "image/*",
+                            },
+                            body: values.imgUrl
+                        });
+                        if (putResponse) {
+                            accountQueryUrl += `&imgUrl=${putUrl}`
+                            toast.success("Image uploaded successfully");
+                        }
+                    }
+                } catch (error) {
+                    console.log(error);
+                    toast.error("Error uploading image");
+                }
+
+                const response = await fetch(accountQueryUrl, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -94,7 +118,7 @@ export function AccountCreateForm({
         toast.promise(call(), {
             loading: "Creating Account...",
             success({ account, status, msg }: { account: AccountType, status: responseStatus, msg: string }) {
-                if(status == responseStatus.Error) {
+                if (status == responseStatus.Error) {
                     return toast.error(msg)
                 }
                 //TODO: set the account to the atom
@@ -103,7 +127,7 @@ export function AccountCreateForm({
             error({ status, msg }: { status: responseStatus, msg: string }) {
                 return msg
             },
-        })
+        });
         router.push('/account/');
     }
     return (
@@ -118,13 +142,30 @@ export function AccountCreateForm({
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                                 <div className="grid gap-5">
-                                    <div className="grid grid-flow-row gap-y-5">
+                                    <div className="flex flex-row justify-center items-center gap-x-5">
+                                        <FormField
+                                            control={form.control}
+                                            name="imgUrl"
+                                            render={({ field }) => (
+                                                <FormItem className="w-fit">
+
+                                                    <FormControl>
+                                                        <AvatarUpload
+                                                            value={field.value}
+                                                            onChange={field.onChange}
+                                                            fallbackName={defaultAccountName.split(" ")[0].charAt(0) + defaultAccountName.split(" ")[1].charAt(0)}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
                                         <FormField
                                             control={form.control}
                                             name="name"
                                             render={({ field }) => (
-                                                <FormItem className="grid gap-1">
-                                                    <FormLabel htmlFor="name">
+                                                <FormItem className="w-full">
+                                                    <FormLabel htmlFor="name" className="w-fit h-fit">
                                                         Account Name
                                                     </FormLabel>
                                                     <FormControl>
