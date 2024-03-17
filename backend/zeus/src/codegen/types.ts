@@ -89,6 +89,7 @@ export type Account = {
   /** An object relationship */
   eth?: Maybe<Eth>;
   id: Scalars['uuid']['output'];
+  img?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   /** An object relationship */
   sol?: Maybe<Sol>;
@@ -156,6 +157,7 @@ export type Account_Bool_Exp = {
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   eth?: InputMaybe<Eth_Bool_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
+  img?: InputMaybe<String_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   sol?: InputMaybe<Sol_Bool_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -177,6 +179,7 @@ export type Account_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   eth?: InputMaybe<Eth_Obj_Rel_Insert_Input>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  img?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   sol?: InputMaybe<Sol_Obj_Rel_Insert_Input>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -190,6 +193,7 @@ export type Account_Max_Fields = {
   clientId?: Maybe<Scalars['uuid']['output']>;
   createdAt?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  img?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['timestamptz']['output']>;
   walletId?: Maybe<Scalars['uuid']['output']>;
@@ -200,6 +204,7 @@ export type Account_Max_Order_By = {
   clientId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  img?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
   walletId?: InputMaybe<Order_By>;
@@ -211,6 +216,7 @@ export type Account_Min_Fields = {
   clientId?: Maybe<Scalars['uuid']['output']>;
   createdAt?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
+  img?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['timestamptz']['output']>;
   walletId?: Maybe<Scalars['uuid']['output']>;
@@ -221,6 +227,7 @@ export type Account_Min_Order_By = {
   clientId?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  img?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
   walletId?: InputMaybe<Order_By>;
@@ -257,6 +264,7 @@ export type Account_Order_By = {
   createdAt?: InputMaybe<Order_By>;
   eth?: InputMaybe<Eth_Order_By>;
   id?: InputMaybe<Order_By>;
+  img?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   sol?: InputMaybe<Sol_Order_By>;
   updatedAt?: InputMaybe<Order_By>;
@@ -278,6 +286,8 @@ export enum Account_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Img = 'img',
+  /** column name */
   Name = 'name',
   /** column name */
   UpdatedAt = 'updatedAt',
@@ -290,6 +300,7 @@ export type Account_Set_Input = {
   clientId?: InputMaybe<Scalars['uuid']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  img?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
   walletId?: InputMaybe<Scalars['uuid']['input']>;
@@ -308,6 +319,7 @@ export type Account_Stream_Cursor_Value_Input = {
   clientId?: InputMaybe<Scalars['uuid']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
+  img?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
   walletId?: InputMaybe<Scalars['uuid']['input']>;
@@ -321,6 +333,8 @@ export enum Account_Update_Column {
   CreatedAt = 'createdAt',
   /** column name */
   Id = 'id',
+  /** column name */
+  Img = 'img',
   /** column name */
   Name = 'name',
   /** column name */
@@ -895,12 +909,12 @@ export type Chat = {
   __typename?: 'chat';
   /** An object relationship */
   client: Client;
-  createdAt: Scalars['timestamptz']['output'];
   /** An object relationship */
   friendship: Friendship;
   friendshipId: Scalars['uuid']['output'];
   id: Scalars['uuid']['output'];
   message: Scalars['String']['output'];
+  sendAt: Scalars['timestamptz']['output'];
   senderId: Scalars['uuid']['output'];
   updatedAt: Scalars['timestamptz']['output'];
 };
@@ -958,11 +972,11 @@ export type Chat_Bool_Exp = {
   _not?: InputMaybe<Chat_Bool_Exp>;
   _or?: InputMaybe<Array<Chat_Bool_Exp>>;
   client?: InputMaybe<Client_Bool_Exp>;
-  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   friendship?: InputMaybe<Friendship_Bool_Exp>;
   friendshipId?: InputMaybe<Uuid_Comparison_Exp>;
   id?: InputMaybe<Uuid_Comparison_Exp>;
   message?: InputMaybe<String_Comparison_Exp>;
+  sendAt?: InputMaybe<Timestamptz_Comparison_Exp>;
   senderId?: InputMaybe<Uuid_Comparison_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
 };
@@ -976,11 +990,11 @@ export enum Chat_Constraint {
 /** input type for inserting data into table "chat" */
 export type Chat_Insert_Input = {
   client?: InputMaybe<Client_Obj_Rel_Insert_Input>;
-  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   friendship?: InputMaybe<Friendship_Obj_Rel_Insert_Input>;
   friendshipId?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
+  sendAt?: InputMaybe<Scalars['timestamptz']['input']>;
   senderId?: InputMaybe<Scalars['uuid']['input']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -988,20 +1002,20 @@ export type Chat_Insert_Input = {
 /** aggregate max on columns */
 export type Chat_Max_Fields = {
   __typename?: 'chat_max_fields';
-  createdAt?: Maybe<Scalars['timestamptz']['output']>;
   friendshipId?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   message?: Maybe<Scalars['String']['output']>;
+  sendAt?: Maybe<Scalars['timestamptz']['output']>;
   senderId?: Maybe<Scalars['uuid']['output']>;
   updatedAt?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by max() on columns of table "chat" */
 export type Chat_Max_Order_By = {
-  createdAt?: InputMaybe<Order_By>;
   friendshipId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
+  sendAt?: InputMaybe<Order_By>;
   senderId?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
 };
@@ -1009,20 +1023,20 @@ export type Chat_Max_Order_By = {
 /** aggregate min on columns */
 export type Chat_Min_Fields = {
   __typename?: 'chat_min_fields';
-  createdAt?: Maybe<Scalars['timestamptz']['output']>;
   friendshipId?: Maybe<Scalars['uuid']['output']>;
   id?: Maybe<Scalars['uuid']['output']>;
   message?: Maybe<Scalars['String']['output']>;
+  sendAt?: Maybe<Scalars['timestamptz']['output']>;
   senderId?: Maybe<Scalars['uuid']['output']>;
   updatedAt?: Maybe<Scalars['timestamptz']['output']>;
 };
 
 /** order by min() on columns of table "chat" */
 export type Chat_Min_Order_By = {
-  createdAt?: InputMaybe<Order_By>;
   friendshipId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
+  sendAt?: InputMaybe<Order_By>;
   senderId?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
 };
@@ -1046,11 +1060,11 @@ export type Chat_On_Conflict = {
 /** Ordering options when selecting data from "chat". */
 export type Chat_Order_By = {
   client?: InputMaybe<Client_Order_By>;
-  createdAt?: InputMaybe<Order_By>;
   friendship?: InputMaybe<Friendship_Order_By>;
   friendshipId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   message?: InputMaybe<Order_By>;
+  sendAt?: InputMaybe<Order_By>;
   senderId?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
 };
@@ -1063,13 +1077,13 @@ export type Chat_Pk_Columns_Input = {
 /** select columns of table "chat" */
 export enum Chat_Select_Column {
   /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
   FriendshipId = 'friendshipId',
   /** column name */
   Id = 'id',
   /** column name */
   Message = 'message',
+  /** column name */
+  SendAt = 'sendAt',
   /** column name */
   SenderId = 'senderId',
   /** column name */
@@ -1078,10 +1092,10 @@ export enum Chat_Select_Column {
 
 /** input type for updating data in table "chat" */
 export type Chat_Set_Input = {
-  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   friendshipId?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
+  sendAt?: InputMaybe<Scalars['timestamptz']['input']>;
   senderId?: InputMaybe<Scalars['uuid']['input']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -1096,10 +1110,10 @@ export type Chat_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Chat_Stream_Cursor_Value_Input = {
-  createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
   friendshipId?: InputMaybe<Scalars['uuid']['input']>;
   id?: InputMaybe<Scalars['uuid']['input']>;
   message?: InputMaybe<Scalars['String']['input']>;
+  sendAt?: InputMaybe<Scalars['timestamptz']['input']>;
   senderId?: InputMaybe<Scalars['uuid']['input']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -1107,13 +1121,13 @@ export type Chat_Stream_Cursor_Value_Input = {
 /** update columns of table "chat" */
 export enum Chat_Update_Column {
   /** column name */
-  CreatedAt = 'createdAt',
-  /** column name */
   FriendshipId = 'friendshipId',
   /** column name */
   Id = 'id',
   /** column name */
   Message = 'message',
+  /** column name */
+  SendAt = 'sendAt',
   /** column name */
   SenderId = 'senderId',
   /** column name */
@@ -2011,9 +2025,9 @@ export type Friendship = {
   /** An aggregate relationship */
   chats_aggregate: Chat_Aggregate;
   /** An object relationship */
-  client: Client;
+  client1: Client;
   /** An object relationship */
-  clientByClientid2: Client;
+  client2: Client;
   clientId1: Scalars['uuid']['output'];
   clientId2: Scalars['uuid']['output'];
   createdAt: Scalars['timestamptz']['output'];
@@ -2096,8 +2110,8 @@ export type Friendship_Bool_Exp = {
   _or?: InputMaybe<Array<Friendship_Bool_Exp>>;
   chats?: InputMaybe<Chat_Bool_Exp>;
   chats_aggregate?: InputMaybe<Chat_Aggregate_Bool_Exp>;
-  client?: InputMaybe<Client_Bool_Exp>;
-  clientByClientid2?: InputMaybe<Client_Bool_Exp>;
+  client1?: InputMaybe<Client_Bool_Exp>;
+  client2?: InputMaybe<Client_Bool_Exp>;
   clientId1?: InputMaybe<Uuid_Comparison_Exp>;
   clientId2?: InputMaybe<Uuid_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -2115,8 +2129,8 @@ export enum Friendship_Constraint {
 /** input type for inserting data into table "friendship" */
 export type Friendship_Insert_Input = {
   chats?: InputMaybe<Chat_Arr_Rel_Insert_Input>;
-  client?: InputMaybe<Client_Obj_Rel_Insert_Input>;
-  clientByClientid2?: InputMaybe<Client_Obj_Rel_Insert_Input>;
+  client1?: InputMaybe<Client_Obj_Rel_Insert_Input>;
+  client2?: InputMaybe<Client_Obj_Rel_Insert_Input>;
   clientId1?: InputMaybe<Scalars['uuid']['input']>;
   clientId2?: InputMaybe<Scalars['uuid']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -2193,8 +2207,8 @@ export type Friendship_On_Conflict = {
 /** Ordering options when selecting data from "friendship". */
 export type Friendship_Order_By = {
   chats_aggregate?: InputMaybe<Chat_Aggregate_Order_By>;
-  client?: InputMaybe<Client_Order_By>;
-  clientByClientid2?: InputMaybe<Client_Order_By>;
+  client1?: InputMaybe<Client_Order_By>;
+  client2?: InputMaybe<Client_Order_By>;
   clientId1?: InputMaybe<Order_By>;
   clientId2?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
