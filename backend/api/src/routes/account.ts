@@ -30,8 +30,11 @@ import {
 import { importFromPrivate, addAccountPhrase, getWalletForAccountCreate } from "@paybox/backend-common";
 import { cache } from "..";
 import {
+  genRand,
+  genUUID,
   generateSeed,
   getAccountOnPhrase,
+  getPutSignUrl,
   validatePassword,
 } from "../auth/util";
 import { getPassword } from "@paybox/backend-common";
@@ -39,7 +42,7 @@ import { accountCreateRateLimit, checkPassword } from "../auth/middleware";
 import { getSecretPhase } from "@paybox/backend-common";
 import { SolOps } from "../sockets/sol";
 import { EthOps } from "../sockets/eth";
-import { INFURA_PROJECT_ID } from "../config";
+import { INFURA_PROJECT_ID, R2_CLIENT_BUCKET_NAME } from "../config";
 
 export const accountRouter = Router();
 
@@ -453,10 +456,20 @@ accountRouter.get('/all', async (req, res) => {
 });
 
 // To get the total number of accounts
-accountRouter.get('/totalAccount', async (req, res) => {
+accountRouter.get('/defaultMetadata', async (req, res) => {
   try {
     //@ts-ignore
     const id = req.id;
+
+    const randomKey = genUUID();
+
+    // generate a put sign url
+    const putUrl = await getPutSignUrl(R2_CLIENT_BUCKET_NAME, `${id}:${randomKey}`, 600);
+    if(!putUrl) {
+      return res
+          .status(503)
+          .json({ msg: "Error in generating put sign url", status: responseStatus.Error });
+    }
 
     //query
     const {status, accounts} = await getAccounts(id);
@@ -468,8 +481,41 @@ accountRouter.get('/totalAccount', async (req, res) => {
 
     return res
             .status(200)
-            .json({number: accounts.length, status: responseStatus.Ok});
+            .json({
+              number: accounts.length,
+              putUrl,
+              status: responseStatus.Ok
+            });
 
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: responseStatus.Error,
+      msg: "Internal error",
+      error: error,
+    });
+  }
+});
+
+accountRouter.get('/getPutImgUrl', async (req, res) => {
+  try {
+    //@ts-ignore
+    const id = req.id;
+
+    const randomKey = genUUID();
+
+    // generate a put sign url
+    const putUrl = await getPutSignUrl(R2_CLIENT_BUCKET_NAME, `${id}:${randomKey}`, 600);
+    if(!putUrl) {
+      return res
+          .status(503)
+          .json({ msg: "Error in generating put sign url", status: responseStatus.Error });
+    }
+
+    return res
+            .status(200)
+            .json({putUrl, status: responseStatus.Ok});
+    
   } catch (error) {
     console.log(error);
     return res.status(500).json({
