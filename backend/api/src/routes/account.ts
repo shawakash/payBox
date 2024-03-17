@@ -26,6 +26,7 @@ import {
   updateAccountName,
   getAccount,
   getAccounts,
+  putImgUrl,
 } from "@paybox/backend-common";
 import { importFromPrivate, addAccountPhrase, getWalletForAccountCreate } from "@paybox/backend-common";
 import { cache } from "..";
@@ -35,6 +36,7 @@ import {
   generateSeed,
   getAccountOnPhrase,
   getPutSignUrl,
+  updateKey,
   validatePassword,
 } from "../auth/util";
 import { getPassword } from "@paybox/backend-common";
@@ -51,7 +53,8 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { name } = AccountCreateQuery.parse(req.query);
+      const { name, imgUrl } = AccountCreateQuery.parse(req.query);
+
       /**
        * Create an public and private key
        */
@@ -70,14 +73,23 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
         solKeys,
         ethKeys,
       );
+
+      
       if (
         mutation.status == dbResStatus.Error ||
         mutation.account == undefined
-      ) {
-        return res
+        ) {
+          return res
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
-      }
+        }
+        
+        // change the key of the image
+        if(imgUrl) {
+          const key = (new URL(imgUrl)).pathname.split('/')[1];
+          const newTAG = await updateKey(R2_CLIENT_BUCKET_NAME, key, mutation.account?.id);
+          await putImgUrl(mutation.account.id, `https://${R2_CLIENT_BUCKET_NAME}.cloudflarestorage.com/${mutation.account?.id}`);
+        }
 
       /**
        * Cache
@@ -87,7 +99,7 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
         mutation.account,
         ACCOUNT_CACHE_EXPIRE
       );
-
+        console.log(mutation.account);
       return res.status(200).json({
         account: mutation.account,
         status: responseStatus.Ok,
@@ -464,7 +476,7 @@ accountRouter.get('/defaultMetadata', async (req, res) => {
     const randomKey = genUUID();
 
     // generate a put sign url
-    const putUrl = await getPutSignUrl(R2_CLIENT_BUCKET_NAME, `${id}:${randomKey}`, 600);
+    const putUrl = await getPutSignUrl(R2_CLIENT_BUCKET_NAME, randomKey, 600);
     if(!putUrl) {
       return res
           .status(503)
@@ -505,7 +517,7 @@ accountRouter.get('/getPutImgUrl', async (req, res) => {
     const randomKey = genUUID();
 
     // generate a put sign url
-    const putUrl = await getPutSignUrl(R2_CLIENT_BUCKET_NAME, `${id}:${randomKey}`, 600);
+    const putUrl = await getPutSignUrl(R2_CLIENT_BUCKET_NAME, randomKey, 600);
     if(!putUrl) {
       return res
           .status(503)
