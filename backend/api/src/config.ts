@@ -59,3 +59,7 @@ export const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "";
 export const R2_ENDPOINT = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
 
 export const R2_TOKEN = process.env.R2_TOKEN || "";
+
+export const R2_QRCODE_BUCKET_NAME = "paybox-qrcode";
+
+export const R2_CLIENT_BUCKET_NAME = "paybox-qrcode";
