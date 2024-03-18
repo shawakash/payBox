@@ -11,8 +11,9 @@ import { SolTxnLogs } from "./managers/sol";
 import { EthTxnLogs } from "./managers/eth";
 import { BtcTxn } from "./managers/btc";
 import { ChatSub } from "./Redis/ChatSub";
-import { extractClientId, validateJwt } from "./auth/utils";
-import { checkFriendship } from "@paybox/backend-common";
+import { extractIdFnc, validateJwt } from "./auth/utils";
+import { checkFriendship, checkValidation, extractClientId } from "@paybox/backend-common";
+import {chatRouter} from "./routes/chat";
 
 export * from "./managers";
 
@@ -79,7 +80,7 @@ wss.on("connection", async (ws, req) => {
         }));
         ws.close();
     }
-    id = await extractClientId(jwt, ws) as string;
+    id = await extractIdFnc(jwt, ws) as string;
 
     ws.on("message", async (message) => {
 
@@ -87,7 +88,6 @@ wss.on("connection", async (ws, req) => {
 
         if (data.type == WsMessageTypeEnum.Join) {
 
-            // TODO: check cache friendship status
             const { friendshipStatus, status } = await checkFriendship(data.payload.friendshipId, id);
             if (status == dbResStatus.Error) {
                 ws.send(JSON.stringify({
@@ -144,6 +144,8 @@ wss.on("connection", async (ws, req) => {
     });
 
 });
+
+app.use('/chat', extractClientId, checkValidation, chatRouter);
 
 
 process.on("uncaughtException", function (err) {
