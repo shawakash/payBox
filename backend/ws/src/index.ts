@@ -1,16 +1,17 @@
-import {BTC_WS_URL, CLIENT_URL, WsChatMessageType, WsMessageTypeEnum, WSPORT} from "@paybox/common";
+import { BTC_WS_URL, CLIENT_URL, WsChatMessageType, WsMessageTypeEnum, WSPORT } from "@paybox/common";
 import bodyParser from "body-parser";
 import express from "express";
 import http from "http";
 import morgan from "morgan";
-import {WebSocketServer} from "ws";
+import { WebSocketServer } from "ws";
 import cors from "cors";
-import {EthNetwok} from "./types";
-import {BTC_ADDRESS, ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS} from "./config";
-import {SolTxnLogs} from "./managers/sol";
-import {EthTxnLogs} from "./managers/eth";
-import {BtcTxn} from "./managers/btc";
-import {ChatSub} from "./Redis/ChatSub";
+import { EthNetwok } from "./types";
+import { BTC_ADDRESS, ETH_ADDRESS, INFURA_PROJECT_ID, SOLANA_ADDRESS } from "./config";
+import { SolTxnLogs } from "./managers/sol";
+import { EthTxnLogs } from "./managers/eth";
+import { BtcTxn } from "./managers/btc";
+import { ChatSub } from "./Redis/ChatSub";
+import { extractClientId, validateJwt } from "./auth/utils";
 
 export * from "./managers";
 
@@ -18,7 +19,7 @@ export const app = express();
 
 export const server = http.createServer(app);
 
-export const wss = new WebSocketServer({server});
+export const wss = new WebSocketServer({ server });
 
 // instances of the socket classes
 export const solTxn = new SolTxnLogs("devnet", SOLANA_ADDRESS);
@@ -70,25 +71,22 @@ app.get("/_health", (_req, res) => {
 
 wss.on("connection", async (ws, req) => {
     // TODO: add authentication
-    //@ts-ignore
-    const id = new URL(req.url as string, `http://${req.headers.host}`).searchParams.get('clientId') as string;
-    // ws.on("message", async (message) => {
-    //     const {accountId, clusters, type} = TxnLogMsgValid.parse(message.toString());
-    //     if (type === WsMessageType.Index) {
-    //         // cache account
-    //         const cacheAccount = await cache.account.getAccount(accountId);
-    //         if (!cacheAccount) {
-    //            ws.send(JSON.stringify({type: wsResponseStatus.Error, message: "Account not found"}));
-    //         }
-    //         // TODO: subscribe to different chains
-    //     }
-    // });
+    let id: string;
+    const jwt = new URL(req.url as string, `http://${req.headers.host}`).searchParams.get('jwt') as string;
+    if (!jwt) {
+        ws.send(JSON.stringify({
+            error: "Unauthorized: No jwt provided"
+        }));
+        ws.close();
+    }
+    id = await extractClientId(jwt, ws) as string;
 
     ws.on("message", async (message) => {
 
         const data: WsChatMessageType = JSON.parse(message.toString());
 
         if (data.type == WsMessageTypeEnum.Join) {
+            //TODO: check if friendship exists
             clients[id] = {
                 friendshipId: data.payload.friendshipId,
                 ws
