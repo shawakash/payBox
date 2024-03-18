@@ -159,7 +159,6 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
       /**
        * Cache
       */
-     //Done: USE TRANSACTION OF REDIS
      await cache.wallet.handleValid({
       id: validate.walletId,
       clientId: id,
@@ -234,17 +233,38 @@ clientRouter.post("/providerAuth", async (req, res) => {
     /**
      * Cache check
      */
-    const cachedClient =
+    const client =
       (await cache.clientCache.getClientFromKey(username)) ||
-      (await cache.clientCache.getClientFromKey(email));
-    if (cachedClient) {
+      (await cache.clientCache.getClientFromKey(email)) || (await getClientByEmail(email)).client;
+    if (client) {
       let jwt;
-      if (cachedClient.id) {
-        jwt = await setJWTCookie(req, res, cachedClient.id as string);
+      if (client.id) {
+        jwt = await setJWTCookie(req, res, client.id as string);
       }
+
+      /**
+       * Check password
+       */
+      if(password) {
+        const isCorrectPass = await validatePassword(
+          password,
+          client.password as string,
+        );
+        if (!isCorrectPass) {
+          return res
+            .status(401)
+            .json({ msg: "Wrong Password", status: responseStatus.Error });
+        }
+      }
+
+      /**
+       * Cache
+       */
+      await cache.clientCache.cacheClient(client.id as string, client, CLIENT_CACHE_EXPIRE);
+
       return res
         .status(302)
-        .json({ ...cachedClient, status: responseStatus.Ok, jwt });
+        .json({ ...client, status: responseStatus.Ok, jwt });
     }
 
     const hashPassword = await setHashPassword(password);
@@ -327,20 +347,6 @@ clientRouter.post("/login", async (req, res) => {
   try {
     const { email, password } = ClientSigninFormValidate.parse(req.body);
 
-    /**
-     * Cache
-     */
-    const cachedClient = await cache.clientCache.getClientFromKey(email);
-    if (cachedClient) {
-      let jwt;
-      if (cachedClient.id) {
-        jwt = await setJWTCookie(req, res, cachedClient.id as string);
-      }
-      console.log(cachedClient, "from cache");
-      return res
-        .status(302)
-        .json({ ...cachedClient, status: responseStatus.Ok, jwt });
-    }
 
     /**
      * Query the db
@@ -496,19 +502,15 @@ clientRouter.patch("/updateMetadata", extractClientId, async (req, res) => {
   try {
     const { firstname, lastname } = UpdateClientParser.parse(req.body);
     //@ts-ignore
-    if (req.id) {
-      //@ts-ignore
-      const updateUser = await updateMetadata(req.id, firstname, lastname);
+    const id = req.id;
+    if (id) {
+      const updateUser = await updateMetadata(id, firstname, lastname);
       if (updateUser.status == dbResStatus.Error) {
         return res
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      //@ts-ignore
-      await cache.updateUserFields(req.id as string, {
-        firstname,
-        lastname,
-      }, CLIENT_CACHE_EXPIRE);
+      await cache.deleteHash(id);
       return res
         .status(200)
         .json({ status: responseStatus.Ok, msg: "Metadata Updated" });
@@ -522,20 +524,15 @@ clientRouter.patch("/updateMetadata", extractClientId, async (req, res) => {
 clientRouter.delete("/delete", extractClientId, async (req, res) => {
   try {
     //@ts-ignore
-    if (req.id) {
-      //@ts-ignore
-      const delete_user = await deleteClient(req.id);
+    const id = req.id;
+    if (id) {
+      const delete_user = await deleteClient(id);
       if (delete_user.status == dbResStatus.Error || delete_user?.email == undefined || delete_user?.username == undefined) {
         return res
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      //@ts-ignore
-      await cache.deleteHash(req.id);
-      await cache.deleteHash(delete_user.email);
-      await cache.deleteHash(delete_user.username);
-      //@ts-ignore
-      await cache.deleteHash(`valid:${req.id}`);
+      await cache.clientCache.deleteCacheClient(id, delete_user.email, delete_user.username,);
       return res
         .status(200)
         .json({ status: responseStatus.Ok, msg: "User Deleted" });
@@ -563,6 +560,9 @@ clientRouter.patch(
             .status(503)
             .json({ status: responseStatus.Error, msg: "Database Error" });
         }
+
+        await cache.deleteHash(id);
+
         return res
           .status(200)
           .json({ status: responseStatus.Ok, msg: "Password Updated" });

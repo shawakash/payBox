@@ -1,6 +1,7 @@
 import { RedisClientType } from "redis";
 import { Redis } from "../Redis";
-import { AccountParser, AccountType, AccountsParser, WALLET_CACHE_EXPIRE } from "@paybox/common";
+import { AccountParser, AccountType, AccountsParser, WALLET_CACHE_EXPIRE, WalletType } from "@paybox/common";
+import { cache } from "..";
 
 export class AccountCache {
   private client: RedisClientType;
@@ -59,7 +60,7 @@ export class AccountCache {
 
   async getAccount<T>(key: string): Promise<T | null> {
     const account = await this.client.hGetAll(key);
-    if (!account) {
+    if (!account.id) {
       return null;
     }
     return {

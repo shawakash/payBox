@@ -123,7 +123,7 @@ accountRouter.patch("/updateName", async (req, res) => {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { name, accountId } = AccountNameQuery.parse(req.query);
+      const { name, accountId } = AccountNameQuery.parse(req.query);      
       const mutation = await updateAccountName(name, accountId);
       if (
         mutation.status == dbResStatus.Error ||
@@ -137,11 +137,8 @@ accountRouter.patch("/updateName", async (req, res) => {
       /**
        * Cache
        */
-      await cache.account.cacheAccount<AccountType>(
-        mutation.account.id,
-        mutation.account,
-        ACCOUNT_CACHE_EXPIRE
-      );
+      await cache.deleteHash(accountId);
+      await cache.deleteHash(mutation.account.walletId);
 
       return res.status(200).json({
         msg: "Name updated 😊",

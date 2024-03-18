@@ -68,7 +68,7 @@ export class Redis {
     return deletedKeys;
   }
 
-  async cacheIdUsingKey(key: string, item: string, expire: number): Promise<void> {
+  async cacheIdUsingKey(key: string, item: string, expire?: number): Promise<void> {
     await this.client.set(key, item, {
       EX: expire,
     });
