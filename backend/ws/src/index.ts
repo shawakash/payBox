@@ -1,4 +1,4 @@
-import { BTC_WS_URL, CLIENT_URL, WsChatMessageType, WsMessageTypeEnum, WSPORT } from "@paybox/common";
+import { BTC_WS_URL, CLIENT_URL, dbResStatus, WsChatMessageType, WsMessageTypeEnum, WSPORT, FriendshipStatus } from "@paybox/common";
 import bodyParser from "body-parser";
 import express from "express";
 import http from "http";
@@ -12,6 +12,7 @@ import { EthTxnLogs } from "./managers/eth";
 import { BtcTxn } from "./managers/btc";
 import { ChatSub } from "./Redis/ChatSub";
 import { extractClientId, validateJwt } from "./auth/utils";
+import { checkFriendship } from "@paybox/backend-common";
 
 export * from "./managers";
 
@@ -70,7 +71,6 @@ app.get("/_health", (_req, res) => {
 });
 
 wss.on("connection", async (ws, req) => {
-    // TODO: add authentication
     let id: string;
     const jwt = new URL(req.url as string, `http://${req.headers.host}`).searchParams.get('jwt') as string;
     if (!jwt) {
@@ -86,7 +86,39 @@ wss.on("connection", async (ws, req) => {
         const data: WsChatMessageType = JSON.parse(message.toString());
 
         if (data.type == WsMessageTypeEnum.Join) {
-            //TODO: check if friendship exists
+
+            // TODO: check cache friendship status
+            const { friendshipStatus, status } = await checkFriendship(data.payload.friendshipId, id);
+            if (status == dbResStatus.Error) {
+                ws.send(JSON.stringify({
+                    error: "Database error"
+                }));
+                ws.close();
+            }
+            if(!friendshipStatus) {
+                ws.send(JSON.stringify({
+                    type: WsMessageTypeEnum.Chat,
+                    payload: {
+                        friendshipId: data.payload.friendshipId,
+                        message: `No such Friendship: ${data.payload.friendshipId}`
+                    },
+                    error: "Unauthorized: Friendship not accepted",
+                }));
+                ws.close();
+            }
+
+            if(friendshipStatus !== "accepted") {
+                ws.send(JSON.stringify({
+                    type: WsMessageTypeEnum.Chat,
+                    payload: {
+                        friendshipId: data.payload.friendshipId,
+                        message: `Friendship status: ${friendshipStatus}`
+                    },
+                    error: "Friendship not accepted",
+                }));
+                ws.close();
+            }
+
             clients[id] = {
                 friendshipId: data.payload.friendshipId,
                 ws

@@ -53,7 +53,7 @@ export class ChatSub {
                 try {
                     const subs = this.reverseSubscriptions.get(friendshipId) || {};
                     Object.values(subs).forEach(({ws}) => {
-                        ws.send(JSON.stringify(payload));
+                        ws.send(JSON.stringify(parsePayload));
                     });
 
                     // Publishing message to queue
@@ -70,7 +70,10 @@ export class ChatSub {
         }
     }
 
-    publish(channelId: string, data: any) {
+    publish(channelId: string, data: {
+        type: WsMessageTypeEnum,
+        payload: ChatPayload
+    }) {
         console.log(`publishing to ${channelId}`);
         this.publisher.publish(channelId, JSON.stringify(data));
     }
@@ -79,7 +82,7 @@ export class ChatSub {
         this.publish(
             channelId, {
                 type: WsMessageTypeEnum.Chat,
-                payload
+                payload: payload as ChatPayload
             }
         )
     }
