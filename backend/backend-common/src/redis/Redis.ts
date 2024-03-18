@@ -1,9 +1,9 @@
 import { RedisClientType, createClient } from "redis";
 import { PROCESS, REDIS_URL } from "../config";
 
-export class Redis {
-  private client: RedisClientType;
-  private static instance: Redis;
+export class RedisBase {
+  public client: RedisClientType;
+  private static instance: RedisBase;
 
   constructor() {
     this.client = createClient({
@@ -36,9 +36,9 @@ export class Redis {
     this.client.connect();
   }
 
-  public static getInstance(): Redis {
+  public static getInstance(): RedisBase {
     if (!this.instance) {
-      this.instance = new Redis();
+      this.instance = new RedisBase();
     }
     return this.instance;
   }

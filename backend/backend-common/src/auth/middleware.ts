@@ -12,7 +12,7 @@ import {
   responseStatus,
 } from "@paybox/common";
 import { getPassword, queryValid } from "@paybox/backend-common";
-import { Redis } from "../redis";
+import { RedisBase } from "../redis";
 
 
 /**
@@ -141,7 +141,7 @@ export const isValidated = async (
     const id = req.id;
     if (id) {
 
-      const validCache = await Redis.getInstance().getIdFromKey(`valid:${id}`);
+      const validCache = await RedisBase.getInstance().getIdFromKey(`valid:${id}`);
       if (validCache === 'true') {
         return res
           .status(200)
@@ -191,9 +191,8 @@ export const checkValidation = async (
     //@ts-ignore
     const id = req.id;
     if(id) {
-      const validCache = await Redis.getInstance().getIdFromKey(`valid:${id}`);
+      const validCache = await RedisBase.getInstance().getIdFromKey(`valid:${id}`);
       if (!validCache) {
-        //TODO: QUERY THE DB AND CACHE THE RESULT
         const {status, valid} = await queryValid(id);
         if (status == dbResStatus.Error) {
           return res
@@ -205,7 +204,7 @@ export const checkValidation = async (
           .status(200)
           .json({ msg: "Please verify your number or email first.", status: responseStatus.Error });
         }
-        await Redis.getInstance().cacheIdUsingKey(`valid:${id}`, 'true', VALID_CACHE_EXPIRE);
+        await RedisBase.getInstance().cacheIdUsingKey(`valid:${id}`, 'true', VALID_CACHE_EXPIRE);
       }
     } else { 
       return res
