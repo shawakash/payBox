@@ -14,7 +14,6 @@ import {
   Network,
   PasswordValid,
   QrcodeQuery,
-  R2_QRCODE_BUCKET_NAME,
   TxnSendQuery,
   VALID_CACHE_EXPIRE,
   dbResStatus,
@@ -27,6 +26,7 @@ import { getPassword, queryValid } from "@paybox/backend-common";
 import { EthOps } from "../sockets/eth";
 import { SolOps } from "../sockets/sol";
 import rateLimit from "express-rate-limit";
+import {R2_QRCODE_BUCKET_NAME} from "../config";
 
 
 /**

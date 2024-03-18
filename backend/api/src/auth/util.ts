@@ -118,6 +118,7 @@ export const validatePassword = async (
     throw new Error("Error hashing password");
   }
 };
+
 /**
  *
  * @param payload
