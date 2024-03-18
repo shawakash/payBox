@@ -20,7 +20,7 @@ export const validateJwt = async (jwt: string) => {
  * @param ws  | any
  * @returns   | string | null
  */
-export const extractClientId = async (jwt: string, ws: any): Promise<string | null> => {
+export const extractIdFnc = async (jwt: string, ws: any): Promise<string | null> => {
     try {
         let id: string;
         const payloadRes = await validateJwt(jwt);

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { checkPassword } from "../auth/middleware";
 import {
   SecretValid,
   WALLET_CACHE_EXPIRE,
@@ -7,7 +6,13 @@ import {
   dbResStatus,
   responseStatus,
 } from "@paybox/common";
-import { delWallet, getAccountsFromWalletId, getSecretPhase, getWallets } from "@paybox/backend-common";
+import {
+  delWallet,
+  getAccountsFromWalletId,
+  getSecretPhase,
+  getWallets,
+  checkPassword
+} from "@paybox/backend-common";
 import { cache } from "..";
 
 export const walletRouter = Router();
@@ -73,7 +78,7 @@ walletRouter.get("/accounts", async (req, res) => {
     return res
       .status(500)
       .json({ status: responseStatus.Error, msg: "Jwt error" });
-  } catch (error) {}
+  } catch (error) { }
 });
 
 walletRouter.delete("/", async (req, res) => {
@@ -89,7 +94,7 @@ walletRouter.delete("/", async (req, res) => {
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
-      if(deleteSecret.accounts?.length == 0) {
+      if (deleteSecret.accounts?.length == 0) {
         return res
           .status(404)
           .json({ status: responseStatus.Error, msg: "Not found" });
@@ -130,7 +135,7 @@ walletRouter.get("/", async (req, res) => {
   } catch (error) {
     console.error(error)
     return res
-    .status(500)
-    .json({ status: responseStatus.Error, msg: "Jwt error" });
+      .status(500)
+      .json({ status: responseStatus.Error, msg: "Jwt error" });
   }
 });

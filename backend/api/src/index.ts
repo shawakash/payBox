@@ -23,7 +23,7 @@ import { Redis } from "./Redis";
 import { clientRouter } from "./routes/client";
 import cors from "cors";
 import { addressRouter } from "./routes/address";
-import { checkValidation, extractClientId } from "./auth/middleware";
+import { checkValidation, extractClientId } from "@paybox/backend-common";
 import { qrcodeRouter } from "./routes/qrcode";
 import { txnRouter } from "./routes/transaction";
 import { expressMiddleware } from "@apollo/server/express4";
