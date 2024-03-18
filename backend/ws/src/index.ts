@@ -14,6 +14,7 @@ import { ChatSub } from "./Redis/ChatSub";
 import { extractIdFnc, validateJwt } from "./auth/utils";
 import { checkFriendship, checkValidation, extractClientId } from "@paybox/backend-common";
 import {chatRouter} from "./routes/chat";
+import { Redis } from "./Redis/ChatCache";
 
 export * from "./managers";
 
@@ -31,6 +32,8 @@ export const ethTxn = new EthTxnLogs(
     ETH_ADDRESS,
 );
 export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
+
+export const cache = new Redis()
 
 const clients: {
     [key: string]: {
