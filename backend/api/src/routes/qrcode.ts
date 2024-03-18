@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { createReadStream } from "fs";
 import { AccountType, Address, QrcodeQuery, responseStatus } from "@paybox/common";
-import { generateQRCode, putObjectInR2 } from "../auth/util";
-import { checkQrcode, checkValidation, hasAddress, isValidated } from "../auth/middleware";
+import { generateQRCode } from "../auth/util";
+import { checkQrcode,  hasAddress,  } from "../auth/middleware";
+import {checkValidation, isValidated} from "@paybox/backend-common"
 import { cache } from "..";
 import { R2_QRCODE_BUCKET_NAME } from "../config";
 

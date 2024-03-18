@@ -29,18 +29,21 @@ import {
   updateMetadata,
   updatePassword,
   validateClient,
+  genRand,
+  checkPassword, 
+  extractClientId, 
+  isValidated,
+  validatePassword,
+  setJWTCookie,
 } from "@paybox/backend-common";
 import { cache } from "../index";
 import {
   genOtp,
-  genRand,
   generateSeed,
   sendOTP,
   setHashPassword,
-  setJWTCookie,
-  validatePassword,
 } from "../auth/util";
-import { checkPassword, extractClientId, isValidated, resendOtpLimiter } from "../auth/middleware";
+import {  resendOtpLimiter } from "../auth/middleware";
 import {
   Client,
   ClientSigninFormValidate,

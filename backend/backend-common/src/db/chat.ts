@@ -1,5 +1,5 @@
-import {Chain} from "@paybox/zeus";
-import {dbResStatus, HASURA_ADMIN_SERCRET, HASURA_URL, JWT} from "@paybox/common";
+import {Chain, order_by} from "@paybox/zeus";
+import {ChatType, dbResStatus, HASURA_ADMIN_SERCRET, HASURA_URL, JWT} from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
     headers: {
@@ -42,5 +42,45 @@ export const insertChatOne = async (
     }
     return {
         status: dbResStatus.Error,
+    }
+}
+
+/**
+ * 
+ * @param friendshipId 
+ * @returns 
+ */
+export const getChats = async (
+    friendshipId: string
+): Promise<{
+    status: dbResStatus,
+    chats?: ChatType[]
+}> => {
+    const response = await chain("query")({
+        chat: [{
+            where: {
+                friendshipId: {_eq: friendshipId}
+            },
+            limit: 20,
+            order_by: [{
+                sendAt: order_by["desc"]
+            }],
+        }, {
+            friendshipId: true,
+            id: true,
+            message: true,
+            sendAt: true,
+            updatedAt: true,
+            senderId: true
+        }],
+    }, {operationName: "getChats"});
+    if(Array.isArray(response.chat)) {
+        return {
+            status: dbResStatus.Ok,
+            chats: response.chat as ChatType[]
+        }
+    }
+    return {
+        status: dbResStatus.Error
     }
 }

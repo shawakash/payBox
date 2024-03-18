@@ -271,3 +271,4 @@ export const TRANSACTION_CACHE_EXPIRE = 60 * 60 * 1; // 1 hour
 export const PHRASE_ACCOUNT_CACHE_EXPIRE = 60 * 5; // 1 hour
 export const OTP_CACHE_EXPIRE = 60 * 5; // 1 hour
 export const VALID_CACHE_EXPIRE = 60 * 60 * 10; // 1 hour
+export const CHAT_CACHE_EXPIRE = 60 * 1;

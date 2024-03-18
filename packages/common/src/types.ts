@@ -301,3 +301,12 @@ export type WsChatMessageType = {
 }
 
 export type FriendshipStatus = "pending" | "accepted" | "rejected" | "blocked" | "deleted";
+
+export type ChatType = {
+    id: string,
+    senderId: string,
+    message: string,
+    friendshipId: string,
+    updatedAt: string, 
+    sendAt: string
+}
