@@ -106,6 +106,19 @@ export class ClientCache {
     return;
   }
 
+  async deleteCacheClient(id: string, email: string, username: string): Promise<void> {
+    try {
+      this.client.multi()
+        .del(id)
+        .del(email)
+        .del(username)
+        .del(`accs:${id}`)
+        .del(`valid:${id}`)
+    } catch (error) {
+      console.log("Error deleting client cache", error);
+      return;
+    }
+  }
 
 }
 
