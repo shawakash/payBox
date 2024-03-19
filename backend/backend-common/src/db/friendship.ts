@@ -10,26 +10,51 @@ const chain = Chain(HASURA_URL, {
 });
 
 
+/**
+ * 
+ * @param clientId1 
+ * @param clientId2 
+ * @returns 
+ */
 export const requestFriendship = async (
     clientId1: string,
-    clientId2: string,
-
+    username: string,
 ): Promise<{
     status: dbResStatus,
     id?: string,
-    friendshipStatus?: FriendshipStatus
+    friendshipStatus?: FriendshipStatus,
+    msg?: string
 }> => {
+
+    const getClientId2 = await chain("query")({
+        client: [{
+            where: {
+                username: { _eq: username }
+            }
+        }, {
+            id: true
+        }]
+    }, {operationName: "getClientId2"});
+
+    if (getClientId2.client.length === 0) {
+        return {
+            status: dbResStatus.Error,
+            msg: "No such user"
+        }
+    }
+
     const response = await chain("mutation")({
         insert_friendship_one: [{
             object: {
                 clientId1,
-                clientId2
+                clientId2: getClientId2.client[0].id
             }
         }, {
             id: true,
             status: true
         }]
     }, { operationName: "requestFriendship" });
+
     if (response.insert_friendship_one?.id) {
         return {
             id: response.insert_friendship_one.id as string,
