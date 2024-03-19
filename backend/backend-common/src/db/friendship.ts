@@ -43,6 +43,35 @@ export const requestFriendship = async (
         }
     }
 
+    //check friendship
+    const checkFriendshipRes = await chain("query")({
+        friendship: [{
+            where: {
+                _or: [
+                    {
+                        clientId1: { _eq: clientId1 },
+                        clientId2: { _eq: getClientId2.client[0].id }
+                    },
+                    {
+                        clientId1: { _eq: getClientId2.client[0].id },
+                        clientId2: { _eq: clientId1 }
+                    }
+                ]
+            },
+        }, {
+            status: true,
+            id: true
+        }]
+    }, { operationName: "checkFriendship" });
+    if(checkFriendshipRes.friendship.length > 0) {
+        return {
+            status: dbResStatus.Ok,
+            msg: "Friendship already exists",
+            id: checkFriendshipRes.friendship[0].id as string,
+            friendshipStatus: checkFriendshipRes.friendship[0].status as FriendshipStatus
+        }
+    }
+
     const response = await chain("mutation")({
         insert_friendship_one: [{
             object: {
