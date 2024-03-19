@@ -137,3 +137,38 @@ export const checkFriendship = async (
         status: dbResStatus.Error
     }
 }
+
+/**
+ * 
+ * @param friendshipId 
+ * @returns 
+ */
+export const acceptFriendship = async (
+    friendshipId: string,
+): Promise<{
+    status: dbResStatus,
+    friendshipStatus?: FriendshipStatus
+}> => {
+    const response = await chain("mutation")({
+        update_friendship_by_pk: [{
+            _set: {
+                status: "accepted"
+            },
+            pk_columns: {
+                id: friendshipId
+            }
+        }, {
+            status: true,
+            id: true
+        }]
+    }, { operationName: "acceptFriendship" });
+    if(response.update_friendship_by_pk?.id) {
+        return {
+            status: dbResStatus.Ok,
+            friendshipStatus: response.update_friendship_by_pk.status as FriendshipStatus
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }    
+}
