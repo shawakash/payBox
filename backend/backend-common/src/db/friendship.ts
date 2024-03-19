@@ -1,5 +1,5 @@
 import { Chain } from "@paybox/zeus";
-import { dbResStatus, HASURA_ADMIN_SERCRET, HASURA_URL, JWT } from "@paybox/common";
+import { dbResStatus, FriendshipStatusEnum, HASURA_ADMIN_SERCRET, HASURA_URL, JWT } from "@paybox/common";
 import { FriendshipStatus } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
@@ -144,31 +144,82 @@ export const checkFriendship = async (
  * @returns 
  */
 export const acceptFriendship = async (
+    clientId: string,
     friendshipId: string,
 ): Promise<{
     status: dbResStatus,
     friendshipStatus?: FriendshipStatus
 }> => {
     const response = await chain("mutation")({
-        update_friendship_by_pk: [{
-            _set: {
-                status: "accepted"
+        update_friendship: [{
+            where: {
+                id: { _eq: friendshipId },
+                _or: [
+                    { clientId1: { _eq: clientId } },
+                    { clientId2: { _eq: clientId } }
+                ],
             },
-            pk_columns: {
-                id: friendshipId
+            _set: {
+                status: FriendshipStatusEnum.Accepted
             }
         }, {
-            status: true,
-            id: true
+            returning: {
+                id: true,
+                status: true
+            }
         }]
     }, { operationName: "acceptFriendship" });
-    if(response.update_friendship_by_pk?.id) {
+    if(response.update_friendship?.returning[0].id) {
         return {
             status: dbResStatus.Ok,
-            friendshipStatus: response.update_friendship_by_pk.status as FriendshipStatus
+            friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus
         }
     }
     return {
         status: dbResStatus.Error
     }    
+}
+
+/**
+ * 
+ * @param id 
+ * @param status 
+ * @returns 
+ */
+export const putFriendshipStatus = async (
+    clientId: string,
+    id: string,
+    status: FriendshipStatusEnum
+): Promise<{
+    status: dbResStatus,
+    friendshipStatus?: FriendshipStatus
+}> => {
+    const response = await chain("mutation")({
+        update_friendship: [{
+            where: {
+                id: { _eq: id },
+                _or: [
+                    { clientId1: { _eq: clientId } },
+                    { clientId2: { _eq: clientId } }
+                ]
+            },
+            _set: {
+                status
+            }
+        }, {
+            returning: {
+                id: true,
+                status: true
+            }
+        }]
+    }, { operationName: "putFriendshipStatus" });
+    if(response.update_friendship?.returning[0].id) {
+        return {
+            status: dbResStatus.Ok,
+            friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus
+        }
+    }
+    return {
+        status: dbResStatus.Error,
+    }
 }
