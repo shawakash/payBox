@@ -1,6 +1,19 @@
 import { Router } from "express";
-import { CheckFriendshipValid, RequestFriendshipValid, dbResStatus, responseStatus, PutStatusValid } from "@paybox/common";
-import { acceptFriendship, checkFriendship, putFriendshipStatus, requestFriendship } from "@paybox/backend-common";
+import {
+    CheckFriendshipValid,
+    RequestFriendshipValid,
+    dbResStatus,
+    responseStatus,
+    PutStatusValid,
+    GetFriendships
+} from "@paybox/common";
+import {
+    acceptFriendship,
+    checkFriendship,
+    getFriendships,
+    putFriendshipStatus,
+    requestFriendship
+} from "@paybox/backend-common";
 
 export const friendshipRouter = Router();
 
@@ -79,7 +92,7 @@ friendshipRouter.put('/accept', async (req, res) => {
         const { friendshipId } = CheckFriendshipValid.parse(req.query);
 
         const { status, friendshipStatus } = await acceptFriendship(id, friendshipId);
-        if(status === dbResStatus.Error) {
+        if (status === dbResStatus.Error) {
             return res
                 .status(503)
                 .json({ msg: "Database Error", status: responseStatus.Error });
@@ -107,9 +120,9 @@ friendshipRouter.put('/', async (req, res) => {
         //@ts-ignore
         const id = req.id;
 
-        const {friendshipId, friendshipStatus} = PutStatusValid.parse(req.query);
+        const { friendshipId, friendshipStatus } = PutStatusValid.parse(req.query);
         const query = await putFriendshipStatus(id, friendshipId, friendshipStatus);
-        if(query.status === dbResStatus.Error) {
+        if (query.status === dbResStatus.Error) {
             return res
                 .status(503)
                 .json({ msg: "Database Error", status: responseStatus.Error });
@@ -121,7 +134,39 @@ friendshipRouter.put('/', async (req, res) => {
                 status: responseStatus.Ok,
                 friendshipStatus: query.friendshipStatus,
                 id: friendshipId,
-                msg: "Friendship status updated",                
+                msg: "Friendship status updated",
+            });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: responseStatus.Error,
+            msg: "Internal error",
+            error: error,
+        });
+    }
+});
+
+
+friendshipRouter.get('/', async (req, res) => {
+    try {
+        //@ts-ignore
+        const id = req.id;
+
+        const { friendshipStatus } = GetFriendships.parse(req.query);
+        const { status, friendships } = await getFriendships(id, friendshipStatus);
+        if (status === dbResStatus.Error) {
+            return res
+                .status(503)
+                .json({ msg: "Database Error", status: responseStatus.Error });
+        }
+
+        // TODO: CACHE
+        return res
+            .status(200)
+            .json({
+                status: responseStatus.Ok,
+                friendships,
             });
 
     } catch (error) {

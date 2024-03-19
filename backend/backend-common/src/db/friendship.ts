@@ -1,5 +1,5 @@
-import { Chain } from "@paybox/zeus";
-import { dbResStatus, FriendshipStatusEnum, HASURA_ADMIN_SERCRET, HASURA_URL, JWT } from "@paybox/common";
+import { Chain, order_by } from "@paybox/zeus";
+import { dbResStatus, FriendshipStatusEnum, FriendshipType, HASURA_ADMIN_SERCRET, HASURA_URL, JWT } from "@paybox/common";
 import { FriendshipStatus } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
@@ -221,5 +221,56 @@ export const putFriendshipStatus = async (
     }
     return {
         status: dbResStatus.Error,
+    }
+}
+
+/**
+ * 
+ * @param clientId 
+ * @param friendshipStatus 
+ * @param limit 
+ * @param offset 
+ * @returns 
+ */
+export const getFriendships = async (
+    clientId: string,
+    friendshipStatus: FriendshipStatusEnum,
+    limit?: number,
+    offset?: number,
+): Promise<{
+    status: dbResStatus,
+    friendships?: FriendshipType[]
+}> => {
+    const response = await chain("query")({
+        friendship: [{
+            where: {
+                _or: [
+                    { clientId1: { _eq: clientId } },
+                    { clientId2: { _eq: clientId } }
+                ],
+                status: { _eq: friendshipStatus }
+            },
+            limit,
+            offset,
+            order_by: [{
+                updatedAt: order_by.desc
+            }]
+        }, {
+            id: true,
+            clientId1: true,
+            clientId2: true,
+            status: true,
+            updatedAt: true,
+            createdAt: true
+        }]
+    }, { operationName: "getFriendships" });
+    if(Array.isArray(response.friendship)) {
+        return {
+            status: dbResStatus.Ok,
+            friendships: response.friendship as FriendshipType[]
+        }
+    }
+    return {
+        status: dbResStatus.Error
     }
 }
