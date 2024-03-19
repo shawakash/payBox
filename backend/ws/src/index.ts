@@ -13,7 +13,7 @@ import { BtcTxn } from "./managers/btc";
 import { ChatSub } from "./Redis/ChatSub";
 import { extractIdFnc, validateJwt } from "./auth/utils";
 import { checkFriendship, checkValidation, extractClientId } from "@paybox/backend-common";
-import {chatRouter} from "./routes/chat";
+import {chatRouter, friendshipRouter} from "./routes";
 import { Redis } from "./Redis/ChatCache";
 
 export * from "./managers";
@@ -148,7 +148,8 @@ wss.on("connection", async (ws, req) => {
 
 });
 
-app.use('/chat', extractClientId, checkValidation, chatRouter);
+app.use('/friendship', extractClientId, friendshipRouter);
+app.use('/chat', extractClientId, chatRouter);
 
 
 process.on("uncaughtException", function (err) {

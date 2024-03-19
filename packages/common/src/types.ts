@@ -301,6 +301,13 @@ export type WsChatMessageType = {
 }
 
 export type FriendshipStatus = "pending" | "accepted" | "rejected" | "blocked" | "deleted";
+export enum FriendshipStatusEnum {
+    Pending = "pending",
+    Accepted = "accepted",
+    Rejected = "rejected",
+    Blocked = "blocked",
+    Deleted = "deleted"
+}
 
 export type ChatType = {
     id: string,
@@ -309,4 +316,13 @@ export type ChatType = {
     friendshipId: string,
     updatedAt: string, 
     sendAt: string
+}
+
+export type FriendshipType = {
+    id: string,
+    clientId1: string,
+    clientId2: string,
+    status: FriendshipStatus,
+    updatedAt: string,
+    createdAt: string
 }
