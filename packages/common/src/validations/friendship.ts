@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { FriendshipStatusEnum } from "../types";
 
 export const RequestFriendshipValid = z.object({
     username: z
@@ -26,3 +27,14 @@ export const CheckFriendshipValid = z.object({
             "should be a valid UUID.",
         )
 });
+
+export const PutStatusValid = z.object({
+    friendshipId: z
+        .string()
+        .regex(
+            /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
+            "should be a valid UUID.",
+        ),
+    friendshipStatus: z.nativeEnum(FriendshipStatusEnum),
+});
+
