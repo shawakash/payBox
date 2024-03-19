@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CheckFriendshipValid, RequestFriendshipValid, dbResStatus, responseStatus } from "@paybox/common";
-import { checkFriendship, requestFriendship } from "@paybox/backend-common";
+import { acceptFriendship, checkFriendship, requestFriendship } from "@paybox/backend-common";
 
 export const friendshipRouter = Router();
 
@@ -18,6 +18,7 @@ friendshipRouter.post('/request', async (req, res) => {
                 .json({ msg: "Database Error", status: responseStatus.Error });
         }
 
+        // TODO: send notification to client with username
         return res.status(200).json({
             status: responseStatus.Ok,
             friendshipId,
@@ -51,6 +52,37 @@ friendshipRouter.get('/check', async (req, res) => {
             return res
                 .status(401)
                 .json({ msg: "No such friendship", status: responseStatus.Error });
+        }
+
+        return res
+            .status(200)
+            .json({
+                status: responseStatus.Ok,
+                friendshipStatus,
+            });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: responseStatus.Error,
+            msg: "Internal error",
+            error: error,
+        });
+    }
+});
+
+friendshipRouter.put('/accept', async (req, res) => {
+    try {
+        //@ts-ignore
+        const id = req.id;
+
+        const { friendshipId } = CheckFriendshipValid.parse(req.query);
+
+        const { status, friendshipStatus } = await acceptFriendship(friendshipId);
+        if(status === dbResStatus.Error) {
+            return res
+                .status(503)
+                .json({ msg: "Database Error", status: responseStatus.Error });
         }
 
         return res
