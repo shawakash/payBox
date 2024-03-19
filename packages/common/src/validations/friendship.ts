@@ -38,3 +38,8 @@ export const PutStatusValid = z.object({
     friendshipStatus: z.nativeEnum(FriendshipStatusEnum),
 });
 
+export const GetFriendships = z.object({
+    limit: z.number().int().optional(),
+    offset: z.number().int().optional(),
+    friendshipStatus: z.nativeEnum(FriendshipStatusEnum),
+});

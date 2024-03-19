@@ -317,3 +317,12 @@ export type ChatType = {
     updatedAt: string, 
     sendAt: string
 }
+
+export type FriendshipType = {
+    id: string,
+    clientId1: string,
+    clientId2: string,
+    status: FriendshipStatus,
+    updatedAt: string,
+    createdAt: string
+}
