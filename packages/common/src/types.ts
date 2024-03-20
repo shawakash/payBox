@@ -326,3 +326,7 @@ export type FriendshipType = {
     updatedAt: string,
     createdAt: string
 }
+
+export type AcceptFriendship = FriendshipType & {
+    chats: ChatType[]
+}
