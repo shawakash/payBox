@@ -5,11 +5,13 @@ import {
     dbResStatus,
     responseStatus,
     PutStatusValid,
-    GetFriendships
+    GetFriendships,
+    FriendshipStatusEnum
 } from "@paybox/common";
 import {
     acceptFriendship,
     checkFriendship,
+    getAcceptFriendships,
     getFriendships,
     putFriendshipStatus,
     requestFriendship
@@ -168,6 +170,37 @@ friendshipRouter.get('/', async (req, res) => {
                 status: responseStatus.Ok,
                 friendships,
             });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            status: responseStatus.Error,
+            msg: "Internal error",
+            error: error,
+        });
+    }
+});
+
+
+friendshipRouter.get('/accept', async (req, res) => {
+    try {
+        //@ts-ignore
+        const id = req.id;
+
+        const { status, friendships } = await getAcceptFriendships(id);
+        if (status === dbResStatus.Error) {
+            return res
+                .status(503)
+                .json({ msg: "Database Error", status: responseStatus.Error });
+        }
+
+         // TODO: CACHE
+         return res
+         .status(200)
+         .json({
+             status: responseStatus.Ok,
+             friendships,
+         });
 
     } catch (error) {
         console.log(error);
