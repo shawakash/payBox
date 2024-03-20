@@ -207,6 +207,7 @@ export const getClientByEmail = async (
             usdc: true,
             id: true,
           },
+          valid: true,
         },
       ],
     },

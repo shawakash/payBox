@@ -1,5 +1,5 @@
 import { Chain, order_by } from "@paybox/zeus";
-import { dbResStatus, FriendshipStatusEnum, FriendshipType, HASURA_ADMIN_SERCRET, HASURA_URL, JWT } from "@paybox/common";
+import { AcceptFriendship, dbResStatus, FriendshipStatusEnum, FriendshipType, HASURA_ADMIN_SERCRET, HASURA_URL, JWT } from "@paybox/common";
 import { FriendshipStatus } from "@paybox/common";
 
 const chain = Chain(HASURA_URL, {
@@ -268,6 +268,58 @@ export const getFriendships = async (
         return {
             status: dbResStatus.Ok,
             friendships: response.friendship as FriendshipType[]
+        }
+    }
+    return {
+        status: dbResStatus.Error
+    }
+}
+
+export const getAcceptFriendships = async (
+    clientId: string,
+): Promise<{
+    status: dbResStatus,
+    friendships?: AcceptFriendship[]
+}> => {
+    const response = await chain("query")({
+        friendship: [{
+            where: {
+                _or: [
+                    { clientId1: { _eq: clientId } },
+                    { clientId2: { _eq: clientId } }
+                ],
+                status: { _eq: FriendshipStatusEnum.Accepted }
+            },
+            order_by: [{
+                updatedAt: order_by.desc
+            }],
+        }, {
+            id: true,
+            clientId1: true,
+            clientId2: true,
+            status: true,
+            updatedAt: true,
+            createdAt: true,
+            chats: [{
+                limit: 1,
+                order_by: [{
+                    updatedAt: order_by.desc,
+                    sendAt: order_by.desc
+                }],
+            }, {
+                id: true,
+                message: true,
+                updatedAt: true,
+                friendshipId: true,
+                senderId: true,
+                sendAt: true,
+            }]
+        }]
+    }, {operationName: "getAcceptFriendships"});
+    if(Array.isArray(response.friendship)) {
+        return {
+            status: dbResStatus.Ok,
+            friendships: response.friendship as AcceptFriendship[]
         }
     }
     return {
