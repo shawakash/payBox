@@ -10,23 +10,28 @@ import {
 import { cn } from "@/lib/utils";
 import { Sidebar } from "../sidebar";
 import { Chat } from "./chat";
+import { FriendshipType } from "@paybox/common";
 
 interface ChatLayoutProps {
   defaultLayout: number[] | undefined;
   defaultCollapsed?: boolean;
   navCollapsedSize: number;
+  friendships: FriendshipType[];
 }
 
 export function ChatLayout({
   defaultLayout = [100, 480],
   defaultCollapsed = false,
   navCollapsedSize,
+  friendships
 }: ChatLayoutProps) {
   const [isCollapsed, setIsCollapsed] = React.useState(defaultCollapsed);
+  // TODO: fetch the data from the server
   const [selectedUser, setSelectedUser] = React.useState(userData[0]);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // TODO: join the ws server
     const checkScreenWidth = () => {
       setIsMobile(window.innerWidth <= 768);
     };

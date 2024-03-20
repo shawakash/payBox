@@ -20,6 +20,6 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-            <div className={GeistSans.className}>{children}</div>
+        <div className={GeistSans.className}>{children}</div>
     );
 }

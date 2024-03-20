@@ -23,7 +23,7 @@ export default function ChatTopbar({selectedUser}: ChatTopbarProps) {
               alt={selectedUser.name}
               width={6}
               height={6}
-              className="w-10 h-10 "
+              className="w-10 h-10"
             />
           </Avatar>
           <div className="flex flex-col">
