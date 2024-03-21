@@ -1,18 +1,28 @@
 # Use the official Node.js image as the base image
 FROM node:21
 
-# Set the working directory in the container
-WORKDIR /app/packages/kafka
+WORKDIR /base
 
-# Copy the application code to the container
-COPY .  .
+COPY ["package.json", "./package.json"]
+COPY [".yarnrc", "./.yarnrc"]
+COPY [".npmrc", "./.npmrc"]
+COPY [".eslintrc.js", "./.eslintrc.js"]
+COPY ["turbo.json", "./turbo.json"]
+COPY ["yarn.lock", "./yarn.lock"]
+COPY ["tsconfig.json", "./tsconfig.json"]
 
-# Install app dependencies using Yarn
+COPY ["packages/typescript-config", "./packages/typescript-config"]
+COPY ["packages/eslint-config", "./packages/teslint-config"]
+COPY ["packages/kafka", "./packages/kafka"]
+COPY ["packages/common", "./packages/common"]
+COPY ["backend/backend-common", "./backend/backend-common"]
+
+RUN cd /base
 RUN yarn install
+RUN cd /base/packages/common && yarn run build
+RUN cd /base/backend/backend-common && yarn run build
+RUN cd /base/packages/kafka && yarn run build
 
-# Build the pacakge
-RUN yarn build
+WORKDIR /base/packages/kafka
 
-
-# Command to run the application
 CMD ["yarn", "dev"]
