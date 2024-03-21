@@ -1,35 +1,35 @@
-# Use the official Node.js image as the base image
+
 FROM node:21
 
-# Set the working directory in the container
-WORKDIR /app/backend/ws
+WORKDIR /base
 
-# Declare environment variables
-ENV HASURAL_URL=
-ENV AUTH_JWT=
-ENV AUTH_JWT_PUBLIC_KEY=
-ENV AUTH_JWT_PRIVATE_KEY=
-ENV REDIS_URL=
-ENV REDIS_SECRET=
-ENV GMAIL_APP_PASS=
-ENV GMAIL=
-ENV MAIL_SERVICE=
-ENV R2_ACCESS_KEY_ID=
-ENV R2_SECRET_ACCESS_KEY=
-ENV R2_ACCOUNT_ID=
-ENV R2_TOKEN=
+COPY ["package.json", "./package.json"]
+COPY [".yarnrc", "./.yarnrc"]
+COPY [".npmrc", "./.npmrc"]
+COPY [".eslintrc.js", "./.eslintrc.js"]
+COPY ["turbo.json", "./turbo.json"]
+COPY ["yarn.lock", "./yarn.lock"]
+COPY ["tsconfig.json", "./tsconfig.json"]
 
-# Copy the application code to the container
-COPY .  .
+COPY ["packages/typescript-config", "./packages/typescript-config"]
+COPY ["packages/eslint-config", "./packages/teslint-config"]
+COPY ["backend/backend-common", "./backend/backend-common"]
+COPY ["packages/common", "./packages/common"]
+COPY ["packages/kafka", "./packages/kafka"]
+COPY ["openapi", "./openapi"]
+COPY ["backend/zeus", "./backend/zeus"]
+COPY ["backend/ws", "./backend/ws"]
 
-# Install app dependencies using Yarn
+
+RUN cd /base
 RUN yarn install
+RUN yarn run build
+RUN cd /base/backend/ws && yarn run build
+# KAFKA URL NEEDS TO BE SET AS ENVIRONMENT VARIABLE
+RUN cd /base/packages/kafka && yarn run dev
 
-# Build the pacakge
-RUN yarn build
+EXPOSE 8080
 
-# Expose port 8080
-EXPOSE 8081
+WORKDIR /base/backend/ws
 
-# Command to run the application
 CMD ["yarn", "dev"]
