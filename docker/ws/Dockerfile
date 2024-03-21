@@ -12,7 +12,7 @@ COPY ["yarn.lock", "./yarn.lock"]
 COPY ["tsconfig.json", "./tsconfig.json"]
 
 COPY ["packages/typescript-config", "./packages/typescript-config"]
-COPY ["packages/eslint-config", "./packages/teslint-config"]
+COPY ["packages/eslint-config", "./packages/eslint-config"]
 COPY ["backend/backend-common", "./backend/backend-common"]
 COPY ["packages/common", "./packages/common"]
 COPY ["packages/kafka", "./packages/kafka"]

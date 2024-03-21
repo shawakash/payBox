@@ -12,13 +12,11 @@ COPY ["yarn.lock", "./yarn.lock"]
 COPY ["tsconfig.json", "./tsconfig.json"]
 
 COPY ["packages/typescript-config", "./packages/typescript-config"]
-COPY ["packages/eslint-config", "./packages/teslint-config"]
+COPY ["packages/eslint-config", "./packages/eslint-config"]
 COPY ["backend/backend-common", "./backend/backend-common"]
 COPY ["packages/common", "./packages/common"]
 COPY ["backend/zeus", "./backend/zeus"]
 
 RUN cd /base
 RUN yarn install
-RUN cd /base/backend/zeus && yarn run build
-RUN cd /base/backend/backend-common && yarn run build
-RUN cd /base/packages/common && yarn run build
+RUN yarn run build

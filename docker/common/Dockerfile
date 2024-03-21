@@ -17,6 +17,6 @@ COPY ["packages/common", "./packages/common"]
 
 RUN cd /base
 RUN yarn install
-RUN cd /base/packages/common && yarn run build
+RUN yarn run build
 
 WORKDIR /base/packages/common
