@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  backendmote:
+    image: shawakash/paybox-mote:{{tag}}
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    command: "make dev"
