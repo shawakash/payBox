@@ -1,0 +1,58 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    SOLANA_ADDRESS: "SOLANA_ADDRESS"
+    ETH_ADDRESS: "ETH_ADDRESS"
+    SEPOLIA_URL: "SEPOLIA_URL"
+    INFURA_PROJECT_ID: "INFURA_PROJECT_ID"
+    SEPOLIA_URL_HTTP: "SEPOLIA_URL_HTTP"
+    BTC_ADDRESS: "BTC_ADDRESS"
+    HASURA_URL: "HASURA_URL"
+    REDIS_URL: "REDIS_URL"
+    TWILLO_ACCOUNT_SID: "TWILLO_ACCOUNT_SID"
+    TWILLO_TOKEN: "TWILLO_TOKEN"
+    TWILLO_NUMBER: "TWILLO_NUMBER"
+    REDIS_SECRET: "REDIS_SECRET"
+    GMAIL_APP_PASS: "GMAIL_APP_PASS"
+    GMAIL: "GMAIL"
+    MAIL_SERVICE: "MAIL_SERVICE"
+    R2_ACCESS_KEY_ID: "R2_ACCESS_KEY_ID"
+    R2_SECRET_ACCESS_KEY: "R2_SECRET_ACCESS_KEY"
+    R2_ACCOUNT_ID: "R2_ACCOUNT_ID"
+    R2_TOKEN: "R2_TOKEN"
+    PROCESS: "PROCESS"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 21
+  build:
+    commands:
+      - mv docker/ws/Dockerfile .
+      - cd backend/ws
+      - touch .env
+      - printf "SOLANA_ADDRESS=%s\n" "$SOLANA_ADDRESS" >> .env
+      - printf "ETH_ADDRESS=%s\n" "$ETH_ADDRESS" >> .env
+      - printf "SEPOLIA_URL=%s\n" "$SEPOLIA_URL" >> .env
+      - printf "INFURA_PROJECT_ID=%s\n" "$INFURA_PROJECT_ID" >> .env
+      - printf "SEPOLIA_URL_HTTP=%s\n" "$SEPOLIA_URL_HTTP" >> .env
+      - printf "BTC_ADDRESS=%s\n" "$BTC_ADDRESS" >> .env
+      - printf "HASURA_URL=%s\n" "$HASURA_URL" >> .env
+      - printf "REDIS_URL=%s\n" "$REDIS_URL" >> .env
+      - printf "TWILLO_ACCOUNT_SID=%s\n" "$TWILLO_ACCOUNT_SID" >> .env
+      - printf "TWILLO_TOKEN=%s\n" "$TWILLO_TOKEN" >> .env
+      - printf "TWILLO_NUMBER=%s\n" "$TWILLO_NUMBER" >> .env
+      - printf "REDIS_SECRET=%s\n" "$REDIS_SECRET" >> .env
+      - printf "GMAIL_APP_PASS=%s\n" "$GMAIL_APP_PASS" >> .env
+      - printf "GMAIL=%s\n" "$GMAIL" >> .env
+      - printf "MAIL_SERVICE=%s\n" "$MAIL_SERVICE" >> .env
+      - printf "R2_ACCESS_KEY_ID=%s\n" "$R2_ACCESS_KEY_ID" >> .env
+      - printf "R2_SECRET_ACCESS_KEY=%s\n" "$R2_SECRET_ACCESS_KEY" >> .env
+      - printf "R2_ACCOUNT_ID=%s\n" "$R2_ACCOUNT_ID" >> .env
+      - printf "R2_TOKEN=%s\n" "$R2_TOKEN" >> .env
+      - printf "PROCESS=%s\n" "$PROCESS" >> .env
+      - cd ../..
+artifacts:
+  files:
+    - '**/*'
