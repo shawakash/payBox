@@ -1,0 +1,57 @@
+name: Deploy backend-ws
+
+on:
+  push:
+    branches:
+      - dev
+      - docker_fix
+  pull_request:
+    branches:
+      - dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: "mv docker/ws/Dockerfile ."
+
+      - name: add secrets
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          cd backend/ws
+          touch .env
+          printf 'SOLANA_ADDRESS=%s\n' "${{secrets.SOLANA_ADDRESS}}" >> .env
+          printf 'ETH_ADDRESS=%s\n' "${{secrets.ETH_ADDRESS}}" >> .env
+          printf 'SEPOLIA_URL=%s\n' "${{secrets.SEPOLIA_URL}}" >> .env
+          printf 'INFURA_PROJECT_ID=%s\n' "${{secrets.INFURA_PROJECT_ID}}" >> .env
+          printf 'SEPOLIA_URL_HTTP=%s\n' "${{secrets.SEPOLIA_URL_HTTP}}" >> .env
+          printf 'BTC_ADDRESS=%s\n' "${{secrets.BTC_ADDRESS}}" >> .env
+          printf 'HASURA_URL=%s\n' "${{secrets.HASURA_URL}}" >> .env
+          printf 'REDIS_URL=%s\n' "${{secrets.REDIS_URL}}" >> .env
+          printf 'TWILLO_ACCOUNT_SID=%s\n' "${{secrets.TWILLO_ACCOUNT_SID}}" >> .env
+          printf 'TWILLO_TOKEN=%s\n' "${{secrets.TWILLO_TOKEN}}" >> .env
+          printf 'TWILLO_NUMBER=%s\n' "${{secrets.TWILLO_NUMBER}}" >> .env
+          printf 'REDIS_SECRET=%s\n' "${{secrets.REDIS_SECRET}}" >> .env
+          printf 'GMAIL_APP_PASS=%s\n' "${{secrets.GMAIL_APP_PASS}}" >> .env
+          printf 'GMAIL=%s\n' "${{secrets.GMAIL}}" >> .env
+          printf 'MAIL_SERVICE=%s\n' "${{secrets.MAIL_SERVICE}}" >> .env
+          printf 'R2_ACCESS_KEY_ID=%s\n' "${{secrets.R2_ACCESS_KEY_ID}}" >> .env
+          printf 'R2_SECRET_ACCESS_KEY=%s\n' "${{secrets.R2_SECRET_ACCESS_KEY}}" >> .env
+          printf 'R2_ACCOUNT_ID=%s\n' "${{secrets.R2_ACCOUNT_ID}}" >> .env
+          printf 'R2_TOKEN=%s\n' "${{secrets.R2_TOKEN}}" >> .env
+          printf 'PROCESS=%s\n' "${{secrets.PROCESS}}" >> .env
+          cd ../..
+
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+        run: docker build . --tag shawakash/paybox-ws:${{ github.sha }}
+
+      - name: Docker Push
+        run: docker push shawakash/paybox-ws:${{ github.sha }}
