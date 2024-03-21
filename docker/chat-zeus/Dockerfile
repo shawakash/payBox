@@ -17,11 +17,12 @@ COPY ["backend/chat-zeus", "./backend/chat-zeus"]
 
 RUN cd /base
 RUN yarn install
-RUN cd /base/backend/chat-zeus && yarn run zeus && yarn run codegen
 RUN yarn run build
 
 WORKDIR /base/backend/chat-zeus
 
+CMD ["yarn", "zeus"]
+CMD ["yarn", "codegen"]
 CMD ["yarn", "dev"]
 
 
