@@ -21,3 +21,5 @@ RUN yarn install
 RUN yarn run build
 
 WORKDIR /base/packages/recoil
+
+CMD ["yarn", "dev"]

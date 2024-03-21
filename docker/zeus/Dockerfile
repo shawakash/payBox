@@ -1,24 +1,27 @@
 # Use the official Node.js image as the base image
 FROM node:21
 
-# Set the working directory in the container
-WORKDIR /app/backend/zeus
+WORKDIR /base
 
-# Copy package.json and yarn.lock to the working directory
-COPY . .
+COPY ["package.json", "./package.json"]
+COPY [".yarnrc", "./.yarnrc"]
+COPY [".npmrc", "./.npmrc"]
+COPY [".eslintrc.js", "./.eslintrc.js"]
+COPY ["turbo.json", "./turbo.json"]
+COPY ["yarn.lock", "./yarn.lock"]
+COPY ["tsconfig.json", "./tsconfig.json"]
 
-# Install app dependencies using Yarn
+COPY ["packages/typescript-config", "./packages/typescript-config"]
+COPY ["packages/eslint-config", "./packages/teslint-config"]
+COPY ["backend/zeus", "./backend/zeus"]
+
+RUN cd /base
 RUN yarn install
+RUN cd /base/backend/zeus && yarn run zeus && yarn run codegen
+RUN yarn run build
 
-# Copy the application code to the container
+WORKDIR /base/backend/zeus
 
-# Build the package
-RUN yarn build
-
-# Command to Create the client
-CMD ["yarn", "zeus"]
-
-# Commad to Generate the client
-CMD ["yarn", "codegen"]
+CMD ["yarn", "dev"]
 
 

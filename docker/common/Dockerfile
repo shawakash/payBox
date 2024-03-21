@@ -20,3 +20,5 @@ RUN yarn install
 RUN yarn run build
 
 WORKDIR /base/packages/common
+
+CMD ["yarn", "dev"]
