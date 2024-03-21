@@ -1,22 +1,30 @@
 # Use the official Node.js image as the base image
 FROM node:21
 
-# Set the working directory in the container
-WORKDIR /app/openapi/
+WORKDIR /base
 
-# Copy package.json and yarn.lock to the working directory
-COPY . .
+COPY ["package.json", "./package.json"]
+COPY [".yarnrc", "./.yarnrc"]
+COPY [".npmrc", "./.npmrc"]
+COPY [".eslintrc.js", "./.eslintrc.js"]
+COPY ["turbo.json", "./turbo.json"]
+COPY ["yarn.lock", "./yarn.lock"]
+COPY ["tsconfig.json", "./tsconfig.json"]
 
-# Install app dependencies using Yarn
+COPY ["packages/typescript-config", "./packages/typescript-config"]
+COPY ["packages/eslint-config", "./packages/teslint-config"]
+COPY ["packages/kafka", "./packages/kafka"]
+COPY ["packages/common", "./packages/common"]
+COPY ["backend/backend-common", "./backend/backend-common"]
+COPY ["openapi", "./openapi"]
+
+RUN cd /base
 RUN yarn install
+RUN cd /base/packages/common && yarn run build
+RUN cd /base/packages/kafka && yarn run build
+RUN cd /base/backend/backend-common && yarn run build
+RUN cd /base/openapi && yarn run gen && yarn run build
 
-# Copy the application code to the container
+WORKDIR /base/openapi
 
-# Build the pacakge
-RUN yarn build
-
-# Command to run the application
 CMD ["yarn", "dev"]
-
-# Command to generate the OpenAPI client
-CMD ["yarn", "gen"]
