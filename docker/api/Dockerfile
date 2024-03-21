@@ -1,45 +1,34 @@
-# Use the official Node.js image as the base image
 FROM node:21
 
-# Set the working directory in the container
-WORKDIR /app/backend/api
+WORKDIR /base
 
-# Declare environment variables
-ENV HASURAL_URL=
-ENV AUTH_JWT=
-ENV AUTH_JWT_PUBLIC_KEY=
-ENV AUTH_JWT_PRIVATE_KEY=
-ENV REDIS_URL=
-ENV GOERLI_URL=
-ENV SOLANA_ADDRESS=
-ENV ETH_ADDRESS=
-ENV INFURA_PROJECT_ID=
-ENV SEPOLIA_URL=
-ENV SEPOLIA_URL_HTTP=
-ENV BTC_ADDRESS=
-ENV TWILLO_ACCOUNT_SID=
-ENV TWILLO_TOKEN=
-ENV TWILLO_NUMBER=
-ENV REDIS_SECRET=04eec09f
-ENV GMAIL_APP_PASS=
-ENV GMAIL=
-ENV MAIL_SERVICE=
-ENV R2_ACCESS_KEY_ID=
-ENV R2_SECRET_ACCESS_KEY=
-ENV R2_ACCOUNT_ID=
-ENV R2_TOKEN=
+COPY ["package.json", "./package.json"]
+COPY [".yarnrc", "./.yarnrc"]
+COPY [".npmrc", "./.npmrc"]
+COPY [".eslintrc.js", "./.eslintrc.js"]
+COPY ["turbo.json", "./turbo.json"]
+COPY ["yarn.lock", "./yarn.lock"]
+COPY ["tsconfig.json", "./tsconfig.json"]
 
-# Copy the application code to the container
-COPY .  .
+COPY ["packages/typescript-config", "./packages/typescript-config"]
+COPY ["packages/eslint-config", "./packages/eslint-config"]
+COPY ["backend/backend-common", "./backend/backend-common"]
+COPY ["packages/common", "./packages/common"]
+COPY ["packages/kafka", "./packages/kafka"]
+COPY ["openapi", "./openapi"]
+COPY ["backend/zeus", "./backend/zeus"]
+COPY ["backend/api", "./backend/api"]
 
-# Install app dependencies using Yarn
+
+RUN cd /base
 RUN yarn install
+RUN yarn run build
+RUN cd /base/backend/api && yarn run build
+# KAFKA URL NEEDS TO BE SET AS ENVIRONMENT VARIABLE
+RUN cd /base/packages/kafka && yarn run build
 
-# Build the pacakge
-RUN yarn build
-
-# Expose port 8080
 EXPOSE 8080
 
-# Command to run the application
+WORKDIR /base/backend/api
+
 CMD ["yarn", "dev"]

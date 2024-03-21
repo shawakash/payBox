@@ -1,0 +1,41 @@
+name: Deploy backend-mote
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: "mv docker/mote/Dockerfile ."
+
+      - name: add secrets
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          cd backend/mote
+          touch .env
+          printf 'SEPOLIA_URL=%s\n' "${{secrets.SEPOLIA_URL}}" >> .env
+          printf 'INFURA_PROJECT_ID=%s\n' "${{secrets.INFURA_PROJECT_ID}}" >> .env
+          printf 'SEPOLIA_URL_HTTP=%s\n' "${{secrets.SEPOLIA_URL_HTTP}}" >> .env
+          printf 'REDIS_URL=%s\n' "${{secrets.REDIS_URL}}" >> .env
+          printf 'REDIS_SECRET=%s\n' "${{secrets.REDIS_SECRET}}" >> .env
+          cd ../..
+
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+        run: docker build . --tag shawakash/paybox-mote:${{ github.sha }}
+
+      - name: Docker Push
+        run: docker push shawakash/paybox-mote:${{ github.sha }}

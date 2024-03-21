@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    SEPOLIA_URL: "SEPOLIA_URL"
+    INFURA_PROJECT_ID: "INFURA_PROJECT_ID"
+    SEPOLIA_URL_HTTP: "SEPOLIA_URL_HTTP"
+    REDIS_URL: "REDIS_URL"
+    REDIS_SECRET: "REDIS_SECRET"
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.21
+  build:
+    commands:
+      - mv docker/mote/Dockerfile .
+      - cd backend/mote
+      - touch .env
+      - printf "SEPOLIA_URL=%s\n" "$SEPOLIA_URL" >> .env
+      - printf "INFURA_PROJECT_ID=%s\n" "$INFURA_PROJECT_ID" >> .env
+      - printf "SEPOLIA_URL_HTTP=%s\n" "$SEPOLIA_URL_HTTP" >> .env
+      - printf "REDIS_URL=%s\n" "$REDIS_URL" >> .env
+      - printf "REDIS_SECRET=%s\n" "$REDIS_SECRET" >> .env
+      - cd ../..
+artifacts:
+  files:
+    - '**/*'

@@ -16,5 +16,8 @@
     "react": "^18.2.0",
     "recoil": "^0.7.7"
   },
-  "gitHead": "3bd6c7180a38ad8e8b5557751301ffaba6b2a5da"
+  "gitHead": "3bd6c7180a38ad8e8b5557751301ffaba6b2a5da",
+  "devDependencies": {
+    "@types/react": "^18.2.67"
+  }
 }
