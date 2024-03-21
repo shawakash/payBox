@@ -1,6 +1,6 @@
 FROM golang:1.21
 
-WORKDIR /base/backend/mote
+WORKDIR /app/backend/mote
 
 COPY go.mod go.sum Makefile ./
 RUN make deps
