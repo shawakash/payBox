@@ -11,7 +11,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "@solana/web3.js": "^1.77.3"
   },
   "gitHead": "13798e0efb4eb1131ee0041378cdb3c1b5ed0240"
 }

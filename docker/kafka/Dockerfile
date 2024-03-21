@@ -15,6 +15,7 @@ COPY ["packages/typescript-config", "./packages/typescript-config"]
 COPY ["packages/eslint-config", "./packages/eslint-config"]
 COPY ["packages/kafka", "./packages/kafka"]
 COPY ["packages/common", "./packages/common"]
+COPY ["backend/zeus", "./backend/zeus"]
 COPY ["backend/backend-common", "./backend/backend-common"]
 
 RUN cd /base
