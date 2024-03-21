@@ -11,7 +11,7 @@ import {
   dbResStatus,
   responseStatus,
 } from "@paybox/common";
-import { getPassword, queryValid } from "@paybox/backend-common";
+import { getPassword, queryValid } from "../db/client";
 import { RedisBase } from "../redis";
 
 
