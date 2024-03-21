@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - dev
+      - docker_fix
   pull_request:
     branches:
       - dev

@@ -26,7 +26,7 @@ RUN yarn install
 RUN yarn run build
 RUN cd /base/backend/ws && yarn run build
 # KAFKA URL NEEDS TO BE SET AS ENVIRONMENT VARIABLE
-RUN cd /base/packages/kafka && yarn run dev
+RUN cd /base/packages/kafka && yarn run build
 
 EXPOSE 8080
 
