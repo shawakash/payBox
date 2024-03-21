@@ -12,8 +12,6 @@ import {
   dbResStatus,
   getClientId,
 } from "@paybox/common";
-import { Wallet, ethers } from "ethers";
-import { Keypair } from "@solana/web3.js";
 
 const chain = Chain(HASURA_URL, {
   headers: {
