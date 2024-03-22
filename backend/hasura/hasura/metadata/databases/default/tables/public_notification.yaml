@@ -1,0 +1,14 @@
+table:
+  name: notification
+  schema: public
+configuration:
+  column_config:
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    updated_at: updatedAt
+  custom_root_fields: {}
+object_relationships:
+  - name: client
+    using:
+      foreign_key_constraint_on: clientId

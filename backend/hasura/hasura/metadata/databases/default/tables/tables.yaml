@@ -5,6 +5,8 @@
 - "!include public_client.yaml"
 - "!include public_eth.yaml"
 - "!include public_friendship.yaml"
+- "!include public_notification.yaml"
+- "!include public_notification_subscription.yaml"
 - "!include public_sol.yaml"
 - "!include public_transactions.yaml"
 - "!include public_wallet.yaml"
