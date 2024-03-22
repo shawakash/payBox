@@ -14,6 +14,7 @@ export type Scalars = {
   Float: { input: number; output: number; }
   bigint: { input: any; output: any; }
   float8: { input: any; output: any; }
+  timestamp: { input: any; output: any; }
   timestamptz: { input: any; output: any; }
   uuid: { input: any; output: any; }
 };
@@ -1168,6 +1169,10 @@ export type Client = {
   id: Scalars['uuid']['output'];
   lastname?: Maybe<Scalars['String']['output']>;
   mobile?: Maybe<Scalars['bigint']['output']>;
+  /** An array relationship */
+  notifications: Array<Notification>;
+  /** An aggregate relationship */
+  notifications_aggregate: Notification_Aggregate;
   password: Scalars['String']['output'];
   /** An array relationship */
   transactions: Array<Transactions>;
@@ -1260,6 +1265,26 @@ export type ClientFriendships_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Friendship_Order_By>>;
   where?: InputMaybe<Friendship_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientNotificationsArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+/** subscriber for paybox */
+export type ClientNotifications_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
 };
 
 
@@ -1358,6 +1383,8 @@ export type Client_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   lastname?: InputMaybe<String_Comparison_Exp>;
   mobile?: InputMaybe<Bigint_Comparison_Exp>;
+  notifications?: InputMaybe<Notification_Bool_Exp>;
+  notifications_aggregate?: InputMaybe<Notification_Aggregate_Bool_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
   transactions?: InputMaybe<Transactions_Bool_Exp>;
   transactions_aggregate?: InputMaybe<Transactions_Aggregate_Bool_Exp>;
@@ -1396,6 +1423,7 @@ export type Client_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   lastname?: InputMaybe<Scalars['String']['input']>;
   mobile?: InputMaybe<Scalars['bigint']['input']>;
+  notifications?: InputMaybe<Notification_Arr_Rel_Insert_Input>;
   password?: InputMaybe<Scalars['String']['input']>;
   transactions?: InputMaybe<Transactions_Arr_Rel_Insert_Input>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -1468,6 +1496,7 @@ export type Client_Order_By = {
   id?: InputMaybe<Order_By>;
   lastname?: InputMaybe<Order_By>;
   mobile?: InputMaybe<Order_By>;
+  notifications_aggregate?: InputMaybe<Notification_Aggregate_Order_By>;
   password?: InputMaybe<Order_By>;
   transactions_aggregate?: InputMaybe<Transactions_Aggregate_Order_By>;
   updatedAt?: InputMaybe<Order_By>;
@@ -2320,6 +2349,14 @@ export type Mutation_Root = {
   delete_friendship?: Maybe<Friendship_Mutation_Response>;
   /** delete single row from the table: "friendship" */
   delete_friendship_by_pk?: Maybe<Friendship>;
+  /** delete data from the table: "notification" */
+  delete_notification?: Maybe<Notification_Mutation_Response>;
+  /** delete single row from the table: "notification" */
+  delete_notification_by_pk?: Maybe<Notification>;
+  /** delete data from the table: "notification_subscription" */
+  delete_notification_subscription?: Maybe<Notification_Subscription_Mutation_Response>;
+  /** delete single row from the table: "notification_subscription" */
+  delete_notification_subscription_by_pk?: Maybe<Notification_Subscription>;
   /** delete data from the table: "sol" */
   delete_sol?: Maybe<Sol_Mutation_Response>;
   /** delete single row from the table: "sol" */
@@ -2360,6 +2397,14 @@ export type Mutation_Root = {
   insert_friendship?: Maybe<Friendship_Mutation_Response>;
   /** insert a single row into the table: "friendship" */
   insert_friendship_one?: Maybe<Friendship>;
+  /** insert data into the table: "notification" */
+  insert_notification?: Maybe<Notification_Mutation_Response>;
+  /** insert a single row into the table: "notification" */
+  insert_notification_one?: Maybe<Notification>;
+  /** insert data into the table: "notification_subscription" */
+  insert_notification_subscription?: Maybe<Notification_Subscription_Mutation_Response>;
+  /** insert a single row into the table: "notification_subscription" */
+  insert_notification_subscription_one?: Maybe<Notification_Subscription>;
   /** insert data into the table: "sol" */
   insert_sol?: Maybe<Sol_Mutation_Response>;
   /** insert a single row into the table: "sol" */
@@ -2414,6 +2459,18 @@ export type Mutation_Root = {
   update_friendship_by_pk?: Maybe<Friendship>;
   /** update multiples rows of table: "friendship" */
   update_friendship_many?: Maybe<Array<Maybe<Friendship_Mutation_Response>>>;
+  /** update data of the table: "notification" */
+  update_notification?: Maybe<Notification_Mutation_Response>;
+  /** update single row of the table: "notification" */
+  update_notification_by_pk?: Maybe<Notification>;
+  /** update multiples rows of table: "notification" */
+  update_notification_many?: Maybe<Array<Maybe<Notification_Mutation_Response>>>;
+  /** update data of the table: "notification_subscription" */
+  update_notification_subscription?: Maybe<Notification_Subscription_Mutation_Response>;
+  /** update single row of the table: "notification_subscription" */
+  update_notification_subscription_by_pk?: Maybe<Notification_Subscription>;
+  /** update multiples rows of table: "notification_subscription" */
+  update_notification_subscription_many?: Maybe<Array<Maybe<Notification_Subscription_Mutation_Response>>>;
   /** update data of the table: "sol" */
   update_sol?: Maybe<Sol_Mutation_Response>;
   /** update single row of the table: "sol" */
@@ -2515,6 +2572,30 @@ export type Mutation_RootDelete_FriendshipArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Friendship_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_NotificationArgs = {
+  where: Notification_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Notification_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Notification_SubscriptionArgs = {
+  where: Notification_Subscription_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Notification_Subscription_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -2650,6 +2731,34 @@ export type Mutation_RootInsert_FriendshipArgs = {
 export type Mutation_RootInsert_Friendship_OneArgs = {
   object: Friendship_Insert_Input;
   on_conflict?: InputMaybe<Friendship_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_NotificationArgs = {
+  objects: Array<Notification_Insert_Input>;
+  on_conflict?: InputMaybe<Notification_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Notification_OneArgs = {
+  object: Notification_Insert_Input;
+  on_conflict?: InputMaybe<Notification_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Notification_SubscriptionArgs = {
+  objects: Array<Notification_Subscription_Insert_Input>;
+  on_conflict?: InputMaybe<Notification_Subscription_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Notification_Subscription_OneArgs = {
+  object: Notification_Subscription_Insert_Input;
+  on_conflict?: InputMaybe<Notification_Subscription_On_Conflict>;
 };
 
 
@@ -2842,6 +2951,46 @@ export type Mutation_RootUpdate_Friendship_ManyArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_NotificationArgs = {
+  _set?: InputMaybe<Notification_Set_Input>;
+  where: Notification_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Notification_By_PkArgs = {
+  _set?: InputMaybe<Notification_Set_Input>;
+  pk_columns: Notification_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Notification_ManyArgs = {
+  updates: Array<Notification_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Notification_SubscriptionArgs = {
+  _set?: InputMaybe<Notification_Subscription_Set_Input>;
+  where: Notification_Subscription_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Notification_Subscription_By_PkArgs = {
+  _set?: InputMaybe<Notification_Subscription_Set_Input>;
+  pk_columns: Notification_Subscription_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Notification_Subscription_ManyArgs = {
+  updates: Array<Notification_Subscription_Updates>;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_SolArgs = {
   _inc?: InputMaybe<Sol_Inc_Input>;
   _set?: InputMaybe<Sol_Set_Input>;
@@ -2904,6 +3053,522 @@ export type Mutation_RootUpdate_Wallet_ManyArgs = {
   updates: Array<Wallet_Updates>;
 };
 
+/** notification table for clients */
+export type Notification = {
+  __typename?: 'notification';
+  body: Scalars['String']['output'];
+  /** An object relationship */
+  client: Client;
+  clientId: Scalars['uuid']['output'];
+  id: Scalars['uuid']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  timestamp: Scalars['timestamp']['output'];
+  title: Scalars['String']['output'];
+  updatedAt: Scalars['timestamptz']['output'];
+  uuid: Scalars['uuid']['output'];
+  viewed: Scalars['Boolean']['output'];
+};
+
+/** aggregated selection of "notification" */
+export type Notification_Aggregate = {
+  __typename?: 'notification_aggregate';
+  aggregate?: Maybe<Notification_Aggregate_Fields>;
+  nodes: Array<Notification>;
+};
+
+export type Notification_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<Notification_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<Notification_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<Notification_Aggregate_Bool_Exp_Count>;
+};
+
+export type Notification_Aggregate_Bool_Exp_Bool_And = {
+  arguments: Notification_Select_Column_Notification_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Notification_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Notification_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: Notification_Select_Column_Notification_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Notification_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type Notification_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Notification_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Notification_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "notification" */
+export type Notification_Aggregate_Fields = {
+  __typename?: 'notification_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Notification_Max_Fields>;
+  min?: Maybe<Notification_Min_Fields>;
+};
+
+
+/** aggregate fields of "notification" */
+export type Notification_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Notification_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "notification" */
+export type Notification_Aggregate_Order_By = {
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Notification_Max_Order_By>;
+  min?: InputMaybe<Notification_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "notification" */
+export type Notification_Arr_Rel_Insert_Input = {
+  data: Array<Notification_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Notification_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "notification". All fields are combined with a logical 'AND'. */
+export type Notification_Bool_Exp = {
+  _and?: InputMaybe<Array<Notification_Bool_Exp>>;
+  _not?: InputMaybe<Notification_Bool_Exp>;
+  _or?: InputMaybe<Array<Notification_Bool_Exp>>;
+  body?: InputMaybe<String_Comparison_Exp>;
+  client?: InputMaybe<Client_Bool_Exp>;
+  clientId?: InputMaybe<Uuid_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  image?: InputMaybe<String_Comparison_Exp>;
+  timestamp?: InputMaybe<Timestamp_Comparison_Exp>;
+  title?: InputMaybe<String_Comparison_Exp>;
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+  viewed?: InputMaybe<Boolean_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "notification" */
+export enum Notification_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  NotificationPkey = 'notification_pkey'
+}
+
+/** input type for inserting data into table "notification" */
+export type Notification_Insert_Input = {
+  body?: InputMaybe<Scalars['String']['input']>;
+  client?: InputMaybe<Client_Obj_Rel_Insert_Input>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['timestamp']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  viewed?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** aggregate max on columns */
+export type Notification_Max_Fields = {
+  __typename?: 'notification_max_fields';
+  body?: Maybe<Scalars['String']['output']>;
+  clientId?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['timestamp']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by max() on columns of table "notification" */
+export type Notification_Max_Order_By = {
+  body?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  image?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Notification_Min_Fields = {
+  __typename?: 'notification_min_fields';
+  body?: Maybe<Scalars['String']['output']>;
+  clientId?: Maybe<Scalars['uuid']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['timestamp']['output']>;
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** order by min() on columns of table "notification" */
+export type Notification_Min_Order_By = {
+  body?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  image?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "notification" */
+export type Notification_Mutation_Response = {
+  __typename?: 'notification_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Notification>;
+};
+
+/** on_conflict condition type for table "notification" */
+export type Notification_On_Conflict = {
+  constraint: Notification_Constraint;
+  update_columns?: Array<Notification_Update_Column>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "notification". */
+export type Notification_Order_By = {
+  body?: InputMaybe<Order_By>;
+  client?: InputMaybe<Client_Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  image?: InputMaybe<Order_By>;
+  timestamp?: InputMaybe<Order_By>;
+  title?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+  viewed?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: notification */
+export type Notification_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "notification" */
+export enum Notification_Select_Column {
+  /** column name */
+  Body = 'body',
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Image = 'image',
+  /** column name */
+  Timestamp = 'timestamp',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  Uuid = 'uuid',
+  /** column name */
+  Viewed = 'viewed'
+}
+
+/** select "notification_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notification" */
+export enum Notification_Select_Column_Notification_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  Viewed = 'viewed'
+}
+
+/** select "notification_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notification" */
+export enum Notification_Select_Column_Notification_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  Viewed = 'viewed'
+}
+
+/** input type for updating data in table "notification" */
+export type Notification_Set_Input = {
+  body?: InputMaybe<Scalars['String']['input']>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['timestamp']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  viewed?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Streaming cursor of the table "notification" */
+export type Notification_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Notification_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Notification_Stream_Cursor_Value_Input = {
+  body?: InputMaybe<Scalars['String']['input']>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['timestamp']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+  viewed?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** notification subscriptions metadata for client */
+export type Notification_Subscription = {
+  __typename?: 'notification_subscription';
+  auth: Scalars['String']['output'];
+  clientId: Scalars['uuid']['output'];
+  endpoint: Scalars['String']['output'];
+  expirationTime?: Maybe<Scalars['timestamptz']['output']>;
+  id: Scalars['uuid']['output'];
+  p256dh: Scalars['String']['output'];
+  public_key: Scalars['String']['output'];
+  updatedAt: Scalars['timestamptz']['output'];
+  uuid: Scalars['uuid']['output'];
+};
+
+/** aggregated selection of "notification_subscription" */
+export type Notification_Subscription_Aggregate = {
+  __typename?: 'notification_subscription_aggregate';
+  aggregate?: Maybe<Notification_Subscription_Aggregate_Fields>;
+  nodes: Array<Notification_Subscription>;
+};
+
+/** aggregate fields of "notification_subscription" */
+export type Notification_Subscription_Aggregate_Fields = {
+  __typename?: 'notification_subscription_aggregate_fields';
+  count: Scalars['Int']['output'];
+  max?: Maybe<Notification_Subscription_Max_Fields>;
+  min?: Maybe<Notification_Subscription_Min_Fields>;
+};
+
+
+/** aggregate fields of "notification_subscription" */
+export type Notification_Subscription_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Notification_Subscription_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** Boolean expression to filter rows from the table "notification_subscription". All fields are combined with a logical 'AND'. */
+export type Notification_Subscription_Bool_Exp = {
+  _and?: InputMaybe<Array<Notification_Subscription_Bool_Exp>>;
+  _not?: InputMaybe<Notification_Subscription_Bool_Exp>;
+  _or?: InputMaybe<Array<Notification_Subscription_Bool_Exp>>;
+  auth?: InputMaybe<String_Comparison_Exp>;
+  clientId?: InputMaybe<Uuid_Comparison_Exp>;
+  endpoint?: InputMaybe<String_Comparison_Exp>;
+  expirationTime?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Uuid_Comparison_Exp>;
+  p256dh?: InputMaybe<String_Comparison_Exp>;
+  public_key?: InputMaybe<String_Comparison_Exp>;
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  uuid?: InputMaybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "notification_subscription" */
+export enum Notification_Subscription_Constraint {
+  /** unique or primary key constraint on columns "id" */
+  NotificationSubscriptionPkey = 'notification_subscription_pkey'
+}
+
+/** input type for inserting data into table "notification_subscription" */
+export type Notification_Subscription_Insert_Input = {
+  auth?: InputMaybe<Scalars['String']['input']>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
+  endpoint?: InputMaybe<Scalars['String']['input']>;
+  expirationTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  p256dh?: InputMaybe<Scalars['String']['input']>;
+  public_key?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** aggregate max on columns */
+export type Notification_Subscription_Max_Fields = {
+  __typename?: 'notification_subscription_max_fields';
+  auth?: Maybe<Scalars['String']['output']>;
+  clientId?: Maybe<Scalars['uuid']['output']>;
+  endpoint?: Maybe<Scalars['String']['output']>;
+  expirationTime?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  p256dh?: Maybe<Scalars['String']['output']>;
+  public_key?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** aggregate min on columns */
+export type Notification_Subscription_Min_Fields = {
+  __typename?: 'notification_subscription_min_fields';
+  auth?: Maybe<Scalars['String']['output']>;
+  clientId?: Maybe<Scalars['uuid']['output']>;
+  endpoint?: Maybe<Scalars['String']['output']>;
+  expirationTime?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['uuid']['output']>;
+  p256dh?: Maybe<Scalars['String']['output']>;
+  public_key?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['timestamptz']['output']>;
+  uuid?: Maybe<Scalars['uuid']['output']>;
+};
+
+/** response of any mutation on the table "notification_subscription" */
+export type Notification_Subscription_Mutation_Response = {
+  __typename?: 'notification_subscription_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Notification_Subscription>;
+};
+
+/** on_conflict condition type for table "notification_subscription" */
+export type Notification_Subscription_On_Conflict = {
+  constraint: Notification_Subscription_Constraint;
+  update_columns?: Array<Notification_Subscription_Update_Column>;
+  where?: InputMaybe<Notification_Subscription_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "notification_subscription". */
+export type Notification_Subscription_Order_By = {
+  auth?: InputMaybe<Order_By>;
+  clientId?: InputMaybe<Order_By>;
+  endpoint?: InputMaybe<Order_By>;
+  expirationTime?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  p256dh?: InputMaybe<Order_By>;
+  public_key?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+  uuid?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: notification_subscription */
+export type Notification_Subscription_Pk_Columns_Input = {
+  id: Scalars['uuid']['input'];
+};
+
+/** select columns of table "notification_subscription" */
+export enum Notification_Subscription_Select_Column {
+  /** column name */
+  Auth = 'auth',
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  Endpoint = 'endpoint',
+  /** column name */
+  ExpirationTime = 'expirationTime',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  P256dh = 'p256dh',
+  /** column name */
+  PublicKey = 'public_key',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  Uuid = 'uuid'
+}
+
+/** input type for updating data in table "notification_subscription" */
+export type Notification_Subscription_Set_Input = {
+  auth?: InputMaybe<Scalars['String']['input']>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
+  endpoint?: InputMaybe<Scalars['String']['input']>;
+  expirationTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  p256dh?: InputMaybe<Scalars['String']['input']>;
+  public_key?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** Streaming cursor of the table "notification_subscription" */
+export type Notification_Subscription_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Notification_Subscription_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Notification_Subscription_Stream_Cursor_Value_Input = {
+  auth?: InputMaybe<Scalars['String']['input']>;
+  clientId?: InputMaybe<Scalars['uuid']['input']>;
+  endpoint?: InputMaybe<Scalars['String']['input']>;
+  expirationTime?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['uuid']['input']>;
+  p256dh?: InputMaybe<Scalars['String']['input']>;
+  public_key?: InputMaybe<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
+  uuid?: InputMaybe<Scalars['uuid']['input']>;
+};
+
+/** update columns of table "notification_subscription" */
+export enum Notification_Subscription_Update_Column {
+  /** column name */
+  Auth = 'auth',
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  Endpoint = 'endpoint',
+  /** column name */
+  ExpirationTime = 'expirationTime',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  P256dh = 'p256dh',
+  /** column name */
+  PublicKey = 'public_key',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  Uuid = 'uuid'
+}
+
+export type Notification_Subscription_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Notification_Subscription_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Notification_Subscription_Bool_Exp;
+};
+
+/** update columns of table "notification" */
+export enum Notification_Update_Column {
+  /** column name */
+  Body = 'body',
+  /** column name */
+  ClientId = 'clientId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Image = 'image',
+  /** column name */
+  Timestamp = 'timestamp',
+  /** column name */
+  Title = 'title',
+  /** column name */
+  UpdatedAt = 'updatedAt',
+  /** column name */
+  Uuid = 'uuid',
+  /** column name */
+  Viewed = 'viewed'
+}
+
+export type Notification_Updates = {
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Notification_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Notification_Bool_Exp;
+};
+
 /** column ordering options */
 export enum Order_By {
   /** in ascending order, nulls last */
@@ -2964,6 +3629,18 @@ export type Query_Root = {
   friendship_aggregate: Friendship_Aggregate;
   /** fetch data from the table: "friendship" using primary key columns */
   friendship_by_pk?: Maybe<Friendship>;
+  /** fetch data from the table: "notification" */
+  notification: Array<Notification>;
+  /** fetch aggregated fields from the table: "notification" */
+  notification_aggregate: Notification_Aggregate;
+  /** fetch data from the table: "notification" using primary key columns */
+  notification_by_pk?: Maybe<Notification>;
+  /** fetch data from the table: "notification_subscription" */
+  notification_subscription: Array<Notification_Subscription>;
+  /** fetch aggregated fields from the table: "notification_subscription" */
+  notification_subscription_aggregate: Notification_Subscription_Aggregate;
+  /** fetch data from the table: "notification_subscription" using primary key columns */
+  notification_subscription_by_pk?: Maybe<Notification_Subscription>;
   /** fetch data from the table: "sol" */
   sol: Array<Sol>;
   /** fetch aggregated fields from the table: "sol" */
@@ -3142,6 +3819,52 @@ export type Query_RootFriendship_AggregateArgs = {
 
 
 export type Query_RootFriendship_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootNotificationArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Query_RootNotification_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Query_RootNotification_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Query_RootNotification_SubscriptionArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Subscription_Order_By>>;
+  where?: InputMaybe<Notification_Subscription_Bool_Exp>;
+};
+
+
+export type Query_RootNotification_Subscription_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Subscription_Order_By>>;
+  where?: InputMaybe<Notification_Subscription_Bool_Exp>;
+};
+
+
+export type Query_RootNotification_Subscription_By_PkArgs = {
   id: Scalars['uuid']['input'];
 };
 
@@ -3591,6 +4314,22 @@ export type Subscription_Root = {
   friendship_by_pk?: Maybe<Friendship>;
   /** fetch data from the table in a streaming manner: "friendship" */
   friendship_stream: Array<Friendship>;
+  /** fetch data from the table: "notification" */
+  notification: Array<Notification>;
+  /** fetch aggregated fields from the table: "notification" */
+  notification_aggregate: Notification_Aggregate;
+  /** fetch data from the table: "notification" using primary key columns */
+  notification_by_pk?: Maybe<Notification>;
+  /** fetch data from the table in a streaming manner: "notification" */
+  notification_stream: Array<Notification>;
+  /** fetch data from the table: "notification_subscription" */
+  notification_subscription: Array<Notification_Subscription>;
+  /** fetch aggregated fields from the table: "notification_subscription" */
+  notification_subscription_aggregate: Notification_Subscription_Aggregate;
+  /** fetch data from the table: "notification_subscription" using primary key columns */
+  notification_subscription_by_pk?: Maybe<Notification_Subscription>;
+  /** fetch data from the table in a streaming manner: "notification_subscription" */
+  notification_subscription_stream: Array<Notification_Subscription>;
   /** fetch data from the table: "sol" */
   sol: Array<Sol>;
   /** fetch aggregated fields from the table: "sol" */
@@ -3828,6 +4567,66 @@ export type Subscription_RootFriendship_StreamArgs = {
 };
 
 
+export type Subscription_RootNotificationArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Subscription_RootNotification_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Order_By>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Subscription_RootNotification_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootNotification_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Notification_Stream_Cursor_Input>>;
+  where?: InputMaybe<Notification_Bool_Exp>;
+};
+
+
+export type Subscription_RootNotification_SubscriptionArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Subscription_Order_By>>;
+  where?: InputMaybe<Notification_Subscription_Bool_Exp>;
+};
+
+
+export type Subscription_RootNotification_Subscription_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Notification_Subscription_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Notification_Subscription_Order_By>>;
+  where?: InputMaybe<Notification_Subscription_Bool_Exp>;
+};
+
+
+export type Subscription_RootNotification_Subscription_By_PkArgs = {
+  id: Scalars['uuid']['input'];
+};
+
+
+export type Subscription_RootNotification_Subscription_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Notification_Subscription_Stream_Cursor_Input>>;
+  where?: InputMaybe<Notification_Subscription_Bool_Exp>;
+};
+
+
 export type Subscription_RootSolArgs = {
   distinct_on?: InputMaybe<Array<Sol_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -3915,6 +4714,19 @@ export type Subscription_RootWallet_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Wallet_Stream_Cursor_Input>>;
   where?: InputMaybe<Wallet_Bool_Exp>;
+};
+
+/** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+export type Timestamp_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamp']['input']>;
+  _gt?: InputMaybe<Scalars['timestamp']['input']>;
+  _gte?: InputMaybe<Scalars['timestamp']['input']>;
+  _in?: InputMaybe<Array<Scalars['timestamp']['input']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']['input']>;
+  _lt?: InputMaybe<Scalars['timestamp']['input']>;
+  _lte?: InputMaybe<Scalars['timestamp']['input']>;
+  _neq?: InputMaybe<Scalars['timestamp']['input']>;
+  _nin?: InputMaybe<Array<Scalars['timestamp']['input']>>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
