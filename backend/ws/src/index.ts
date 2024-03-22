@@ -33,7 +33,6 @@ export const ethTxn = new EthTxnLogs(
 );
 export const btcTxn = new BtcTxn(BTC_WS_URL, BTC_ADDRESS);
 
-export const cache = new Redis()
 
 const clients: {
     [key: string]: {

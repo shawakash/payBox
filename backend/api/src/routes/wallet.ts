@@ -13,7 +13,7 @@ import {
   getWallets,
   checkPassword
 } from "@paybox/backend-common";
-import { cache } from "..";
+import { Redis } from "..";
 
 export const walletRouter = Router();
 
@@ -51,7 +51,7 @@ walletRouter.get("/accounts", async (req, res) => {
       const { walletId } = WalletAccountGet.parse(req.query);
 
       // Cache
-      const cacheWallet = await cache.wallet.getWallet(walletId);
+      const cacheWallet = await Redis.getRedisInst().wallet.getWallet(walletId);
       if (cacheWallet?.accounts) {
         return res.status(200).json({
           accounts: cacheWallet.accounts,
@@ -65,7 +65,7 @@ walletRouter.get("/accounts", async (req, res) => {
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
       // Cache
-      await cache.wallet.cacheWallet(walletId, {
+      await Redis.getRedisInst().wallet.cacheWallet(walletId, {
         clientId: id,
         id: walletId,
         accounts: query.accounts,
@@ -99,9 +99,9 @@ walletRouter.delete("/", async (req, res) => {
           .status(404)
           .json({ status: responseStatus.Error, msg: "Not found" });
       }
-      cache.deleteHash(walletId);
+      Redis.getRedisInst().deleteHash(walletId);
       deleteSecret.accounts?.map(async (account) => {
-        cache.deleteHash(account.id);
+        Redis.getRedisInst().deleteHash(account.id);
       });
       return res
         .status(200)

@@ -33,7 +33,7 @@ import {
   checkPassword
 } from "@paybox/backend-common";
 import { importFromPrivate, addAccountPhrase, getWalletForAccountCreate } from "@paybox/backend-common";
-import { cache } from "..";
+import { Redis } from "..";
 import {
   generateSeed,
   getAccountOnPhrase,
@@ -95,7 +95,7 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
       /**
        * Cache
        */
-      await cache.account.cacheAccount<AccountType>(
+      await Redis.getRedisInst().account.cacheAccount<AccountType>(
         mutation.account.id,
         mutation.account,
         ACCOUNT_CACHE_EXPIRE
@@ -138,8 +138,8 @@ accountRouter.patch("/updateName", async (req, res) => {
       /**
        * Cache
        */
-      await cache.deleteHash(accountId);
-      await cache.deleteHash(mutation.account.walletId);
+      await Redis.getRedisInst().deleteHash(accountId);
+      await Redis.getRedisInst().deleteHash(mutation.account.walletId);
 
       return res.status(200).json({
         msg: "Name updated 😊",
@@ -204,7 +204,7 @@ accountRouter.delete("/", async (req, res) => {
       }
 
       //Cache delete
-      await cache.deleteHash(accountId);
+      await Redis.getRedisInst().deleteHash(accountId);
 
       return res.status(200).json({
         msg: "Account deleted",
@@ -234,7 +234,7 @@ accountRouter.get("/", async (req, res) => {
       /**
        * Cache
        */
-      const account = await cache.account.getAccount<AccountType>(accountId);
+      const account = await Redis.getRedisInst().account.getAccount<AccountType>(accountId);
       if (account?.id) {
         return res.status(200).json({
           account,
@@ -252,7 +252,7 @@ accountRouter.get("/", async (req, res) => {
       /**
        * Cache
        */
-      await cache.account.cacheAccount<AccountType>(accountId, query.account, ACCOUNT_CACHE_EXPIRE);
+      await Redis.getRedisInst().account.cacheAccount<AccountType>(accountId, query.account, ACCOUNT_CACHE_EXPIRE);
 
       return res.status(200).json({
         account: query.account,
@@ -309,7 +309,7 @@ accountRouter.post("/private", async (req, res) => {
       /**
        * Cache
        */
-      await cache.wallet.cacheWallet(mutation.wallet.id, mutation.wallet, WALLET_CACHE_EXPIRE);
+      await Redis.getRedisInst().wallet.cacheWallet(mutation.wallet.id, mutation.wallet, WALLET_CACHE_EXPIRE);
       return res.status(200).json({
         wallet: mutation.wallet,
         status: responseStatus.Ok,
@@ -341,7 +341,7 @@ accountRouter.get("/fromPhrase", async (req, res) => {
           .json({ status: responseStatus.Error, msg: "Invalid phrase" });
       }
       // cache
-      await cache.wallet.fromPhrase(secretPhrase, accounts, PHRASE_ACCOUNT_CACHE_EXPIRE);
+      await Redis.getRedisInst().wallet.fromPhrase(secretPhrase, accounts, PHRASE_ACCOUNT_CACHE_EXPIRE);
       return res.status(200).json({
         //@ts-ignore
         accounts: accounts.map(({ privateKey, ...account }) => account),
@@ -370,7 +370,7 @@ accountRouter.post("/import", async (req, res) => {
       /**
        * Cache
        */
-      const cacheAccount = await cache.wallet.getFromPhrase(keys);
+      const cacheAccount = await Redis.getRedisInst().wallet.getFromPhrase(keys);
       if (cacheAccount == null) {
         return res.status(500).json({
           status: responseStatus.Error,
@@ -407,7 +407,7 @@ accountRouter.post("/import", async (req, res) => {
       /**
        * Cache
        */
-      await cache.wallet.cacheWallet(mutation.wallet.id, mutation.wallet, WALLET_CACHE_EXPIRE);
+      await Redis.getRedisInst().wallet.cacheWallet(mutation.wallet.id, mutation.wallet, WALLET_CACHE_EXPIRE);
       return res.status(200).json({
         wallet: mutation.wallet,
         status: responseStatus.Ok,
@@ -432,7 +432,7 @@ accountRouter.get('/all', async (req, res) => {
     //@ts-ignore
     const id = req.id;
 
-    // const cacheAccs = await cache.account.getAccounts(`accs:${id}`);
+    // const cacheAccs = await Redis.getRedisInst().account.getAccounts(`accs:${id}`);
     // if (cacheAccs) {
     //   return res.status(302).json({
     //     accounts: cacheAccs,
@@ -449,7 +449,7 @@ accountRouter.get('/all', async (req, res) => {
 
 
     // cacheit
-    await cache.account.cacheAccounts(`accs:${id}`, accounts, ACCOUNT_CACHE_EXPIRE);
+    await Redis.getRedisInst().account.cacheAccounts(`accs:${id}`, accounts, ACCOUNT_CACHE_EXPIRE);
 
     return res
             .status(200)

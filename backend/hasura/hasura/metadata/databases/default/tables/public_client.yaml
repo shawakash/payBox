@@ -48,6 +48,13 @@ array_relationships:
         table:
           name: friendship
           schema: public
+  - name: notifications
+    using:
+      foreign_key_constraint_on:
+        column: clientId
+        table:
+          name: notification
+          schema: public
   - name: transactions
     using:
       foreign_key_constraint_on:

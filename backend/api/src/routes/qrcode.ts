@@ -4,7 +4,7 @@ import { AccountType, Address, QrcodeQuery, responseStatus } from "@paybox/commo
 import { generateQRCode } from "../auth/util";
 import { checkQrcode,  hasAddress,  } from "../auth/middleware";
 import {checkValidation, isValidated} from "@paybox/backend-common"
-import { cache } from "..";
+import { Redis } from "..";
 import { R2_QRCODE_BUCKET_NAME } from "../config";
 
 export const qrcodeRouter = Router();
@@ -44,7 +44,7 @@ qrcodeRouter.get('/', checkValidation, checkQrcode, async (req, res) => {
     const { accountId } = QrcodeQuery.parse(req.query);
 
     //cache
-    const acocunt = await cache.account.getAccount<AccountType>(accountId);
+    const acocunt = await Redis.getRedisInst().account.getAccount<AccountType>(accountId);
     if (!acocunt) {
       return res
         .status(400)

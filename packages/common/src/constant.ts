@@ -249,10 +249,10 @@ export const unixToISOString = (unixTime: number): string => {
   const timeString = date.toTimeString().split(' ')[0];
 
   const offsetString =
-      (offsetHours >= 0 ? '+' : '-') +
-      ('0' + Math.abs(offsetHours)).slice(-2) +
-      ':' +
-      ('0' + offsetMinutes).slice(-2);
+    (offsetHours >= 0 ? '+' : '-') +
+    ('0' + Math.abs(offsetHours)).slice(-2) +
+    ':' +
+    ('0' + offsetMinutes).slice(-2);
 
   return `${dateString}T${timeString}.${date.getMilliseconds()}${offsetString}`;
 }
@@ -273,3 +273,9 @@ export const PHRASE_ACCOUNT_CACHE_EXPIRE = 60 * 5; // 1 hour
 export const OTP_CACHE_EXPIRE = 60 * 5; // 1 hour
 export const VALID_CACHE_EXPIRE = 60 * 60 * 10; // 1 hour
 export const CHAT_CACHE_EXPIRE = 60 * 1;
+
+export const NOTIF_WORKER_PORT = 8082;
+
+export const KAFKA_NOTIF_URL = "localhost:9093";
+export const KAFKA_NOTIF_CLIENT_ID =
+  "a0098b856fa177997c6a7e85170b7519d3fb2405adaea9721a63dec8ad464511";

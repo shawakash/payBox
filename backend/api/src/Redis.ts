@@ -13,6 +13,7 @@ export class Redis extends RedisBase {
   public txn: TxnCache;
   public wallet: WalletCache;
   public account: AccountCache;
+  private static redisInst: Redis;
 
   constructor() {
 
@@ -22,5 +23,12 @@ export class Redis extends RedisBase {
     this.txn = new TxnCache(this.client, this);
     this.wallet = new WalletCache(this.client, this);
     this.account = new AccountCache(this.client, this);
+  }
+
+  public static getRedisInst(): Redis {
+    if (!this.redisInst) {
+      this.redisInst = new Redis();
+    }
+    return this.redisInst;
   }
 }

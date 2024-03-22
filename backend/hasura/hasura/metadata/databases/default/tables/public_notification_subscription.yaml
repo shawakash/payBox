@@ -1,0 +1,10 @@
+table:
+  name: notification_subscription
+  schema: public
+configuration:
+  column_config:
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    updated_at: updatedAt
+  custom_root_fields: {}

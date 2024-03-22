@@ -330,3 +330,12 @@ export type FriendshipType = {
 export type AcceptFriendship = FriendshipType & {
     chats: ChatType[]
 }
+
+export enum NotifTopics {
+    FriendRequest = "friendRequest",
+    FriendRequestAccepted = "friendRequestAccepted",
+    FriendRequestRejected = "friendRequestRejected",
+    TxnAccept = "txnAccept",
+    TxnReject = "txnReject",
+    Paid = "paid",
+}

@@ -1017,6 +1017,7 @@ type ZEUS_INTERFACES = never;
 export type ScalarCoders = {
   bigint?: ScalarResolver;
   float8?: ScalarResolver;
+  timestamp?: ScalarResolver;
   timestamptz?: ScalarResolver;
   uuid?: ScalarResolver;
 };
@@ -2869,6 +2870,74 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
+    notifications?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification"],
+    ];
+    notifications_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_aggregate"],
+    ];
     password?: boolean | `@${string}`;
     transactions?: [
       {
@@ -3139,6 +3208,16 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
+    notifications?:
+      | ValueTypes["notification_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    notifications_aggregate?:
+      | ValueTypes["notification_aggregate_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
     password?:
       | ValueTypes["String_comparison_exp"]
       | undefined
@@ -3223,6 +3302,11 @@ export type ValueTypes = {
     id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
     lastname?: string | undefined | null | Variable<any, string>;
     mobile?: ValueTypes["bigint"] | undefined | null | Variable<any, string>;
+    notifications?:
+      | ValueTypes["notification_arr_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
     password?: string | undefined | null | Variable<any, string>;
     transactions?:
       | ValueTypes["transactions_arr_rel_insert_input"]
@@ -3343,6 +3427,11 @@ export type ValueTypes = {
       | null
       | Variable<any, string>;
     mobile?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    notifications_aggregate?:
+      | ValueTypes["notification_aggregate_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
     password?:
       | ValueTypes["order_by"]
       | undefined
@@ -4567,6 +4656,30 @@ export type ValueTypes = {
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["friendship"],
     ];
+    delete_notification?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes["notification_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["notification_mutation_response"],
+    ];
+    delete_notification_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["notification"],
+    ];
+    delete_notification_subscription?: [
+      {
+        /** filter the rows which have to be deleted */
+        where:
+          | ValueTypes["notification_subscription_bool_exp"]
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription_mutation_response"],
+    ];
+    delete_notification_subscription_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["notification_subscription"],
+    ];
     delete_sol?: [
       {
         /** filter the rows which have to be deleted */
@@ -4795,6 +4908,62 @@ export type ValueTypes = {
           | Variable<any, string>;
       },
       ValueTypes["friendship"],
+    ];
+    insert_notification?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["notification_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["notification_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_mutation_response"],
+    ];
+    insert_notification_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["notification_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["notification_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification"],
+    ];
+    insert_notification_subscription?: [
+      {
+        /** the rows to be inserted */
+        objects:
+          | Array<ValueTypes["notification_subscription_insert_input"]>
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["notification_subscription_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription_mutation_response"],
+    ];
+    insert_notification_subscription_one?: [
+      {
+        /** the row to be inserted */
+        object:
+          | ValueTypes["notification_subscription_insert_input"]
+          | Variable<any, string> /** upsert condition */;
+        on_conflict?:
+          | ValueTypes["notification_subscription_on_conflict"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription"],
     ];
     insert_sol?: [
       {
@@ -5178,6 +5347,84 @@ export type ValueTypes = {
       },
       ValueTypes["friendship_mutation_response"],
     ];
+    update_notification?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["notification_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where: ValueTypes["notification_bool_exp"] | Variable<any, string>;
+      },
+      ValueTypes["notification_mutation_response"],
+    ];
+    update_notification_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["notification_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns:
+          | ValueTypes["notification_pk_columns_input"]
+          | Variable<any, string>;
+      },
+      ValueTypes["notification"],
+    ];
+    update_notification_many?: [
+      {
+        /** updates to execute, in order */
+        updates:
+          | Array<ValueTypes["notification_updates"]>
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_mutation_response"],
+    ];
+    update_notification_subscription?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["notification_subscription_set_input"]
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** filter the rows which have to be updated */;
+        where:
+          | ValueTypes["notification_subscription_bool_exp"]
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription_mutation_response"],
+    ];
+    update_notification_subscription_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ValueTypes["notification_subscription_set_input"]
+          | undefined
+          | null
+          | Variable<any, string>;
+        pk_columns:
+          | ValueTypes["notification_subscription_pk_columns_input"]
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription"],
+    ];
+    update_notification_subscription_many?: [
+      {
+        /** updates to execute, in order */
+        updates:
+          | Array<ValueTypes["notification_subscription_updates"]>
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription_mutation_response"],
+    ];
     update_sol?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -5320,6 +5567,688 @@ export type ValueTypes = {
     ];
     __typename?: boolean | `@${string}`;
   }>;
+  /** notification table for clients */
+  ["notification"]: AliasType<{
+    body?: boolean | `@${string}`;
+    /** An object relationship */
+    client?: ValueTypes["client"];
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    title?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    viewed?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "notification" */
+  ["notification_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["notification_aggregate_fields"];
+    nodes?: ValueTypes["notification"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["notification_aggregate_bool_exp"]: {
+    bool_and?:
+      | ValueTypes["notification_aggregate_bool_exp_bool_and"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    bool_or?:
+      | ValueTypes["notification_aggregate_bool_exp_bool_or"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    count?:
+      | ValueTypes["notification_aggregate_bool_exp_count"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  ["notification_aggregate_bool_exp_bool_and"]: {
+    arguments:
+      | ValueTypes["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["notification_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>;
+  };
+  ["notification_aggregate_bool_exp_bool_or"]: {
+    arguments:
+      | ValueTypes["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"]
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["notification_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["Boolean_comparison_exp"] | Variable<any, string>;
+  };
+  ["notification_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ValueTypes["notification_select_column"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    distinct?: boolean | undefined | null | Variable<any, string>;
+    filter?:
+      | ValueTypes["notification_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    predicate: ValueTypes["Int_comparison_exp"] | Variable<any, string>;
+  };
+  /** aggregate fields of "notification" */
+  ["notification_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["notification_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["notification_max_fields"];
+    min?: ValueTypes["notification_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "notification" */
+  ["notification_aggregate_order_by"]: {
+    count?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    max?:
+      | ValueTypes["notification_max_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    min?:
+      | ValueTypes["notification_min_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** input type for inserting array relation for remote table "notification" */
+  ["notification_arr_rel_insert_input"]: {
+    data:
+      | Array<ValueTypes["notification_insert_input"]>
+      | Variable<any, string>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes["notification_on_conflict"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Boolean expression to filter rows from the table "notification". All fields are combined with a logical 'AND'. */
+  ["notification_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["notification_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["notification_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["notification_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    body?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    client?:
+      | ValueTypes["client_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    image?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    timestamp?:
+      | ValueTypes["timestamp_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    title?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    viewed?:
+      | ValueTypes["Boolean_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "notification" */
+  ["notification_constraint"]: notification_constraint;
+  /** input type for inserting data into table "notification" */
+  ["notification_insert_input"]: {
+    body?: string | undefined | null | Variable<any, string>;
+    client?:
+      | ValueTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    image?: string | undefined | null | Variable<any, string>;
+    timestamp?:
+      | ValueTypes["timestamp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    title?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    viewed?: boolean | undefined | null | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["notification_max_fields"]: AliasType<{
+    body?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    title?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "notification" */
+  ["notification_max_order_by"]: {
+    body?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    image?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    timestamp?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    title?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** aggregate min on columns */
+  ["notification_min_fields"]: AliasType<{
+    body?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    title?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "notification" */
+  ["notification_min_order_by"]: {
+    body?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    image?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    timestamp?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    title?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** response of any mutation on the table "notification" */
+  ["notification_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["notification"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "notification" */
+  ["notification_on_conflict"]: {
+    constraint: ValueTypes["notification_constraint"] | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["notification_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["notification_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "notification". */
+  ["notification_order_by"]: {
+    body?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    client?:
+      | ValueTypes["client_order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    image?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    timestamp?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    title?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    viewed?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** primary key columns input for table: notification */
+  ["notification_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "notification" */
+  ["notification_select_column"]: notification_select_column;
+  /** select "notification_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notification" */
+  ["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"]: notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "notification_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notification" */
+  ["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"]: notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns;
+  /** input type for updating data in table "notification" */
+  ["notification_set_input"]: {
+    body?: string | undefined | null | Variable<any, string>;
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    image?: string | undefined | null | Variable<any, string>;
+    timestamp?:
+      | ValueTypes["timestamp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    title?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    viewed?: boolean | undefined | null | Variable<any, string>;
+  };
+  /** Streaming cursor of the table "notification" */
+  ["notification_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["notification_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["notification_stream_cursor_value_input"]: {
+    body?: string | undefined | null | Variable<any, string>;
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    image?: string | undefined | null | Variable<any, string>;
+    timestamp?:
+      | ValueTypes["timestamp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    title?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    viewed?: boolean | undefined | null | Variable<any, string>;
+  };
+  /** notification subscriptions metadata for client */
+  ["notification_subscription"]: AliasType<{
+    auth?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    endpoint?: boolean | `@${string}`;
+    expirationTime?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    p256dh?: boolean | `@${string}`;
+    public_key?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "notification_subscription" */
+  ["notification_subscription_aggregate"]: AliasType<{
+    aggregate?: ValueTypes["notification_subscription_aggregate_fields"];
+    nodes?: ValueTypes["notification_subscription"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "notification_subscription" */
+  ["notification_subscription_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes["notification_subscription_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string>;
+        distinct?: boolean | undefined | null | Variable<any, string>;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes["notification_subscription_max_fields"];
+    min?: ValueTypes["notification_subscription_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "notification_subscription". All fields are combined with a logical 'AND'. */
+  ["notification_subscription_bool_exp"]: {
+    _and?:
+      | Array<ValueTypes["notification_subscription_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _not?:
+      | ValueTypes["notification_subscription_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    _or?:
+      | Array<ValueTypes["notification_subscription_bool_exp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    auth?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    clientId?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    endpoint?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    expirationTime?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    p256dh?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    public_key?:
+      | ValueTypes["String_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?:
+      | ValueTypes["uuid_comparison_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** unique or primary key constraints on table "notification_subscription" */
+  ["notification_subscription_constraint"]: notification_subscription_constraint;
+  /** input type for inserting data into table "notification_subscription" */
+  ["notification_subscription_insert_input"]: {
+    auth?: string | undefined | null | Variable<any, string>;
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    endpoint?: string | undefined | null | Variable<any, string>;
+    expirationTime?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    p256dh?: string | undefined | null | Variable<any, string>;
+    public_key?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+  };
+  /** aggregate max on columns */
+  ["notification_subscription_max_fields"]: AliasType<{
+    auth?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    endpoint?: boolean | `@${string}`;
+    expirationTime?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    p256dh?: boolean | `@${string}`;
+    public_key?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["notification_subscription_min_fields"]: AliasType<{
+    auth?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    endpoint?: boolean | `@${string}`;
+    expirationTime?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    p256dh?: boolean | `@${string}`;
+    public_key?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "notification_subscription" */
+  ["notification_subscription_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes["notification_subscription"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "notification_subscription" */
+  ["notification_subscription_on_conflict"]: {
+    constraint:
+      | ValueTypes["notification_subscription_constraint"]
+      | Variable<any, string>;
+    update_columns:
+      | Array<ValueTypes["notification_subscription_update_column"]>
+      | Variable<any, string>;
+    where?:
+      | ValueTypes["notification_subscription_bool_exp"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Ordering options when selecting data from "notification_subscription". */
+  ["notification_subscription_order_by"]: {
+    auth?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    clientId?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    endpoint?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    expirationTime?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    p256dh?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+    public_key?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["order_by"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["order_by"] | undefined | null | Variable<any, string>;
+  };
+  /** primary key columns input for table: notification_subscription */
+  ["notification_subscription_pk_columns_input"]: {
+    id: ValueTypes["uuid"] | Variable<any, string>;
+  };
+  /** select columns of table "notification_subscription" */
+  ["notification_subscription_select_column"]: notification_subscription_select_column;
+  /** input type for updating data in table "notification_subscription" */
+  ["notification_subscription_set_input"]: {
+    auth?: string | undefined | null | Variable<any, string>;
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    endpoint?: string | undefined | null | Variable<any, string>;
+    expirationTime?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    p256dh?: string | undefined | null | Variable<any, string>;
+    public_key?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+  };
+  /** Streaming cursor of the table "notification_subscription" */
+  ["notification_subscription_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value:
+      | ValueTypes["notification_subscription_stream_cursor_value_input"]
+      | Variable<any, string>;
+    /** cursor ordering */
+    ordering?:
+      | ValueTypes["cursor_ordering"]
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["notification_subscription_stream_cursor_value_input"]: {
+    auth?: string | undefined | null | Variable<any, string>;
+    clientId?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    endpoint?: string | undefined | null | Variable<any, string>;
+    expirationTime?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    id?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+    p256dh?: string | undefined | null | Variable<any, string>;
+    public_key?: string | undefined | null | Variable<any, string>;
+    updatedAt?:
+      | ValueTypes["timestamptz"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    uuid?: ValueTypes["uuid"] | undefined | null | Variable<any, string>;
+  };
+  /** update columns of table "notification_subscription" */
+  ["notification_subscription_update_column"]: notification_subscription_update_column;
+  ["notification_subscription_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["notification_subscription_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where:
+      | ValueTypes["notification_subscription_bool_exp"]
+      | Variable<any, string>;
+  };
+  /** update columns of table "notification" */
+  ["notification_update_column"]: notification_update_column;
+  ["notification_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ValueTypes["notification_set_input"]
+      | undefined
+      | null
+      | Variable<any, string>;
+    /** filter the rows which have to be updated */
+    where: ValueTypes["notification_bool_exp"] | Variable<any, string>;
+  };
   /** column ordering options */
   ["order_by"]: order_by;
   ["query_root"]: AliasType<{
@@ -5826,6 +6755,150 @@ export type ValueTypes = {
     friendship_by_pk?: [
       { id: ValueTypes["uuid"] | Variable<any, string> },
       ValueTypes["friendship"],
+    ];
+    notification?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification"],
+    ];
+    notification_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_aggregate"],
+    ];
+    notification_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["notification"],
+    ];
+    notification_subscription?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_subscription_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_subscription_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription"],
+    ];
+    notification_subscription_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_subscription_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_subscription_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription_aggregate"],
+    ];
+    notification_subscription_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["notification_subscription"],
     ];
     sol?: [
       {
@@ -7109,6 +8182,196 @@ export type ValueTypes = {
       },
       ValueTypes["friendship"],
     ];
+    notification?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification"],
+    ];
+    notification_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_aggregate"],
+    ];
+    notification_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["notification"],
+    ];
+    notification_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<
+              ValueTypes["notification_stream_cursor_input"] | undefined | null
+            >
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification"],
+    ];
+    notification_subscription?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_subscription_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_subscription_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription"],
+    ];
+    notification_subscription_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes["notification_subscription_select_column"]>
+          | undefined
+          | null
+          | Variable<any, string> /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null
+          | Variable<
+              any,
+              string
+            > /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null
+          | Variable<any, string> /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes["notification_subscription_order_by"]>
+          | undefined
+          | null
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription_aggregate"],
+    ];
+    notification_subscription_by_pk?: [
+      { id: ValueTypes["uuid"] | Variable<any, string> },
+      ValueTypes["notification_subscription"],
+    ];
+    notification_subscription_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size:
+          | number
+          | Variable<
+              any,
+              string
+            > /** cursor to stream the results returned by the query */;
+        cursor:
+          | Array<
+              | ValueTypes["notification_subscription_stream_cursor_input"]
+              | undefined
+              | null
+            >
+          | Variable<any, string> /** filter the rows returned */;
+        where?:
+          | ValueTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null
+          | Variable<any, string>;
+      },
+      ValueTypes["notification_subscription"],
+    ];
     sol?: [
       {
         /** distinct select on columns */
@@ -7389,6 +8652,27 @@ export type ValueTypes = {
     ];
     __typename?: boolean | `@${string}`;
   }>;
+  ["timestamp"]: unknown;
+  /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+  ["timestamp_comparison_exp"]: {
+    _eq?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>;
+    _gt?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>;
+    _gte?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>;
+    _in?:
+      | Array<ValueTypes["timestamp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+    _is_null?: boolean | undefined | null | Variable<any, string>;
+    _lt?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>;
+    _lte?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>;
+    _neq?: ValueTypes["timestamp"] | undefined | null | Variable<any, string>;
+    _nin?:
+      | Array<ValueTypes["timestamp"]>
+      | undefined
+      | null
+      | Variable<any, string>;
+  };
   ["timestamptz"]: unknown;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ["timestamptz_comparison_exp"]: {
@@ -9853,6 +11137,52 @@ export type ResolverInputTypes = {
     id?: boolean | `@${string}`;
     lastname?: boolean | `@${string}`;
     mobile?: boolean | `@${string}`;
+    notifications?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["notification"],
+    ];
+    notifications_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["notification_aggregate"],
+    ];
     password?: boolean | `@${string}`;
     transactions?: [
       {
@@ -10024,6 +11354,14 @@ export type ResolverInputTypes = {
     id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     lastname?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     mobile?: ResolverInputTypes["bigint_comparison_exp"] | undefined | null;
+    notifications?:
+      | ResolverInputTypes["notification_bool_exp"]
+      | undefined
+      | null;
+    notifications_aggregate?:
+      | ResolverInputTypes["notification_aggregate_bool_exp"]
+      | undefined
+      | null;
     password?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
     transactions?:
       | ResolverInputTypes["transactions_bool_exp"]
@@ -10076,6 +11414,10 @@ export type ResolverInputTypes = {
     id?: ResolverInputTypes["uuid"] | undefined | null;
     lastname?: string | undefined | null;
     mobile?: ResolverInputTypes["bigint"] | undefined | null;
+    notifications?:
+      | ResolverInputTypes["notification_arr_rel_insert_input"]
+      | undefined
+      | null;
     password?: string | undefined | null;
     transactions?:
       | ResolverInputTypes["transactions_arr_rel_insert_input"]
@@ -10160,6 +11502,10 @@ export type ResolverInputTypes = {
     id?: ResolverInputTypes["order_by"] | undefined | null;
     lastname?: ResolverInputTypes["order_by"] | undefined | null;
     mobile?: ResolverInputTypes["order_by"] | undefined | null;
+    notifications_aggregate?:
+      | ResolverInputTypes["notification_aggregate_order_by"]
+      | undefined
+      | null;
     password?: ResolverInputTypes["order_by"] | undefined | null;
     transactions_aggregate?:
       | ResolverInputTypes["transactions_aggregate_order_by"]
@@ -10927,6 +12273,28 @@ export type ResolverInputTypes = {
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["friendship"],
     ];
+    delete_notification?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["notification_bool_exp"];
+      },
+      ResolverInputTypes["notification_mutation_response"],
+    ];
+    delete_notification_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["notification"],
+    ];
+    delete_notification_subscription?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ResolverInputTypes["notification_subscription_bool_exp"];
+      },
+      ResolverInputTypes["notification_subscription_mutation_response"],
+    ];
+    delete_notification_subscription_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["notification_subscription"],
+    ];
     delete_sol?: [
       {
         /** filter the rows which have to be deleted */
@@ -11115,6 +12483,54 @@ export type ResolverInputTypes = {
           | null;
       },
       ResolverInputTypes["friendship"],
+    ];
+    insert_notification?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["notification_insert_input"]
+        > /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["notification_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification_mutation_response"],
+    ];
+    insert_notification_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["notification_insert_input"] /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["notification_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification"],
+    ];
+    insert_notification_subscription?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ResolverInputTypes["notification_subscription_insert_input"]
+        > /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["notification_subscription_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification_subscription_mutation_response"],
+    ];
+    insert_notification_subscription_one?: [
+      {
+        /** the row to be inserted */
+        object: ResolverInputTypes["notification_subscription_insert_input"] /** upsert condition */;
+        on_conflict?:
+          | ResolverInputTypes["notification_subscription_on_conflict"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification_subscription"],
     ];
     insert_sol?: [
       {
@@ -11388,6 +12804,61 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["friendship_mutation_response"],
     ];
+    update_notification?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ResolverInputTypes["notification_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["notification_bool_exp"];
+      },
+      ResolverInputTypes["notification_mutation_response"],
+    ];
+    update_notification_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?: ResolverInputTypes["notification_set_input"] | undefined | null;
+        pk_columns: ResolverInputTypes["notification_pk_columns_input"];
+      },
+      ResolverInputTypes["notification"],
+    ];
+    update_notification_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["notification_updates"]>;
+      },
+      ResolverInputTypes["notification_mutation_response"],
+    ];
+    update_notification_subscription?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ResolverInputTypes["notification_subscription_set_input"]
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ResolverInputTypes["notification_subscription_bool_exp"];
+      },
+      ResolverInputTypes["notification_subscription_mutation_response"],
+    ];
+    update_notification_subscription_by_pk?: [
+      {
+        /** sets the columns of the filtered rows to the given values */
+        _set?:
+          | ResolverInputTypes["notification_subscription_set_input"]
+          | undefined
+          | null;
+        pk_columns: ResolverInputTypes["notification_subscription_pk_columns_input"];
+      },
+      ResolverInputTypes["notification_subscription"],
+    ];
+    update_notification_subscription_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ResolverInputTypes["notification_subscription_updates"]>;
+      },
+      ResolverInputTypes["notification_subscription_mutation_response"],
+    ];
     update_sol?: [
       {
         /** increments the numeric columns with given value of the filtered values */
@@ -11484,6 +12955,442 @@ export type ResolverInputTypes = {
     ];
     __typename?: boolean | `@${string}`;
   }>;
+  /** notification table for clients */
+  ["notification"]: AliasType<{
+    body?: boolean | `@${string}`;
+    /** An object relationship */
+    client?: ResolverInputTypes["client"];
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    title?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    viewed?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "notification" */
+  ["notification_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["notification_aggregate_fields"];
+    nodes?: ResolverInputTypes["notification"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ["notification_aggregate_bool_exp"]: {
+    bool_and?:
+      | ResolverInputTypes["notification_aggregate_bool_exp_bool_and"]
+      | undefined
+      | null;
+    bool_or?:
+      | ResolverInputTypes["notification_aggregate_bool_exp_bool_or"]
+      | undefined
+      | null;
+    count?:
+      | ResolverInputTypes["notification_aggregate_bool_exp_count"]
+      | undefined
+      | null;
+  };
+  ["notification_aggregate_bool_exp_bool_and"]: {
+    arguments: ResolverInputTypes["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["Boolean_comparison_exp"];
+  };
+  ["notification_aggregate_bool_exp_bool_or"]: {
+    arguments: ResolverInputTypes["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"];
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["Boolean_comparison_exp"];
+  };
+  ["notification_aggregate_bool_exp_count"]: {
+    arguments?:
+      | Array<ResolverInputTypes["notification_select_column"]>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+    predicate: ResolverInputTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "notification" */
+  ["notification_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["notification_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["notification_max_fields"];
+    min?: ResolverInputTypes["notification_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "notification" */
+  ["notification_aggregate_order_by"]: {
+    count?: ResolverInputTypes["order_by"] | undefined | null;
+    max?: ResolverInputTypes["notification_max_order_by"] | undefined | null;
+    min?: ResolverInputTypes["notification_min_order_by"] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "notification" */
+  ["notification_arr_rel_insert_input"]: {
+    data: Array<ResolverInputTypes["notification_insert_input"]>;
+    /** upsert condition */
+    on_conflict?:
+      | ResolverInputTypes["notification_on_conflict"]
+      | undefined
+      | null;
+  };
+  /** Boolean expression to filter rows from the table "notification". All fields are combined with a logical 'AND'. */
+  ["notification_bool_exp"]: {
+    _and?:
+      | Array<ResolverInputTypes["notification_bool_exp"]>
+      | undefined
+      | null;
+    _not?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+    _or?: Array<ResolverInputTypes["notification_bool_exp"]> | undefined | null;
+    body?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    clientId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    image?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    timestamp?:
+      | ResolverInputTypes["timestamp_comparison_exp"]
+      | undefined
+      | null;
+    title?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    updatedAt?:
+      | ResolverInputTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null;
+    uuid?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    viewed?: ResolverInputTypes["Boolean_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "notification" */
+  ["notification_constraint"]: notification_constraint;
+  /** input type for inserting data into table "notification" */
+  ["notification_insert_input"]: {
+    body?: string | undefined | null;
+    client?:
+      | ResolverInputTypes["client_obj_rel_insert_input"]
+      | undefined
+      | null;
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    image?: string | undefined | null;
+    timestamp?: ResolverInputTypes["timestamp"] | undefined | null;
+    title?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    uuid?: ResolverInputTypes["uuid"] | undefined | null;
+    viewed?: boolean | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["notification_max_fields"]: AliasType<{
+    body?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    title?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "notification" */
+  ["notification_max_order_by"]: {
+    body?: ResolverInputTypes["order_by"] | undefined | null;
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    image?: ResolverInputTypes["order_by"] | undefined | null;
+    timestamp?: ResolverInputTypes["order_by"] | undefined | null;
+    title?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+    uuid?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ["notification_min_fields"]: AliasType<{
+    body?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    title?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "notification" */
+  ["notification_min_order_by"]: {
+    body?: ResolverInputTypes["order_by"] | undefined | null;
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    image?: ResolverInputTypes["order_by"] | undefined | null;
+    timestamp?: ResolverInputTypes["order_by"] | undefined | null;
+    title?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+    uuid?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** response of any mutation on the table "notification" */
+  ["notification_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["notification"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "notification" */
+  ["notification_on_conflict"]: {
+    constraint: ResolverInputTypes["notification_constraint"];
+    update_columns: Array<ResolverInputTypes["notification_update_column"]>;
+    where?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+  };
+  /** Ordering options when selecting data from "notification". */
+  ["notification_order_by"]: {
+    body?: ResolverInputTypes["order_by"] | undefined | null;
+    client?: ResolverInputTypes["client_order_by"] | undefined | null;
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    image?: ResolverInputTypes["order_by"] | undefined | null;
+    timestamp?: ResolverInputTypes["order_by"] | undefined | null;
+    title?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+    uuid?: ResolverInputTypes["order_by"] | undefined | null;
+    viewed?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: notification */
+  ["notification_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "notification" */
+  ["notification_select_column"]: notification_select_column;
+  /** select "notification_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notification" */
+  ["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"]: notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "notification_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notification" */
+  ["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"]: notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns;
+  /** input type for updating data in table "notification" */
+  ["notification_set_input"]: {
+    body?: string | undefined | null;
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    image?: string | undefined | null;
+    timestamp?: ResolverInputTypes["timestamp"] | undefined | null;
+    title?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    uuid?: ResolverInputTypes["uuid"] | undefined | null;
+    viewed?: boolean | undefined | null;
+  };
+  /** Streaming cursor of the table "notification" */
+  ["notification_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["notification_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["notification_stream_cursor_value_input"]: {
+    body?: string | undefined | null;
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    image?: string | undefined | null;
+    timestamp?: ResolverInputTypes["timestamp"] | undefined | null;
+    title?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    uuid?: ResolverInputTypes["uuid"] | undefined | null;
+    viewed?: boolean | undefined | null;
+  };
+  /** notification subscriptions metadata for client */
+  ["notification_subscription"]: AliasType<{
+    auth?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    endpoint?: boolean | `@${string}`;
+    expirationTime?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    p256dh?: boolean | `@${string}`;
+    public_key?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "notification_subscription" */
+  ["notification_subscription_aggregate"]: AliasType<{
+    aggregate?: ResolverInputTypes["notification_subscription_aggregate_fields"];
+    nodes?: ResolverInputTypes["notification_subscription"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "notification_subscription" */
+  ["notification_subscription_aggregate_fields"]: AliasType<{
+    count?: [
+      {
+        columns?:
+          | Array<ResolverInputTypes["notification_subscription_select_column"]>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ResolverInputTypes["notification_subscription_max_fields"];
+    min?: ResolverInputTypes["notification_subscription_min_fields"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "notification_subscription". All fields are combined with a logical 'AND'. */
+  ["notification_subscription_bool_exp"]: {
+    _and?:
+      | Array<ResolverInputTypes["notification_subscription_bool_exp"]>
+      | undefined
+      | null;
+    _not?:
+      | ResolverInputTypes["notification_subscription_bool_exp"]
+      | undefined
+      | null;
+    _or?:
+      | Array<ResolverInputTypes["notification_subscription_bool_exp"]>
+      | undefined
+      | null;
+    auth?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    clientId?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    endpoint?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    expirationTime?:
+      | ResolverInputTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null;
+    id?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+    p256dh?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    public_key?: ResolverInputTypes["String_comparison_exp"] | undefined | null;
+    updatedAt?:
+      | ResolverInputTypes["timestamptz_comparison_exp"]
+      | undefined
+      | null;
+    uuid?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
+  };
+  /** unique or primary key constraints on table "notification_subscription" */
+  ["notification_subscription_constraint"]: notification_subscription_constraint;
+  /** input type for inserting data into table "notification_subscription" */
+  ["notification_subscription_insert_input"]: {
+    auth?: string | undefined | null;
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    endpoint?: string | undefined | null;
+    expirationTime?: ResolverInputTypes["timestamptz"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    p256dh?: string | undefined | null;
+    public_key?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    uuid?: ResolverInputTypes["uuid"] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ["notification_subscription_max_fields"]: AliasType<{
+    auth?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    endpoint?: boolean | `@${string}`;
+    expirationTime?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    p256dh?: boolean | `@${string}`;
+    public_key?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ["notification_subscription_min_fields"]: AliasType<{
+    auth?: boolean | `@${string}`;
+    clientId?: boolean | `@${string}`;
+    endpoint?: boolean | `@${string}`;
+    expirationTime?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    p256dh?: boolean | `@${string}`;
+    public_key?: boolean | `@${string}`;
+    updatedAt?: boolean | `@${string}`;
+    uuid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "notification_subscription" */
+  ["notification_subscription_mutation_response"]: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ResolverInputTypes["notification_subscription"];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "notification_subscription" */
+  ["notification_subscription_on_conflict"]: {
+    constraint: ResolverInputTypes["notification_subscription_constraint"];
+    update_columns: Array<
+      ResolverInputTypes["notification_subscription_update_column"]
+    >;
+    where?:
+      | ResolverInputTypes["notification_subscription_bool_exp"]
+      | undefined
+      | null;
+  };
+  /** Ordering options when selecting data from "notification_subscription". */
+  ["notification_subscription_order_by"]: {
+    auth?: ResolverInputTypes["order_by"] | undefined | null;
+    clientId?: ResolverInputTypes["order_by"] | undefined | null;
+    endpoint?: ResolverInputTypes["order_by"] | undefined | null;
+    expirationTime?: ResolverInputTypes["order_by"] | undefined | null;
+    id?: ResolverInputTypes["order_by"] | undefined | null;
+    p256dh?: ResolverInputTypes["order_by"] | undefined | null;
+    public_key?: ResolverInputTypes["order_by"] | undefined | null;
+    updatedAt?: ResolverInputTypes["order_by"] | undefined | null;
+    uuid?: ResolverInputTypes["order_by"] | undefined | null;
+  };
+  /** primary key columns input for table: notification_subscription */
+  ["notification_subscription_pk_columns_input"]: {
+    id: ResolverInputTypes["uuid"];
+  };
+  /** select columns of table "notification_subscription" */
+  ["notification_subscription_select_column"]: notification_subscription_select_column;
+  /** input type for updating data in table "notification_subscription" */
+  ["notification_subscription_set_input"]: {
+    auth?: string | undefined | null;
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    endpoint?: string | undefined | null;
+    expirationTime?: ResolverInputTypes["timestamptz"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    p256dh?: string | undefined | null;
+    public_key?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    uuid?: ResolverInputTypes["uuid"] | undefined | null;
+  };
+  /** Streaming cursor of the table "notification_subscription" */
+  ["notification_subscription_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ResolverInputTypes["notification_subscription_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ResolverInputTypes["cursor_ordering"] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["notification_subscription_stream_cursor_value_input"]: {
+    auth?: string | undefined | null;
+    clientId?: ResolverInputTypes["uuid"] | undefined | null;
+    endpoint?: string | undefined | null;
+    expirationTime?: ResolverInputTypes["timestamptz"] | undefined | null;
+    id?: ResolverInputTypes["uuid"] | undefined | null;
+    p256dh?: string | undefined | null;
+    public_key?: string | undefined | null;
+    updatedAt?: ResolverInputTypes["timestamptz"] | undefined | null;
+    uuid?: ResolverInputTypes["uuid"] | undefined | null;
+  };
+  /** update columns of table "notification_subscription" */
+  ["notification_subscription_update_column"]: notification_subscription_update_column;
+  ["notification_subscription_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?:
+      | ResolverInputTypes["notification_subscription_set_input"]
+      | undefined
+      | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["notification_subscription_bool_exp"];
+  };
+  /** update columns of table "notification" */
+  ["notification_update_column"]: notification_update_column;
+  ["notification_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ResolverInputTypes["notification_set_input"] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ResolverInputTypes["notification_bool_exp"];
+  };
   /** column ordering options */
   ["order_by"]: order_by;
   ["query_root"]: AliasType<{
@@ -11833,6 +13740,112 @@ export type ResolverInputTypes = {
     friendship_by_pk?: [
       { id: ResolverInputTypes["uuid"] },
       ResolverInputTypes["friendship"],
+    ];
+    notification?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["notification"],
+    ];
+    notification_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["notification_aggregate"],
+    ];
+    notification_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["notification"],
+    ];
+    notification_subscription?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_subscription_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_subscription_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ResolverInputTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification_subscription"],
+    ];
+    notification_subscription_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_subscription_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_subscription_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ResolverInputTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification_subscription_aggregate"],
+    ];
+    notification_subscription_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["notification_subscription"],
     ];
     sol?: [
       {
@@ -12663,6 +14676,141 @@ export type ResolverInputTypes = {
       },
       ResolverInputTypes["friendship"],
     ];
+    notification?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["notification"],
+    ];
+    notification_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["notification_aggregate"],
+    ];
+    notification_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["notification"],
+    ];
+    notification_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ResolverInputTypes["notification_stream_cursor_input"]
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ResolverInputTypes["notification_bool_exp"] | undefined | null;
+      },
+      ResolverInputTypes["notification"],
+    ];
+    notification_subscription?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_subscription_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_subscription_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ResolverInputTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification_subscription"],
+    ];
+    notification_subscription_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ResolverInputTypes["notification_subscription_select_column"]>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ResolverInputTypes["notification_subscription_order_by"]>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ResolverInputTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification_subscription_aggregate"],
+    ];
+    notification_subscription_by_pk?: [
+      { id: ResolverInputTypes["uuid"] },
+      ResolverInputTypes["notification_subscription"],
+    ];
+    notification_subscription_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ResolverInputTypes["notification_subscription_stream_cursor_input"]
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ResolverInputTypes["notification_subscription_bool_exp"]
+          | undefined
+          | null;
+      },
+      ResolverInputTypes["notification_subscription"],
+    ];
     sol?: [
       {
         /** distinct select on columns */
@@ -12847,6 +14995,19 @@ export type ResolverInputTypes = {
     ];
     __typename?: boolean | `@${string}`;
   }>;
+  ["timestamp"]: unknown;
+  /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+  ["timestamp_comparison_exp"]: {
+    _eq?: ResolverInputTypes["timestamp"] | undefined | null;
+    _gt?: ResolverInputTypes["timestamp"] | undefined | null;
+    _gte?: ResolverInputTypes["timestamp"] | undefined | null;
+    _in?: Array<ResolverInputTypes["timestamp"]> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ResolverInputTypes["timestamp"] | undefined | null;
+    _lte?: ResolverInputTypes["timestamp"] | undefined | null;
+    _neq?: ResolverInputTypes["timestamp"] | undefined | null;
+    _nin?: Array<ResolverInputTypes["timestamp"]> | undefined | null;
+  };
   ["timestamptz"]: unknown;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ["timestamptz_comparison_exp"]: {
@@ -14557,6 +16718,10 @@ export type ModelTypes = {
     id: ModelTypes["uuid"];
     lastname?: string | undefined;
     mobile?: ModelTypes["bigint"] | undefined;
+    /** An array relationship */
+    notifications: Array<ModelTypes["notification"]>;
+    /** An aggregate relationship */
+    notifications_aggregate: ModelTypes["notification_aggregate"];
     password: string;
     /** An array relationship */
     transactions: Array<ModelTypes["transactions"]>;
@@ -14617,6 +16782,10 @@ export type ModelTypes = {
     id?: ModelTypes["uuid_comparison_exp"] | undefined;
     lastname?: ModelTypes["String_comparison_exp"] | undefined;
     mobile?: ModelTypes["bigint_comparison_exp"] | undefined;
+    notifications?: ModelTypes["notification_bool_exp"] | undefined;
+    notifications_aggregate?:
+      | ModelTypes["notification_aggregate_bool_exp"]
+      | undefined;
     password?: ModelTypes["String_comparison_exp"] | undefined;
     transactions?: ModelTypes["transactions_bool_exp"] | undefined;
     transactions_aggregate?:
@@ -14648,6 +16817,7 @@ export type ModelTypes = {
     id?: ModelTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: ModelTypes["bigint"] | undefined;
+    notifications?: ModelTypes["notification_arr_rel_insert_input"] | undefined;
     password?: string | undefined;
     transactions?: ModelTypes["transactions_arr_rel_insert_input"] | undefined;
     updatedAt?: ModelTypes["timestamptz"] | undefined;
@@ -14715,6 +16885,9 @@ export type ModelTypes = {
     id?: ModelTypes["order_by"] | undefined;
     lastname?: ModelTypes["order_by"] | undefined;
     mobile?: ModelTypes["order_by"] | undefined;
+    notifications_aggregate?:
+      | ModelTypes["notification_aggregate_order_by"]
+      | undefined;
     password?: ModelTypes["order_by"] | undefined;
     transactions_aggregate?:
       | ModelTypes["transactions_aggregate_order_by"]
@@ -15294,6 +17467,20 @@ export type ModelTypes = {
     delete_friendship?: ModelTypes["friendship_mutation_response"] | undefined;
     /** delete single row from the table: "friendship" */
     delete_friendship_by_pk?: ModelTypes["friendship"] | undefined;
+    /** delete data from the table: "notification" */
+    delete_notification?:
+      | ModelTypes["notification_mutation_response"]
+      | undefined;
+    /** delete single row from the table: "notification" */
+    delete_notification_by_pk?: ModelTypes["notification"] | undefined;
+    /** delete data from the table: "notification_subscription" */
+    delete_notification_subscription?:
+      | ModelTypes["notification_subscription_mutation_response"]
+      | undefined;
+    /** delete single row from the table: "notification_subscription" */
+    delete_notification_subscription_by_pk?:
+      | ModelTypes["notification_subscription"]
+      | undefined;
     /** delete data from the table: "sol" */
     delete_sol?: ModelTypes["sol_mutation_response"] | undefined;
     /** delete single row from the table: "sol" */
@@ -15336,6 +17523,20 @@ export type ModelTypes = {
     insert_friendship?: ModelTypes["friendship_mutation_response"] | undefined;
     /** insert a single row into the table: "friendship" */
     insert_friendship_one?: ModelTypes["friendship"] | undefined;
+    /** insert data into the table: "notification" */
+    insert_notification?:
+      | ModelTypes["notification_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "notification" */
+    insert_notification_one?: ModelTypes["notification"] | undefined;
+    /** insert data into the table: "notification_subscription" */
+    insert_notification_subscription?:
+      | ModelTypes["notification_subscription_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "notification_subscription" */
+    insert_notification_subscription_one?:
+      | ModelTypes["notification_subscription"]
+      | undefined;
     /** insert data into the table: "sol" */
     insert_sol?: ModelTypes["sol_mutation_response"] | undefined;
     /** insert a single row into the table: "sol" */
@@ -15406,6 +17607,30 @@ export type ModelTypes = {
     update_friendship_many?:
       | Array<ModelTypes["friendship_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "notification" */
+    update_notification?:
+      | ModelTypes["notification_mutation_response"]
+      | undefined;
+    /** update single row of the table: "notification" */
+    update_notification_by_pk?: ModelTypes["notification"] | undefined;
+    /** update multiples rows of table: "notification" */
+    update_notification_many?:
+      | Array<ModelTypes["notification_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "notification_subscription" */
+    update_notification_subscription?:
+      | ModelTypes["notification_subscription_mutation_response"]
+      | undefined;
+    /** update single row of the table: "notification_subscription" */
+    update_notification_subscription_by_pk?:
+      | ModelTypes["notification_subscription"]
+      | undefined;
+    /** update multiples rows of table: "notification_subscription" */
+    update_notification_subscription_many?:
+      | Array<
+          ModelTypes["notification_subscription_mutation_response"] | undefined
+        >
+      | undefined;
     /** update data of the table: "sol" */
     update_sol?: ModelTypes["sol_mutation_response"] | undefined;
     /** update single row of the table: "sol" */
@@ -15432,6 +17657,360 @@ export type ModelTypes = {
     update_wallet_many?:
       | Array<ModelTypes["wallet_mutation_response"] | undefined>
       | undefined;
+  };
+  /** notification table for clients */
+  ["notification"]: {
+    body: string;
+    /** An object relationship */
+    client: ModelTypes["client"];
+    clientId: ModelTypes["uuid"];
+    id: ModelTypes["uuid"];
+    image?: string | undefined;
+    timestamp: ModelTypes["timestamp"];
+    title: string;
+    updatedAt: ModelTypes["timestamptz"];
+    uuid: ModelTypes["uuid"];
+    viewed: boolean;
+  };
+  /** aggregated selection of "notification" */
+  ["notification_aggregate"]: {
+    aggregate?: ModelTypes["notification_aggregate_fields"] | undefined;
+    nodes: Array<ModelTypes["notification"]>;
+  };
+  ["notification_aggregate_bool_exp"]: {
+    bool_and?:
+      | ModelTypes["notification_aggregate_bool_exp_bool_and"]
+      | undefined;
+    bool_or?: ModelTypes["notification_aggregate_bool_exp_bool_or"] | undefined;
+    count?: ModelTypes["notification_aggregate_bool_exp_count"] | undefined;
+  };
+  ["notification_aggregate_bool_exp_bool_and"]: {
+    arguments: ModelTypes["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["notification_bool_exp"] | undefined;
+    predicate: ModelTypes["Boolean_comparison_exp"];
+  };
+  ["notification_aggregate_bool_exp_bool_or"]: {
+    arguments: ModelTypes["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["notification_bool_exp"] | undefined;
+    predicate: ModelTypes["Boolean_comparison_exp"];
+  };
+  ["notification_aggregate_bool_exp_count"]: {
+    arguments?: Array<ModelTypes["notification_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: ModelTypes["notification_bool_exp"] | undefined;
+    predicate: ModelTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "notification" */
+  ["notification_aggregate_fields"]: {
+    count: number;
+    max?: ModelTypes["notification_max_fields"] | undefined;
+    min?: ModelTypes["notification_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "notification" */
+  ["notification_aggregate_order_by"]: {
+    count?: ModelTypes["order_by"] | undefined;
+    max?: ModelTypes["notification_max_order_by"] | undefined;
+    min?: ModelTypes["notification_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "notification" */
+  ["notification_arr_rel_insert_input"]: {
+    data: Array<ModelTypes["notification_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: ModelTypes["notification_on_conflict"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "notification". All fields are combined with a logical 'AND'. */
+  ["notification_bool_exp"]: {
+    _and?: Array<ModelTypes["notification_bool_exp"]> | undefined;
+    _not?: ModelTypes["notification_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["notification_bool_exp"]> | undefined;
+    body?: ModelTypes["String_comparison_exp"] | undefined;
+    client?: ModelTypes["client_bool_exp"] | undefined;
+    clientId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    image?: ModelTypes["String_comparison_exp"] | undefined;
+    timestamp?: ModelTypes["timestamp_comparison_exp"] | undefined;
+    title?: ModelTypes["String_comparison_exp"] | undefined;
+    updatedAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
+    uuid?: ModelTypes["uuid_comparison_exp"] | undefined;
+    viewed?: ModelTypes["Boolean_comparison_exp"] | undefined;
+  };
+  ["notification_constraint"]: notification_constraint;
+  /** input type for inserting data into table "notification" */
+  ["notification_insert_input"]: {
+    body?: string | undefined;
+    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: ModelTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+    viewed?: boolean | undefined;
+  };
+  /** aggregate max on columns */
+  ["notification_max_fields"]: {
+    body?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: ModelTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+  };
+  /** order by max() on columns of table "notification" */
+  ["notification_max_order_by"]: {
+    body?: ModelTypes["order_by"] | undefined;
+    clientId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    image?: ModelTypes["order_by"] | undefined;
+    timestamp?: ModelTypes["order_by"] | undefined;
+    title?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+    uuid?: ModelTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["notification_min_fields"]: {
+    body?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: ModelTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+  };
+  /** order by min() on columns of table "notification" */
+  ["notification_min_order_by"]: {
+    body?: ModelTypes["order_by"] | undefined;
+    clientId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    image?: ModelTypes["order_by"] | undefined;
+    timestamp?: ModelTypes["order_by"] | undefined;
+    title?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+    uuid?: ModelTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "notification" */
+  ["notification_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["notification"]>;
+  };
+  /** on_conflict condition type for table "notification" */
+  ["notification_on_conflict"]: {
+    constraint: ModelTypes["notification_constraint"];
+    update_columns: Array<ModelTypes["notification_update_column"]>;
+    where?: ModelTypes["notification_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "notification". */
+  ["notification_order_by"]: {
+    body?: ModelTypes["order_by"] | undefined;
+    client?: ModelTypes["client_order_by"] | undefined;
+    clientId?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    image?: ModelTypes["order_by"] | undefined;
+    timestamp?: ModelTypes["order_by"] | undefined;
+    title?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+    uuid?: ModelTypes["order_by"] | undefined;
+    viewed?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: notification */
+  ["notification_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["notification_select_column"]: notification_select_column;
+  ["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"]: notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns;
+  ["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"]: notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns;
+  /** input type for updating data in table "notification" */
+  ["notification_set_input"]: {
+    body?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: ModelTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+    viewed?: boolean | undefined;
+  };
+  /** Streaming cursor of the table "notification" */
+  ["notification_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["notification_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["notification_stream_cursor_value_input"]: {
+    body?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: ModelTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+    viewed?: boolean | undefined;
+  };
+  /** notification subscriptions metadata for client */
+  ["notification_subscription"]: {
+    auth: string;
+    clientId: ModelTypes["uuid"];
+    endpoint: string;
+    expirationTime?: ModelTypes["timestamptz"] | undefined;
+    id: ModelTypes["uuid"];
+    p256dh: string;
+    public_key: string;
+    updatedAt: ModelTypes["timestamptz"];
+    uuid: ModelTypes["uuid"];
+  };
+  /** aggregated selection of "notification_subscription" */
+  ["notification_subscription_aggregate"]: {
+    aggregate?:
+      | ModelTypes["notification_subscription_aggregate_fields"]
+      | undefined;
+    nodes: Array<ModelTypes["notification_subscription"]>;
+  };
+  /** aggregate fields of "notification_subscription" */
+  ["notification_subscription_aggregate_fields"]: {
+    count: number;
+    max?: ModelTypes["notification_subscription_max_fields"] | undefined;
+    min?: ModelTypes["notification_subscription_min_fields"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "notification_subscription". All fields are combined with a logical 'AND'. */
+  ["notification_subscription_bool_exp"]: {
+    _and?: Array<ModelTypes["notification_subscription_bool_exp"]> | undefined;
+    _not?: ModelTypes["notification_subscription_bool_exp"] | undefined;
+    _or?: Array<ModelTypes["notification_subscription_bool_exp"]> | undefined;
+    auth?: ModelTypes["String_comparison_exp"] | undefined;
+    clientId?: ModelTypes["uuid_comparison_exp"] | undefined;
+    endpoint?: ModelTypes["String_comparison_exp"] | undefined;
+    expirationTime?: ModelTypes["timestamptz_comparison_exp"] | undefined;
+    id?: ModelTypes["uuid_comparison_exp"] | undefined;
+    p256dh?: ModelTypes["String_comparison_exp"] | undefined;
+    public_key?: ModelTypes["String_comparison_exp"] | undefined;
+    updatedAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
+    uuid?: ModelTypes["uuid_comparison_exp"] | undefined;
+  };
+  ["notification_subscription_constraint"]: notification_subscription_constraint;
+  /** input type for inserting data into table "notification_subscription" */
+  ["notification_subscription_insert_input"]: {
+    auth?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["notification_subscription_max_fields"]: {
+    auth?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["notification_subscription_min_fields"]: {
+    auth?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+  };
+  /** response of any mutation on the table "notification_subscription" */
+  ["notification_subscription_mutation_response"]: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<ModelTypes["notification_subscription"]>;
+  };
+  /** on_conflict condition type for table "notification_subscription" */
+  ["notification_subscription_on_conflict"]: {
+    constraint: ModelTypes["notification_subscription_constraint"];
+    update_columns: Array<
+      ModelTypes["notification_subscription_update_column"]
+    >;
+    where?: ModelTypes["notification_subscription_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "notification_subscription". */
+  ["notification_subscription_order_by"]: {
+    auth?: ModelTypes["order_by"] | undefined;
+    clientId?: ModelTypes["order_by"] | undefined;
+    endpoint?: ModelTypes["order_by"] | undefined;
+    expirationTime?: ModelTypes["order_by"] | undefined;
+    id?: ModelTypes["order_by"] | undefined;
+    p256dh?: ModelTypes["order_by"] | undefined;
+    public_key?: ModelTypes["order_by"] | undefined;
+    updatedAt?: ModelTypes["order_by"] | undefined;
+    uuid?: ModelTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: notification_subscription */
+  ["notification_subscription_pk_columns_input"]: {
+    id: ModelTypes["uuid"];
+  };
+  ["notification_subscription_select_column"]: notification_subscription_select_column;
+  /** input type for updating data in table "notification_subscription" */
+  ["notification_subscription_set_input"]: {
+    auth?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+  };
+  /** Streaming cursor of the table "notification_subscription" */
+  ["notification_subscription_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: ModelTypes["notification_subscription_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: ModelTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["notification_subscription_stream_cursor_value_input"]: {
+    auth?: string | undefined;
+    clientId?: ModelTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: ModelTypes["timestamptz"] | undefined;
+    id?: ModelTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: ModelTypes["timestamptz"] | undefined;
+    uuid?: ModelTypes["uuid"] | undefined;
+  };
+  ["notification_subscription_update_column"]: notification_subscription_update_column;
+  ["notification_subscription_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["notification_subscription_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["notification_subscription_bool_exp"];
+  };
+  ["notification_update_column"]: notification_update_column;
+  ["notification_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ModelTypes["notification_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: ModelTypes["notification_bool_exp"];
   };
   ["order_by"]: order_by;
   ["query_root"]: {
@@ -15477,6 +18056,20 @@ export type ModelTypes = {
     friendship_aggregate: ModelTypes["friendship_aggregate"];
     /** fetch data from the table: "friendship" using primary key columns */
     friendship_by_pk?: ModelTypes["friendship"] | undefined;
+    /** fetch data from the table: "notification" */
+    notification: Array<ModelTypes["notification"]>;
+    /** fetch aggregated fields from the table: "notification" */
+    notification_aggregate: ModelTypes["notification_aggregate"];
+    /** fetch data from the table: "notification" using primary key columns */
+    notification_by_pk?: ModelTypes["notification"] | undefined;
+    /** fetch data from the table: "notification_subscription" */
+    notification_subscription: Array<ModelTypes["notification_subscription"]>;
+    /** fetch aggregated fields from the table: "notification_subscription" */
+    notification_subscription_aggregate: ModelTypes["notification_subscription_aggregate"];
+    /** fetch data from the table: "notification_subscription" using primary key columns */
+    notification_subscription_by_pk?:
+      | ModelTypes["notification_subscription"]
+      | undefined;
     /** fetch data from the table: "sol" */
     sol: Array<ModelTypes["sol"]>;
     /** fetch aggregated fields from the table: "sol" */
@@ -15771,6 +18364,26 @@ export type ModelTypes = {
     friendship_by_pk?: ModelTypes["friendship"] | undefined;
     /** fetch data from the table in a streaming manner: "friendship" */
     friendship_stream: Array<ModelTypes["friendship"]>;
+    /** fetch data from the table: "notification" */
+    notification: Array<ModelTypes["notification"]>;
+    /** fetch aggregated fields from the table: "notification" */
+    notification_aggregate: ModelTypes["notification_aggregate"];
+    /** fetch data from the table: "notification" using primary key columns */
+    notification_by_pk?: ModelTypes["notification"] | undefined;
+    /** fetch data from the table in a streaming manner: "notification" */
+    notification_stream: Array<ModelTypes["notification"]>;
+    /** fetch data from the table: "notification_subscription" */
+    notification_subscription: Array<ModelTypes["notification_subscription"]>;
+    /** fetch aggregated fields from the table: "notification_subscription" */
+    notification_subscription_aggregate: ModelTypes["notification_subscription_aggregate"];
+    /** fetch data from the table: "notification_subscription" using primary key columns */
+    notification_subscription_by_pk?:
+      | ModelTypes["notification_subscription"]
+      | undefined;
+    /** fetch data from the table in a streaming manner: "notification_subscription" */
+    notification_subscription_stream: Array<
+      ModelTypes["notification_subscription"]
+    >;
     /** fetch data from the table: "sol" */
     sol: Array<ModelTypes["sol"]>;
     /** fetch aggregated fields from the table: "sol" */
@@ -15795,6 +18408,19 @@ export type ModelTypes = {
     wallet_by_pk?: ModelTypes["wallet"] | undefined;
     /** fetch data from the table in a streaming manner: "wallet" */
     wallet_stream: Array<ModelTypes["wallet"]>;
+  };
+  ["timestamp"]: any;
+  /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+  ["timestamp_comparison_exp"]: {
+    _eq?: ModelTypes["timestamp"] | undefined;
+    _gt?: ModelTypes["timestamp"] | undefined;
+    _gte?: ModelTypes["timestamp"] | undefined;
+    _in?: Array<ModelTypes["timestamp"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: ModelTypes["timestamp"] | undefined;
+    _lte?: ModelTypes["timestamp"] | undefined;
+    _neq?: ModelTypes["timestamp"] | undefined;
+    _nin?: Array<ModelTypes["timestamp"]> | undefined;
   };
   ["timestamptz"]: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -17368,6 +19994,10 @@ export type GraphQLTypes = {
     id: GraphQLTypes["uuid"];
     lastname?: string | undefined;
     mobile?: GraphQLTypes["bigint"] | undefined;
+    /** An array relationship */
+    notifications: Array<GraphQLTypes["notification"]>;
+    /** An aggregate relationship */
+    notifications_aggregate: GraphQLTypes["notification_aggregate"];
     password: string;
     /** An array relationship */
     transactions: Array<GraphQLTypes["transactions"]>;
@@ -17431,6 +20061,10 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     lastname?: GraphQLTypes["String_comparison_exp"] | undefined;
     mobile?: GraphQLTypes["bigint_comparison_exp"] | undefined;
+    notifications?: GraphQLTypes["notification_bool_exp"] | undefined;
+    notifications_aggregate?:
+      | GraphQLTypes["notification_aggregate_bool_exp"]
+      | undefined;
     password?: GraphQLTypes["String_comparison_exp"] | undefined;
     transactions?: GraphQLTypes["transactions_bool_exp"] | undefined;
     transactions_aggregate?:
@@ -17463,6 +20097,9 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["uuid"] | undefined;
     lastname?: string | undefined;
     mobile?: GraphQLTypes["bigint"] | undefined;
+    notifications?:
+      | GraphQLTypes["notification_arr_rel_insert_input"]
+      | undefined;
     password?: string | undefined;
     transactions?:
       | GraphQLTypes["transactions_arr_rel_insert_input"]
@@ -17535,6 +20172,9 @@ export type GraphQLTypes = {
     id?: GraphQLTypes["order_by"] | undefined;
     lastname?: GraphQLTypes["order_by"] | undefined;
     mobile?: GraphQLTypes["order_by"] | undefined;
+    notifications_aggregate?:
+      | GraphQLTypes["notification_aggregate_order_by"]
+      | undefined;
     password?: GraphQLTypes["order_by"] | undefined;
     transactions_aggregate?:
       | GraphQLTypes["transactions_aggregate_order_by"]
@@ -18153,6 +20793,20 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "friendship" */
     delete_friendship_by_pk?: GraphQLTypes["friendship"] | undefined;
+    /** delete data from the table: "notification" */
+    delete_notification?:
+      | GraphQLTypes["notification_mutation_response"]
+      | undefined;
+    /** delete single row from the table: "notification" */
+    delete_notification_by_pk?: GraphQLTypes["notification"] | undefined;
+    /** delete data from the table: "notification_subscription" */
+    delete_notification_subscription?:
+      | GraphQLTypes["notification_subscription_mutation_response"]
+      | undefined;
+    /** delete single row from the table: "notification_subscription" */
+    delete_notification_subscription_by_pk?:
+      | GraphQLTypes["notification_subscription"]
+      | undefined;
     /** delete data from the table: "sol" */
     delete_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
     /** delete single row from the table: "sol" */
@@ -18197,6 +20851,20 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "friendship" */
     insert_friendship_one?: GraphQLTypes["friendship"] | undefined;
+    /** insert data into the table: "notification" */
+    insert_notification?:
+      | GraphQLTypes["notification_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "notification" */
+    insert_notification_one?: GraphQLTypes["notification"] | undefined;
+    /** insert data into the table: "notification_subscription" */
+    insert_notification_subscription?:
+      | GraphQLTypes["notification_subscription_mutation_response"]
+      | undefined;
+    /** insert a single row into the table: "notification_subscription" */
+    insert_notification_subscription_one?:
+      | GraphQLTypes["notification_subscription"]
+      | undefined;
     /** insert data into the table: "sol" */
     insert_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
     /** insert a single row into the table: "sol" */
@@ -18269,6 +20937,31 @@ export type GraphQLTypes = {
     update_friendship_many?:
       | Array<GraphQLTypes["friendship_mutation_response"] | undefined>
       | undefined;
+    /** update data of the table: "notification" */
+    update_notification?:
+      | GraphQLTypes["notification_mutation_response"]
+      | undefined;
+    /** update single row of the table: "notification" */
+    update_notification_by_pk?: GraphQLTypes["notification"] | undefined;
+    /** update multiples rows of table: "notification" */
+    update_notification_many?:
+      | Array<GraphQLTypes["notification_mutation_response"] | undefined>
+      | undefined;
+    /** update data of the table: "notification_subscription" */
+    update_notification_subscription?:
+      | GraphQLTypes["notification_subscription_mutation_response"]
+      | undefined;
+    /** update single row of the table: "notification_subscription" */
+    update_notification_subscription_by_pk?:
+      | GraphQLTypes["notification_subscription"]
+      | undefined;
+    /** update multiples rows of table: "notification_subscription" */
+    update_notification_subscription_many?:
+      | Array<
+          | GraphQLTypes["notification_subscription_mutation_response"]
+          | undefined
+        >
+      | undefined;
     /** update data of the table: "sol" */
     update_sol?: GraphQLTypes["sol_mutation_response"] | undefined;
     /** update single row of the table: "sol" */
@@ -18295,6 +20988,384 @@ export type GraphQLTypes = {
     update_wallet_many?:
       | Array<GraphQLTypes["wallet_mutation_response"] | undefined>
       | undefined;
+  };
+  /** notification table for clients */
+  ["notification"]: {
+    __typename: "notification";
+    body: string;
+    /** An object relationship */
+    client: GraphQLTypes["client"];
+    clientId: GraphQLTypes["uuid"];
+    id: GraphQLTypes["uuid"];
+    image?: string | undefined;
+    timestamp: GraphQLTypes["timestamp"];
+    title: string;
+    updatedAt: GraphQLTypes["timestamptz"];
+    uuid: GraphQLTypes["uuid"];
+    viewed: boolean;
+  };
+  /** aggregated selection of "notification" */
+  ["notification_aggregate"]: {
+    __typename: "notification_aggregate";
+    aggregate?: GraphQLTypes["notification_aggregate_fields"] | undefined;
+    nodes: Array<GraphQLTypes["notification"]>;
+  };
+  ["notification_aggregate_bool_exp"]: {
+    bool_and?:
+      | GraphQLTypes["notification_aggregate_bool_exp_bool_and"]
+      | undefined;
+    bool_or?:
+      | GraphQLTypes["notification_aggregate_bool_exp_bool_or"]
+      | undefined;
+    count?: GraphQLTypes["notification_aggregate_bool_exp_count"] | undefined;
+  };
+  ["notification_aggregate_bool_exp_bool_and"]: {
+    arguments: GraphQLTypes["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["notification_bool_exp"] | undefined;
+    predicate: GraphQLTypes["Boolean_comparison_exp"];
+  };
+  ["notification_aggregate_bool_exp_bool_or"]: {
+    arguments: GraphQLTypes["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"];
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["notification_bool_exp"] | undefined;
+    predicate: GraphQLTypes["Boolean_comparison_exp"];
+  };
+  ["notification_aggregate_bool_exp_count"]: {
+    arguments?: Array<GraphQLTypes["notification_select_column"]> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes["notification_bool_exp"] | undefined;
+    predicate: GraphQLTypes["Int_comparison_exp"];
+  };
+  /** aggregate fields of "notification" */
+  ["notification_aggregate_fields"]: {
+    __typename: "notification_aggregate_fields";
+    count: number;
+    max?: GraphQLTypes["notification_max_fields"] | undefined;
+    min?: GraphQLTypes["notification_min_fields"] | undefined;
+  };
+  /** order by aggregate values of table "notification" */
+  ["notification_aggregate_order_by"]: {
+    count?: GraphQLTypes["order_by"] | undefined;
+    max?: GraphQLTypes["notification_max_order_by"] | undefined;
+    min?: GraphQLTypes["notification_min_order_by"] | undefined;
+  };
+  /** input type for inserting array relation for remote table "notification" */
+  ["notification_arr_rel_insert_input"]: {
+    data: Array<GraphQLTypes["notification_insert_input"]>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes["notification_on_conflict"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "notification". All fields are combined with a logical 'AND'. */
+  ["notification_bool_exp"]: {
+    _and?: Array<GraphQLTypes["notification_bool_exp"]> | undefined;
+    _not?: GraphQLTypes["notification_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["notification_bool_exp"]> | undefined;
+    body?: GraphQLTypes["String_comparison_exp"] | undefined;
+    client?: GraphQLTypes["client_bool_exp"] | undefined;
+    clientId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    image?: GraphQLTypes["String_comparison_exp"] | undefined;
+    timestamp?: GraphQLTypes["timestamp_comparison_exp"] | undefined;
+    title?: GraphQLTypes["String_comparison_exp"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
+    uuid?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    viewed?: GraphQLTypes["Boolean_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "notification" */
+  ["notification_constraint"]: notification_constraint;
+  /** input type for inserting data into table "notification" */
+  ["notification_insert_input"]: {
+    body?: string | undefined;
+    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: GraphQLTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+    viewed?: boolean | undefined;
+  };
+  /** aggregate max on columns */
+  ["notification_max_fields"]: {
+    __typename: "notification_max_fields";
+    body?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: GraphQLTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** order by max() on columns of table "notification" */
+  ["notification_max_order_by"]: {
+    body?: GraphQLTypes["order_by"] | undefined;
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    image?: GraphQLTypes["order_by"] | undefined;
+    timestamp?: GraphQLTypes["order_by"] | undefined;
+    title?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+    uuid?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["notification_min_fields"]: {
+    __typename: "notification_min_fields";
+    body?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: GraphQLTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** order by min() on columns of table "notification" */
+  ["notification_min_order_by"]: {
+    body?: GraphQLTypes["order_by"] | undefined;
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    image?: GraphQLTypes["order_by"] | undefined;
+    timestamp?: GraphQLTypes["order_by"] | undefined;
+    title?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+    uuid?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** response of any mutation on the table "notification" */
+  ["notification_mutation_response"]: {
+    __typename: "notification_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["notification"]>;
+  };
+  /** on_conflict condition type for table "notification" */
+  ["notification_on_conflict"]: {
+    constraint: GraphQLTypes["notification_constraint"];
+    update_columns: Array<GraphQLTypes["notification_update_column"]>;
+    where?: GraphQLTypes["notification_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "notification". */
+  ["notification_order_by"]: {
+    body?: GraphQLTypes["order_by"] | undefined;
+    client?: GraphQLTypes["client_order_by"] | undefined;
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    image?: GraphQLTypes["order_by"] | undefined;
+    timestamp?: GraphQLTypes["order_by"] | undefined;
+    title?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+    uuid?: GraphQLTypes["order_by"] | undefined;
+    viewed?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: notification */
+  ["notification_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "notification" */
+  ["notification_select_column"]: notification_select_column;
+  /** select "notification_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notification" */
+  ["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"]: notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns;
+  /** select "notification_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notification" */
+  ["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"]: notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns;
+  /** input type for updating data in table "notification" */
+  ["notification_set_input"]: {
+    body?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: GraphQLTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+    viewed?: boolean | undefined;
+  };
+  /** Streaming cursor of the table "notification" */
+  ["notification_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["notification_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["notification_stream_cursor_value_input"]: {
+    body?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    image?: string | undefined;
+    timestamp?: GraphQLTypes["timestamp"] | undefined;
+    title?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+    viewed?: boolean | undefined;
+  };
+  /** notification subscriptions metadata for client */
+  ["notification_subscription"]: {
+    __typename: "notification_subscription";
+    auth: string;
+    clientId: GraphQLTypes["uuid"];
+    endpoint: string;
+    expirationTime?: GraphQLTypes["timestamptz"] | undefined;
+    id: GraphQLTypes["uuid"];
+    p256dh: string;
+    public_key: string;
+    updatedAt: GraphQLTypes["timestamptz"];
+    uuid: GraphQLTypes["uuid"];
+  };
+  /** aggregated selection of "notification_subscription" */
+  ["notification_subscription_aggregate"]: {
+    __typename: "notification_subscription_aggregate";
+    aggregate?:
+      | GraphQLTypes["notification_subscription_aggregate_fields"]
+      | undefined;
+    nodes: Array<GraphQLTypes["notification_subscription"]>;
+  };
+  /** aggregate fields of "notification_subscription" */
+  ["notification_subscription_aggregate_fields"]: {
+    __typename: "notification_subscription_aggregate_fields";
+    count: number;
+    max?: GraphQLTypes["notification_subscription_max_fields"] | undefined;
+    min?: GraphQLTypes["notification_subscription_min_fields"] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "notification_subscription". All fields are combined with a logical 'AND'. */
+  ["notification_subscription_bool_exp"]: {
+    _and?:
+      | Array<GraphQLTypes["notification_subscription_bool_exp"]>
+      | undefined;
+    _not?: GraphQLTypes["notification_subscription_bool_exp"] | undefined;
+    _or?: Array<GraphQLTypes["notification_subscription_bool_exp"]> | undefined;
+    auth?: GraphQLTypes["String_comparison_exp"] | undefined;
+    clientId?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    endpoint?: GraphQLTypes["String_comparison_exp"] | undefined;
+    expirationTime?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
+    id?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+    p256dh?: GraphQLTypes["String_comparison_exp"] | undefined;
+    public_key?: GraphQLTypes["String_comparison_exp"] | undefined;
+    updatedAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
+    uuid?: GraphQLTypes["uuid_comparison_exp"] | undefined;
+  };
+  /** unique or primary key constraints on table "notification_subscription" */
+  ["notification_subscription_constraint"]: notification_subscription_constraint;
+  /** input type for inserting data into table "notification_subscription" */
+  ["notification_subscription_insert_input"]: {
+    auth?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** aggregate max on columns */
+  ["notification_subscription_max_fields"]: {
+    __typename: "notification_subscription_max_fields";
+    auth?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** aggregate min on columns */
+  ["notification_subscription_min_fields"]: {
+    __typename: "notification_subscription_min_fields";
+    auth?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** response of any mutation on the table "notification_subscription" */
+  ["notification_subscription_mutation_response"]: {
+    __typename: "notification_subscription_mutation_response";
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes["notification_subscription"]>;
+  };
+  /** on_conflict condition type for table "notification_subscription" */
+  ["notification_subscription_on_conflict"]: {
+    constraint: GraphQLTypes["notification_subscription_constraint"];
+    update_columns: Array<
+      GraphQLTypes["notification_subscription_update_column"]
+    >;
+    where?: GraphQLTypes["notification_subscription_bool_exp"] | undefined;
+  };
+  /** Ordering options when selecting data from "notification_subscription". */
+  ["notification_subscription_order_by"]: {
+    auth?: GraphQLTypes["order_by"] | undefined;
+    clientId?: GraphQLTypes["order_by"] | undefined;
+    endpoint?: GraphQLTypes["order_by"] | undefined;
+    expirationTime?: GraphQLTypes["order_by"] | undefined;
+    id?: GraphQLTypes["order_by"] | undefined;
+    p256dh?: GraphQLTypes["order_by"] | undefined;
+    public_key?: GraphQLTypes["order_by"] | undefined;
+    updatedAt?: GraphQLTypes["order_by"] | undefined;
+    uuid?: GraphQLTypes["order_by"] | undefined;
+  };
+  /** primary key columns input for table: notification_subscription */
+  ["notification_subscription_pk_columns_input"]: {
+    id: GraphQLTypes["uuid"];
+  };
+  /** select columns of table "notification_subscription" */
+  ["notification_subscription_select_column"]: notification_subscription_select_column;
+  /** input type for updating data in table "notification_subscription" */
+  ["notification_subscription_set_input"]: {
+    auth?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** Streaming cursor of the table "notification_subscription" */
+  ["notification_subscription_stream_cursor_input"]: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes["notification_subscription_stream_cursor_value_input"];
+    /** cursor ordering */
+    ordering?: GraphQLTypes["cursor_ordering"] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ["notification_subscription_stream_cursor_value_input"]: {
+    auth?: string | undefined;
+    clientId?: GraphQLTypes["uuid"] | undefined;
+    endpoint?: string | undefined;
+    expirationTime?: GraphQLTypes["timestamptz"] | undefined;
+    id?: GraphQLTypes["uuid"] | undefined;
+    p256dh?: string | undefined;
+    public_key?: string | undefined;
+    updatedAt?: GraphQLTypes["timestamptz"] | undefined;
+    uuid?: GraphQLTypes["uuid"] | undefined;
+  };
+  /** update columns of table "notification_subscription" */
+  ["notification_subscription_update_column"]: notification_subscription_update_column;
+  ["notification_subscription_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["notification_subscription_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["notification_subscription_bool_exp"];
+  };
+  /** update columns of table "notification" */
+  ["notification_update_column"]: notification_update_column;
+  ["notification_updates"]: {
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes["notification_set_input"] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes["notification_bool_exp"];
   };
   /** column ordering options */
   ["order_by"]: order_by;
@@ -18342,6 +21413,20 @@ export type GraphQLTypes = {
     friendship_aggregate: GraphQLTypes["friendship_aggregate"];
     /** fetch data from the table: "friendship" using primary key columns */
     friendship_by_pk?: GraphQLTypes["friendship"] | undefined;
+    /** fetch data from the table: "notification" */
+    notification: Array<GraphQLTypes["notification"]>;
+    /** fetch aggregated fields from the table: "notification" */
+    notification_aggregate: GraphQLTypes["notification_aggregate"];
+    /** fetch data from the table: "notification" using primary key columns */
+    notification_by_pk?: GraphQLTypes["notification"] | undefined;
+    /** fetch data from the table: "notification_subscription" */
+    notification_subscription: Array<GraphQLTypes["notification_subscription"]>;
+    /** fetch aggregated fields from the table: "notification_subscription" */
+    notification_subscription_aggregate: GraphQLTypes["notification_subscription_aggregate"];
+    /** fetch data from the table: "notification_subscription" using primary key columns */
+    notification_subscription_by_pk?:
+      | GraphQLTypes["notification_subscription"]
+      | undefined;
     /** fetch data from the table: "sol" */
     sol: Array<GraphQLTypes["sol"]>;
     /** fetch aggregated fields from the table: "sol" */
@@ -18654,6 +21739,26 @@ export type GraphQLTypes = {
     friendship_by_pk?: GraphQLTypes["friendship"] | undefined;
     /** fetch data from the table in a streaming manner: "friendship" */
     friendship_stream: Array<GraphQLTypes["friendship"]>;
+    /** fetch data from the table: "notification" */
+    notification: Array<GraphQLTypes["notification"]>;
+    /** fetch aggregated fields from the table: "notification" */
+    notification_aggregate: GraphQLTypes["notification_aggregate"];
+    /** fetch data from the table: "notification" using primary key columns */
+    notification_by_pk?: GraphQLTypes["notification"] | undefined;
+    /** fetch data from the table in a streaming manner: "notification" */
+    notification_stream: Array<GraphQLTypes["notification"]>;
+    /** fetch data from the table: "notification_subscription" */
+    notification_subscription: Array<GraphQLTypes["notification_subscription"]>;
+    /** fetch aggregated fields from the table: "notification_subscription" */
+    notification_subscription_aggregate: GraphQLTypes["notification_subscription_aggregate"];
+    /** fetch data from the table: "notification_subscription" using primary key columns */
+    notification_subscription_by_pk?:
+      | GraphQLTypes["notification_subscription"]
+      | undefined;
+    /** fetch data from the table in a streaming manner: "notification_subscription" */
+    notification_subscription_stream: Array<
+      GraphQLTypes["notification_subscription"]
+    >;
     /** fetch data from the table: "sol" */
     sol: Array<GraphQLTypes["sol"]>;
     /** fetch aggregated fields from the table: "sol" */
@@ -18678,6 +21783,19 @@ export type GraphQLTypes = {
     wallet_by_pk?: GraphQLTypes["wallet"] | undefined;
     /** fetch data from the table in a streaming manner: "wallet" */
     wallet_stream: Array<GraphQLTypes["wallet"]>;
+  };
+  ["timestamp"]: "scalar" & { name: "timestamp" };
+  /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+  ["timestamp_comparison_exp"]: {
+    _eq?: GraphQLTypes["timestamp"] | undefined;
+    _gt?: GraphQLTypes["timestamp"] | undefined;
+    _gte?: GraphQLTypes["timestamp"] | undefined;
+    _in?: Array<GraphQLTypes["timestamp"]> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes["timestamp"] | undefined;
+    _lte?: GraphQLTypes["timestamp"] | undefined;
+    _neq?: GraphQLTypes["timestamp"] | undefined;
+    _nin?: Array<GraphQLTypes["timestamp"]> | undefined;
   };
   ["timestamptz"]: "scalar" & { name: "timestamptz" };
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -19614,6 +22732,70 @@ export const enum friendship_update_column {
   status = "status",
   updatedAt = "updatedAt",
 }
+/** unique or primary key constraints on table "notification" */
+export const enum notification_constraint {
+  notification_pkey = "notification_pkey",
+}
+/** select columns of table "notification" */
+export const enum notification_select_column {
+  body = "body",
+  clientId = "clientId",
+  id = "id",
+  image = "image",
+  timestamp = "timestamp",
+  title = "title",
+  updatedAt = "updatedAt",
+  uuid = "uuid",
+  viewed = "viewed",
+}
+/** select "notification_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notification" */
+export const enum notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns {
+  viewed = "viewed",
+}
+/** select "notification_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notification" */
+export const enum notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns {
+  viewed = "viewed",
+}
+/** unique or primary key constraints on table "notification_subscription" */
+export const enum notification_subscription_constraint {
+  notification_subscription_pkey = "notification_subscription_pkey",
+}
+/** select columns of table "notification_subscription" */
+export const enum notification_subscription_select_column {
+  auth = "auth",
+  clientId = "clientId",
+  endpoint = "endpoint",
+  expirationTime = "expirationTime",
+  id = "id",
+  p256dh = "p256dh",
+  public_key = "public_key",
+  updatedAt = "updatedAt",
+  uuid = "uuid",
+}
+/** update columns of table "notification_subscription" */
+export const enum notification_subscription_update_column {
+  auth = "auth",
+  clientId = "clientId",
+  endpoint = "endpoint",
+  expirationTime = "expirationTime",
+  id = "id",
+  p256dh = "p256dh",
+  public_key = "public_key",
+  updatedAt = "updatedAt",
+  uuid = "uuid",
+}
+/** update columns of table "notification" */
+export const enum notification_update_column {
+  body = "body",
+  clientId = "clientId",
+  id = "id",
+  image = "image",
+  timestamp = "timestamp",
+  title = "title",
+  updatedAt = "updatedAt",
+  uuid = "uuid",
+  viewed = "viewed",
+}
 /** column ordering options */
 export const enum order_by {
   asc = "asc",
@@ -19883,6 +23065,40 @@ type ZEUS_VARIABLES = {
   ["friendship_stream_cursor_value_input"]: ValueTypes["friendship_stream_cursor_value_input"];
   ["friendship_update_column"]: ValueTypes["friendship_update_column"];
   ["friendship_updates"]: ValueTypes["friendship_updates"];
+  ["notification_aggregate_bool_exp"]: ValueTypes["notification_aggregate_bool_exp"];
+  ["notification_aggregate_bool_exp_bool_and"]: ValueTypes["notification_aggregate_bool_exp_bool_and"];
+  ["notification_aggregate_bool_exp_bool_or"]: ValueTypes["notification_aggregate_bool_exp_bool_or"];
+  ["notification_aggregate_bool_exp_count"]: ValueTypes["notification_aggregate_bool_exp_count"];
+  ["notification_aggregate_order_by"]: ValueTypes["notification_aggregate_order_by"];
+  ["notification_arr_rel_insert_input"]: ValueTypes["notification_arr_rel_insert_input"];
+  ["notification_bool_exp"]: ValueTypes["notification_bool_exp"];
+  ["notification_constraint"]: ValueTypes["notification_constraint"];
+  ["notification_insert_input"]: ValueTypes["notification_insert_input"];
+  ["notification_max_order_by"]: ValueTypes["notification_max_order_by"];
+  ["notification_min_order_by"]: ValueTypes["notification_min_order_by"];
+  ["notification_on_conflict"]: ValueTypes["notification_on_conflict"];
+  ["notification_order_by"]: ValueTypes["notification_order_by"];
+  ["notification_pk_columns_input"]: ValueTypes["notification_pk_columns_input"];
+  ["notification_select_column"]: ValueTypes["notification_select_column"];
+  ["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"]: ValueTypes["notification_select_column_notification_aggregate_bool_exp_bool_and_arguments_columns"];
+  ["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"]: ValueTypes["notification_select_column_notification_aggregate_bool_exp_bool_or_arguments_columns"];
+  ["notification_set_input"]: ValueTypes["notification_set_input"];
+  ["notification_stream_cursor_input"]: ValueTypes["notification_stream_cursor_input"];
+  ["notification_stream_cursor_value_input"]: ValueTypes["notification_stream_cursor_value_input"];
+  ["notification_subscription_bool_exp"]: ValueTypes["notification_subscription_bool_exp"];
+  ["notification_subscription_constraint"]: ValueTypes["notification_subscription_constraint"];
+  ["notification_subscription_insert_input"]: ValueTypes["notification_subscription_insert_input"];
+  ["notification_subscription_on_conflict"]: ValueTypes["notification_subscription_on_conflict"];
+  ["notification_subscription_order_by"]: ValueTypes["notification_subscription_order_by"];
+  ["notification_subscription_pk_columns_input"]: ValueTypes["notification_subscription_pk_columns_input"];
+  ["notification_subscription_select_column"]: ValueTypes["notification_subscription_select_column"];
+  ["notification_subscription_set_input"]: ValueTypes["notification_subscription_set_input"];
+  ["notification_subscription_stream_cursor_input"]: ValueTypes["notification_subscription_stream_cursor_input"];
+  ["notification_subscription_stream_cursor_value_input"]: ValueTypes["notification_subscription_stream_cursor_value_input"];
+  ["notification_subscription_update_column"]: ValueTypes["notification_subscription_update_column"];
+  ["notification_subscription_updates"]: ValueTypes["notification_subscription_updates"];
+  ["notification_update_column"]: ValueTypes["notification_update_column"];
+  ["notification_updates"]: ValueTypes["notification_updates"];
   ["order_by"]: ValueTypes["order_by"];
   ["sol_bool_exp"]: ValueTypes["sol_bool_exp"];
   ["sol_constraint"]: ValueTypes["sol_constraint"];
@@ -19898,6 +23114,8 @@ type ZEUS_VARIABLES = {
   ["sol_stream_cursor_value_input"]: ValueTypes["sol_stream_cursor_value_input"];
   ["sol_update_column"]: ValueTypes["sol_update_column"];
   ["sol_updates"]: ValueTypes["sol_updates"];
+  ["timestamp"]: ValueTypes["timestamp"];
+  ["timestamp_comparison_exp"]: ValueTypes["timestamp_comparison_exp"];
   ["timestamptz"]: ValueTypes["timestamptz"];
   ["timestamptz_comparison_exp"]: ValueTypes["timestamptz_comparison_exp"];
   ["transactions_aggregate_bool_exp"]: ValueTypes["transactions_aggregate_bool_exp"];
