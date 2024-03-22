@@ -10,3 +10,9 @@ export const KAFKA_URL =
 
 export const KAFKA_ID = 
     process.env.KAFKA_NOTIF_CLIENT_ID || KAFKA_NOTIF_CLIENT_ID;
+
+export const VAPID_PRIVATE_KEY = 
+    process.env.VAPID_PRIVATE_KEY || "";
+
+export const VAPID_PUBLIC_KEY = 
+    process.env.VAPID_PUBLIC_KEY || "";

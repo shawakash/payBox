@@ -24,7 +24,8 @@
     "web-push": "^3.6.7"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21"
+    "@types/express": "^4.17.21",
+    "@types/web-push": "^3.6.3"
   },
   "description": "Paybox notification worker"
 }

@@ -4,9 +4,9 @@ import os from "os";
 
 import { KAFKA_ID, KAFKA_URL, PORT } from "./config";
 import { Kafka } from "kafkajs";
-import {WorkerAdmin} from "./kafka/admin";
-import {ConsumerWorker} from "./kafka/consumer";
-import {ProducerWorker} from "./kafka/producer";
+import { WorkerAdmin } from "./kafka/admin";
+import { ConsumerWorker } from "./kafka/consumer";
+import { ProducerWorker } from "./kafka/producer";
 
 
 export const kafka = new Kafka({
@@ -42,7 +42,6 @@ if (cluster.isPrimary) {
 
         // This can be connected in any service/s
         await ProducerWorker.getInstance().connectProducer();
-        
 
     })();
 
@@ -51,14 +50,17 @@ if (cluster.isPrimary) {
     });
 } else {
     (async () => {
-        await ConsumerWorker.getInstance().connectCounsumer(
-            "notif-group",
-            ["notif"],
-            true
-        );
-        const x = 0;
-        while (x < 1) {
-            // Run always
+        try {
+            await ConsumerWorker.getInstance().connectCounsumer(
+                "notif-group",
+                ["notif"],
+                true
+            );
+            await ConsumerWorker.getInstance().runConsumer();
+
+        } catch (error) {
+            console.log(`Error in consumer operations: ${error}`);
+            process.exit(1);
         }
     })();
 }
