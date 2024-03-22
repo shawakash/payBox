@@ -6,6 +6,8 @@ import {ChatRedis} from "./chat";
 
 export class Redis extends RedisBase {
     public chatCache: ChatRedis
+    private static redisInst: Redis;
+
     constructor() {
         super();
         this.client.on('connect', () => {
@@ -20,6 +22,13 @@ export class Redis extends RedisBase {
 
         this.client.connect();
         this.chatCache = new ChatRedis(this.client, this);
+    }
+
+    public static getRedisInst(): Redis {
+        if (!this.redisInst) {
+            this.redisInst = new Redis();
+        }
+        return this.redisInst;
     }
 }
 

@@ -11,7 +11,7 @@ import {
 } from "@paybox/common";
 import { Router } from "express";
 import { getAllTxn, getTxnByHash, getTxns, insertTxn } from "@paybox/backend-common";
-import { cache } from "..";
+import { Redis } from "..";
 import { txnCheckAddress } from "../auth/middleware";
 import { dbResStatus } from "../types/client";
 import { publishEthTxn, publishSolTxn } from "@paybox/kafka";
@@ -108,7 +108,7 @@ txnRouter.get("/getMany", async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      await cache.txn.cacheTxns(
+      await Redis.getRedisInst().txn.cacheTxns(
         `${id}_txns_${count}_${Date.now()}`,
         txns.txns as TxnType[],
         TRANSACTION_CACHE_EXPIRE
@@ -134,7 +134,7 @@ txnRouter.get("/get", async (req, res) => {
       /**
        * Cache
        */
-      const isTxn = await cache.txn.cacheGetTxnBySign(hash);
+      const isTxn = await Redis.getRedisInst().txn.cacheGetTxnBySign(hash);
       if (isTxn) {
         return res.status(302).json({ txn: isTxn, status: responseStatus.Ok });
       }
@@ -145,7 +145,7 @@ txnRouter.get("/get", async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      await cache.txn.cacheTxn(txn.id as string, txn.txn as TxnType, TRANSACTION_CACHE_EXPIRE);
+      await Redis.getRedisInst().txn.cacheTxn(txn.id as string, txn.txn as TxnType, TRANSACTION_CACHE_EXPIRE);
       return res.status(200).json({ txn, status: responseStatus.Ok });
     }
   } catch (error) {
@@ -167,7 +167,7 @@ txnRouter.get("/getAll", async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      // await cache.cacheTxns(`${id}_txns`, txn.txns as TxnType[]);
+      // await Redis.getRedisInst().cacheTxns(`${id}_txns`, txn.txns as TxnType[]);
       return res
         .status(200)
         .json({ txns: txn.txns, status: responseStatus.Ok });

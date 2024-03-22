@@ -14,7 +14,7 @@ import {
   updateAddress,
 } from "@paybox/backend-common";
 import { dbResStatus } from "../types/client";
-import { cache } from "../index";
+import { Redis } from "../index";
 
 export const addressRouter = Router();
 
@@ -51,7 +51,7 @@ addressRouter.post("/", checkAddress, async (req, res) => {
          * Cache
          */
 
-        await cache.address.cacheAddress<Address>(mutateAddress.id as string, {
+        await Redis.getRedisInst().address.cacheAddress<Address>(mutateAddress.id as string, {
           eth,
           sol,
           bitcoin: bitcoin || "",
@@ -88,7 +88,7 @@ addressRouter.get("/", async (req, res) => {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const isCached = await cache.address.getAddressFromKey<
+      const isCached = await Redis.getRedisInst().address.getAddressFromKey<
         Address & { id: string; clientId: string }
       >(id);
       if (isCached) {
@@ -108,7 +108,7 @@ addressRouter.get("/", async (req, res) => {
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.address.cacheAddress<
+      await Redis.getRedisInst().address.cacheAddress<
         Address & { id: string; clientId: string }
       >(
         id,
@@ -161,7 +161,7 @@ addressRouter.patch("/update", checkAddress, async (req, res) => {
        * Cache
        */
 
-      await cache.address.patchAddress<Address>(mutateAddress.id as string, {
+      await Redis.getRedisInst().address.patchAddress<Address>(mutateAddress.id as string, {
         eth,
         sol,
         bitcoin,

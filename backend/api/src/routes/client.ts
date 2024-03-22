@@ -36,7 +36,7 @@ import {
   validatePassword,
   setJWTCookie,
 } from "@paybox/backend-common";
-import { cache } from "../index";
+import { Redis } from "../index";
 import {
   genOtp,
   generateSeed,
@@ -86,7 +86,7 @@ clientRouter.post('/', async (req, res) => {
     /**
     * Cache
     */
-    await cache.clientCache.cacheClient(client.id as string, {
+    await Redis.getRedisInst().clientCache.cacheClient(client.id as string, {
       firstname,
       email,
       username,
@@ -116,7 +116,7 @@ clientRouter.post('/', async (req, res) => {
     const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
     try {
       sendOTP(`${firstname}`, email, otp, Number(mobile));
-      await cache.cacheIdUsingKey(otp.toString(), client.id as string, OTP_CACHE_EXPIRE);
+      await Redis.getRedisInst().cacheIdUsingKey(otp.toString(), client.id as string, OTP_CACHE_EXPIRE);
     } catch (error) {
       console.log(error);
       return res.status(200).json({ ...client, jwt, msg: "Error in sending otp", status: responseStatus.Ok });
@@ -137,7 +137,7 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
     if (id) {
       const { otp } = OtpValid.parse(req.query);
 
-      const tempCache = await cache.getIdFromKey(otp.toString());
+      const tempCache = await Redis.getRedisInst().getIdFromKey(otp.toString());
       if (!tempCache) {
         return res
           .status(404)
@@ -162,7 +162,7 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
       /**
        * Cache
       */
-     await cache.wallet.handleValid({
+     await Redis.getRedisInst().wallet.handleValid({
       id: validate.walletId,
       clientId: id,
       accounts: [validate.account],
@@ -201,7 +201,7 @@ clientRouter.patch("/resend", extractClientId, isValidated, resendOtpLimiter, as
       const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
       try {
         await sendOTP(name, email, otp, Number(mobile));
-        await cache.cacheIdUsingKey(otp.toString(), id, OTP_CACHE_EXPIRE);
+        await Redis.getRedisInst().cacheIdUsingKey(otp.toString(), id, OTP_CACHE_EXPIRE);
 
         const { status } = await upadteMobileEmail(id, Number(mobile), email);
         if (status == dbResStatus.Error) {
@@ -237,8 +237,8 @@ clientRouter.post("/providerAuth", async (req, res) => {
      * Cache check
      */
     const client =
-      (await cache.clientCache.getClientFromKey(username)) ||
-      (await cache.clientCache.getClientFromKey(email)) || (await getClientByEmail(email)).client;
+      (await Redis.getRedisInst().clientCache.getClientFromKey(username)) ||
+      (await Redis.getRedisInst().clientCache.getClientFromKey(email)) || (await getClientByEmail(email)).client;
     if (client) {
       let jwt;
       if (client.id) {
@@ -263,7 +263,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
       /**
        * Cache
        */
-      await cache.clientCache.cacheClient(client.id as string, client, CLIENT_CACHE_EXPIRE);
+      await Redis.getRedisInst().clientCache.cacheClient(client.id as string, client, CLIENT_CACHE_EXPIRE);
 
       return res
         .status(302)
@@ -291,7 +291,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
       });
     }
 
-    await cache.clientCache.cacheClient(mutation.id as string, {
+    await Redis.getRedisInst().clientCache.cacheClient(mutation.id as string, {
       firstname,
       email,
       username,
@@ -308,7 +308,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
     const otp = genOtp(TOTP_DIGITS, TOTP_TIME);
     try {
       sendOTP(`${firstname}`, email, otp);
-      await cache.cacheIdUsingKey(otp.toString(), mutation.id as string, OTP_CACHE_EXPIRE);
+      await Redis.getRedisInst().cacheIdUsingKey(otp.toString(), mutation.id as string, OTP_CACHE_EXPIRE);
     } catch (error) {
       console.log(error);
       return res.status(200).json({
@@ -382,7 +382,7 @@ clientRouter.post("/login", async (req, res) => {
     /**
      * Cache
      */
-    await cache.clientCache.cacheClient(
+    await Redis.getRedisInst().clientCache.cacheClient(
       query.client.id as string,
       query.client as Client,
       CLIENT_CACHE_EXPIRE,
@@ -416,7 +416,7 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
     //@ts-ignore for first-time
     const id = req.id;
     if (id) {
-      const cachedClient = await cache.clientCache.getClientCache(id);
+      const cachedClient = await Redis.getRedisInst().clientCache.getClientCache(id);
       if (cachedClient) {
         return (
           res
@@ -436,7 +436,7 @@ clientRouter.get("/me", extractClientId, async (req, res) => {
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.clientCache.cacheClient(id, query.client as Client, CLIENT_CACHE_EXPIRE);
+      await Redis.getRedisInst().clientCache.cacheClient(id, query.client as Client, CLIENT_CACHE_EXPIRE);
       return (
         res
           .status(302)
@@ -466,7 +466,7 @@ clientRouter.get("/:username", extractClientId, async (req, res) => {
       /**
        * Cache
        */
-      const cachedUser = await cache.clientCache.getClientCache(id);
+      const cachedUser = await Redis.getRedisInst().clientCache.getClientCache(id);
       if (cachedUser) {
         return (
           res
@@ -488,7 +488,7 @@ clientRouter.get("/:username", extractClientId, async (req, res) => {
           .status(404)
           .json({ msg: "Not found", status: responseStatus.Error });
       }
-      await cache.clientCache.cacheClient(id, query.client as Client, CLIENT_CACHE_EXPIRE);
+      await Redis.getRedisInst().clientCache.cacheClient(id, query.client as Client, CLIENT_CACHE_EXPIRE);
       return res
         .status(302)
         .json({ ...query.client, status: responseStatus.Ok });
@@ -513,7 +513,7 @@ clientRouter.patch("/updateMetadata", extractClientId, async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      await cache.deleteHash(id);
+      await Redis.getInstance().deleteHash(id);
       return res
         .status(200)
         .json({ status: responseStatus.Ok, msg: "Metadata Updated" });
@@ -535,7 +535,7 @@ clientRouter.delete("/delete", extractClientId, async (req, res) => {
           .status(503)
           .json({ status: responseStatus.Error, msg: "Database Error" });
       }
-      await cache.clientCache.deleteCacheClient(id, delete_user.email, delete_user.username,);
+      await Redis.getRedisInst().clientCache.deleteCacheClient(id, delete_user.email, delete_user.username,);
       return res
         .status(200)
         .json({ status: responseStatus.Ok, msg: "User Deleted" });
@@ -564,7 +564,7 @@ clientRouter.patch(
             .json({ status: responseStatus.Error, msg: "Database Error" });
         }
 
-        await cache.deleteHash(id);
+        await Redis.getInstance().deleteHash(id);
 
         return res
           .status(200)

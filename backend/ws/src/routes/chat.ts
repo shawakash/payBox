@@ -2,7 +2,6 @@ import { Router } from "express";
 import { ChatType, dbResStatus, getChatsQueryValid, responseStatus } from "@paybox/common";
 import { getChats } from "@paybox/backend-common";
 import {Redis} from "../Redis/ChatCache";
-import { cache } from "..";
 import { CHAT_CACHE_EXPIRE } from "@paybox/common/src";
 
 export const chatRouter = Router();

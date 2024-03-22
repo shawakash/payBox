@@ -12,13 +12,13 @@ import {
   TxnSendQuery,
   responseStatus,
 } from "@paybox/common";
-import { cache } from "..";
 import { getAddressByClient } from "@paybox/backend-common";
 import { Address } from "web3";
 import { EthOps } from "../sockets/eth";
 import { SolOps } from "../sockets/sol";
 import rateLimit from "express-rate-limit";
 import { R2_QRCODE_BUCKET_NAME } from "../config";
+import { Redis } from "..";
 
 
 
@@ -144,7 +144,7 @@ export const hasAddress = async (
     const { id } = GetQrQuerySchema.parse(req.query);
     if (id) {
       try {
-        const isCached = await cache.clientCache.getClientCache(id);
+        const isCached = await Redis.getRedisInst().clientCache.getClientCache(id);
         if (!isCached?.address) {
           const getAddress = await getAddressByClient(id);
           if (!getAddress.address?.id) {
@@ -153,7 +153,7 @@ export const hasAddress = async (
               status: responseStatus.Error,
             });
           }
-          await cache.address.cacheAddress(
+          await Redis.getRedisInst().address.cacheAddress(
             id,
             getAddress.address as Partial<Address> & {
               id: string;
