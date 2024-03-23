@@ -1,7 +1,8 @@
 import webpush from "web-push";
 
-// import { deleteSubscription, getSubscriptions } from "./db/notifications";
 import { VAPID_PRIVATE_KEY, VAPID_PUBLIC_KEY } from "./config";
+import { deleteSubs, getSubs } from "./db/notif-sub";
+import { dbResStatus } from "@paybox/common";
 
 const vapidKeys = {
   publicKey: VAPID_PUBLIC_KEY,
@@ -9,11 +10,20 @@ const vapidKeys = {
 };
 
 webpush.setVapidDetails(
-  "mailto:admin@200ms.io",
+  "mailto:dev.paybox@gmail.com",
   vapidKeys.publicKey,
   vapidKeys.privateKey
 );
 
+/**
+ * 
+ * @param to 
+ * @param title 
+ * @param body 
+ * @param href 
+ * @param image 
+ * @returns 
+ */
 export const notify = async (
   to: string,
   title: string,
@@ -21,35 +31,38 @@ export const notify = async (
   href?: string,
   image?: string
 ) => {
-//   const responses = await getSubscriptions(to);
+  const {status, subs} = await getSubs(to);
 
-//   await Promise.all(
-//     responses.auth_notification_subscriptions.map(async (response) => {
-//       const subscription = {
-//         endpoint: response.endpoint,
-//         expirationTime: response.expirationTime || null,
-//         keys: {
-//           p256dh: response.p256dh,
-//           auth: response.auth,
-//         },
-//       };
-//       try {
-//         // @ts-ignore
-//         await webpush.sendNotification(
-//           subscription,
-//           JSON.stringify({
-//             title,
-//             body,
-//             href,
-//             image,
-//           })
-//         );
-//       } catch (e) {
-//         // @ts-ignore
-//         if (e?.statusCode === 410 && e.body?.includes("unsubscribed")) {
-//           await deleteSubscription(response.id);
-//         }
-//       }
-//     })
-//   );
+  if(status == dbResStatus.Error || !subs) {
+    return;
+  }
+
+  await Promise.all(
+    subs.map(async (sub) => {
+      const subscription = {
+        endpoint: sub.endpoint,
+        expirationTime: sub.expirationTime || null,
+        keys: {
+          p256dh: sub.p256dh,
+          auth: sub.auth,
+        },
+      };
+      try {
+        await webpush.sendNotification(
+          subscription,
+          JSON.stringify({
+            title,
+            body,
+            href,
+            image,
+          })
+        );
+      } catch (e) {
+        // @ts-ignore
+        if (e?.statusCode === 410 && e.body?.includes("unsubscribed")) {
+          await deleteSubs(sub.id);
+        }
+      }
+    })
+  );
 };
