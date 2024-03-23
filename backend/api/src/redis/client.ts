@@ -32,8 +32,8 @@ export class ClientCache {
 
   async getClientCache(key: string): Promise<Client | null> {
     const client = await this.client.hGetAll(key);
-
-    if (!client) {
+    if (!Object.keys(client).length) {
+      console.log("here")
       return null;
     }
 
