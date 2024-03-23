@@ -8,3 +8,7 @@ configuration:
   custom_column_names:
     updated_at: updatedAt
   custom_root_fields: {}
+object_relationships:
+  - name: client
+    using:
+      foreign_key_constraint_on: clientId

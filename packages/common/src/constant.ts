@@ -273,9 +273,15 @@ export const PHRASE_ACCOUNT_CACHE_EXPIRE = 60 * 5; // 1 hour
 export const OTP_CACHE_EXPIRE = 60 * 5; // 1 hour
 export const VALID_CACHE_EXPIRE = 60 * 60 * 10; // 1 hour
 export const CHAT_CACHE_EXPIRE = 60 * 1;
+export const NOTIF_CACHE_EXPIRE = 60 * 1;
 
 export const NOTIF_WORKER_PORT = 8082;
 
 export const KAFKA_NOTIF_URL = "localhost:9093";
 export const KAFKA_NOTIF_CLIENT_ID =
   "a0098b856fa177997c6a7e85170b7519d3fb2405adaea9721a63dec8ad464511";
+
+export const VAPID_PUBLIC_KEY_DEFAULT =
+  "BJx2UR_VLo9nv6j_-Kl9CoXLeJ1vekZN8iJYzTNKiE15NnHmt2wmCBIromimvx2sxuO5Akxeo_LVkBBOK34d6R0";
+export const VAPID_PRIVATE_KEY_DEFAULT =
+  "iPEXpFYJxSXwfdMRGENRwi4yAirH8RynEesloyToVE0";

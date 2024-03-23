@@ -35,6 +35,7 @@ import { walletRouter } from "./routes/wallet";
 import twilio from 'twilio';
 import nodemailer from 'nodemailer';
 import { S3Client } from '@aws-sdk/client-s3';
+import { notifyRouter } from "./routes/notification";
 
 
 export * from "./Redis";
@@ -123,6 +124,7 @@ app.use("/qrcode", extractClientId, checkValidation, qrcodeRouter);
 app.use("/txn", extractClientId, checkValidation, txnRouter);
 app.use("/account", extractClientId, checkValidation, accountRouter);
 app.use("/wallet", extractClientId, checkValidation, walletRouter);
+app.use('/notif', extractClientId, notifyRouter);
 
 
 process.on("uncaughtException", function (err) {

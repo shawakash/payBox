@@ -16,7 +16,7 @@ export default function RootChildLayout({
       {/* <Progress value={33} className="absolute top-0 bg-transparent" /> */}
       {/* <Nav /> */}
       <main className="flex min-h-screen flex-col w-full justify-center">
-        {children}
+          {children}
       </main>
       <Toaster />
     </>

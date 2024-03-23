@@ -6,3 +6,4 @@ export * from "./transaction";
 export * from "./wallet";
 export * from "./chat";
 export * from "./friendship";
+export * from "./notification-sub";

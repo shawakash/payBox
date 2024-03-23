@@ -441,6 +441,7 @@ export const getClientById = async<T>(
           lastname: true,
           firstname: true,
           mobile: true,
+          password: true,
           address: {
             bitcoin: true,
             eth: true,
