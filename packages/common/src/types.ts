@@ -339,3 +339,13 @@ export enum NotifTopics {
     TxnReject = "txnReject",
     Paid = "paid",
 }
+
+export interface NotifSubType {
+    clientId: string,
+    auth: string,
+    endpoint: string,
+    expirationTime: string | null,
+    p256dh: string,
+    id: string,
+    updatedAt?: string,
+}

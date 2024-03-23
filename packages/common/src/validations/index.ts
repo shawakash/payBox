@@ -8,3 +8,4 @@ export * from "./logs";
 export * from "./sol";
 export * from "./eth";
 export * from "./friendship";
+export * from "./notification";
