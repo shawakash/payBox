@@ -35,7 +35,7 @@ export default function NotifWrapper({
                           console.log('User is not logged in.')
                           return;
                         }
-          
+                        const subs = JSON.parse(JSON.stringify(subscription));
                         await fetch(`${BACKEND_URL}/notif/subscribe`, {
                           method: 'POST',
                           headers: {
@@ -44,10 +44,10 @@ export default function NotifWrapper({
                             'Authorization': `Bearer ${session.data.user.jwt}`
                           },
                           body: JSON.stringify({
-                            auth: base58.encode(new Uint8Array(subscription.getKey('auth') || new ArrayBuffer(0))),
-                            endpoint: subscription.endpoint,
-                            expirationTime: subscription.expirationTime,
-                            p256dh: base58.encode(new Uint8Array(subscription.getKey('p256dh') || new ArrayBuffer(0))),
+                            auth: subs.keys.auth,
+                            endpoint: subs.endpoint,
+                            expirationTime: subs.expirationTime,
+                            p256dh: subs.keys.p256dh,
                           })
                         });
                       });
