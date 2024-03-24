@@ -17,7 +17,7 @@ import {
     putFriendshipStatus,
     requestFriendship
 } from "@paybox/backend-common";
-import { ProducerWorker } from "../workers/friendship";
+import { NotifWorker } from "../workers/friendship";
 
 export const friendshipRouter = Router();
 
@@ -46,7 +46,7 @@ friendshipRouter.post('/request', async (req, res) => {
                 });
         }
 
-        await ProducerWorker.getInstance().publishOne({
+        await NotifWorker.getInstance().publishOne({
             topic: "notif",
             message: [{
                 key: id,

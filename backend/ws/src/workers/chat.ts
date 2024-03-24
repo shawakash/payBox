@@ -1,48 +1,48 @@
 import { Producer } from "kafkajs";
 import { PublishType } from "@paybox/common";
 import { Kafka } from "kafkajs";
-import { NOTIF_KAFKA_URL, NOTIF_KAFKA_ID } from "../config";
+import { CHAT_KAFKA_URL, CHAT_KAFKA_ID } from "../config";
 
-export const notifKafka = new Kafka({
-    clientId: NOTIF_KAFKA_ID,
-    brokers: [NOTIF_KAFKA_URL],
+export const chatKafka = new Kafka({
+    clientId: CHAT_KAFKA_ID,
+    brokers: [CHAT_KAFKA_URL],
 });
 
-export class NotifWorker {
-    private notifProducer: Producer;
-    public static instance: NotifWorker;
+export class ChatWorker {
+    private chatProducer: Producer;
+    public static instance: ChatWorker;
 
     constructor() {
-        this.notifProducer = notifKafka.producer();
-        this.notifProducer.connect();
-        console.log("Notif Kafka Producer Connected")
+        this.chatProducer = chatKafka.producer();
+        this.chatProducer.connect();
+        console.log("Chat Kafka Producer Connected")
     }
 
     public static getInstance() {
         if (!this.instance) {
-            this.instance = new NotifWorker();
+            this.instance = new ChatWorker();
         }
         return this.instance;
     }
 
     get getProducer() {
-        return this.notifProducer;
+        return this.chatProducer;
     }
 
     async connectProducer() {
-        this.notifProducer = notifKafka.producer();
-        await this.notifProducer.connect();
+        this.chatProducer = chatKafka.producer();
+        await this.chatProducer.connect();
         console.log("Producer Connected Successfully");
         return;
     }
 
     async disconnectProducer() {
-        await this.notifProducer.disconnect();
+        await this.chatProducer.disconnect();
         return;
     }
 
     async publishOne(payload: PublishType) {
-        await this.notifProducer.send({
+        await this.chatProducer.send({
             topic: payload.topic,
             messages: payload.message,
         });
@@ -51,7 +51,7 @@ export class NotifWorker {
     }
 
     async publishMany(payloads: PublishType[]) {
-        await this.notifProducer.sendBatch({
+        await this.chatProducer.sendBatch({
             topicMessages: payloads.map((payload) => {
                 return {
                     topic: payload.topic,

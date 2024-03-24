@@ -1,4 +1,4 @@
-import { KAFKA_NOTIF_CLIENT_ID, KAFKA_NOTIF_URL } from "@paybox/common";
+import { KAFKA_CLIENT_ID, KAFKA_NOTIF_CLIENT_ID, KAFKA_NOTIF_URL, KAFKA_URL } from "@paybox/common";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -60,8 +60,14 @@ export const R2_TOKEN = process.env.R2_TOKEN || "";
 
 export const CHAT_REDIS_URL = process.env.CHAT_REDIS_URL || "redis://localhost:6379";
 
-export const KAFKA_URL =
-    process.env.KAFKA_NOTIF_URL || KAFKA_NOTIF_URL;
+export const NOTIF_KAFKA_URL =
+    process.env.NOTIF_KAFKA_URL || KAFKA_NOTIF_URL;
 
-export const KAFKA_ID =
-    process.env.KAFKA_NOTIF_CLIENT_ID || KAFKA_NOTIF_CLIENT_ID;
+export const NOTIF_KAFKA_ID =
+    process.env.NOTIF_KAFKA_ID || KAFKA_NOTIF_CLIENT_ID;
+
+export const CHAT_KAFKA_URL =
+    process.env.CHAT_KAFKA_URL || KAFKA_URL;
+
+export const CHAT_KAFKA_ID =
+    process.env.CHAT_KAFKA_ID || KAFKA_CLIENT_ID;
