@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import { Process } from "@paybox/common";
+import { KAFKA_CLIENT_ID, KAFKA_NOTIF_CLIENT_ID, KAFKA_NOTIF_URL, KAFKA_URL, Process } from "@paybox/common";
 dotenv.config();
 
 export const PROCESS = process.env.PROCESS || Process.Dev;
@@ -63,3 +63,15 @@ export const R2_TOKEN = process.env.R2_TOKEN || "";
 export const R2_QRCODE_BUCKET_NAME = "paybox-qrcode";
 
 export const R2_CLIENT_BUCKET_NAME = "paybox-qrcode";
+
+export const NOTIF_KAFKA_URL =
+    process.env.NOTIF_KAFKA_URL || KAFKA_NOTIF_URL;
+
+export const NOTIF_KAFKA_ID =
+    process.env.NOTIF_KAFKA_ID || KAFKA_NOTIF_CLIENT_ID;
+
+export const CHAT_KAFKA_URL =
+    process.env.CHAT_KAFKA_URL || KAFKA_URL;
+
+export const CHAT_KAFKA_ID =
+    process.env.CHAT_KAFKA_ID || KAFKA_CLIENT_ID;
