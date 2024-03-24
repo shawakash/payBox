@@ -40,9 +40,8 @@ export class ConsumerWorker {
             eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
                 const payload = JSON.parse(message.value?.toString() || "");
                 
-                switch (topic) {
+                switch (payload.type) {
                     case NotifTopics.FriendRequest:
-                        //TODO: NOTIFY THE FRIEND REQUEST
                         await notifyFriendRequest(payload.to, payload.from)
                         console.log("Friend Request Notification");
                         break;
