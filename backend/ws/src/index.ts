@@ -13,8 +13,9 @@ import { BtcTxn } from "./managers/btc";
 import { ChatSub } from "./Redis/ChatSub";
 import { extractIdFnc, validateJwt } from "./auth/utils";
 import { checkFriendship, checkValidation, extractClientId } from "@paybox/backend-common";
-import {chatRouter, friendshipRouter} from "./routes";
+import { chatRouter, friendshipRouter } from "./routes";
 import { Redis } from "./Redis/ChatCache";
+import { ProducerWorker } from "./workers/friendship";
 
 export * from "./managers";
 
@@ -155,7 +156,13 @@ process.on("uncaughtException", function (err) {
     console.log("Caught exception: " + err);
 });
 
+process.on("unhandledRejection", function (reason, _promise) {
+    console.log("Unhandled Rejection at:", reason);
+});
 
-server.listen(WSPORT, async () => {
-    console.log(`Server listening on port: ${WSPORT}\n`);
+
+ProducerWorker.getInstance().getProducer.on("producer.connect", async () => {
+    server.listen(WSPORT, async () => {
+        console.log(`Server listening on port: ${WSPORT}\n`);
+    });
 });
