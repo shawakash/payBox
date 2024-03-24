@@ -21,17 +21,17 @@ jobs:
         run: |
           cd backend/api
           touch .env
-          printf "NOTIF_WORKER_PORT=%s\n" "$NOTIF_WORKER_PORT" >> .env
-          printf "KAFKA_NOTIF_URL=%s\n" "$KAFKA_NOTIF_URL" >> .env
-          printf "KAFKA_NOTIF_CLIENT_ID=%s\n" "$KAFKA_NOTIF_CLIENT_ID" >> .env
-          printf "VAPID_PRIVATE_KEY=%s\n" "$VAPID_PRIVATE_KEY" >> .env
-          printf "VAPID_PUBLIC_KEY=%s\n" "$VAPID_PUBLIC_KEY" >> .env
-          printf "HASURA_URL=%s\n" "$HASURA_URL" >> .env
-          printf "HAURA_ADMIN_SECRET=%s\n" "$HAURA_ADMIN_SECRET" >> .env
-          printf "AUTH_JWT=%s\n" "$AUTH_JWT" >> .env
-          printf "AUTH_JWT_PUBLIC_KEY=%s\n" "$AUTH_JWT_PUBLIC_KEY" >> .env
-          printf "AUTH_JWT_PRIVATE_KEY=%s\n" "$AUTH_JWT_PRIVATE_KEY" >> .env
-          printf "PROCESS=%s\n" "$PROCESS" >> .env
+          printf "NOTIF_WORKER_PORT=%s\n" "${{secrets.NOTIF_WORKER_PORT}}" >> .env
+          printf "KAFKA_NOTIF_URL=%s\n" "${{secrets.KAFKA_NOTIF_URL}}" >> .env
+          printf "KAFKA_NOTIF_CLIENT_ID=%s\n" "${{secrets.KAFKA_NOTIF_CLIENT_ID}}" >> .env
+          printf "VAPID_PRIVATE_KEY=%s\n" "${{secrets.VAPID_PRIVATE_KEY}}" >> .env
+          printf "VAPID_PUBLIC_KEY=%s\n" "${{secrets.VAPID_PUBLIC_KEY}}" >> .env
+          printf "HASURA_URL=%s\n" "${{secrets.HASURA_URL}}" >> .env
+          printf "HAURA_ADMIN_SECRET=%s\n" "${{secrets.HAURA_ADMIN_SECRET}}" >> .env
+          printf "AUTH_JWT=%s\n" "${{secrets.AUTH_JWT}}" >> .env
+          printf "AUTH_JWT_PUBLIC_KEY=%s\n" "${{secrets.AUTH_JWT_PUBLIC_KEY}}" >> .env
+          printf "AUTH_JWT_PRIVATE_KEY=%s\n" "${{secrets.AUTH_JWT_PRIVATE_KEY}}" >> .env
+          printf "PROCESS=%s\n" "${{secrets.PROCESS}}" >> .env
           cd ../..
 
       - name: docker login

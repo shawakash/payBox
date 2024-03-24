@@ -2,7 +2,7 @@ import webpush from "web-push";
 
 import { VAPID_PRIVATE_KEY, VAPID_PUBLIC_KEY } from "./config";
 import { deleteSubs, getSubs } from "./db/notif-sub";
-import { dbResStatus } from "@paybox/common";
+import { NotifTopics, dbResStatus } from "@paybox/common";
 
 const vapidKeys = {
   publicKey: VAPID_PUBLIC_KEY,
@@ -24,16 +24,29 @@ webpush.setVapidDetails(
  * @param image 
  * @returns 
  */
-export const notify = async (
+export const notify = async ({
+  to,
+  title,
+  body,
+  href,
+  payload,
+  image,
+  tag,
+  vibrate,
+  actions,
+}: {
   to: string,
   title: string,
   body: string,
   href?: string,
-  image?: string
-) => {
-  const {status, subs} = await getSubs(to);
-
-  if(status == dbResStatus.Error || !subs) {
+  image?: string,
+  tag?: NotifTopics,
+  vibrate?: number[],
+  actions?: any[],
+  payload?: any,
+}) => {
+  const { status, subs } = await getSubs(to);
+  if (status == dbResStatus.Error || !subs) {
     return;
   }
 
@@ -55,6 +68,11 @@ export const notify = async (
             body,
             href,
             image,
+            tag,
+            vibrate,
+            actions,
+            timestamp: Date.now(),
+            payload
           })
         );
       } catch (e) {

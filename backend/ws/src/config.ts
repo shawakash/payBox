@@ -1,3 +1,4 @@
+import { KAFKA_CLIENT_ID, KAFKA_NOTIF_CLIENT_ID, KAFKA_NOTIF_URL, KAFKA_URL } from "@paybox/common";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -58,3 +59,15 @@ export const R2_ENDPOINT = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
 export const R2_TOKEN = process.env.R2_TOKEN || "";
 
 export const CHAT_REDIS_URL = process.env.CHAT_REDIS_URL || "redis://localhost:6379";
+
+export const NOTIF_KAFKA_URL =
+    process.env.NOTIF_KAFKA_URL || KAFKA_NOTIF_URL;
+
+export const NOTIF_KAFKA_ID =
+    process.env.NOTIF_KAFKA_ID || KAFKA_NOTIF_CLIENT_ID;
+
+export const CHAT_KAFKA_URL =
+    process.env.CHAT_KAFKA_URL || KAFKA_URL;
+
+export const CHAT_KAFKA_ID =
+    process.env.CHAT_KAFKA_ID || KAFKA_CLIENT_ID;

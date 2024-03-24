@@ -1,7 +1,7 @@
 import { Consumer } from "kafkajs";
 import { kafka } from "..";
 import { NotifTopics } from "@paybox/common";
-import {notifyFriendRequest} from "../processes";
+import {notifyFriendRequest, notifyFriendRequestAccepted} from "../processes";
 
 export class ConsumerWorker {
     private consumer!: Consumer;
@@ -40,15 +40,14 @@ export class ConsumerWorker {
             eachMessage: async ({ topic, partition, message, heartbeat, pause }) => {
                 const payload = JSON.parse(message.value?.toString() || "");
                 
-                switch (topic) {
+                switch (payload.type) {
                     case NotifTopics.FriendRequest:
-                        //TODO: NOTIFY THE FRIEND REQUEST
                         await notifyFriendRequest(payload.to, payload.from)
                         console.log("Friend Request Notification");
                         break;
 
                     case NotifTopics.FriendRequestAccepted:
-                        //TODO: NOTIFY THE FRIEND REQUEST ACCEPTED
+                        await notifyFriendRequestAccepted(payload.to, payload.from, payload.friendshipId)
                         console.log("Friend Request Accepted");
                         break;
 

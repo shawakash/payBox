@@ -13,8 +13,10 @@ import { BtcTxn } from "./managers/btc";
 import { ChatSub } from "./Redis/ChatSub";
 import { extractIdFnc, validateJwt } from "./auth/utils";
 import { checkFriendship, checkValidation, extractClientId } from "@paybox/backend-common";
-import {chatRouter, friendshipRouter} from "./routes";
+import { chatRouter, friendshipRouter } from "./routes";
 import { Redis } from "./Redis/ChatCache";
+import { NotifWorker } from "./workers/friendship";
+import { ChatWorker } from "./workers/chat";
 
 export * from "./managers";
 
@@ -97,7 +99,7 @@ wss.on("connection", async (ws, req) => {
                 }));
                 ws.close();
             }
-            if(!friendshipStatus) {
+            if (!friendshipStatus) {
                 ws.send(JSON.stringify({
                     type: WsMessageTypeEnum.Chat,
                     payload: {
@@ -109,7 +111,7 @@ wss.on("connection", async (ws, req) => {
                 ws.close();
             }
 
-            if(friendshipStatus !== "accepted") {
+            if (friendshipStatus !== "accepted") {
                 ws.send(JSON.stringify({
                     type: WsMessageTypeEnum.Chat,
                     payload: {
@@ -155,7 +157,21 @@ process.on("uncaughtException", function (err) {
     console.log("Caught exception: " + err);
 });
 
+process.on("unhandledRejection", function (reason, _promise) {
+    console.log("Unhandled Rejection at:", reason);
+});
 
-server.listen(WSPORT, async () => {
-    console.log(`Server listening on port: ${WSPORT}\n`);
+Promise.all([
+    new Promise((resolve) => {
+        ChatWorker.getInstance().getProducer.on("producer.connect", resolve);
+    }),
+    new Promise((resolve) => {
+        NotifWorker.getInstance().getProducer.on("producer.connect", resolve);
+    }),
+]).then(() => {
+    server.listen(WSPORT, async () => {
+        console.log(`Server listening on port: ${WSPORT}\n`);
+    });
+}).catch((error) => {
+    console.error('Error while connecting producers:', error);
 });

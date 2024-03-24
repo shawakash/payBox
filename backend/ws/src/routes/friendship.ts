@@ -6,7 +6,8 @@ import {
     responseStatus,
     PutStatusValid,
     GetFriendships,
-    FriendshipStatusEnum
+    FriendshipStatusEnum,
+    NotifTopics
 } from "@paybox/common";
 import {
     acceptFriendship,
@@ -16,6 +17,7 @@ import {
     putFriendshipStatus,
     requestFriendship
 } from "@paybox/backend-common";
+import { NotifWorker } from "../workers/friendship";
 
 export const friendshipRouter = Router();
 
@@ -26,14 +28,38 @@ friendshipRouter.post('/request', async (req, res) => {
 
         const { username } = RequestFriendshipValid.parse(req.query);
 
-        const { status, id: friendshipId, friendshipStatus } = await requestFriendship(id, username);
+        const { status, id: friendshipId, friendshipStatus, msg } = await requestFriendship(id, username);
         if (status === dbResStatus.Error || !friendshipId) {
             return res
                 .status(503)
                 .json({ msg: "Database Error", status: responseStatus.Error });
         }
 
-        // TODO: send notification to client with username
+        if (msg) {
+            return res
+                .status(200)
+                .json({
+                    status: responseStatus.Ok,
+                    friendshipId,
+                    friendshipStatus,
+                    msg
+                });
+        }
+
+        await NotifWorker.getInstance().publishOne({
+            topic: "notif",
+            message: [{
+                key: id,
+                value: JSON.stringify({
+                    from: id,
+                    to: username,
+                    type: NotifTopics.FriendRequest,
+                }),
+                partition: 0
+            }],
+
+        })
+
         return res.status(200).json({
             status: responseStatus.Ok,
             friendshipId,
@@ -93,12 +119,26 @@ friendshipRouter.put('/accept', async (req, res) => {
 
         const { friendshipId } = CheckFriendshipValid.parse(req.query);
 
-        const { status, friendshipStatus } = await acceptFriendship(id, friendshipId);
+        const { status, friendshipStatus, to } = await acceptFriendship(id, friendshipId);
         if (status === dbResStatus.Error) {
             return res
                 .status(503)
                 .json({ msg: "Database Error", status: responseStatus.Error });
         }
+
+        await NotifWorker.getInstance().publishOne({
+            topic: "notif",
+            message: [{
+                key: id,
+                value: JSON.stringify({
+                    from: id,
+                    to,
+                    friendshipId,
+                    type: NotifTopics.FriendRequestAccepted,
+                }),
+                partition: 0
+            }],
+        })
 
         return res
             .status(200)
@@ -194,13 +234,13 @@ friendshipRouter.get('/accept', async (req, res) => {
                 .json({ msg: "Database Error", status: responseStatus.Error });
         }
 
-         // TODO: CACHE
-         return res
-         .status(200)
-         .json({
-             status: responseStatus.Ok,
-             friendships,
-         });
+        // TODO: CACHE
+        return res
+            .status(200)
+            .json({
+                status: responseStatus.Ok,
+                friendships,
+            });
 
     } catch (error) {
         console.log(error);

@@ -36,6 +36,7 @@ import twilio from 'twilio';
 import nodemailer from 'nodemailer';
 import { S3Client } from '@aws-sdk/client-s3';
 import { notifyRouter } from "./routes/notification";
+import { Worker } from "./workers/txn";
 
 
 export * from "./Redis";
@@ -140,8 +141,17 @@ process.on('SIGINT', async () => {
   process.exit(0)
 });
 
-Redis.getInstance().getclient.on('ready', () => {
+Promise.all([
+  new Promise((resolve) => {
+      Worker.getInstance().getProducer.on("producer.connect", resolve);
+  }),
+  new Promise((resolve) => {
+    Redis.getInstance().getclient.on('ready', resolve);
+  }),
+]).then(() => {
   server.listen(PORT, async () => {
     console.log(`Server listening on port: ${PORT}\n`);
   });
+}).catch((error) => {
+  console.error('Error while connecting producers:', error);
 });

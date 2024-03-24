@@ -1,8 +1,7 @@
-import {createClient, RedisClientType} from "redis";
-import {CHAT_REDIS_URL} from "../config";
-import {ChatPayload, WsChatMessageType, WsMessageType} from "@paybox/common";
-import {WsMessageTypeEnum} from "@paybox/common/src";
-import {publishChatMsg} from "@paybox/kafka/src";
+import { createClient, RedisClientType } from "redis";
+import { CHAT_REDIS_URL } from "../config";
+import { ChatPayload, WsChatMessageType, WsMessageTypeEnum } from "@paybox/common";
+import { ChatWorker } from "../workers/chat";
 
 export class ChatSub {
     public static instance: ChatSub;
@@ -40,7 +39,7 @@ export class ChatSub {
 
         this.reverseSubscriptions.set(friendshipId, {
             ...(this.reverseSubscriptions.get(friendshipId) || {}),
-            [clientId]: {clientId, ws}
+            [clientId]: { clientId, ws }
         });
 
         if (Object.keys(this.reverseSubscriptions.get(friendshipId) || {}).length === 1) {
@@ -49,20 +48,32 @@ export class ChatSub {
             this.subscriber.subscribe(friendshipId, async (payload) => {
                 const parsePayload = JSON.parse(payload) as WsChatMessageType;
                 console.log(`received message from ${friendshipId}`);
-                
+
                 try {
                     const subs = this.reverseSubscriptions.get(friendshipId) || {};
-                    Object.values(subs).forEach(({ws}) => {
+                    Object.values(subs).forEach(({ ws }) => {
                         ws.send(JSON.stringify(parsePayload));
                     });
 
                     // Publishing message to queue
-                    await publishChatMsg({
-                        senderId: parsePayload.payload.senderId,
-                        sendAt: (new Date()).toISOString(),
-                        friendshipId,
-                        message: parsePayload.payload.message
-                    });
+                    try {
+                        await ChatWorker.getInstance().publishOne({
+                            topic: "chat",
+                            message: [{
+                                partition: 0,
+                                key: friendshipId,
+                                value: JSON.stringify({
+                                    senderId: parsePayload.payload.senderId,
+                                    sendAt: (new Date()).toISOString(),
+                                    friendshipId,
+                                    message: parsePayload.payload.message
+                                })
+                            }]
+                        });
+                    } catch (error) {
+                        console.log(error);
+                    }
+                    
                 } catch (error) {
                     console.error(`Error sending message ${error}`);
                 }
@@ -81,9 +92,9 @@ export class ChatSub {
     async sendMessage(channelId: string, payload: any) {
         this.publish(
             channelId, {
-                type: WsMessageTypeEnum.Chat,
-                payload: payload as ChatPayload
-            }
+            type: WsMessageTypeEnum.Chat,
+            payload: payload as ChatPayload
+        }
         )
     }
 
