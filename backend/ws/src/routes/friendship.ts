@@ -119,12 +119,26 @@ friendshipRouter.put('/accept', async (req, res) => {
 
         const { friendshipId } = CheckFriendshipValid.parse(req.query);
 
-        const { status, friendshipStatus } = await acceptFriendship(id, friendshipId);
+        const { status, friendshipStatus, to } = await acceptFriendship(id, friendshipId);
         if (status === dbResStatus.Error) {
             return res
                 .status(503)
                 .json({ msg: "Database Error", status: responseStatus.Error });
         }
+
+        await NotifWorker.getInstance().publishOne({
+            topic: "notif",
+            message: [{
+                key: id,
+                value: JSON.stringify({
+                    from: id,
+                    to,
+                    friendshipId,
+                    type: NotifTopics.FriendRequestAccepted,
+                }),
+                partition: 0
+            }],
+        })
 
         return res
             .status(200)

@@ -34,7 +34,7 @@ export const requestFriendship = async (
         }, {
             id: true
         }]
-    }, {operationName: "getClientId2"});
+    }, { operationName: "getClientId2" });
 
     if (getClientId2.client.length === 0) {
         return {
@@ -63,7 +63,7 @@ export const requestFriendship = async (
             id: true
         }]
     }, { operationName: "checkFriendship" });
-    if(checkFriendshipRes.friendship.length > 0) {
+    if (checkFriendshipRes.friendship.length > 0) {
         return {
             status: dbResStatus.Ok,
             msg: "Friendship already exists",
@@ -122,12 +122,12 @@ export const checkFriendship = async (
             status: true
         }]
     }, { operationName: "checkFriendship" });
-    if(response.friendship.length === 0) {
+    if (response.friendship.length === 0) {
         return {
             status: dbResStatus.Ok,
         }
     }
-    if(response.friendship[0].status) {
+    if (response.friendship[0].status) {
         return {
             status: dbResStatus.Ok,
             friendshipStatus: response.friendship[0].status as FriendshipStatus
@@ -148,7 +148,8 @@ export const acceptFriendship = async (
     friendshipId: string,
 ): Promise<{
     status: dbResStatus,
-    friendshipStatus?: FriendshipStatus
+    friendshipStatus?: FriendshipStatus,
+    to?: string
 }> => {
     const response = await chain("mutation")({
         update_friendship: [{
@@ -165,19 +166,28 @@ export const acceptFriendship = async (
         }, {
             returning: {
                 id: true,
-                status: true
+                status: true,
+                client1: {
+                    username: true,
+                    id: true
+                },
+                client2: {
+                    username: true,
+                    id: true
+                }
             }
         }]
     }, { operationName: "acceptFriendship" });
-    if(response.update_friendship?.returning[0].id) {
+    if (response.update_friendship?.returning[0].id) {
         return {
             status: dbResStatus.Ok,
-            friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus
+            friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus,
+            to: response.update_friendship?.returning[0].client1.id === clientId ? response.update_friendship?.returning[0].client2.username as string : response.update_friendship?.returning[0].client1.username as string
         }
     }
     return {
         status: dbResStatus.Error
-    }    
+    }
 }
 
 /**
@@ -213,7 +223,7 @@ export const putFriendshipStatus = async (
             }
         }]
     }, { operationName: "putFriendshipStatus" });
-    if(response.update_friendship?.returning[0].id) {
+    if (response.update_friendship?.returning[0].id) {
         return {
             status: dbResStatus.Ok,
             friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus
@@ -264,7 +274,7 @@ export const getFriendships = async (
             createdAt: true
         }]
     }, { operationName: "getFriendships" });
-    if(Array.isArray(response.friendship)) {
+    if (Array.isArray(response.friendship)) {
         return {
             status: dbResStatus.Ok,
             friendships: response.friendship as FriendshipType[]
@@ -315,8 +325,8 @@ export const getAcceptFriendships = async (
                 sendAt: true,
             }]
         }]
-    }, {operationName: "getAcceptFriendships"});
-    if(Array.isArray(response.friendship)) {
+    }, { operationName: "getAcceptFriendships" });
+    if (Array.isArray(response.friendship)) {
         return {
             status: dbResStatus.Ok,
             friendships: response.friendship as AcceptFriendship[]

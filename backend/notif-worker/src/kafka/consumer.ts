@@ -1,7 +1,7 @@
 import { Consumer } from "kafkajs";
 import { kafka } from "..";
 import { NotifTopics } from "@paybox/common";
-import {notifyFriendRequest} from "../processes";
+import {notifyFriendRequest, notifyFriendRequestAccepted} from "../processes";
 
 export class ConsumerWorker {
     private consumer!: Consumer;
@@ -47,7 +47,7 @@ export class ConsumerWorker {
                         break;
 
                     case NotifTopics.FriendRequestAccepted:
-                        //TODO: NOTIFY THE FRIEND REQUEST ACCEPTED
+                        await notifyFriendRequestAccepted(payload.to, payload.from, payload.friendshipId)
                         console.log("Friend Request Accepted");
                         break;
 
