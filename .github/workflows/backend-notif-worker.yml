@@ -1,0 +1,47 @@
+name: Deploy backend-notif-worker
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: "mv docker/notif-worker/Dockerfile ."
+
+      - name: add secrets
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          cd backend/api
+          touch .env
+          printf "NOTIF_WORKER_PORT=%s\n" "$NOTIF_WORKER_PORT" >> .env
+          printf "KAFKA_NOTIF_URL=%s\n" "$KAFKA_NOTIF_URL" >> .env
+          printf "KAFKA_NOTIF_CLIENT_ID=%s\n" "$KAFKA_NOTIF_CLIENT_ID" >> .env
+          printf "VAPID_PRIVATE_KEY=%s\n" "$VAPID_PRIVATE_KEY" >> .env
+          printf "VAPID_PUBLIC_KEY=%s\n" "$VAPID_PUBLIC_KEY" >> .env
+          printf "HASURA_URL=%s\n" "$HASURA_URL" >> .env
+          printf "HAURA_ADMIN_SECRET=%s\n" "$HAURA_ADMIN_SECRET" >> .env
+          printf "AUTH_JWT=%s\n" "$AUTH_JWT" >> .env
+          printf "AUTH_JWT_PUBLIC_KEY=%s\n" "$AUTH_JWT_PUBLIC_KEY" >> .env
+          printf "AUTH_JWT_PRIVATE_KEY=%s\n" "$AUTH_JWT_PRIVATE_KEY" >> .env
+          printf "PROCESS=%s\n" "$PROCESS" >> .env
+          cd ../..
+
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+        run: docker build . --tag shawakash/paybox-notif-worker:${{ github.sha }}
+
+      - name: Docker Push
+        run: docker push shawakash/paybox-notif-worker:${{ github.sha }}
