@@ -16,7 +16,7 @@ const chain = Chain(HASURA_URL, {
  * @returns 
  */
 export const getSubs = async (
-    clientId: string,
+    username: string,
 ): Promise<{
     status: dbResStatus;
     subs?: NotifSubType[];
@@ -24,7 +24,9 @@ export const getSubs = async (
     const response = await chain("query")({
         notification_subscription: [{
             where: {
-                clientId: { _eq: clientId }
+                client: {
+                    username: { _eq: username }
+                }
             }
         }, {
             id: true,
