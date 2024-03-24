@@ -1,6 +1,8 @@
 // service-worker.js
 
-self.addEventListener('install', function(event) {
+let globalPay = {};
+
+self.addEventListener('install', function (event) {
     // event.waitUntil(
     //   caches.open('my-cache-v1').then(function(cache) {
     //     return cache.addAll([
@@ -10,7 +12,7 @@ self.addEventListener('install', function(event) {
     //     ]);
     //   })
     // );
-  });
+});
 
 self.addEventListener('activate', function (event) {
     // var cacheWhitelist = ['my-cache-v1'];
@@ -43,28 +45,40 @@ self.addEventListener('fetch', function (event) {
 });
 
 self.addEventListener('push', function (event) {
-    console.log('Received a push message', event);
+    console.log('Received a push message', event.data);
 
     if (event.data) {
         const payload = event.data.json();
-
-        const title = payload.title || 'Yay a message.';
-        const body = payload.body || 'We have received a push message.';
-        const icon = payload.image || '/images/icon.png';
-        const tag = payload.tag || 'simple-push-demo-tag';
-        const href = payload.href || '/';
-
+        globalPay = payload.payload;
         event.waitUntil(
-            self.registration.showNotification(title, {
-                body: body,
-                icon: icon,
-                tag: tag,
+            self.registration.showNotification(payload.title, {
+                body: payload.body,
+                icon: payload.image,
+                icon: payload.image,
+                tag: payload.tag,
                 data: {
-                    href: href
-                }
+                    href: payload.href,
+                },
+                tag: payload.tag,
+                actions: payload.actions || [],
+                vibrate: payload.vibrate || [],
             })
         );
     } else {
         console.log('Push event but no data');
     }
 });
+
+self.addEventListener('notificationclick', async function (event) {
+    console.log('On notification click: ', event.notification.tag);
+
+    event.notification.close();
+    if (event.action === "accept") {
+        if(globalPay.friendshipId) {
+            clients.openWindow(`/chat?id=${globalPay.friendshipId}`)
+        }
+        console.log("accepted");
+    } else {
+        clients.openWindow("/");
+    }
+}, false);
