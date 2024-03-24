@@ -1,0 +1,41 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    NOTIF_WORKER_PORT: "NOTIF_WORKER_PORT" 
+    KAFKA_NOTIF_URL: "KAFKA_NOTIF_URL" 
+    KAFKA_NOTIF_CLIENT_ID: "KAFKA_NOTIF_CLIENT_ID" 
+    VAPID_PRIVATE_KEY: "VAPID_PRIVATE_KEY" 
+    VAPID_PUBLIC_KEY: "VAPID_PUBLIC_KEY" 
+    NOTIF_WORKER_PORT: "NOTIF_WORKER_PORT"
+    HASURA_URL: "HASURA_URL"
+    HAURA_ADMIN_SECRET: "HAURA_ADMIN_SECRET"
+    AUTH_JWT: "AUTH_JWT"
+    AUTH_JWT_PUBLIC_KEY: "AUTH_JWT_PUBLIC_KEY"
+    AUTH_JWT_PRIVATE_KEY: "AUTH_JWT_PRIVATE_KEY"
+    PROCESS: "PROCESS"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 21
+  build:
+    commands:
+      - mv docker/notif-worker/Dockerfile .
+      - cd backend/notif-worker
+      - touch .env
+      - printf "NOTIF_WORKER_PORT=%s\n" "$NOTIF_WORKER_PORT" >> .env
+      - printf "KAFKA_NOTIF_URL=%s\n" "$KAFKA_NOTIF_URL" >> .env
+      - printf "KAFKA_NOTIF_CLIENT_ID=%s\n" "$KAFKA_NOTIF_CLIENT_ID" >> .env
+      - printf "VAPID_PRIVATE_KEY=%s\n" "$VAPID_PRIVATE_KEY" >> .env
+      - printf "VAPID_PUBLIC_KEY=%s\n" "$VAPID_PUBLIC_KEY" >> .env
+      - printf "HASURA_URL=%s\n" "$HASURA_URL" >> .env
+      - printf "HAURA_ADMIN_SECRET=%s\n" "$HAURA_ADMIN_SECRET" >> .env
+      - printf "AUTH_JWT=%s\n" "$AUTH_JWT" >> .env
+      - printf "AUTH_JWT_PUBLIC_KEY=%s\n" "$AUTH_JWT_PUBLIC_KEY" >> .env
+      - printf "AUTH_JWT_PRIVATE_KEY=%s\n" "$AUTH_JWT_PRIVATE_KEY" >> .env
+      - printf "PROCESS=%s\n" "$PROCESS" >> .env
+      - cd ../..
+artifacts:
+  files:
+    - '**/*'
