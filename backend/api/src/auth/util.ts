@@ -291,3 +291,8 @@ export const updateKey = async (bucketName: string, key: string, newKey: string)
     throw error;
   }
 }
+
+export const calculateGas = (gasLimit: BigInt, gasPrice: BigInt): number => {
+  const maxGasFeeInWei = Number(gasLimit) * Number(gasPrice);
+  return maxGasFeeInWei / 1e18;
+};
