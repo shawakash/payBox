@@ -1,5 +1,12 @@
 # @paybox/kafka
 
+## 2.0.3
+
+### Patch Changes
+
+- Updated dependencies [29fad8b]
+  - @paybox/backend-common@0.0.3
+
 ## 2.0.2
 
 ### Patch Changes

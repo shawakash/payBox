@@ -1,5 +1,13 @@
 # @paybox/api
 
+## 0.0.14
+
+### Patch Changes
+
+- 29fad8b: fix: seperate the login of using producer for @paybox/kafka and added friendship accept and request notification
+- Updated dependencies [29fad8b]
+  - @paybox/backend-common@0.0.3
+
 ## 0.0.13
 
 ### Patch Changes
