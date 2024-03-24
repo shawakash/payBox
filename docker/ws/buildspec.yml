@@ -22,6 +22,10 @@ env:
     R2_ACCOUNT_ID: "R2_ACCOUNT_ID"
     R2_TOKEN: "R2_TOKEN"
     PROCESS: "PROCESS"
+    NOTIF_KAFKA_URL: "NOTIF_KAFKA_URL"
+    NOTIF_KAFKA_ID: "NOTIF_KAFKA_ID"
+    CHAT_KAFKA_ID: "CHAT_KAFKA_ID"
+    CHAT_KAFKA_URL: "CHAT_KAFKA_URL"
 
 phases:
   install:
@@ -51,6 +55,10 @@ phases:
       - printf "R2_SECRET_ACCESS_KEY=%s\n" "$R2_SECRET_ACCESS_KEY" >> .env
       - printf "R2_ACCOUNT_ID=%s\n" "$R2_ACCOUNT_ID" >> .env
       - printf "R2_TOKEN=%s\n" "$R2_TOKEN" >> .env
+      - printf "NOTIF_KAFKA_URL=%s\n" "$NOTIF_KAFKA_URL" >> .env
+      - printf "NOTIF_KAFKA_ID=%s\n" "$NOTIF_KAFKA_ID" >> .env
+      - printf "CHAT_KAFKA_ID=%s\n" "$CHAT_KAFKA_ID" >> .env
+      - printf "CHAT_KAFKA_URL=%s\n" "$CHAT_KAFKA_URL" >> .env
       - printf "PROCESS=%s\n" "$PROCESS" >> .env
       - cd ../..
 artifacts:

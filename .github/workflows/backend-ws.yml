@@ -40,6 +40,10 @@ jobs:
           printf 'R2_SECRET_ACCESS_KEY=%s\n' "${{secrets.R2_SECRET_ACCESS_KEY}}" >> .env
           printf 'R2_ACCOUNT_ID=%s\n' "${{secrets.R2_ACCOUNT_ID}}" >> .env
           printf 'R2_TOKEN=%s\n' "${{secrets.R2_TOKEN}}" >> .env
+          printf 'NOTIF_KAFKA_URL=%s\n' "${{secrets.NOTIF_KAFKA_URL}}" >> .env
+          printf 'NOTIF_KAFKA_ID=%s\n' "${{secrets.NOTIF_KAFKA_ID}}" >> .env
+          printf 'CHAT_KAFKA_ID=%s\n' "${{secrets.CHAT_KAFKA_ID}}" >> .env
+          printf 'CHAT_KAFKA_URL=%s\n' "${{secrets.CHAT_KAFKA_URL}}" >> .env
           printf 'PROCESS=%s\n' "${{secrets.PROCESS}}" >> .env
           cd ../..
 
