@@ -7,12 +7,17 @@ import { Kafka } from "kafkajs";
 import { WorkerAdmin } from "./kafka/admin";
 import { ConsumerWorker } from "./kafka/consumer";
 import { ProducerWorker } from "./kafka/producer";
+import Prometheus from "prom-client";
 
 
 export const kafka = new Kafka({
     clientId: KAFKA_ID,
     brokers: [KAFKA_URL],
 });
+
+const defaultMetrics = Prometheus.collectDefaultMetrics;
+defaultMetrics({ register: Prometheus.register, });
+
 
 const workers: { [workerPid: string]: any } = {},
     count = os.cpus().length;
@@ -34,6 +39,17 @@ if (cluster.isPrimary) {
         spawn();
     });
     const app = express();
+
+    app.get("/metrics", async (_req, res) => {
+        res.set("Content-Type", Prometheus.register.contentType);
+        try {
+            const metrics = await Prometheus.register.metrics();
+            return res.end(metrics);
+        } catch (error) {
+            console.error('Error while fetching metrics:', error);
+            return res.status(500).end('Error while fetching metrics');
+        }
+    }); 
 
     (async () => {
         await WorkerAdmin.getInstance().init([

@@ -17,6 +17,7 @@ import { chatRouter, friendshipRouter } from "./routes";
 import { Redis } from "./Redis/ChatCache";
 import { NotifWorker } from "./workers/friendship";
 import { ChatWorker } from "./workers/chat";
+import Prometheus from "prom-client";
 
 export * from "./managers";
 
@@ -42,6 +43,9 @@ const clients: {
         ws: any;
     }
 } = {};
+
+const defaultMetrics = Prometheus.collectDefaultMetrics;
+defaultMetrics({ register: Prometheus.register, });
 
 
 app.use(bodyParser.json());
@@ -152,6 +156,16 @@ wss.on("connection", async (ws, req) => {
 app.use('/friendship', extractClientId, friendshipRouter);
 app.use('/chat', extractClientId, chatRouter);
 
+app.get("/metrics", async (_req, res) => {
+    res.set("Content-Type", Prometheus.register.contentType);
+    try {
+        const metrics = await Prometheus.register.metrics();
+        return res.end(metrics);
+    } catch (error) {
+        console.error('Error while fetching metrics:', error);
+        return res.status(500).end('Error while fetching metrics');
+    }
+});
 
 process.on("uncaughtException", function (err) {
     console.log("Caught exception: " + err);
