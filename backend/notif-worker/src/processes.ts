@@ -2,6 +2,7 @@ import { NotifTopics, dbResStatus } from "@paybox/common";
 import { getClientFriendship } from "./db/friendship";
 import { getUsername } from "./db/client";
 import { notify } from "./notifier";
+import { getTxnDetails } from "./db/txn";
 
 /**
  * 
@@ -101,3 +102,47 @@ export const notifyFriendRequestRejected = async (
         }
     });
 }
+
+/**
+ * 
+ * @param to 
+ * @param from 
+ * @param txnId 
+ * @returns 
+ */
+export const notifyReceiveTxn = async (
+    to: string,
+    from: string,
+    txnId: string
+) => {
+    const { status, username } = await getUsername(from);
+    if (status === dbResStatus.Error || !username) {
+        return;
+    }
+
+    const { amount, network, status: txnDetailsStatus } = await getTxnDetails(txnId, to);
+    if (txnDetailsStatus === dbResStatus.Error || !amount || !network) {
+        return;
+    }
+
+    await notify({
+        to,
+        body: `Received ${amount} ${network} from ${username}`,
+        title: `Transaction Received`,
+        href: getTxnHref(txnId),
+        image: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=338&ext=jpg&ga=GA1.1.735520172.1711238400&semt=ais",
+        tag: NotifTopics.TxnAccept,
+        vibrate: [200, 100, 200],
+        payload: {
+            txnId
+        }
+    });
+}
+
+const getTxnHref = (txnId?: string,) => {
+    if (!txnId) {
+        return undefined;
+    }
+    return `/popup.html#/txn?props=%7B"id"%3A"${txnId}`;
+};
+
