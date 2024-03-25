@@ -37,6 +37,8 @@ import nodemailer from 'nodemailer';
 import { S3Client } from '@aws-sdk/client-s3';
 import { notifyRouter } from "./routes/notification";
 import { Worker } from "./workers/txn";
+import Prometheus from "prom-client";
+import responseTime from "response-time";
 
 
 export * from "./Redis";
@@ -57,7 +59,7 @@ export const transporter = nodemailer.createTransport({
     user: GMAIL,
     pass: GMAIL_APP_PASS
   }
-}); 
+});
 
 export const cloud = new S3Client({
   region: 'auto',
@@ -69,10 +71,31 @@ export const cloud = new S3Client({
   }
 });
 
+const latencyTime = new Prometheus.Histogram({
+  name: 'api_http_request_latency',
+  help: 'Api HTTP request response time',
+  labelNames: ['method', 'route', 'status', 'contentLength', 'contentType'],
+  buckets: [1, 50, 100, 200, 400, 500, 600, 800, 1000, 2000]
+});
+
+const defaultMetrics = Prometheus.collectDefaultMetrics;
+defaultMetrics({ register: Prometheus.register, });
+
+
 app.use(bodyParser.json());
 app.use(
-  morgan("\n:method :url :status :res[content-length] - :response-time ms\n"),
+  morgan(":method :url :status :res[content-length] - :response-time ms"),
 );
+
+app.use(responseTime((req, res, time) => {
+  latencyTime.labels({
+    method: req.method,
+    route: req.url,
+    status: res.statusCode,
+    contentLength: req.headers["content-length"],
+    contentType: req.headers["content-type"],
+  }).observe(time)
+}));
 
 export const corsOptions = {
   origin: CLIENT_URL, // specify the allowed origin
@@ -127,6 +150,16 @@ app.use("/account", extractClientId, checkValidation, accountRouter);
 app.use("/wallet", extractClientId, checkValidation, walletRouter);
 app.use('/notif', extractClientId, notifyRouter);
 
+app.get("/metrics", async (_req, res) => {
+  res.set("Content-Type", Prometheus.register.contentType);
+  try {
+    const metrics = await Prometheus.register.metrics();
+    return res.end(metrics);
+  } catch (error) {
+    console.error('Error while fetching metrics:', error);
+    return res.status(500).end('Error while fetching metrics');
+  }
+});
 
 process.on("uncaughtException", function (err) {
   console.log("Caught exception: " + err);
@@ -143,7 +176,7 @@ process.on('SIGINT', async () => {
 
 Promise.all([
   new Promise((resolve) => {
-      Worker.getInstance().getProducer.on("producer.connect", resolve);
+    Worker.getInstance().getProducer.on("producer.connect", resolve);
   }),
   new Promise((resolve) => {
     Redis.getInstance().getclient.on('ready', resolve);
