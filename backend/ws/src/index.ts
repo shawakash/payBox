@@ -18,6 +18,7 @@ import { Redis } from "./Redis/ChatCache";
 import { NotifWorker } from "./workers/friendship";
 import { ChatWorker } from "./workers/chat";
 import Prometheus from "prom-client";
+import responseTime from "response-time";
 
 export * from "./managers";
 
@@ -44,6 +45,14 @@ const clients: {
     }
 } = {};
 
+const latencyTime = new Prometheus.Histogram({
+    name: 'ws_http_request_latency',
+    help: 'Ws HTTP request response time',
+    labelNames: ['method', 'route', 'status', 'contentLength', 'contentType'],
+    buckets: [1, 50, 100, 200, 400, 500, 600, 800, 1000, 2000]
+});
+
+
 const defaultMetrics = Prometheus.collectDefaultMetrics;
 defaultMetrics({ register: Prometheus.register, });
 
@@ -52,6 +61,16 @@ app.use(bodyParser.json());
 app.use(
     morgan("ws :method :url :status :res[content-length] - :response-time ms"),
 );
+
+app.use(responseTime((req, res, time) => {
+    latencyTime.labels({
+        method: req.method,
+        route: req.url,
+        status: res.statusCode,
+        contentLength: req.headers["content-length"],
+        contentType: req.headers["content-type"],
+    }).observe(time)
+}));
 
 const corsOptions = {
     origin: CLIENT_URL, // specify the allowed origin
