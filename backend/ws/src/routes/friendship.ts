@@ -170,6 +170,23 @@ friendshipRouter.put('/', async (req, res) => {
                 .json({ msg: "Database Error", status: responseStatus.Error });
         }
 
+        if(query.friendshipStatus === FriendshipStatusEnum.Rejected) {
+            await NotifWorker.getInstance().publishOne({
+                topic: "notif",
+                message: [{
+                    key: id,
+                    value: JSON.stringify({
+                        from: id,
+                        to: query.to,
+                        friendshipId,
+                        type: NotifTopics.FriendRequestRejected,
+                    }),
+                    partition: 0
+                }],
+    
+            })
+        }
+
         return res
             .status(200)
             .json({

@@ -78,7 +78,11 @@ self.addEventListener('notificationclick', async function (event) {
             clients.openWindow(`/chat?id=${globalPay.friendshipId}`)
         }
         console.log("accepted");
-    } else {
-        clients.openWindow("/");
     }
+    if(event.action === "reject") {
+        if(globalPay.friendshipId) {
+            clients.openWindow(`/chat?id=${globalPay.friendshipId}`)
+        }
+        console.log("rejected");
+    }   
 }, false);
