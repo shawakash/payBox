@@ -37,6 +37,7 @@ import nodemailer from 'nodemailer';
 import { S3Client } from '@aws-sdk/client-s3';
 import { notifyRouter } from "./routes/notification";
 import { Worker } from "./workers/txn";
+import Prometheus from "prom-client";
 
 
 export * from "./Redis";
@@ -68,6 +69,9 @@ export const cloud = new S3Client({
     secretAccessKey: R2_SECRET_ACCESS_KEY
   }
 });
+
+const defaultMetrics = Prometheus.collectDefaultMetrics;
+defaultMetrics({ register: Prometheus.register,  });
 
 app.use(bodyParser.json());
 app.use(
@@ -127,6 +131,16 @@ app.use("/account", extractClientId, checkValidation, accountRouter);
 app.use("/wallet", extractClientId, checkValidation, walletRouter);
 app.use('/notif', extractClientId, notifyRouter);
 
+app.get("/metrics", async (_req, res) => {
+  res.set("Content-Type", Prometheus.register.contentType);
+  try {
+    const metrics = await Prometheus.register.metrics();
+    return res.end(metrics);
+  } catch (error) {
+    console.error('Error while fetching metrics:', error);
+    return res.status(500).end('Error while fetching metrics');
+  }
+});
 
 process.on("uncaughtException", function (err) {
   console.log("Caught exception: " + err);
