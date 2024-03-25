@@ -9,10 +9,17 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     restart: unless-stopped
 
+  loki:
+    image: grafana/loki
+    ports:
+      - 3100:3100
+    restart: unless-stopped
+
   grafana:
     image: grafana/grafana-oss
     depends_on:
       - prom-server
+      - loki
     ports:
       - 9095:3000
     restart: unless-stopped
