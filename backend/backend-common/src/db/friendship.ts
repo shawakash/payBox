@@ -199,10 +199,11 @@ export const acceptFriendship = async (
 export const putFriendshipStatus = async (
     clientId: string,
     id: string,
-    status: FriendshipStatusEnum
+    status: FriendshipStatusEnum,
 ): Promise<{
     status: dbResStatus,
     friendshipStatus?: FriendshipStatus
+    to?: string,
 }> => {
     const response = await chain("mutation")({
         update_friendship: [{
@@ -219,14 +220,23 @@ export const putFriendshipStatus = async (
         }, {
             returning: {
                 id: true,
-                status: true
+                status: true,
+                client1: {
+                    username: true,
+                    id: true
+                },
+                client2: {
+                    username: true,
+                    id: true
+                }
             }
         }]
     }, { operationName: "putFriendshipStatus" });
     if (response.update_friendship?.returning[0].id) {
         return {
             status: dbResStatus.Ok,
-            friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus
+            friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus,
+            to: response.update_friendship?.returning[0].client1.id === clientId ? response.update_friendship?.returning[0].client2.username as string : response.update_friendship?.returning[0].client1.username as string
         }
     }
     return {

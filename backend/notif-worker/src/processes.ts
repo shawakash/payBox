@@ -40,6 +40,13 @@ export const notifyFriendRequest = async (
     });
 };
 
+/**
+ * 
+ * @param to 
+ * @param from 
+ * @param friendshipId 
+ * @returns 
+ */
 export const notifyFriendRequestAccepted = async (
     to: string,
     from: string,
@@ -57,6 +64,37 @@ export const notifyFriendRequestAccepted = async (
         href: `/popup.html#/notifications?title="Notifications"&props=%7B%7D&nav=tab`,
         image: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=338&ext=jpg&ga=GA1.1.735520172.1711238400&semt=ais",
         tag: NotifTopics.FriendRequestAccepted,
+        vibrate: [200, 100, 200],
+        payload: {
+            friendshipId
+        }
+    });
+}
+
+/**
+ * 
+ * @param to 
+ * @param from 
+ * @param friendshipId 
+ * @returns 
+ */
+export const notifyFriendRequestRejected = async (
+    to: string,
+    from: string,
+    friendshipId: string
+) => {
+    const { status, username } = await getUsername(from);
+    if (status === dbResStatus.Error || !username) {
+        return;
+    }
+
+    await notify({
+        to,
+        body: `Friend Request Rejected by ${username}`,
+        title: `Friend Request Rejected`,
+        href: `/popup.html#/notifications?title="Notifications"&props=%7B%7D&nav=tab`,
+        image: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=338&ext=jpg&ga=GA1.1.735520172.1711238400&semt=ais",
+        tag: NotifTopics.FriendRequestRejected,
         vibrate: [200, 100, 200],
         payload: {
             friendshipId
