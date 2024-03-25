@@ -146,3 +146,38 @@ const getTxnHref = (txnId?: string,) => {
     return `/popup.html#/txn?props=%7B"id"%3A"${txnId}`;
 };
 
+/**
+ * 
+ * @param notifyTo 
+ * @param paidTo 
+ * @param txnId 
+ * @returns 
+ */
+export const notifyPaid = async (
+    notifyTo: string,
+    paidTo: string,
+    txnId: string
+) => {
+    const { status, username } = await getUsername(paidTo);
+    if (status === dbResStatus.Error || !username) {
+        return;
+    }
+
+    const { amount, network, status: txnDetailsStatus } = await getTxnDetails(txnId);
+    if (txnDetailsStatus === dbResStatus.Error || !amount || !network) {
+        return;
+    }
+
+    await notify({
+        to: notifyTo,
+        body: `Paid ${amount} ${network} to ${username}`,
+        title: `Transaction Paid`,
+        href: getTxnHref(txnId),
+        image: "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=338&ext=jpg&ga=GA1.1.735520172.1711238400&semt=ais",
+        tag: NotifTopics.Paid,
+        vibrate: [200, 100, 200],
+        payload: {
+            txnId
+        }
+    });
+}

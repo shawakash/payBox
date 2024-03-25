@@ -1,7 +1,7 @@
 import { Consumer } from "kafkajs";
 import { kafka } from "..";
 import { NotifTopics } from "@paybox/common";
-import {notifyFriendRequest, notifyFriendRequestAccepted, notifyFriendRequestRejected, notifyReceiveTxn} from "../processes";
+import {notifyFriendRequest, notifyFriendRequestAccepted, notifyFriendRequestRejected, notifyPaid, notifyReceiveTxn} from "../processes";
 
 export class ConsumerWorker {
     private consumer!: Consumer;
@@ -61,13 +61,13 @@ export class ConsumerWorker {
                         console.log("Transaction Accepted");
                         break;
 
-                    case NotifTopics.TxnReject:
-                        //Todo: NOTIFY THE TRANSACTION REJECTED
-                        console.log("Transaction Rejected");
-                        break;
+                    // case NotifTopics.TxnReject:
+                    //     //Todo: NOTIFY THE TRANSACTION REJECTED
+                    //     console.log("Transaction Rejected");
+                    //     break;
                     
                     case NotifTopics.Paid:
-                        //Todo: NOTIFY THE TRANSACTION PAID
+                        await notifyPaid(payload.to, payload.from, payload.txnId)
                         console.log("Transaction Paid");
                         break;
 
