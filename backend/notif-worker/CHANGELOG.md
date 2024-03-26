@@ -1,5 +1,11 @@
 # @paybox/notif-worker
 
+## 0.0.4
+
+### Patch Changes
+
+- dd7c9e0: feat: add metrics and log collection to backend systems
+
 ## 0.0.3
 
 ### Patch Changes

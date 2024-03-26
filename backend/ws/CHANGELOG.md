@@ -1,5 +1,11 @@
 # @paybox/ws
 
+## 0.0.10
+
+### Patch Changes
+
+- dd7c9e0: feat: add metrics and log collection to backend systems
+
 ## 0.0.9
 
 ### Patch Changes
