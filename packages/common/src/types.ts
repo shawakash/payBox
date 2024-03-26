@@ -180,6 +180,7 @@ export type AccountType = {
     walletId: string
     id: string;
     name: string,
+    img: string | null,
     createdAt: string;
     updatedAt: string;
 }
