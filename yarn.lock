@@ -16769,7 +16769,7 @@ react-remove-scroll@2.5.5:
 
 react-resizable-panels@^1.0.9:
   version "1.0.10"
-  resolved "https://registry.npmjs.org/react-resizable-panels/-/react-resizable-panels-1.0.10.tgz"
+  resolved "https://registry.yarnpkg.com/react-resizable-panels/-/react-resizable-panels-1.0.10.tgz#51262e5530cdc77bba25605b7b2a58604ba4f9c6"
   integrity sha512-0+g0CNqregkuocr+Mi+e6wgWVARnKTYIX3U1QK7GlkLQKCmbymZakx80YGwcRO7HNnKJTQ5v38HlBos/cGxWvg==
 
 react-style-singleton@^2.2.1:
