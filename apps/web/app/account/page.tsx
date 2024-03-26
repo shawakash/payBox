@@ -1,11 +1,8 @@
 import { Separator } from "@/components/ui/separator";
-import { useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/util";
+import { authOptions } from "@/app/api/auth/[...nextauth]/util";
 import { AccountType, BACKEND_URL, ClientWithJwt, responseStatus } from "@paybox/common";
-import { SelectAcocunt } from "./components/selectAccount";
-import { AccountNav } from "./components/side-nav";
 
 const getAccounts = async (jwt: string): Promise<AccountType[] | null> => {
     try {
@@ -43,9 +40,9 @@ export default async function AccountPage() {
                     This is how others will see you on the site. Fuck ou
                 </p>
             </div>
-            {accounts &&
+            {/* {accounts &&
              <AccountNav accounts={accounts}/>    
-            }
+            } */}
             <Separator />
         </div>
     );
