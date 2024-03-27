@@ -16,6 +16,8 @@ import { AccountSwitcher } from "@/app/account/components/account-switcher";
 import { AccountType } from "@paybox/common";
 import { usePathname, useRouter } from "next/navigation";
 import { commonNavLinks, getNavLinks } from "./navLinks";
+import {useSetRecoilState} from "recoil";
+import { accountsAtom } from "@paybox/recoil";
 
 interface AccountLayoutProps {
     defaultLayout: number[] | undefined;
@@ -40,6 +42,7 @@ export function AccountLayout({
     const [selectedAccount, setSelectedAccount] = React.useState<string>(
         accounts[0].id
     );
+    const setAccounts = useSetRecoilState(accountsAtom);
 
     const path = usePathname()
     const router = useRouter();
@@ -53,6 +56,8 @@ export function AccountLayout({
         checkScreenWidth();
 
         window.addEventListener("resize", checkScreenWidth);
+
+        setAccounts(accounts);
 
         return () => {
             window.removeEventListener("resize", checkScreenWidth);
@@ -125,7 +130,6 @@ export function AccountLayout({
                     >
                         <AccountSwitcher
                             isCollapsed={isCollapsed}
-                            accounts={accounts as { id: string, name: string }[]}
                             selectedAccount={selectedAccount}
                             setSelectedAccount={setSelectedAccount}
                         />

@@ -57,25 +57,33 @@ import {
 import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AvatarUpload } from "./avatar-upload";
+import { accountsAtom, defaultAccountNumberAtom } from "@paybox/recoil";
+import {useSetRecoilState} from "recoil";
 
 interface AccountCreateProps extends React.HTMLAttributes<HTMLDivElement> {
-    defaultAccountName: string,
+    defaultAccountNumber: number,
     putUrl: string,
     jwt: string
 }
 
 export function AccountCreateForm({
-    defaultAccountName,
+    defaultAccountNumber,
     jwt,
     putUrl
 }: AccountCreateProps) {
     const [isLoading, setIsLoading] = useRecoilState(loadingAtom);
     const router = useRouter();
+    const [defaultNumber, setDefaultAccountNumber] = useRecoilState(defaultAccountNumberAtom);
+    const setAccounts = useSetRecoilState(accountsAtom);
+
+    React.useEffect(() => {
+        setDefaultAccountNumber(defaultAccountNumber);
+    }, [defaultAccountNumber])
 
     const form = useForm<z.infer<typeof AccountCreateQuery>>({
         resolver: zodResolver(AccountCreateQuery),
         defaultValues: {
-            name: defaultAccountName,
+            name: `Account ${defaultNumber}`,
             imgUrl: undefined
         },
     });
@@ -110,6 +118,12 @@ export function AccountCreateForm({
                         "Authorization": `Bearer ${jwt}`
                     },
                 }).then(res => res.json());
+                setAccounts((oldAccounts) => {
+                    return [...oldAccounts, response.account]
+                });
+                setDefaultAccountNumber((oldNumber) => {
+                    return oldNumber + 1;
+                });
                 return { account: response.account, status: response.status, msg: response.msg }
             } catch (error) {
                 throw new Error("Error creating Account");
@@ -130,6 +144,9 @@ export function AccountCreateForm({
         });
         router.push('/account/');
     }
+
+   
+
     return (
         <div className="flex items-center justify-center">
             <Card className="w-[450px]">
@@ -153,7 +170,7 @@ export function AccountCreateForm({
                                                         <AvatarUpload
                                                             value={field.value}
                                                             onChange={field.onChange}
-                                                            fallbackName={defaultAccountName.split(" ")[0].charAt(0) + defaultAccountName.split(" ")[1].charAt(0)}
+                                                            fallbackName={`A${defaultNumber}`}
                                                         />
                                                     </FormControl>
                                                     <FormMessage />
