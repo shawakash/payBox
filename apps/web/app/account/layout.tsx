@@ -37,7 +37,9 @@ const getAccounts = async (jwt: string): Promise<AccountType[] | null> => {
   }
 }
 
-export default async function AccountMainLayout({ children }: AccountLayoutProps) {
+export default async function AccountMainLayout({
+  children,
+}: AccountLayoutProps) {
   const layout = cookies().get("react-resizable-panels:layout");
   const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
 
@@ -48,7 +50,6 @@ export default async function AccountMainLayout({ children }: AccountLayoutProps
 
   //@ts-ignore
   const accounts = await getAccounts(session.user.jwt);
- 
 
   return (
     <>

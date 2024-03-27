@@ -8,13 +8,14 @@ import {
     ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { cn } from "@/lib/utils";
-import { Archive, ArchiveX, Inbox, Send, Trash2, File, Wallet } from "lucide-react";
-import { LinksProps, Sidenav } from "./sidebar";
+
+import { LinksProps, Sidenav } from "@/app/account/components/sidebar";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";
 import { AccountSwitcher } from "@/app/account/components/account-switcher";
 import { AccountType } from "@paybox/common";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { commonNavLinks, getNavLinks } from "./navLinks";
 
 interface AccountLayoutProps {
     defaultLayout: number[] | undefined;
@@ -24,50 +25,7 @@ interface AccountLayoutProps {
     accounts: AccountType[]
 }
 
-const sidenavLinks = [
-    {
-        title: "Inbox",
-        label: "128",
-        icon: Inbox,
-        variant: "default",
-        link: "/account/create",
-    },
-    {
-        title: "Drafts",
-        label: "9",
-        icon: File,
-        variant: "ghost",
-        link: "/account/create",
-    },
-    {
-        title: "Sent",
-        label: "",
-        icon: Send,
-        variant: "ghost",
-        link: "/account/create",
-    },
-    {
-        title: "Junk",
-        label: "23",
-        icon: ArchiveX,
-        variant: "ghost",
-        link: "/account/create",
-    },
-    {
-        title: "Trash",
-        label: "",
-        icon: Trash2,
-        variant: "ghost",
-        link: "/account/create",
-    },
-    {
-        title: "Archive",
-        label: "",
-        icon: Archive,
-        variant: "ghost",
-        link: "/account/create",
-    },
-]
+
 
 export function AccountLayout({
     defaultLayout = [100, 480],
@@ -83,7 +41,9 @@ export function AccountLayout({
         accounts[0].id
     );
 
+    const path = usePathname()
     const router = useRouter();
+    const [selectedTab, setSelectedTab] = React.useState<string>(path.split('/')[path.split('/').length - 1]);
 
     useEffect(() => {
         const checkScreenWidth = () => {
@@ -100,8 +60,20 @@ export function AccountLayout({
     }, []);
 
     useEffect(() => {
-        router.push(`/account?id=${selectedAccount}`);
-    }, [selectedAccount]);
+        setSelectedTab(path.split("/")[3] || "dashboard")
+        router.push(`/account/${selectedAccount}/${path.split("/")[3] || ""}`)
+    }, [selectedAccount])
+
+    useEffect(() => {
+        if (path.split("/").length === 2) {
+            setSelectedTab(path.split("/")[2] || "");
+            router.push(path)
+        }
+        if (path.split("/").length === 3) {
+            setSelectedTab(path.split("/")[3] || "dashboard");
+            router.push(path)
+        }
+    }, [path]);
 
     return (
         <TooltipProvider delayDuration={0}>
@@ -127,8 +99,8 @@ export function AccountLayout({
                     defaultSize={defaultLayout[0]}
                     collapsedSize={navCollapsedSize}
                     collapsible={true}
-                    minSize={isMobile ? 0 : 14}
-                    maxSize={isMobile ? 14 : 20}
+                    minSize={isMobile ? 0 : 18}
+                    maxSize={isMobile ? 18 : 25}
                     onCollapse={() => {
                         setIsCollapsed(true);
                         document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
@@ -161,12 +133,16 @@ export function AccountLayout({
                     <Separator />
                     <Sidenav
                         isCollapsed={isCollapsed}
-                        links={sidenavLinks as LinksProps[]}
+                        links={getNavLinks(selectedAccount) as LinksProps[]}
+                        selectedTab={selectedTab}
+                        setSelectedTab={setSelectedTab}
                     />
                     <Separator />
                     <Sidenav
                         isCollapsed={isCollapsed}
-                        links={sidenavLinks as LinksProps[]}
+                        links={commonNavLinks as LinksProps[]}
+                        selectedTab={selectedTab}
+                        setSelectedTab={setSelectedTab}
                     />
                 </ResizablePanel>
                 <ResizableHandle withHandle />

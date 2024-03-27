@@ -41,13 +41,13 @@ export function OTPForm() {
     const onSubmit = async (data: z.infer<typeof OtpValid>) => {
         toast.promise(
             fetch(`${BACKEND_URL}/client/valid?otp=${data.otp}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                //@ts-ignore
-                "Authorization": `Bearer ${session.data?.user?.jwt}`
-            },
-        }).then((res) => res.json()), {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    //@ts-ignore
+                    "Authorization": `Bearer ${session.data?.user?.jwt}`
+                },
+            }).then((res) => res.json()), {
             loading: "Validating OTP",
             success: async ({ status, msg, valid, walletId, account }) => {
                 // TODO: Add the walletId to the session
@@ -58,7 +58,7 @@ export function OTPForm() {
                 }
                 return msg;
             },
-            error: ({status, msg}) => {
+            error: ({ status, msg }) => {
                 return msg;
             }
         });
@@ -74,6 +74,7 @@ export function OTPForm() {
                         <FormItem>
                             <FormControl>
                                 <InputOTP
+                                    autoFocus={true}
                                     maxLength={6}
                                     render={({ slots }) => (
                                         <InputOTPGroup className="gap-2">
