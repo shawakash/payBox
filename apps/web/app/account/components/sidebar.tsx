@@ -10,8 +10,12 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import React, { use } from "react"
+import { usePathname, useSearchParams, useParams } from 'next/navigation'
+
 
 export interface LinksProps {
+    id: string
     title: string
     label?: string
     icon: LucideIcon
@@ -22,9 +26,11 @@ export interface LinksProps {
 interface NavProps {
     isCollapsed: boolean
     links: LinksProps[]
+    selectedTab: string
+    setSelectedTab: (tab: string) => void
 }
 
-export function Sidenav({ links, isCollapsed }: NavProps) {
+export function Sidenav({ links, isCollapsed, selectedTab, setSelectedTab }: NavProps) {
     return (
         <div
             data-collapsed={isCollapsed}
@@ -36,11 +42,12 @@ export function Sidenav({ links, isCollapsed }: NavProps) {
                         <Tooltip key={index} delayDuration={0}>
                             <TooltipTrigger asChild>
                                 <Link
-                                    href={link.link}
+                                    href={`${link.link}`}
+                                    onClick={() => setSelectedTab(link.id)}
                                     className={cn(
                                         buttonVariants({ variant: link.variant, size: "icon" }),
                                         "h-10 w-10",
-                                        link.variant === "default" &&
+                                        link.id === selectedTab &&
                                         "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white "
                                     )}
                                 >
@@ -61,9 +68,10 @@ export function Sidenav({ links, isCollapsed }: NavProps) {
                         <Link
                             key={index}
                             href={link.link}
+                            onClick={() => setSelectedTab(link.id)}
                             className={cn(
                                 buttonVariants({ variant: link.variant, size: "sm" }),
-                                link.variant === "default" &&
+                                link.id === selectedTab &&
                                 "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white",
                                 "justify-start",
                                 "h-10 flex gap-x-2"
