@@ -3,7 +3,7 @@ import { BACKEND_URL, responseStatus } from "@paybox/common";
 import { getServerSession } from "next-auth"
 import { AccountCreateForm } from "./components/account-create-form";
 
-const getDefaultMetadata = async (jwt: string): Promise<{name: string, putUrl: string} | null> => {
+const getDefaultMetadata = async (jwt: string): Promise<{number: number, putUrl: string} | null> => {
     try {
         const {status, putUrl, number}: {status: responseStatus, putUrl: string, number: number} = await fetch(`${BACKEND_URL}/account/defaultMetadata`, {
             method: "get",
@@ -16,7 +16,7 @@ const getDefaultMetadata = async (jwt: string): Promise<{name: string, putUrl: s
             return null;
         }
         return {
-            name: `Account ${number + 1}`,
+            number: number + 1,
             putUrl
         };
     } catch (error) {
@@ -29,11 +29,11 @@ export default async function AccountCreatePage(){
     const session = await getServerSession(authOptions);
 
     //@ts-ignore
-    const {name, putUrl} = await getDefaultMetadata(session?.user.jwt);
+    const {number, putUrl} = await getDefaultMetadata(session?.user.jwt);
   return (
     <>
         <AccountCreateForm 
-            defaultAccountName={name || ""}
+            defaultAccountNumber={number as number}
             putUrl={putUrl || ""}
             //@ts-ignore
             jwt={session?.user.jwt}

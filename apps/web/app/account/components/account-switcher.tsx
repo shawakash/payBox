@@ -11,24 +11,22 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Wallet } from 'lucide-react';
+import { accountsAtom } from "@paybox/recoil";
+import { useRecoilValue } from "recoil";
 
 interface AccountSwitcherProps {
     isCollapsed: boolean
-    accounts: {
-        id: string,
-        name: string,
-    }[],
     selectedAccount: string,
     setSelectedAccount: (accountId: string) => void
 }
 
 export function AccountSwitcher({
     isCollapsed,
-    accounts,
     selectedAccount,
     setSelectedAccount
 }: AccountSwitcherProps) {
     
+    const accounts = useRecoilValue(accountsAtom);
 
     return (
         <Select defaultValue={selectedAccount} onValueChange={setSelectedAccount}>
