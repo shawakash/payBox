@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  backendapi:
+    image: shawakash/paybox-mail:{{tag}}
+    restart: unless-stopped
+    ports:
+      - 25:25
+    command: "yarn dev"
