@@ -47,6 +47,7 @@ services:
       HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres/reef_dev
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" 
 
 volumes:
   data:
