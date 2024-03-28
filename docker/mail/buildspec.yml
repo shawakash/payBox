@@ -1,0 +1,19 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 21
+  build:
+    commands:
+      - mv docker/mail/Dockerfile .
+      - cd backend/mail
+      - touch .env
+      - cd ../..
+artifacts:
+  files:
+    - '**/*'
