@@ -1,0 +1,9 @@
+overwrite: true
+schema:
+  - ${HASURA_MAIL_URL}:
+      headers:
+        x-hasura-admin-secret: ${HASURA_MAIL_ADMIN_SECRET}
+generates:
+  src/codegen/types.ts:
+    plugins:
+      - "typescript"
