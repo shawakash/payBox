@@ -1,0 +1,25 @@
+table:
+  name: mails
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    from_address:
+      custom_name: fromAddress
+    html_content:
+      custom_name: htmlContent
+    text_content:
+      custom_name: textContent
+    to_address:
+      custom_name: toAddress
+    updated_at:
+      custom_name: updatedAt
+  custom_column_names:
+    created_at: createdAt
+    from_address: fromAddress
+    html_content: htmlContent
+    text_content: textContent
+    to_address: toAddress
+    updated_at: updatedAt
+  custom_root_fields: {}

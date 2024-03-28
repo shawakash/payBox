@@ -1,23 +1,13 @@
 version: "3.8"
 
 services:
-  redis:
-    image: redis:7-alpine
-    restart: unless-stopped
-    ports:
-      - 6379:6379
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 2s
-      retries: 10
 
   postgres:
     image: postgres:15.0-alpine
     ports:
       - 4446:5432
     volumes:
-      - data:/var/lib/postgresql1/data
+      - mail_data:/var/lib/postgresql1/data
     restart: always
     environment:
       POSTGRES_DB: reef_dev
@@ -31,7 +21,7 @@ services:
   hasura:
     image: hasura/graphql-engine:v2.38.0
     ports:
-      - 8112:8080
+      - 8114:8080
     depends_on:
       - postgres
     volumes:
@@ -45,9 +35,10 @@ services:
       retries: 15
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres/reef_dev
+      PG_DATABASE_URL: postgres://user:pass@postgres/reef_dev
       HASURA_GRAPHQL_DEV_MODE: "true"
       HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true" 
 
 volumes:
-  data:
+  mail_data:
