@@ -1,0 +1,25 @@
+{
+  "name": "@paybox/mail",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "type": "commonjs",
+  "license": "MIT",
+  "private": "true",
+  "description": "Smtp mail server for paybox",
+  "scripts": {
+    "build": "esbuild ./src/index.ts --bundle --platform=node --outfile=dist/index.js",
+    "dev": "yarn run build && node dist/index.js --trace-warning",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "dependencies": {
+    "mailparser": "^3.6.9",
+    "smtp-server": "^3.13.3"
+  },
+  "devDependencies": {
+    "@paybox/common": "*",
+    "@types/mailparser": "^3.4.4",
+    "@types/smtp-server": "^3.5.10"
+  }
+}
