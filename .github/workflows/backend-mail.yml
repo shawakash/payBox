@@ -1,0 +1,36 @@
+name: Deploy backend-mail
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: "mv docker/mail/Dockerfile ."
+
+      - name: add secrets
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          cd backend/api
+          touch .env
+          cd ../..
+
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKERHUB_TOKEN}}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+        run: docker build . --tag shawakash/paybox-mail:${{ github.sha }}
+
+      - name: Docker Push
+        run: docker push shawakash/paybox-mail:${{ github.sha }}
