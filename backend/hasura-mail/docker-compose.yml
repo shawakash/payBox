@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+
+  postgres:
+    image: postgres:15.0-alpine
+    ports:
+      - 4446:5432
+    volumes:
+      - mail_data:/var/lib/postgresql1/data
+    restart: always
+    environment:
+      POSTGRES_DB: reef_dev
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: user
+    healthcheck:
+      test: pg_isready --username=user --dbname=reef_dev --quiet
+      interval: 15s
+      timeout: 5s
+      
+  hasura:
+    image: hasura/graphql-engine:v2.38.0
+    ports:
+      - 8114:8080
+    depends_on:
+      - postgres
+    volumes:
+      - "./hasura/metadata:/hasura-metadata"
+      - "./hasura/migrations:/hasura-migrations"
+    restart: unless-stopped
+    healthcheck:
+      test: curl -f http://localhost:8080/healthz || exit 1
+      interval: 10s
+      timeout: 10s
+      retries: 15
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://user:pass@postgres/reef_dev
+      PG_DATABASE_URL: postgres://user:pass@postgres/reef_dev
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" 
+
+volumes:
+  mail_data:
