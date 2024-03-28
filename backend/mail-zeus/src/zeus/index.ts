@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { AllTypesProps, ReturnTypes, Ops } from "./const";
-export const HOST = "https://tops-akita-21.hasura.app/v1/graphql";
+export const HOST = "http://localhost:8114/v1/graphql";
 
 export const HEADERS = {};
 export const apiSubscription = (options: chainOptions) => (query: string) => {

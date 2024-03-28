@@ -1,8 +1,8 @@
 overwrite: true
 schema:
-  - ${HASURA_MAIL_URL}:
+  - http://localhost:8114/v1/graphql:
       headers:
-        x-hasura-admin-secret: ${HASURA_MAIL_ADMIN_SECRET}
+        x-hasura-admin-secret: myadminsecretkey
 generates:
   src/codegen/types.ts:
     plugins:
