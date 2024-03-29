@@ -1,6 +1,6 @@
 {
   "name": "@paybox/backend-common",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@paybox/common": "*",
-    "@paybox/zeus": "^0.1.1",
+    "@paybox/zeus": "^0.1.2",
     "bcryptjs": "^2.4.3",
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",

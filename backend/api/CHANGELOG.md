@@ -1,5 +1,14 @@
 # @paybox/api
 
+## 0.0.16
+
+### Patch Changes
+
+- de6535c: feat: encrypting private keys for account with password
+- Updated dependencies [de6535c]
+  - @paybox/common@0.1.5
+  - @paybox/backend-common@0.0.4
+
 ## 0.0.15
 
 ### Patch Changes

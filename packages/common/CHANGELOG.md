@@ -1,5 +1,11 @@
 # @paybox/common
 
+## 0.1.5
+
+### Patch Changes
+
+- de6535c: feat: encrypting private keys for account with password
+
 ## 0.1.4
 
 ### Patch Changes
