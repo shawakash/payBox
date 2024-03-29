@@ -2082,9 +2082,9 @@ export type Friendship = {
   /** An aggregate relationship */
   chats_aggregate: Chat_Aggregate;
   /** An object relationship */
-  client1: Client;
+  client: Client;
   /** An object relationship */
-  client2: Client;
+  clientByClientid2: Client;
   clientId1: Scalars['uuid']['output'];
   clientId2: Scalars['uuid']['output'];
   createdAt: Scalars['timestamptz']['output'];
@@ -2167,8 +2167,8 @@ export type Friendship_Bool_Exp = {
   _or?: InputMaybe<Array<Friendship_Bool_Exp>>;
   chats?: InputMaybe<Chat_Bool_Exp>;
   chats_aggregate?: InputMaybe<Chat_Aggregate_Bool_Exp>;
-  client1?: InputMaybe<Client_Bool_Exp>;
-  client2?: InputMaybe<Client_Bool_Exp>;
+  client?: InputMaybe<Client_Bool_Exp>;
+  clientByClientid2?: InputMaybe<Client_Bool_Exp>;
   clientId1?: InputMaybe<Uuid_Comparison_Exp>;
   clientId2?: InputMaybe<Uuid_Comparison_Exp>;
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -2186,8 +2186,8 @@ export enum Friendship_Constraint {
 /** input type for inserting data into table "friendship" */
 export type Friendship_Insert_Input = {
   chats?: InputMaybe<Chat_Arr_Rel_Insert_Input>;
-  client1?: InputMaybe<Client_Obj_Rel_Insert_Input>;
-  client2?: InputMaybe<Client_Obj_Rel_Insert_Input>;
+  client?: InputMaybe<Client_Obj_Rel_Insert_Input>;
+  clientByClientid2?: InputMaybe<Client_Obj_Rel_Insert_Input>;
   clientId1?: InputMaybe<Scalars['uuid']['input']>;
   clientId2?: InputMaybe<Scalars['uuid']['input']>;
   createdAt?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -2264,8 +2264,8 @@ export type Friendship_On_Conflict = {
 /** Ordering options when selecting data from "friendship". */
 export type Friendship_Order_By = {
   chats_aggregate?: InputMaybe<Chat_Aggregate_Order_By>;
-  client1?: InputMaybe<Client_Order_By>;
-  client2?: InputMaybe<Client_Order_By>;
+  client?: InputMaybe<Client_Order_By>;
+  clientByClientid2?: InputMaybe<Client_Order_By>;
   clientId1?: InputMaybe<Order_By>;
   clientId2?: InputMaybe<Order_By>;
   createdAt?: InputMaybe<Order_By>;
@@ -3362,7 +3362,6 @@ export type Notification_Subscription = {
   id: Scalars['uuid']['output'];
   p256dh: Scalars['String']['output'];
   updatedAt: Scalars['timestamptz']['output'];
-  uuid: Scalars['uuid']['output'];
 };
 
 /** aggregated selection of "notification_subscription" */
@@ -3425,11 +3424,12 @@ export type Notification_Subscription_Bool_Exp = {
   id?: InputMaybe<Uuid_Comparison_Exp>;
   p256dh?: InputMaybe<String_Comparison_Exp>;
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
-  uuid?: InputMaybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "notification_subscription" */
 export enum Notification_Subscription_Constraint {
+  /** unique or primary key constraint on columns "endpoint" */
+  NotificationSubscriptionEndpointKey = 'notification_subscription_endpoint_key',
   /** unique or primary key constraint on columns "id" */
   NotificationSubscriptionPkey = 'notification_subscription_pkey'
 }
@@ -3444,7 +3444,6 @@ export type Notification_Subscription_Insert_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   p256dh?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
-  uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** aggregate max on columns */
@@ -3457,7 +3456,6 @@ export type Notification_Subscription_Max_Fields = {
   id?: Maybe<Scalars['uuid']['output']>;
   p256dh?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['timestamptz']['output']>;
-  uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by max() on columns of table "notification_subscription" */
@@ -3469,7 +3467,6 @@ export type Notification_Subscription_Max_Order_By = {
   id?: InputMaybe<Order_By>;
   p256dh?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
-  uuid?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -3482,7 +3479,6 @@ export type Notification_Subscription_Min_Fields = {
   id?: Maybe<Scalars['uuid']['output']>;
   p256dh?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['timestamptz']['output']>;
-  uuid?: Maybe<Scalars['uuid']['output']>;
 };
 
 /** order by min() on columns of table "notification_subscription" */
@@ -3494,7 +3490,6 @@ export type Notification_Subscription_Min_Order_By = {
   id?: InputMaybe<Order_By>;
   p256dh?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
-  uuid?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "notification_subscription" */
@@ -3523,7 +3518,6 @@ export type Notification_Subscription_Order_By = {
   id?: InputMaybe<Order_By>;
   p256dh?: InputMaybe<Order_By>;
   updatedAt?: InputMaybe<Order_By>;
-  uuid?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: notification_subscription */
@@ -3546,9 +3540,7 @@ export enum Notification_Subscription_Select_Column {
   /** column name */
   P256dh = 'p256dh',
   /** column name */
-  UpdatedAt = 'updatedAt',
-  /** column name */
-  Uuid = 'uuid'
+  UpdatedAt = 'updatedAt'
 }
 
 /** input type for updating data in table "notification_subscription" */
@@ -3560,7 +3552,6 @@ export type Notification_Subscription_Set_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   p256dh?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
-  uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** Streaming cursor of the table "notification_subscription" */
@@ -3580,7 +3571,6 @@ export type Notification_Subscription_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['uuid']['input']>;
   p256dh?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['timestamptz']['input']>;
-  uuid?: InputMaybe<Scalars['uuid']['input']>;
 };
 
 /** update columns of table "notification_subscription" */
@@ -3598,9 +3588,7 @@ export enum Notification_Subscription_Update_Column {
   /** column name */
   P256dh = 'p256dh',
   /** column name */
-  UpdatedAt = 'updatedAt',
-  /** column name */
-  Uuid = 'uuid'
+  UpdatedAt = 'updatedAt'
 }
 
 export type Notification_Subscription_Updates = {

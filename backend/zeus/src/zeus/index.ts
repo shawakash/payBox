@@ -4279,9 +4279,9 @@ export type ValueTypes = {
       ValueTypes["chat_aggregate"],
     ];
     /** An object relationship */
-    client1?: ValueTypes["client"];
+    client?: ValueTypes["client"];
     /** An object relationship */
-    client2?: ValueTypes["client"];
+    clientByClientid2?: ValueTypes["client"];
     clientId1?: boolean | `@${string}`;
     clientId2?: boolean | `@${string}`;
     createdAt?: boolean | `@${string}`;
@@ -4385,12 +4385,12 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    client1?:
+    client?:
       | ValueTypes["client_bool_exp"]
       | undefined
       | null
       | Variable<any, string>;
-    client2?:
+    clientByClientid2?:
       | ValueTypes["client_bool_exp"]
       | undefined
       | null
@@ -4435,12 +4435,12 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    client1?:
+    client?:
       | ValueTypes["client_obj_rel_insert_input"]
       | undefined
       | null
       | Variable<any, string>;
-    client2?:
+    clientByClientid2?:
       | ValueTypes["client_obj_rel_insert_input"]
       | undefined
       | null
@@ -4567,12 +4567,12 @@ export type ValueTypes = {
       | undefined
       | null
       | Variable<any, string>;
-    client1?:
+    client?:
       | ValueTypes["client_order_by"]
       | undefined
       | null
       | Variable<any, string>;
-    client2?:
+    clientByClientid2?:
       | ValueTypes["client_order_by"]
       | undefined
       | null
@@ -12215,9 +12215,9 @@ export type ResolverInputTypes = {
       ResolverInputTypes["chat_aggregate"],
     ];
     /** An object relationship */
-    client1?: ResolverInputTypes["client"];
+    client?: ResolverInputTypes["client"];
     /** An object relationship */
-    client2?: ResolverInputTypes["client"];
+    clientByClientid2?: ResolverInputTypes["client"];
     clientId1?: boolean | `@${string}`;
     clientId2?: boolean | `@${string}`;
     createdAt?: boolean | `@${string}`;
@@ -12288,8 +12288,11 @@ export type ResolverInputTypes = {
       | ResolverInputTypes["chat_aggregate_bool_exp"]
       | undefined
       | null;
-    client1?: ResolverInputTypes["client_bool_exp"] | undefined | null;
-    client2?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    client?: ResolverInputTypes["client_bool_exp"] | undefined | null;
+    clientByClientid2?:
+      | ResolverInputTypes["client_bool_exp"]
+      | undefined
+      | null;
     clientId1?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     clientId2?: ResolverInputTypes["uuid_comparison_exp"] | undefined | null;
     createdAt?:
@@ -12308,11 +12311,11 @@ export type ResolverInputTypes = {
   /** input type for inserting data into table "friendship" */
   ["friendship_insert_input"]: {
     chats?: ResolverInputTypes["chat_arr_rel_insert_input"] | undefined | null;
-    client1?:
+    client?:
       | ResolverInputTypes["client_obj_rel_insert_input"]
       | undefined
       | null;
-    client2?:
+    clientByClientid2?:
       | ResolverInputTypes["client_obj_rel_insert_input"]
       | undefined
       | null;
@@ -12390,8 +12393,11 @@ export type ResolverInputTypes = {
       | ResolverInputTypes["chat_aggregate_order_by"]
       | undefined
       | null;
-    client1?: ResolverInputTypes["client_order_by"] | undefined | null;
-    client2?: ResolverInputTypes["client_order_by"] | undefined | null;
+    client?: ResolverInputTypes["client_order_by"] | undefined | null;
+    clientByClientid2?:
+      | ResolverInputTypes["client_order_by"]
+      | undefined
+      | null;
     clientId1?: ResolverInputTypes["order_by"] | undefined | null;
     clientId2?: ResolverInputTypes["order_by"] | undefined | null;
     createdAt?: ResolverInputTypes["order_by"] | undefined | null;
@@ -17573,9 +17579,9 @@ export type ModelTypes = {
     /** An aggregate relationship */
     chats_aggregate: ModelTypes["chat_aggregate"];
     /** An object relationship */
-    client1: ModelTypes["client"];
+    client: ModelTypes["client"];
     /** An object relationship */
-    client2: ModelTypes["client"];
+    clientByClientid2: ModelTypes["client"];
     clientId1: ModelTypes["uuid"];
     clientId2: ModelTypes["uuid"];
     createdAt: ModelTypes["timestamptz"];
@@ -17622,8 +17628,8 @@ export type ModelTypes = {
     _or?: Array<ModelTypes["friendship_bool_exp"]> | undefined;
     chats?: ModelTypes["chat_bool_exp"] | undefined;
     chats_aggregate?: ModelTypes["chat_aggregate_bool_exp"] | undefined;
-    client1?: ModelTypes["client_bool_exp"] | undefined;
-    client2?: ModelTypes["client_bool_exp"] | undefined;
+    client?: ModelTypes["client_bool_exp"] | undefined;
+    clientByClientid2?: ModelTypes["client_bool_exp"] | undefined;
     clientId1?: ModelTypes["uuid_comparison_exp"] | undefined;
     clientId2?: ModelTypes["uuid_comparison_exp"] | undefined;
     createdAt?: ModelTypes["timestamptz_comparison_exp"] | undefined;
@@ -17635,8 +17641,8 @@ export type ModelTypes = {
   /** input type for inserting data into table "friendship" */
   ["friendship_insert_input"]: {
     chats?: ModelTypes["chat_arr_rel_insert_input"] | undefined;
-    client1?: ModelTypes["client_obj_rel_insert_input"] | undefined;
-    client2?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    client?: ModelTypes["client_obj_rel_insert_input"] | undefined;
+    clientByClientid2?: ModelTypes["client_obj_rel_insert_input"] | undefined;
     clientId1?: ModelTypes["uuid"] | undefined;
     clientId2?: ModelTypes["uuid"] | undefined;
     createdAt?: ModelTypes["timestamptz"] | undefined;
@@ -17702,8 +17708,8 @@ export type ModelTypes = {
   /** Ordering options when selecting data from "friendship". */
   ["friendship_order_by"]: {
     chats_aggregate?: ModelTypes["chat_aggregate_order_by"] | undefined;
-    client1?: ModelTypes["client_order_by"] | undefined;
-    client2?: ModelTypes["client_order_by"] | undefined;
+    client?: ModelTypes["client_order_by"] | undefined;
+    clientByClientid2?: ModelTypes["client_order_by"] | undefined;
     clientId1?: ModelTypes["order_by"] | undefined;
     clientId2?: ModelTypes["order_by"] | undefined;
     createdAt?: ModelTypes["order_by"] | undefined;
@@ -20942,9 +20948,9 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     chats_aggregate: GraphQLTypes["chat_aggregate"];
     /** An object relationship */
-    client1: GraphQLTypes["client"];
+    client: GraphQLTypes["client"];
     /** An object relationship */
-    client2: GraphQLTypes["client"];
+    clientByClientid2: GraphQLTypes["client"];
     clientId1: GraphQLTypes["uuid"];
     clientId2: GraphQLTypes["uuid"];
     createdAt: GraphQLTypes["timestamptz"];
@@ -20993,8 +20999,8 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes["friendship_bool_exp"]> | undefined;
     chats?: GraphQLTypes["chat_bool_exp"] | undefined;
     chats_aggregate?: GraphQLTypes["chat_aggregate_bool_exp"] | undefined;
-    client1?: GraphQLTypes["client_bool_exp"] | undefined;
-    client2?: GraphQLTypes["client_bool_exp"] | undefined;
+    client?: GraphQLTypes["client_bool_exp"] | undefined;
+    clientByClientid2?: GraphQLTypes["client_bool_exp"] | undefined;
     clientId1?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     clientId2?: GraphQLTypes["uuid_comparison_exp"] | undefined;
     createdAt?: GraphQLTypes["timestamptz_comparison_exp"] | undefined;
@@ -21007,8 +21013,8 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "friendship" */
   ["friendship_insert_input"]: {
     chats?: GraphQLTypes["chat_arr_rel_insert_input"] | undefined;
-    client1?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
-    client2?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    client?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
+    clientByClientid2?: GraphQLTypes["client_obj_rel_insert_input"] | undefined;
     clientId1?: GraphQLTypes["uuid"] | undefined;
     clientId2?: GraphQLTypes["uuid"] | undefined;
     createdAt?: GraphQLTypes["timestamptz"] | undefined;
@@ -21077,8 +21083,8 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "friendship". */
   ["friendship_order_by"]: {
     chats_aggregate?: GraphQLTypes["chat_aggregate_order_by"] | undefined;
-    client1?: GraphQLTypes["client_order_by"] | undefined;
-    client2?: GraphQLTypes["client_order_by"] | undefined;
+    client?: GraphQLTypes["client_order_by"] | undefined;
+    clientByClientid2?: GraphQLTypes["client_order_by"] | undefined;
     clientId1?: GraphQLTypes["order_by"] | undefined;
     clientId2?: GraphQLTypes["order_by"] | undefined;
     createdAt?: GraphQLTypes["order_by"] | undefined;

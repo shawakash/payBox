@@ -56,6 +56,14 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
     if (id) {
       const { name, imgUrl } = AccountCreateQuery.parse(req.query);
 
+      let hashPassword = (await Redis.getRedisInst().clientCache.getClientCache(id))?.password
+        || (await getPassword(id)).hashPassword;
+      if (!hashPassword) {
+          return res
+            .status(404)
+            .json({ status: responseStatus.Error, msg: "Account Not Found" });
+      }
+
       /**
        * Create an public and private key
        */
@@ -65,8 +73,8 @@ accountRouter.post("/", accountCreateRateLimit, async (req, res) => {
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
-      const solKeys = await (new SolOps()).createAccount(query.secretPhase);
-      const ethKeys = (new EthOps()).createAccount(query.secretPhase);
+      const solKeys = await (new SolOps()).createAccount(query.secretPhase, hashPassword);
+      const ethKeys = (new EthOps()).createAccount(query.secretPhase, hashPassword);
       const mutation = await createAccount(
         id,
         query.id,
@@ -164,17 +172,27 @@ accountRouter.post("/privateKey", checkPassword, async (req, res) => {
     //@ts-ignore
     const id = req.id;
     if (id) {
-      const { network, accountId } = AccountGetPrivateKey.parse(req.body);
+      const { accountId } = AccountGetPrivateKey.parse(req.body);
 
-      const query = await getPrivate(accountId, network);
-      if (query.status == dbResStatus.Error || query.privateKey == undefined) {
+      let hashPassword = (await Redis.getRedisInst().clientCache.getClientCache(id))?.password
+        || (await getPassword(id)).hashPassword;
+      if (!hashPassword) {
+          return res
+            .status(404)
+            .json({ status: responseStatus.Error, msg: "Account Not Found" });
+      }
+
+      const query = await getPrivate(accountId);
+      if (query.status == dbResStatus.Error || query.sol == undefined || query.eth == undefined) {
         return res
           .status(503)
           .json({ msg: "Database Error", status: responseStatus.Error });
       }
       return res.status(200).json({
         status: responseStatus.Ok,
-        privateKey: query.privateKey,
+        sol: query.sol,
+        eth: query.eth,
+        hashPassword,
       });
     }
     return res
@@ -278,12 +296,21 @@ accountRouter.post("/private", async (req, res) => {
     const id = req.id;
     if (id) {
       const { secretKey, name, network } = ImportAccountSecret.parse(req.query);
+
+      let hashPassword = (await Redis.getRedisInst().clientCache.getClientCache(id))?.password
+        || (await getPassword(id)).hashPassword;
+      if (!hashPassword) {
+          return res
+            .status(404)
+            .json({ status: responseStatus.Error, msg: "Account Not Found" });
+      }
+
       let keys = {} as WalletKeys;
       switch (network) {
         case Network.Sol:
-          keys = await (new SolOps()).fromSecret(secretKey);
+          keys = await (new SolOps()).fromSecret(secretKey, hashPassword);
         case Network.Eth:
-          keys = (new EthOps).fromSecret(secretKey);
+          keys = (new EthOps).fromSecret(secretKey, hashPassword);
         case Network.Bitcoin:
         case Network.USDC:
           break;

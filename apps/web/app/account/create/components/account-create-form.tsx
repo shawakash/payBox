@@ -3,13 +3,11 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -18,7 +16,7 @@ import {
 import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { date, z } from "zod";
+import { z } from "zod";
 import {
     AccountCreateQuery,
     AccountType,
@@ -31,7 +29,6 @@ import { loadingAtom } from "@paybox/recoil";
 import { RocketIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 
-import { Label } from "@/components/ui/label";
 
 import {
     Card,
@@ -42,19 +39,11 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion"
-import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AvatarUpload } from "./avatar-upload";
 import { accountsAtom, defaultAccountNumberAtom } from "@paybox/recoil";
@@ -76,9 +65,6 @@ export function AccountCreateForm({
     const [defaultNumber, setDefaultAccountNumber] = useRecoilState(defaultAccountNumberAtom);
     const setAccounts = useSetRecoilState(accountsAtom);
 
-    React.useEffect(() => {
-        setDefaultAccountNumber(defaultAccountNumber);
-    }, [defaultAccountNumber])
 
     const form = useForm<z.infer<typeof AccountCreateQuery>>({
         resolver: zodResolver(AccountCreateQuery),
@@ -87,6 +73,15 @@ export function AccountCreateForm({
             imgUrl: undefined
         },
     });
+
+    React.useEffect(() => {
+        setDefaultAccountNumber(defaultAccountNumber);
+    }, [defaultAccountNumber]);
+
+    React.useEffect(() => {
+       form.setValue("name", `Account ${defaultNumber}`);
+    }, [defaultNumber]);
+
 
     async function onSubmit(values: z.infer<typeof AccountCreateQuery>) {
         const call = async () => {
@@ -118,12 +113,6 @@ export function AccountCreateForm({
                         "Authorization": `Bearer ${jwt}`
                     },
                 }).then(res => res.json());
-                setAccounts((oldAccounts) => {
-                    return [...oldAccounts, response.account]
-                });
-                setDefaultAccountNumber((oldNumber) => {
-                    return oldNumber + 1;
-                });
                 return { account: response.account, status: response.status, msg: response.msg }
             } catch (error) {
                 throw new Error("Error creating Account");
@@ -135,7 +124,10 @@ export function AccountCreateForm({
                 if (status == responseStatus.Error) {
                     return toast.error(msg)
                 }
-                //TODO: set the account to the atom
+                setAccounts((oldAccounts) => {
+                    return [...oldAccounts, account]
+                });
+                setDefaultAccountNumber((oldNumber) => oldNumber + 1);
                 return `Account '${account.name}' Created Successfully`
             },
             error({ status, msg }: { status: responseStatus, msg: string }) {

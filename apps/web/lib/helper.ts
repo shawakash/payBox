@@ -1,4 +1,5 @@
-
+import crypto from 'crypto';
+import { PRIVATE_KEY_ENCRYPTION_KEY } from './config';
 
 export function toBase64(file: File) {
 	return new Promise((resolve, reject) => {
@@ -40,4 +41,36 @@ export function urlBase64ToUint8Array(base64String: string) {
     outputArray[i] = rawData.charCodeAt(i);
   }
   return outputArray;
+}
+
+const commonEncryptionKey = crypto
+  .createHash('sha256')
+  .update(PRIVATE_KEY_ENCRYPTION_KEY)
+  .digest();
+
+
+/**
+ * 
+ * @param encryptedPrivateKey 
+ * @param password 
+ * @returns 
+ */
+export const decryptWithPassword = (
+  encryptedPrivateKey: string,
+  password: string,
+): string => {
+  const [iv, commonCipherIv, encrypted] = encryptedPrivateKey.split(':');
+
+  const hashedPassword = crypto.createHash('sha256').update(password).digest();
+  const commonDecipher = crypto.createDecipheriv('aes-256-cbc', commonEncryptionKey, Buffer.from(commonCipherIv, 'hex'));
+
+  let decryptedPrivateKey = commonDecipher.update(encrypted, 'hex', 'hex');
+  decryptedPrivateKey += commonDecipher.final('hex');
+
+  const decipher = crypto.createDecipheriv('aes-256-cbc', hashedPassword, Buffer.from(iv, 'hex'));
+
+  let privateKey = decipher.update(decryptedPrivateKey, 'hex', 'utf8');
+  privateKey += decipher.final('utf8');
+
+  return privateKey;
 }

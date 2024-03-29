@@ -30,11 +30,12 @@ import {
   updatePassword,
   validateClient,
   genRand,
-  checkPassword, 
-  extractClientId, 
+  checkPassword,
+  extractClientId,
   isValidated,
   validatePassword,
   setJWTCookie,
+  getPassword,
 } from "@paybox/backend-common";
 import { Redis } from "../index";
 import {
@@ -43,7 +44,7 @@ import {
   sendOTP,
   setHashPassword,
 } from "../auth/util";
-import {  resendOtpLimiter } from "../auth/middleware";
+import { resendOtpLimiter } from "../auth/middleware";
 import {
   Client,
   ClientSigninFormValidate,
@@ -144,9 +145,17 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
           .json({ msg: "Invalid otp 🥲", status: responseStatus.Error });
       }
 
+      let hashPassword = (await Redis.getRedisInst().clientCache.getClientCache(tempCache))?.password
+        || (await getPassword(tempCache)).hashPassword;
+      if (!hashPassword) {
+          return res
+            .status(404)
+            .json({ status: responseStatus.Error, msg: "Account Not Found" });
+      }
+
       const seed = generateSeed(SECRET_PHASE_STRENGTH);
-      const solKeys = await (new SolOps()).createWallet(seed);
-      const ethKeys = (new EthOps()).createWallet(seed);
+      const solKeys = await (new SolOps()).createWallet(seed, hashPassword);
+      const ethKeys = (new EthOps()).createWallet(seed, hashPassword);
 
       const validate = await validateClient(id, seed, 'Account 1', solKeys, ethKeys);
       if (validate.status == dbResStatus.Error || validate.walletId == undefined || validate.account == undefined) {
@@ -162,12 +171,12 @@ clientRouter.patch("/valid", extractClientId, isValidated, async (req, res) => {
       /**
        * Cache
       */
-     await Redis.getRedisInst().wallet.handleValid({
-      id: validate.walletId,
-      clientId: id,
-      accounts: [validate.account],
-     }, id, validate.account);
-      
+      await Redis.getRedisInst().wallet.handleValid({
+        id: validate.walletId,
+        clientId: id,
+        accounts: [validate.account],
+      }, id, validate.account);
+
       return res
         .status(200)
         .json({
@@ -248,7 +257,7 @@ clientRouter.post("/providerAuth", async (req, res) => {
       /**
        * Check password
        */
-      if(password) {
+      if (password) {
         const isCorrectPass = await validatePassword(
           password,
           client.password as string,

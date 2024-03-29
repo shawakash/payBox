@@ -12,10 +12,10 @@ configuration:
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
-  - name: client1
+  - name: client
     using:
       foreign_key_constraint_on: clientId1
-  - name: client2
+  - name: clientByClientid2
     using:
       foreign_key_constraint_on: clientId2
 array_relationships:

@@ -17,6 +17,7 @@ import {
 } from "@paybox/common";
 import { EthNetwok } from "../types/address";
 import { INFURA_PROJECT_ID } from "../config";
+import { encryptWithPassword } from "../auth";
 
 
 interface EthereumTransactionData {
@@ -50,11 +51,11 @@ export class EthOps {
      * @param secretPhrase
      * @returns
      */
-    createWallet(secretPhrase: string): WalletKeys {
+    createWallet(secretPhrase: string, hashPassword: string): WalletKeys {
         const wallet = ethers.Wallet.fromPhrase(secretPhrase);
 
         const keys: WalletKeys = {
-            privateKey: wallet.privateKey,
+            privateKey: encryptWithPassword(wallet.privateKey, hashPassword),
             publicKey: wallet.address,
         };
         return keys;
@@ -65,7 +66,7 @@ export class EthOps {
      * @param secretPhrase
      * @returns
      */
-    createAccount(secretPhrase: string): WalletKeys {
+    createAccount(secretPhrase: string, hashPassword: string): WalletKeys {
         const accountIndex = Math.round(Date.now() / 1000);
         const path = `m/44'/60'/${accountIndex}'/0/0`;
         const wallet = ethers.HDNodeWallet.fromPhrase(
@@ -75,7 +76,7 @@ export class EthOps {
         );
 
         const keys: WalletKeys = {
-            privateKey: wallet.privateKey,
+            privateKey: encryptWithPassword(wallet.privateKey, hashPassword),
             publicKey: wallet.address,
         };
         return keys;
@@ -110,11 +111,11 @@ export class EthOps {
      * @param secretKey
      * @returns
      */
-    fromSecret(secretKey: string): WalletKeys {
+    fromSecret(secretKey: string, hashPassword: string): WalletKeys {
         const wallet = new ethers.Wallet(secretKey);
 
         const keys: WalletKeys = {
-            privateKey: wallet.privateKey,
+            privateKey: encryptWithPassword(wallet.privateKey, hashPassword),
             publicKey: wallet.address,
         };
         return keys;

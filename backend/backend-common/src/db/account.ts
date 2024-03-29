@@ -185,41 +185,45 @@ export const updateAccountName = async (
  */
 export const getPrivate = async (
   accountId: string,
-  network: Network,
 ): Promise<{
   status: dbResStatus;
-  privateKey?: string;
-}> => {
-  const returning = {
-    [network]: {
-      privateKey: true,
-    },
+  sol?: {
+    privateKey: string
   };
-  const response = await chain("query")(
-    {
-      account: [
-        {
-          where: {
-            id: { _eq: accountId },
-          },
-        },
-        returning,
-      ],
-    },
-    { operationName: "getPrivate" },
-  );
-  //@ts-ignore
-  if (response.account[0][network]?.privateKey) {
+  eth?: {
+    privateKey: string
+  }
+}> => {
+  const response = await chain("query")({
+    account: [{
+      limit: 1,
+      where: {
+        id: { _eq: accountId }
+      }
+    }, {
+      sol: {
+        privateKey: true
+      },
+      eth: {
+        privateKey: true
+      },
+    }]
+  });
+  if (response.account[0].eth?.privateKey && response.account[0].sol?.privateKey) {
     return {
       status: dbResStatus.Ok,
-      //@ts-ignore
-      privateKey: response.account[0][network]?.privateKey,
-    };
-  }
+      sol: {
+        privateKey: response.account[0].sol.privateKey as string
+      },
+      eth: {
+        privateKey: response.account[0].eth.privateKey as string
+      }
+    }
+  };
   return {
     status: dbResStatus.Error,
   };
-};
+}
 
 /**
  * Remove Account
@@ -353,7 +357,7 @@ export const getAccounts = async (
       order_by: [{
         createdAt: order_by["asc"]
       }]
-    }, 
+    },
     {
       id: true,
       eth: {

@@ -53,6 +53,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.0",
+    "crypto": "^1.0.1",
     "date-fns": "^3.4.0",
     "emoji-mart": "^5.5.2",
     "eslint": "8.56.0",

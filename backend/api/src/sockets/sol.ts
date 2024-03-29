@@ -28,6 +28,7 @@ import {
   import bs58 from "bs58";
   import * as bip32 from "bip32";
   import { derivePath } from "ed25519-hd-key";
+import { encryptWithPassword } from "../auth";
 
 export class SolOps {
     private connection: Connection;
@@ -38,24 +39,26 @@ export class SolOps {
       this.connection = new Connection(this.rpcUrl, "confirmed");
     }
   
-    async createWallet(secretPhrase: string): Promise<WalletKeys> {
+    async createWallet(secretPhrase: string, hashPassword: string): Promise<WalletKeys> {
       const seedBuffer = await bip39.mnemonicToSeed(secretPhrase);
       const seedKeyArray = Uint8Array.from(seedBuffer.subarray(0, 32));
       const keyPair = Keypair.fromSeed(seedKeyArray);
+
       return {
         publicKey: keyPair.publicKey.toBase58(),
-        privateKey: base58.encode(keyPair.secretKey),
+        privateKey: encryptWithPassword(base58.encode(keyPair.secretKey), hashPassword),
       };
     }
   
-    async createAccount(secretPhrase: string): Promise<WalletKeys> {
+    async createAccount(secretPhrase: string, hashPassword: string): Promise<WalletKeys> {
       const accountIndex = Math.round(Date.now() / 1000);
       const path = `m/44'/501'/${accountIndex}'/0'`;
       const derivedSeed = derivePath(path, secretPhrase).key;
       const keyPair = Keypair.fromSeed(derivedSeed);
+      console.log('from back', base58.encode(keyPair.secretKey));
       return {
         publicKey: keyPair.publicKey.toBase58(),
-        privateKey: base58.encode(keyPair.secretKey),
+        privateKey: encryptWithPassword(base58.encode(keyPair.secretKey), hashPassword),
       };
     }
   
@@ -80,7 +83,7 @@ export class SolOps {
       return accounts;
     }
   
-    async fromSecret(secretKey: string): Promise<WalletKeys> {
+    async fromSecret(secretKey: string, hashPassword: string): Promise<WalletKeys> {
       const decodedBytes = bs58.decode(secretKey);
       console.log(decodedBytes);
       const privateKeyArray = new Uint8Array(decodedBytes);
@@ -88,7 +91,7 @@ export class SolOps {
       const keyPair = Keypair.fromSecretKey(decodedBytes);
       return {
         publicKey: keyPair.publicKey.toBase58(),
-        privateKey: base58.encode(keyPair.secretKey),
+        privateKey: encryptWithPassword(base58.encode(keyPair.secretKey), hashPassword),
       };
     }
   

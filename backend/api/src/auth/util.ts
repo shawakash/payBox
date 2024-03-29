@@ -1,7 +1,7 @@
 import { response, type Request, type Response } from "express";
 import { importPKCS8, importSPKI, jwtVerify, SignJWT } from "jose";
 import bcryptjs from "bcryptjs";
-import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY, GMAIL, TWILLO_NUMBER } from "../config";
+import { AUTH_JWT_PRIVATE_KEY, AUTH_JWT_PUBLIC_KEY, GMAIL, PRIVATE_KEY_ENCRYPTION_KEY, TWILLO_NUMBER } from "../config";
 import {
   Address,
   CLIENT_URL,
@@ -275,7 +275,7 @@ export const updateKey = async (bucketName: string, key: string, newKey: string)
       // 'Upload-Date': new Date().toISOString(),
       'owner': 'paybox'
     }
-  }) ;
+  });
 
   const deleteCommand = new DeleteObjectCommand({
     Bucket: bucketName,
@@ -296,3 +296,60 @@ export const calculateGas = (gasLimit: BigInt, gasPrice: BigInt): number => {
   const maxGasFeeInWei = Number(gasLimit) * Number(gasPrice);
   return maxGasFeeInWei / 1e18;
 };
+
+const commonEncryptionKey = crypto
+  .createHash('sha256')
+  .update(PRIVATE_KEY_ENCRYPTION_KEY)
+  .digest();
+
+/**
+ * 
+ * @param privateKey 
+ * @param password 
+ * @returns 
+ */
+export const encryptWithPassword = (
+  privateKey: string,
+  password: string,
+): string => {
+  const hashedPassword = crypto.createHash('sha256').update(password).digest();
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-cbc', hashedPassword, iv);
+  
+  let encryptedPrivateKey = cipher.update(privateKey, 'utf8', 'hex');
+  encryptedPrivateKey += cipher.final('hex');
+
+  const commonCipherIv = crypto.randomBytes(16);
+  const commonCipher = crypto.createCipheriv('aes-256-cbc', commonEncryptionKey, commonCipherIv);
+  
+  encryptedPrivateKey = commonCipher.update(encryptedPrivateKey, 'hex', 'hex');
+  encryptedPrivateKey += commonCipher.final('hex');
+
+  return iv.toString('hex') + ':' + commonCipherIv.toString('hex') + ':' + encryptedPrivateKey;
+}
+
+/**
+ * 
+ * @param encryptedPrivateKey 
+ * @param password 
+ * @returns 
+ */
+export const decryptWithPassword = (
+  encryptedPrivateKey: string,
+  password: string,
+): string => {
+  const [iv, commonCipherIv, encrypted] = encryptedPrivateKey.split(':');
+
+  const hashedPassword = crypto.createHash('sha256').update(password).digest();
+  const commonDecipher = crypto.createDecipheriv('aes-256-cbc', commonEncryptionKey, Buffer.from(commonCipherIv, 'hex'));
+
+  let decryptedPrivateKey = commonDecipher.update(encrypted, 'hex', 'hex');
+  decryptedPrivateKey += commonDecipher.final('hex');
+
+  const decipher = crypto.createDecipheriv('aes-256-cbc', hashedPassword, Buffer.from(iv, 'hex'));
+
+  let privateKey = decipher.update(decryptedPrivateKey, 'hex', 'utf8');
+  privateKey += decipher.final('utf8');
+
+  return privateKey;
+}

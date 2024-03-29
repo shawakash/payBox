@@ -182,6 +182,7 @@ export const acceptFriendship = async (
         return {
             status: dbResStatus.Ok,
             friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus,
+            //@ts-ignore
             to: response.update_friendship?.returning[0].client1.id === clientId ? response.update_friendship?.returning[0].client2.username as string : response.update_friendship?.returning[0].client1.username as string
         }
     }
@@ -236,6 +237,7 @@ export const putFriendshipStatus = async (
         return {
             status: dbResStatus.Ok,
             friendshipStatus: response.update_friendship?.returning[0].status as FriendshipStatus,
+            //@ts-ignore
             to: response.update_friendship?.returning[0].client1.id === clientId ? response.update_friendship?.returning[0].client2.username as string : response.update_friendship?.returning[0].client1.username as string
         }
     }
