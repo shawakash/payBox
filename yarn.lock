@@ -1731,7 +1731,7 @@
   resolved "https://registry.yarnpkg.com/@cloudflare/workerd-windows-64/-/workerd-windows-64-1.20240223.1.tgz#c5148ea70ddfe48545cbadff5e1a5394fab8eecc"
   integrity sha512-eNP5sfaP6WL07DaoigYou5ASPF7jHsFiNzzD2vGOI7yFd5sPlb7sJ4SpIy+BCX0LdqFnjmlUo5Xr+/I6qJ2Nww==
 
-"@cloudflare/workers-types@^4.20240208.0", "@cloudflare/workers-types@^4.20240222.0":
+"@cloudflare/workers-types@^4.20240222.0":
   version "4.20240502.0"
   resolved "https://registry.yarnpkg.com/@cloudflare/workers-types/-/workers-types-4.20240502.0.tgz#261ac668a5283e20e7be06d0e2ba98cf47a7d788"
   integrity sha512-OB1jIyPOzyOcuZFHWhsQnkRLN6u8+jmU9X3T4KZlGgn3Ivw8pBiswhLOp+yFeChR3Y4/5+V0hPFRko5SReordg==
@@ -13003,9 +13003,9 @@ hmac-drbg@^1.0.1:
     minimalistic-crypto-utils "^1.0.1"
 
 hono@^4.0.8:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/hono/-/hono-4.3.0.tgz#5753eda8fa609ab0cedfd6c889d1836ffd8f0cae"
-  integrity sha512-rf9142VLQNMVBj+BjVLISgDWDxnJGUIuX39dvqcdySwr2gTsPfsqW1twWDUjfwQNWm9hEn40MpDu9RFGUN+e8A==
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/hono/-/hono-4.3.3.tgz#ce7d148cda227e0054be89a9a28f70cb8d9bc170"
+  integrity sha512-LDa1n/aLYK4CsZQyjQpFiaQgxiXCZp0WfcfliinQOH1Lqt4mIOvyw4qjmHihpKXsuXhkQHfHU2Erysp6oEdnVA==
 
 hosted-git-info@^2.1.4:
   version "2.8.9"
@@ -20887,7 +20887,7 @@ workerpool@6.2.1:
   resolved "https://registry.npmjs.org/workerpool/-/workerpool-6.2.1.tgz"
   integrity sha512-ILEIE97kDZvF9Wb9f6h5aXK4swSlKGUcOEGiIYb2OOu/IrDU9iwj0fD//SsA6E5ibwJxpEvhullJY4Sl4GcpAw==
 
-wrangler@^3.25.0, wrangler@^3.30.1:
+wrangler@^3.30.1:
   version "3.30.1"
   resolved "https://registry.npmjs.org/wrangler/-/wrangler-3.30.1.tgz"
   integrity sha512-cT6Ezx8h2v5QiI0HWhnHVy32ng4omdMVdhaMQLuMnyMIHmyDoRg7pmrbhtZfj0663gExLdVtE4ucK//yncVTwg==
