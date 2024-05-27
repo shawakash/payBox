@@ -9611,7 +9611,6 @@ axios@1.6.8, axios@^1.6.0, axios@^1.6.5, axios@^1.6.8:
   version "1.6.8"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.8.tgz#66d294951f5d988a00e87a0ffb955316a619ea66"
   integrity sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==
-
   dependencies:
     follow-redirects "^1.15.6"
     form-data "^4.0.0"
@@ -13293,9 +13292,9 @@ fraction.js@^4.3.7:
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
 
 framer-motion@^11.0.25:
-  version "11.2.5"
-  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.2.5.tgz#b8ef108a66d026d0d60639cbccf073199e38eebf"
-  integrity sha512-X22i42hWY423wx2C1TlQlC4UnWonD+udND0qX1Fkt0dDlreSmuNY76obO6Y2d/UdJPhqVd5Zn6g1jAIwF6Xx9A==
+  version "11.2.6"
+  resolved "https://registry.yarnpkg.com/framer-motion/-/framer-motion-11.2.6.tgz#ab693b24d1f6cf34ef83494ab2df59fd39b7c87e"
+  integrity sha512-XUrjjBt57e5YoHQtjwc3eNchFBuHvIgN/cS8SC4oIaAn2J/0+bLanUxXizidJKZVeHJam/JrmMnPRjYMglVn5g==
   dependencies:
     tslib "^2.4.0"
 
