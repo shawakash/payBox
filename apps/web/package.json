@@ -15,7 +15,7 @@
     "@emoji-mart/react": "^1.1.1",
     "@faker-js/faker": "^8.4.0",
     "@hookform/resolvers": "^3.3.4",
-    "@moonpay/moonpay-js": "^0.5.0",
+    "@moonpay/moonpay-js": "^0.6.0",
     "@moonpay/moonpay-react": "^1.6.1",
     "@paybox/common": "*",
     "@paybox/openapi": "*",
