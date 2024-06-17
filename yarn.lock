@@ -12187,11 +12187,11 @@ eslint-config-prettier@^9.1.0:
   integrity sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==
 
 eslint-config-turbo@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/eslint-config-turbo/-/eslint-config-turbo-2.0.3.tgz#c00e5b52f4f2620862d5d2368e7046d6138d8cc5"
-  integrity sha512-D1+lNOpTFEuAgPWJfRHXHjzvAfO+0TVmORfftmYQNw+uk2UIBjhelhwERBceYFy2oFJnckHsqt69dp/zIM6/0g==
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/eslint-config-turbo/-/eslint-config-turbo-2.0.4.tgz#94135e5a0f67e59a08393ba9a9942ccc68858abd"
+  integrity sha512-zGvU+bxoNWVvSl0prGItrnH9FgeNzKEAjRmv8ruqql1psI37T8IoLF/XeOzT3CzzYzJxuI3wW1yb2agDFYQdHQ==
   dependencies:
-    eslint-plugin-turbo "2.0.3"
+    eslint-plugin-turbo "2.0.4"
 
 eslint-import-resolver-alias@^1.1.2:
   version "1.1.2"
@@ -12343,10 +12343,10 @@ eslint-plugin-tsdoc@^0.2.17:
     "@microsoft/tsdoc" "0.14.2"
     "@microsoft/tsdoc-config" "0.16.2"
 
-eslint-plugin-turbo@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-turbo/-/eslint-plugin-turbo-2.0.3.tgz#87e87975ac2d90c311c583e1e5e7a0a4fe77734b"
-  integrity sha512-mplP4nYaRvtTNuwF5QTLYKLu0/8LTRsHPgX4ARhaof+QZI2ttglONe1/iJpKB4pg0KqFp7WHziKoJL+s0+CJ1w==
+eslint-plugin-turbo@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-turbo/-/eslint-plugin-turbo-2.0.4.tgz#82779dc4ba844053805234c4921fa88404e89bc9"
+  integrity sha512-Ozn//vTXJeqIEvEkThM2vuuldMckPqAne7vg/S3GxF+BBY516cjdp7+dYpCU5Q0083hVm638c8542ubccNE+8w==
   dependencies:
     dotenv "16.0.3"
 
