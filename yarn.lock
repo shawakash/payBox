@@ -18345,9 +18345,9 @@ rc@^1.0.1, rc@^1.1.6:
     strip-json-comments "~2.0.1"
 
 react-day-picker@^9.0.5:
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-9.0.5.tgz#b71b5f6d8e77a3f042fadb10bf3d3a8b20116f58"
-  integrity sha512-hHeB+auG71OHNcas+/S6oeqzk/szQaMEKNuU1sTBg7wmpYkVJdRaqv8BIWgSkLT+3KdjmvnEdZUURaleNAKMvQ==
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-9.0.7.tgz#a799a82a4978af454e8146ba8df287e140f93be5"
+  integrity sha512-JTa9vhhfxWSVfhzTFG5rEXynsDb6zi3NG+0EHbs5JBZuGFlNbg8qyagh9YtIR1ccGThwY339CAqFOH6op55omw==
   dependencies:
     date-fns "^3.6.0"
 
