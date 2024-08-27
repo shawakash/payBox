@@ -70,7 +70,7 @@
     "html5-qrcode": "^2.3.8",
     "input-otp": "^1.0.1",
     "jotai": "^2.7.0",
-    "lucide-react": "^0.427.0",
+    "lucide-react": "^0.436.0",
     "mini-svg-data-uri": "^1.4.4",
     "next": "14.2.5",
     "next-auth": "^4.24.5",
