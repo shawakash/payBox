@@ -3723,9 +3723,9 @@
   integrity sha512-0PAvTaaLHqtx8nfPiw/MJv+Usu3XPvgKcx1B5vxK7QNxNqrz2/D6djH/8zqLbn3//rFgeFDPpPuP3pAcuE55wg==
 
 "@moonpay/moonpay-react@^1.6.1":
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/@moonpay/moonpay-react/-/moonpay-react-1.7.3.tgz#41187e5509e612b8f60c265d71b62a81414e98cc"
-  integrity sha512-nR8UjImTSi7a2jj127a7MFKlnASNxVNI/AWEhBC9w+jlgL2M6C2txs+xgCmwV6dSUTCrxBaEw2VHU3BBoaRT9Q==
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@moonpay/moonpay-react/-/moonpay-react-1.8.0.tgz#b6fd30e07279f18737e926e375f16c3ee9fe4a13"
+  integrity sha512-Hi+Sq0ms0tFJ8EST/WYaLqL76Xc9KQ0KBs+KxpnQZM5Kc+wlc7s+mvuuSfZiA7SKDQU+cs4N90XWlw5i2sqa4Q==
 
 "@napi-rs/snappy-android-arm-eabi@7.2.2":
   version "7.2.2"
