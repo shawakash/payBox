@@ -17044,9 +17044,9 @@ openapi-typescript-codegen@^0.29.0:
     handlebars "^4.7.8"
 
 openapi-typescript@^7.0.0-next.7:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/openapi-typescript/-/openapi-typescript-7.1.0.tgz#376b96c58c1b206ac120d636f6d827d67673c02a"
-  integrity sha512-qxjGhIO6ODCGximE2HiozkPUNbO4y7F2OQyGa+gcn6TdZMMtmuiyDPqoKmf+Y4VlvQRfhJUTU635w8KfZVeuVA==
+  version "7.3.2"
+  resolved "https://registry.yarnpkg.com/openapi-typescript/-/openapi-typescript-7.3.2.tgz#dd00983a22cb084da3096f20f16674674ac30ffc"
+  integrity sha512-bNHPVlTrzRRD+7RBARjcbRrLDvNOLMNV6uHXDCneH9iQsm7WUoccvBtMaG8Y8eZ1GeFsQvnXZteNXt46snBJZQ==
   dependencies:
     "@redocly/openapi-core" "^1.16.0"
     ansi-colors "^4.1.3"
