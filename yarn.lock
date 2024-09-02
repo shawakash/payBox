@@ -13791,9 +13791,9 @@ hmac-drbg@^1.0.1:
     minimalistic-crypto-utils "^1.0.1"
 
 hono@^4.0.8:
-  version "4.5.9"
-  resolved "https://registry.yarnpkg.com/hono/-/hono-4.5.9.tgz#2627c55c4c97ae826973dddac857ba4476fde6c6"
-  integrity sha512-zz8ktqMDRrZETjxBrv8C5PQRFbrTRCLNVAjD1SNQyOzv4VjmX68Uxw83xQ6oxdAB60HiWnGEatiKA8V3SZLDkQ==
+  version "4.5.10"
+  resolved "https://registry.yarnpkg.com/hono/-/hono-4.5.10.tgz#6ee874b54faffedaaa94a658c96e2cd4968ccea6"
+  integrity sha512-az6tdU1U8o/l0v8O37FIQuc+ER/TeD9vHt/qs8JnBDgMxw6Zu5L2AixUyHeXZNcu87r7iYo8Ey85R7IogOINKA==
 
 hosted-git-info@^2.1.4:
   version "2.8.9"
