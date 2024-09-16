@@ -13,7 +13,7 @@
   "dependencies": {
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
-    "@faker-js/faker": "^8.4.0",
+    "@faker-js/faker": "^9.0.1",
     "@hookform/resolvers": "^3.3.4",
     "@moonpay/moonpay-js": "^0.6.1",
     "@moonpay/moonpay-react": "^1.6.1",
