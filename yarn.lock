@@ -21445,49 +21445,49 @@ web-streams-polyfill@^3.0.3, web-streams-polyfill@^3.2.1:
   resolved "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.3.3.tgz"
   integrity sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==
 
-web3-core@^4.3.0, web3-core@^4.3.2, web3-core@^4.4.0, web3-core@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/web3-core/-/web3-core-4.5.0.tgz#f16e7f5bfa6373c7be45f0ed233aff479fd33079"
-  integrity sha512-Q8LIAqmF7vkRydBPiU+OC7wI44nEU6JEExolFaOakqrjMtQ1CWFHRUQMNJRDsk5bRirjyShuAsuqLeYByvvXhg==
+web3-core@^4.3.0, web3-core@^4.3.2, web3-core@^4.4.0, web3-core@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/web3-core/-/web3-core-4.6.0.tgz#1b3e88ed35142b4d6fcbc7737e1d71943f99cf45"
+  integrity sha512-j8uQ/7zSwpmLClMMeZb736Ok3V4cWSd0dnd29jkd10d1pedi32r+hSAgycxSJLLWtPHOzMBIXUjj3TF/IAClVQ==
   dependencies:
-    web3-errors "^1.2.0"
-    web3-eth-accounts "^4.1.2"
+    web3-errors "^1.3.0"
+    web3-eth-accounts "^4.2.1"
     web3-eth-iban "^4.0.7"
-    web3-providers-http "^4.1.0"
-    web3-providers-ws "^4.0.7"
-    web3-types "^1.7.0"
-    web3-utils "^4.3.0"
+    web3-providers-http "^4.2.0"
+    web3-providers-ws "^4.0.8"
+    web3-types "^1.8.0"
+    web3-utils "^4.3.1"
     web3-validator "^2.0.6"
   optionalDependencies:
     web3-providers-ipc "^4.0.7"
 
-web3-errors@^1.1.3, web3-errors@^1.1.4, web3-errors@^1.2.0, web3-errors@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/web3-errors/-/web3-errors-1.2.1.tgz#2f31cb814bd262a45b65f7701f56a0167d697ec2"
-  integrity sha512-dIsi8SFC9TCAWpPmacXeVMk/F8tDNa1Bvg8/Cc2cvJo8LRSWd099szEyb+/SiMYcLlEbwftiT9Rpukz7ql4hBg==
+web3-errors@^1.1.3, web3-errors@^1.1.4, web3-errors@^1.2.0, web3-errors@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/web3-errors/-/web3-errors-1.3.0.tgz#504e4d3218899df108856940087a8022d6688d74"
+  integrity sha512-j5JkAKCtuVMbY3F5PYXBqg1vWrtF4jcyyMY1rlw8a4PV67AkqlepjGgpzWJZd56Mt+TvHy6DA1F/3Id8LatDSQ==
   dependencies:
     web3-types "^1.7.0"
 
-web3-eth-abi@^4.2.0, web3-eth-abi@^4.2.1, web3-eth-abi@^4.2.3:
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/web3-eth-abi/-/web3-eth-abi-4.2.3.tgz#9efad6a45d7d6e52bb1eba56cbe45a3a321443e3"
-  integrity sha512-rPVwTn0O1CzbtfXwEfIjUP0W5Y7u1OFjugwKpSqJzPQE6+REBg6OELjomTGZBu+GThxHnv0rp15SOxvqp+tyXA==
+web3-eth-abi@^4.2.0, web3-eth-abi@^4.2.1, web3-eth-abi@^4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/web3-eth-abi/-/web3-eth-abi-4.2.4.tgz#b66f4b067ba06c0aecc013e98a4d717547ab8174"
+  integrity sha512-FGoj/ENm/Iq3+6myJyiDCwbFkha9ZCx2fRdiIdw3mp7S4lgu+ay3EVzQPRxJjNBm09UEfxB9yoSAPKj9Z3Mbxg==
   dependencies:
     abitype "0.7.1"
-    web3-errors "^1.2.0"
-    web3-types "^1.7.0"
+    web3-errors "^1.3.0"
+    web3-types "^1.8.0"
     web3-utils "^4.3.1"
     web3-validator "^2.0.6"
 
-web3-eth-accounts@^4.1.1, web3-eth-accounts@^4.1.2, web3-eth-accounts@^4.1.3:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/web3-eth-accounts/-/web3-eth-accounts-4.1.3.tgz#2ba543fd6e9f73e79c73fb5ebbfa9e3945469e0a"
-  integrity sha512-61Nb7xCXy6Vw/6xUZMM5ITtXetXmaP0F8oKRxika4GO4fRfKZLAwBZtshMyrdAORPZYq77ENiqXJVU+hTmtUaQ==
+web3-eth-accounts@^4.1.1, web3-eth-accounts@^4.1.2, web3-eth-accounts@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/web3-eth-accounts/-/web3-eth-accounts-4.2.1.tgz#db27399137e1a26f9d467b9500019a70771f5724"
+  integrity sha512-aOlEZFzqAgKprKs7+DGArU4r9b+ILBjThpeq42aY7LAQcP+mSpsWcQgbIRK3r/n3OwTYZ3aLPk0Ih70O/LwnYA==
   dependencies:
     "@ethereumjs/rlp" "^4.0.1"
     crc-32 "^1.2.2"
     ethereum-cryptography "^2.0.0"
-    web3-errors "^1.2.0"
+    web3-errors "^1.3.0"
     web3-types "^1.7.0"
     web3-utils "^4.3.1"
     web3-validator "^2.0.6"
@@ -21556,19 +21556,19 @@ web3-eth-personal@^4.0.8:
     web3-validator "^2.0.3"
 
 web3-eth@^4.3.1, web3-eth@^4.5.0, web3-eth@^4.6.0:
-  version "4.8.2"
-  resolved "https://registry.yarnpkg.com/web3-eth/-/web3-eth-4.8.2.tgz#5459aff239a6f27816a522570bdd86732856ef0f"
-  integrity sha512-DLV/fIMG6gBp/B0gv0+G4FzxZ4YCDQsY3lzqqv7avwh3uU7/O27aifCUcFd7Ye+3ixTqCjAvLEl9wYSeyG3zQw==
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/web3-eth/-/web3-eth-4.9.0.tgz#324403d913cc29bcae6cc1ad50a6defeb762828a"
+  integrity sha512-lE+5rQUkQq1Mzf3uZ/tlay8nvMyC/CmaRFRFQ015OZuvSrRr/byZhhkzY5ZWkIetESTMqfWapu67yeHebcHxwA==
   dependencies:
     setimmediate "^1.0.5"
-    web3-core "^4.5.0"
-    web3-errors "^1.2.1"
-    web3-eth-abi "^4.2.3"
-    web3-eth-accounts "^4.1.3"
+    web3-core "^4.6.0"
+    web3-errors "^1.3.0"
+    web3-eth-abi "^4.2.4"
+    web3-eth-accounts "^4.2.1"
     web3-net "^4.1.0"
     web3-providers-ws "^4.0.8"
     web3-rpc-methods "^1.3.0"
-    web3-types "^1.7.0"
+    web3-types "^1.8.0"
     web3-utils "^4.3.1"
     web3-validator "^2.0.6"
 
@@ -21591,6 +21591,16 @@ web3-providers-http@^4.1.0:
     web3-errors "^1.1.3"
     web3-types "^1.3.0"
     web3-utils "^4.0.7"
+
+web3-providers-http@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/web3-providers-http/-/web3-providers-http-4.2.0.tgz#0f4bf424681a068d49994aa7fabc69bed45ac50b"
+  integrity sha512-IPMnDtHB7dVwaB7/mMxAZzyq7d5ezfO1+Vw0bNfAeIi7gaDlJiggp85SdyAfOgov8AMUA/dyiY72kQ0KmjXKvQ==
+  dependencies:
+    cross-fetch "^4.0.0"
+    web3-errors "^1.3.0"
+    web3-types "^1.7.0"
+    web3-utils "^4.3.1"
 
 web3-providers-ipc@^4.0.7:
   version "4.0.7"
@@ -21622,10 +21632,10 @@ web3-rpc-methods@^1.1.3, web3-rpc-methods@^1.2.0, web3-rpc-methods@^1.3.0:
     web3-types "^1.6.0"
     web3-validator "^2.0.6"
 
-web3-types@^1.3.0, web3-types@^1.5.0, web3-types@^1.6.0, web3-types@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/web3-types/-/web3-types-1.7.0.tgz#9945fa644af96b20b1db18564aff9ab8db00df59"
-  integrity sha512-nhXxDJ7a5FesRw9UG5SZdP/C/3Q2EzHGnB39hkAV+YGXDMgwxBXFWebQLfEzZzuArfHnvC0sQqkIHNwSKcVjdA==
+web3-types@^1.3.0, web3-types@^1.5.0, web3-types@^1.6.0, web3-types@^1.7.0, web3-types@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/web3-types/-/web3-types-1.8.0.tgz#d2151fd9e87d711ef5a13079885665b458243e46"
+  integrity sha512-Z51wFLPGhZM/1uDxrxE8gzju3t2aEdRGn+YmLX463id5UjTuMEmP/9in1GFjqrsPB3m86czs8RnGBUt3ovueMw==
 
 web3-utils@^4.0.7, web3-utils@^4.2.2, web3-utils@^4.2.3, web3-utils@^4.3.0, web3-utils@^4.3.1:
   version "4.3.1"
