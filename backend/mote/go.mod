@@ -6,7 +6,7 @@ toolchain go1.22.0
 
 require (
 	github.com/IBM/sarama v1.43.0
-	github.com/btcsuite/btcd v0.24.0
+	github.com/btcsuite/btcd v0.24.2
 	github.com/btcsuite/btcd/btcutil v1.1.5
 	github.com/ethereum/go-ethereum v1.13.15
 	github.com/gagliardetto/binary v0.7.9
