@@ -11481,11 +11481,6 @@ depd@2.0.0, depd@~2.0.0:
   resolved "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz"
   integrity sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==
 
-depd@~1.1.0:
-  version "1.1.2"
-  resolved "https://registry.npmjs.org/depd/-/depd-1.1.2.tgz"
-  integrity sha512-7emPTl6Dpo6JRXOXjLRxck+FlLRX5847cLKEn00PLAgc3g2hTZZgr+e4c2v6QpSmLeFP3n5yUo7ft6avBK/5jQ==
-
 dependency-graph@^0.11.0:
   version "0.11.0"
   resolved "https://registry.npmjs.org/dependency-graph/-/dependency-graph-0.11.0.tgz"
@@ -18828,11 +18823,11 @@ resolve@~1.19.0:
     path-parse "^1.0.6"
 
 response-time@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.npmjs.org/response-time/-/response-time-2.3.2.tgz"
-  integrity sha512-MUIDaDQf+CVqflfTdQ5yam+aYCkXj1PY8fjlPDQ6ppxJlmgZb864pHtA750mayywNg8tx4rS7qH9JXd/OF+3gw==
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/response-time/-/response-time-2.3.3.tgz#cfec433ea1b286943a2b48b01c67a051a536b130"
+  integrity sha512-SsjjOPHl/FfrTQNgmc5oen8Hr1Jxpn6LlHNXxCIFdYMHuK1kMeYMobb9XN3mvxaGQm3dbegqYFMX4+GDORfbWg==
   dependencies:
-    depd "~1.1.0"
+    depd "~2.0.0"
     on-headers "~1.0.1"
 
 responselike@^2.0.0:
