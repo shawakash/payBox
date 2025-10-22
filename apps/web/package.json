@@ -72,7 +72,7 @@
     "jotai": "^2.7.0",
     "lucide-react": "^0.438.0",
     "mini-svg-data-uri": "^1.4.4",
-    "next": "14.2.13",
+    "next": "16.0.0",
     "next-auth": "^4.24.5",
     "next-intl": "^3.11.3",
     "next-themes": "^0.3.0",
