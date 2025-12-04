@@ -16,7 +16,7 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "graphql": "^16.8.1",
-    "graphql-zeus": "^5.3.2",
+    "graphql-zeus": "^7.1.6",
     "prettier": "^3.1.0",
     "tsc-alias": "^1.7.1"
   },
