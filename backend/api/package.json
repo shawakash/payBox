@@ -69,7 +69,7 @@
     "kafkajs": "^2.2.4",
     "mime-types": "^2.1.35",
     "morgan": "^1.10.0",
-    "nodemailer": "^6.9.10",
+    "nodemailer": "^7.0.11",
     "pako": "^2.1.0",
     "pino-loki": "^2.2.1",
     "prom-client": "^15.1.0",
